@@ -1,0 +1,16 @@
+{
+	"name": "therakib7/wam",
+	"description": "WP Access Manager",
+	"authors": [
+		{
+			"name": "Rakib",
+			"email": "therakib7@gmail.com"
+		}
+	],
+	"require": {},
+	"autoload": {
+		"psr-4": {
+			"WAM\\": "app"
+		}
+	}
+}
