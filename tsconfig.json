@@ -20,11 +20,24 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@assets/*": ["src/assets/*"],
+      "@utils/*": ["src/utils/*"],
+      "@components/*": ["src/components/*"],
+      "@blocks/*": ["src/components/blocks/*"],
+      "@pages/*": ["src/pages/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@reducers/*": ["src/reducers/*"],
+    }
   },
   "include": [
     "src"
   ],
+  "files": ["globals.d.ts"],
   "references": [
     {
       "path": "./tsconfig.node.json"

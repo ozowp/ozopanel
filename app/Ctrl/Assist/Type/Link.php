@@ -15,9 +15,9 @@ class Link {
 	 * @return array
 	 */
 	public function links( $links ) {
-		$links[] = '<a target="_blank" href="' . esc_url( 'https://wp-access-manager.com/docs' ) . '">Documentation</a>';
-		if ( ! function_exists( 'wamp' ) ) {
-			$links[] = '<a target="_blank" style="color: #39b54a;font-weight: 700;" href="' . esc_url( 'https://wp-access-manager.com?utm_source=WordPress&utm_medium=wp-access-manager&utm_campaign=pro_click' ) . '">Get Pro</a>';
+		$links[] = '<a target="_blank" href="' . esc_url( 'https://wp-access-manager.com/docs' ) . '">' . esc_html__('Documentation', 'wp-access-manager'). '</a>';
+		if ( false && ! function_exists( 'wamp' ) ) {
+			$links[] = '<a target="_blank" style="color: #39b54a;font-weight: 700;" href="' . esc_url( 'https://wp-access-manager.com?utm_source=WordPress&utm_medium=wp-access-manager&utm_campaign=pro_click' ) . '">' . esc_html__('Get Pro', 'wp-access-manager'). '</a>';
 		}
 
 		if ( array_key_exists( 'deactivate', $links ) ) {

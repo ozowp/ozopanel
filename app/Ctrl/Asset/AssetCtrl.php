@@ -9,13 +9,11 @@ class AssetCtrl
 {
     private $suffix;
     private $version;
-    public $current_user_caps;
 
     public function __construct()
     {
         $this->suffix = defined('WAM_SCRIPT_DEBUG') && WAM_SCRIPT_DEBUG ? '' : '.min';
         $this->version = defined('WP_DEBUG') && WP_DEBUG ? time() : wam()->version;
-        $this->current_user_caps = array_keys(wp_get_current_user()->allcaps);
 
         add_action('wp_enqueue_scripts', [$this, 'public_scripts'], 9999);
         add_action('admin_enqueue_scripts', [$this, 'admin_scripts'], 9999);
@@ -75,12 +73,12 @@ class AssetCtrl
                 [],
                 $this->version
             );
-            wp_enqueue_style(
+            /* wp_enqueue_style(
                 'wam-main',
                 wam()->get_asset_uri("css/main{$this->suffix}.css"),
                 [],
                 $this->version
-            );
+            ); */
         }
         if (isset($_GET['page']) && $_GET['page'] == 'wam-welcome') {
             wp_enqueue_style(
@@ -139,18 +137,17 @@ class AssetCtrl
 
             wp_enqueue_script(
                 'wam-dashboard',
+                // wam()->get_asset_uri('/main.js'),
                 // wam()->get_asset_uri('/js/dashboard{$this->suffix}.js'),
                 'http://localhost:3000/src/main.tsx',
-                ['wp-element'],
+                ['wp-api-fetch'],
                 $this->version,
                 true
             );
             $current_user = wp_get_current_user();
             wp_localize_script('wam-dashboard', 'wam', [
-                'apiUrl' => esc_url(rest_url()),
                 'version' => wam()->version,
                 'dashboard' => admin_url('admin.php?page=wam'),
-                'nonce' => wp_create_nonce('wp_rest'),
                 'date_format' => Fns::phpToMomentFormat(
                     get_option('date_format')
                 ),
@@ -163,8 +160,8 @@ class AssetCtrl
                     ]),
                     'logout' => wp_logout_url(get_permalink()),
                 ],
-                'i18n' => I18n::dashboard(),
-                'caps' => $this->current_user_caps,
+                'i18n' => I18n::app(),
+                'caps' => array_keys(wp_get_current_user()->allcaps),
             ]);
         }
     }

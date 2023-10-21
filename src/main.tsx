@@ -1,10 +1,46 @@
-// import { createRoot, StrictMode } from 'react';
 import {StrictMode} from 'react'
 import ReactDOM from 'react-dom/client'
-import Home from '@pages/home'
+import App from './App';
 
 ReactDOM.createRoot(document.getElementById('wam-dashboard')!).render(
   <StrictMode>
-    <Home />
+    <App />
   </StrictMode>,
 )
+
+const checkRoute = () => {
+  let currentHash = window.location.hash;
+  const navUl = document.querySelectorAll<HTMLLIElement>('#toplevel_page_wam ul > li');
+
+  for (let y = 0, l = navUl.length; y < l; y++) {
+      const anchor = navUl[y].querySelector('a');
+      currentHash = currentHash.replace(/[0-9]|\/+$/g, '');
+
+      if (currentHash && anchor && anchor.getAttribute('href') && anchor.getAttribute('href')!.includes(currentHash)) {
+          navUl[y].classList.add('current');
+      } else {
+          navUl[y].classList.remove('current');
+          // Only for dashboard menu
+          if (!currentHash && anchor && anchor.getAttribute('href') === 'admin.php?page=wam#') {
+              navUl[y].classList.add('current');
+          }
+      }
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const navUl = document.querySelectorAll<HTMLLIElement>('#toplevel_page_wam ul > li');
+
+  // On click active
+  for (let y = 0, l = navUl.length; y < l; y++) {
+      navUl[y].addEventListener('click', function () {
+          for (let y = 0, l = navUl.length; y < l; y++) {
+              navUl[y].classList.remove('current');
+          }
+          this.classList.add('current');
+      });
+  }
+
+  // Initial active route
+  checkRoute();
+});

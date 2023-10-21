@@ -1,6 +1,6 @@
 function Snipper() {
   return (
-    <div className="wam-preloader"></div>
+    <div className="wam-preloader">Loading...</div>
   )
 }
 export default Snipper

@@ -213,7 +213,7 @@ final class WAM {
     public function get_asset_uri($file) {
         $file = ltrim($file, '/');
 
-        return trailingslashit(WAM_URL . '/public') . $file;
+        return trailingslashit(WAM_URL . '/dist') . $file;
     }
 
     /**
@@ -300,6 +300,16 @@ final class WAM {
             }
         }
         return $result;
+    }
+
+    /**
+     * If plain permalink pass args in different way otherwise API not working
+     * @since 1.0.0
+     * @return string
+     */
+    public function plain_route() {
+        $permalink_structure = get_option('permalink_structure');
+        return $permalink_structure === '' ? '/(?P<args>.*)' : '';
     }
 
     /**

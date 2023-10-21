@@ -5,6 +5,21 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    assetsInlineLimit: 0, // Disable inlining assets
+    chunkSizeWarningLimit: 1500, // Adjust chunk size warning limit if needed
+    rollupOptions: {
+      /* input: {
+        main: 'src/main.tsx',
+      }, */
+      output: {
+        dir: "dist",
+        entryFileNames: "main.js",
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

@@ -4,6 +4,7 @@ module.exports = {
   globals: {
     // Define your global variables here
     wam: 'readonly',
+    wp: 'readonly',
     wage: 'readonly'
   },
   extends: [

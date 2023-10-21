@@ -26,12 +26,12 @@ class MainCtrl
         // new TaxonomyCtrl();
         new MenuPageCtrl();
         new AssetCtrl();
-        // new AssistCtrl();
+        new AssistCtrl();
         // new TemplateCtrl();
         // new WidgetCtrl();
-        // new HookCtrl();
+        new HookCtrl();
         // new MetaCtrl();
-        // new ApiCtrl();
+        new ApiCtrl();
         // new IntegrateCtrl();
     }
 }

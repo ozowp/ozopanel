@@ -38,7 +38,7 @@ class Dashboard
             esc_html__('Settings', 'wp-access-manager'),
             esc_html__('Settings', 'wp-access-manager'),
             'manage_options',
-            'wam#/setting/general',
+            'wam#/settings',
             [$this, 'render']
         );
 
