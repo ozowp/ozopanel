@@ -2,8 +2,10 @@
 
 namespace WAM\Ctrl\Hook;
 
-use WAM\Ctrl\Hook\Type\Filter;
-use WAM\Ctrl\Hook\Type\Action;
+use WAM\Ctrl\Hook\Type\{
+    Filter,
+    Action
+};
 
 class HookCtrl
 {

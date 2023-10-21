@@ -1,8 +1,10 @@
 <?php
 namespace WAM\Ctrl\MenuPage;
 
-use WAM\Ctrl\MenuPage\Type\Dashboard;
-use WAM\Ctrl\MenuPage\Type\Welcome;
+use WAM\Ctrl\MenuPage\Type\{
+	Dashboard,
+	Welcome
+};
 
 class MenuPageCtrl {
 

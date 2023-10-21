@@ -1,5 +1,5 @@
 /**
- * Main Settings panel
+ * Main settings panel
  * @since 1.0.0
  */
 
@@ -41,7 +41,7 @@ const Settings: FC = () => {
   const tabDefault: string = tab || 'general';
   const [activeTab, setActiveTab] = useState<string>(tabDefault);
 
-  const addCurrentTab = (e: MouseEvent<HTMLLIElement>, tab: string) => {
+  const addCurrentTab = (e: MouseEvent<HTMLElement>, tab: string) => {
     e.preventDefault();
     setActiveTab(tab);
     navigate(`/settings/${tab}`);

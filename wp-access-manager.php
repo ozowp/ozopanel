@@ -134,7 +134,7 @@ final class WAM {
 
         $this->localization_setup();
 
-        new WAM\Ctrl\MainCtrl();
+        WAM\Ctrl\MainCtrl::init();
 
         do_action('wam_init');
     }

@@ -5,7 +5,10 @@
  */
 import { lazy } from "react";
 const Dashboard = lazy(() => import("@pages/dashboard"));
-const Setting = lazy(() => import("@pages/settings"));
+const Settings = lazy(() => import("@pages/settings"));
+const Users = lazy(() => import("@pages/users"));
+const UsersForm = lazy(() => import("@pages/users/Form"));
+const Roles = lazy(() => import("@pages/roles"));
 
 const routes = [
     {
@@ -13,18 +16,33 @@ const routes = [
         element: Dashboard,
     },
     {
+        path: '/users',
+        element: Users,
+    },
+    {
+        path: '/users/add',
+        element: UsersForm,
+    },
+    {
+        path: '/users/:id/edit',
+        element: UsersForm,
+    },
+    {
+        path: '/roles',
+        element: Roles,
+    },
+    {
         path: '/settings',
-        element: Setting,
+        element: Settings,
     },
     {
         path: '/settings/:tab',
-        element: Setting,
+        element: Settings,
     },
     {
         path: '/settings/:tab/:subtab',
-        element: Setting,
+        element: Settings,
     }
 ];
 
 export default routes;
-

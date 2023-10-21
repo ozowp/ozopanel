@@ -2,8 +2,11 @@
 
 namespace WAM\Ctrl\Api;
 
-use WAM\Ctrl\Api\Type\Action;
-use WAM\Ctrl\Api\Type\Setting;
+use WAM\Ctrl\Api\Type\{
+    Action,
+    Setting,
+    User
+};
 
 /**
  * Register all custom API
@@ -16,6 +19,7 @@ class ApiCtrl
 	public function __construct()
 	{
 		add_action("rest_api_init", function() {
+			User::init()->routes();
 			Action::init()->routes();
 			Setting::init()->routes();
 		});

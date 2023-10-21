@@ -2,6 +2,8 @@
 
 namespace WAM\Ctrl;
 
+use WAM\Traits\Singleton;
+use WAM\Ctrl\Migration\MigrationCtrl;
 use WAM\Ctrl\Api\ApiCtrl;
 use WAM\Ctrl\Asset\AssetCtrl;
 use WAM\Ctrl\Template\TemplateCtrl;
@@ -20,9 +22,11 @@ use WAM\Ctrl\Widget\WidgetCtrl;
  */
 class MainCtrl
 {
+    use Singleton;
 
     public function __construct()
     {
+        new MigrationCtrl();
         // new TaxonomyCtrl();
         new MenuPageCtrl();
         new AssetCtrl();
