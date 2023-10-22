@@ -4,13 +4,13 @@ namespace WAM\Ctrl\Migration\Tables;
 
 use WAM\Ctrl\Migration\Table as Table;
 
-class Roles extends Table
+class Restrictions extends Table
 {
-    private $table_name = "wam_roles";
+    private $table_name = "wam_restrictions";
 
     public function run_migration($current_version, $helpers)
     {
-        parent::version_migration(3.0, $current_version, $this->table_name, [
+        parent::version_migration(2.0, $current_version, $this->table_name, [
             $this,
             "create_table",
         ]);
@@ -21,12 +21,15 @@ class Roles extends Table
         $helpers->create_table(
             $this->table_name,
             "ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-            created_at DATETIME,
-            message TEXT,
-            post_id BIGINT(20) UNSIGNED,
-            action_id BIGINT(20) UNSIGNED,
-            created_by BIGINT(20) UNSIGNED,
+            label VARCHAR(255),
+            slug VARCHAR(255) NOT NULL,
             PRIMARY KEY (ID)"
         );
+        $this->insert_preset();
+    }
+
+    public function insert_preset()
+    {
+
     }
 }

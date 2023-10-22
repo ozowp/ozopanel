@@ -26,7 +26,7 @@ class MainCtrl
 
     public function __construct()
     {
-        new MigrationCtrl();
+        // new MigrationCtrl();
         // new TaxonomyCtrl();
         new MenuPageCtrl();
         new AssetCtrl();

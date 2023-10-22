@@ -37,7 +37,7 @@ class Dashboard
             esc_html__('Users', 'wp-access-manager'),
             esc_html__('Users', 'wp-access-manager'),
             'manage_options',
-            'wam#/users',
+            'wam#/restrictions/users',
             [$this, 'render']
         );
 
@@ -46,7 +46,7 @@ class Dashboard
             esc_html__('Roles', 'wp-access-manager'),
             esc_html__('Roles', 'wp-access-manager'),
             'manage_options',
-            'wam#/roles',
+            'wam#/restrictions/roles',
             [$this, 'render']
         );
 

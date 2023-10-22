@@ -1,10 +1,8 @@
 <?php
-
 namespace WAM\Ctrl\Migration;
 
 use WAM\Ctrl\Migration\Tables\{
-    Users,
-    Roles,
+    Restrictions,
     SchemaMigrations
 };
 
@@ -27,8 +25,7 @@ class MigrationCtrl {
 
     public function run()
     {
-        $this->migration_to_table(2.0, Users::class);
-        $this->migration_to_table(3.0, Roles::class);
+        $this->migration_to_table(2.0, Restrictions::class);
     }
 
     public function check_migration()

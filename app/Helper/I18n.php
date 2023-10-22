@@ -10,6 +10,16 @@ class I18n
     static function app()
     {
         return [
+            //general
+            "backTo" => esc_html__("Back to", "wp-access-manager"),
+            "restrict" => esc_html__("Restrict", "wp-access-manager"),
+            "restriction" => esc_html__("Restriction", "wp-access-manager"),
+            //user
+            "user" => esc_html__("User", "wp-access-manager"),
+            "users" => esc_html__("Users", "wp-access-manager"),
+            //role
+            "role" => esc_html__("Role", "wp-access-manager"),
+            "roles" => esc_html__("Roles", "wp-access-manager"),
             //settings
             "settings" => esc_html__("Settings", "wp-access-manager"),
             //settings > tabs

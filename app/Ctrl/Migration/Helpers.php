@@ -24,7 +24,7 @@ class Helpers {
         $data = [
             "version" => sprintf("%.1f", $version),
             "table_name" => $migration_table,
-            "applied_at" => date("Y-m-d H:i:s"),
+            "created_at" => date("Y-m-d H:i:s"),
         ];
 
         $wpdb->insert($table_name, $data);

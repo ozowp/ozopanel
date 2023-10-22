@@ -22,7 +22,7 @@ class SchemaMigrations extends Table {
             "ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
             version VARCHAR(255) NOT NULL,
             table_name VARCHAR(255) NOT NULL,
-            applied_at DATETIME,
+            created_at DATETIME,
             PRIMARY KEY (ID)"
         );
     }
