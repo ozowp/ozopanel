@@ -1,23 +1,46 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, FormEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Spinner from '@blocks/preloader/spinner';
 import api from '@utils/api';
+import './Form.scss'; // Import the SCSS file for styling
+
+interface IdListItem {
+    id: string;
+    label: string;
+}
+
+interface Submenu {
+    label: string;
+    capability: string;
+    url: string;
+    enabled: boolean;
+}
+
+interface Menu {
+    label: string;
+    capability: string;
+    url: string;
+    enabled: boolean;
+    submenu: Submenu[];
+}
 
 interface FormData {
-    name: string;
-    email: string;
-    // Add other form fields as needed
+    id: string;
+    admin_menu: Menu[];
 }
 
 const Form: FC = () => {
     const { type, id } = useParams();
+    const i18n = wam.i18n;
+
     const navigate = useNavigate();
 
+    const [idList, setIdList] = useState<IdListItem[]>([]);
+    const [adminMenu, setAdminMenu] = useState<Menu[]>([]);
     const [formData, setFormData] = useState<FormData>({
-        name: '',
-        email: '',
-        // Initialize other form fields here
+        id: '',
+        admin_menu: [],
     });
 
     const [loadingFetch, setLoadingFetch] = useState(true);
@@ -29,8 +52,10 @@ const Form: FC = () => {
                 const idParam = id ? `/${id}` : `/0`;
                 const res = await api.get(`restrictions/${type}${idParam}`);
                 if (res.success) {
-                    // Populate the form with fetched data
-                    // setFormData(res.data);
+                    const { id_list, admin_menu } = res.data;
+                    setIdList(id_list);
+                    setAdminMenu(admin_menu);
+                    setFormData({ id: '', admin_menu: admin_menu });
                 } else {
                     res.data.forEach((value: string) => {
                         toast.error(value);
@@ -46,14 +71,31 @@ const Form: FC = () => {
         fetchData();
     }, [type, id]);
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleRoleChange = (selectedRoleId: string) => {
+        const selectedRole = idList.find(role => role.id === selectedRoleId);
+        if (selectedRole) {
+            const selectedAdminMenu = adminMenu.map(menu => {
+                const menuCopy = { ...menu };
+                menuCopy.submenu = menuCopy.submenu.map(submenu => {
+                    const submenuCopy = { ...submenu };
+                    submenuCopy.enabled = true; // Enable all submenu items by default
+                    return submenuCopy;
+                });
+                return menuCopy;
+            });
+
+            setFormData({ id: selectedRole.id, admin_menu: selectedAdminMenu });
+        }
+    };
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
             setLoadingSubmit(true);
             const idParam = id ? `/${id}` : '';
             const res = await api.add(`restrictions/${type}${idParam}`, formData);
             if (res.success) {
-                toast.success('Data submitted successfully');
+                toast.success(i18n.sucAdd);
                 navigate(`/restrictions/${type}`);
             } else {
                 res.data.forEach((value: string) => {
@@ -67,46 +109,78 @@ const Form: FC = () => {
         }
     };
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
+    const handleAdminMenuToggle = (menuIndex: number) => {
+        const updatedAdminMenu = [...formData.admin_menu];
+        updatedAdminMenu[menuIndex].enabled = !updatedAdminMenu[menuIndex].enabled;
+        setFormData({
+            ...formData,
+            admin_menu: updatedAdminMenu,
+        });
     };
 
-    const i18n = wam.i18n;
+    const handleSubMenuToggle = (menuIndex: number, submenuIndex: number) => {
+        const updatedAdminMenu = [...formData.admin_menu];
+        updatedAdminMenu[menuIndex].submenu[submenuIndex].enabled = !updatedAdminMenu[menuIndex].submenu[submenuIndex]
+            .enabled;
+        setFormData({
+            ...formData,
+            admin_menu: updatedAdminMenu,
+        });
+    };
 
     return (
-        <div className='wam-users-form'>
-            <h3>{`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role}`}</h3>
-            <button className='' onClick={() => navigate(`/restrictions/${type}`)}>
-                {`${i18n.backTo} ${type === 'users' ? i18n.users : i18n.roles}`}
-            </button>
+        <div className='wam-restrictions-form'>
+            <div className='wam-restrictions-form-head'>
+                <h3>{`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role}`}</h3>
+                <button className='' onClick={() => navigate(`/restrictions/${type}`)}>
+                    {`${i18n.backTo} ${type === 'users' ? i18n.users : i18n.roles}`}
+                </button>
+            </div>
 
-            {loadingFetch ? <Spinner /> : (
+            {loadingFetch ? (
+                <Spinner />
+            ) : (
                 <form onSubmit={handleSubmit}>
-                    {/* Form fields */}
-                    <label>
-                        Name:
-                        <input
-                            type='text'
-                            name='name'
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </label>
-                    <label>
-                        Email:
-                        <input
-                            type='email'
-                            name='email'
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </label>
-                    {/* Add other form fields here */}
-                    <button type='submit' disabled={loadingSubmit}>
-                        {loadingSubmit ? 'Submitting...' : 'Submit'}
+                    <div className='wam-restrictions-id'>
+                        <label>{`${i18n.select} ${type === 'users' ? i18n.user : i18n.role}`}:</label>
+                        <select onChange={(e) => handleRoleChange(e.target.value)} value={formData.id}>
+                            <option value="">{i18n.select}</option>
+                            {idList.map((role, i) => (
+                                <option key={i} value={role.id}>
+                                    {role.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className='wam-restrictions-menu'>
+                        {formData.admin_menu.map((menu, menuIndex) => (
+                            <div className='wam-restrictions-menu-item' key={menu.url}>
+                                <div
+                                    className={`wam-restrictions-menu-head ${menu.enabled ? 'active' : ''}`}
+                                    onClick={() => handleAdminMenuToggle(menuIndex)}
+                                >
+                                    <input type='checkbox' checked={menu.enabled} readOnly />
+                                    <label>{menu.label}</label>
+                                </div>
+
+                                <div className={`wam-restrictions-submenu ${menu.enabled ? 'active' : ''}`}>
+                                    {menu.submenu.map((submenu, submenuIndex) => (
+                                        <div
+                                            key={submenu.label}
+                                            className={`wam-restrictions-submenu-item ${submenu.enabled ? 'active' : ''}`}
+                                            onClick={() => handleSubMenuToggle(menuIndex, submenuIndex)}>
+                                            <input type='checkbox' checked={submenu.enabled} readOnly />
+                                            <label>{submenu.label}</label>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <button className='wam-restrictions-submit' type='submit' disabled={loadingSubmit}>
+                        {loadingSubmit ? i18n.submiting : i18n.submit}
                     </button>
                 </form>
             )}

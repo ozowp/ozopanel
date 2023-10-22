@@ -5,9 +5,8 @@ import Spinner from '@blocks/preloader/spinner';
 import api from '@utils/api';
 
 interface Restriction {
-	id: number;
-	name: string;
-	email: string;
+	id: string;
+	label: string;
 }
 
 const Restrictions: FC = () => {
@@ -37,7 +36,7 @@ const Restrictions: FC = () => {
 		fetchData();
 	}, [type]);
 
-	const goForm = (id?: number) => {
+	const goForm = (id?: string) => {
 		if (id) {
 			navigate(`/restrictions/${type}/${id}/edit`);
 		} else {
@@ -58,18 +57,18 @@ const Restrictions: FC = () => {
 				<table>
 					<thead>
 						<tr>
+							<th style={ { width: 20 } }><input type='checkbox' /></th>
 							<th>ID</th>
-							<th>Name</th>
-							<th>Email</th>
-							<th>Actions</th>
+							<th>Label</th>
+							<th style={ { width: 80 } }>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						{restrictions.map((restriction) => (
 							<tr key={restriction.id}>
+								<td><input type='checkbox' /></td>
 								<td>{restriction.id}</td>
-								<td>{restriction.name}</td>
-								<td>{restriction.email}</td>
+								<td>{restriction.label}</td>
 								<td>
 									<button onClick={() => goForm(restriction.id)}>Edit</button>
 								</td>

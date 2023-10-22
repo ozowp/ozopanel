@@ -2,4 +2,53 @@
     .Toastify__toast-container.Toastify__toast-container--top-right {
         top: 3em;
     }
+
+    .wam-content {
+        max-width: 1020px;
+        margin: auto;
+    }
+
+    .wam-restrictions {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+
+            th {
+                background-color: #646970;
+                color: white;
+                text-align: left;
+                padding: 10px;
+                font-weight: bold;
+            }
+
+            td {
+                padding: 10px;
+                border-bottom: 1px solid #ccc;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            input[type="checkbox"] {
+                margin: 0;
+            }
+        }
+
+        button {
+            background-color: #2271b1;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        th,
+        td,
+        input,
+        button {
+            text-align: center;
+        }
+    }
 }

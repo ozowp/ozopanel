@@ -19,8 +19,8 @@ class Welcome
 	public function add_menu()
 	{
 		add_menu_page(
-			esc_html__('Propovoice Welcome', 'wp-access-manager'),
-			esc_html__('Propovoice Welcome', 'wp-access-manager'),
+			esc_html__('WAM Welcome', 'wp-access-manager'),
+			esc_html__('WAM Welcome', 'wp-access-manager'),
 			'manage_options',
 			'wam-welcome',
 			array($this, 'render')

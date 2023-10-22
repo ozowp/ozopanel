@@ -202,15 +202,33 @@ class Restriction
 
     public function get_single($req)
     {
-        $url_params = $req->get_url_params();
-        $id = $url_params['id'];
-        $resp = [];
-        $resp['id'] = absint($id);
 
-        $meta = get_post_meta($id);
-        $resp['ws_id'] = isset($meta['ws_id']) ? $meta['ws_id'][0] : '';
-        $resp['tab_id'] = isset($meta['tab_id']) ? absint($meta['tab_id'][0]) : '';
-        $resp['date'] = get_the_time(get_option('date_format'));
+        $url_params = $req->get_url_params();
+        $type = $url_params['type'];
+        $id = $url_params['id'];
+
+        $resp = [];
+        $admin_menu = get_option( 'wam_admin_menu' );
+        $resp['admin_menu'] = $admin_menu;
+        $resp['id_list'] = [];
+
+        if ( $type == 'roles' ) {
+            global $wp_roles;
+            foreach( $wp_roles->role_names as $key => $value ) {
+                $modify_roles = [];
+                $modify_roles['id'] = $key;
+                $modify_roles['label'] = $value;
+                $resp['id_list'][] = $modify_roles;
+            }
+        } else if ( $type == 'users' ) {
+            $users = get_users();
+            foreach( $users as $user ) {
+                $modify_users = [];
+                $modify_users['id'] = $user->ID;
+                $modify_users['label'] = "$user->display_name - $user->user_email";
+                $resp['id_list'][] = $modify_users;
+            }
+        }
 
         wp_send_json_success($resp);
     }
