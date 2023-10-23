@@ -29,8 +29,6 @@ class AssetCtrl
             add_filter('update_footer', '__return_empty_string', 11);
         }
 
-        add_filter('show_admin_bar', [$this, 'hide_admin_bar']);
-
         add_filter('script_loader_tag', [$this, 'add_type_attribute'] , 10, 3);
 
         add_action('current_screen', function () {
@@ -43,18 +41,6 @@ class AssetCtrl
                 'enqueue_uninstall_dialog',
             ]);
         });
-    }
-
-    public function hide_admin_bar($show)
-    {
-        if (
-            is_page_template([
-                'test-template.php'
-            ])
-        ) {
-            return false;
-        }
-        return $show;
     }
 
     private function admin_public_script()

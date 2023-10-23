@@ -110,7 +110,7 @@ class Restriction
         if (empty($first_name) && empty($org_name)) {
             $reg_errors->add(
                 'field',
-                esc_html__('Contact info is missing', 'propovoice')
+                esc_html__('Contact info is missing', 'ozopanel')
             );
         }
 
@@ -248,7 +248,7 @@ class Restriction
         if (empty($first_name) && empty($org_name)) {
             $reg_errors->add(
                 "field",
-                esc_html__("Contact info is missing", "propovoice")
+                esc_html__("Contact info is missing", "ozopanel")
             );
         }
 
