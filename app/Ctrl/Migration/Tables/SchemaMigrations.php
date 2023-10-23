@@ -1,11 +1,11 @@
 <?php
-namespace WAM\Ctrl\Migration\Tables;
+namespace OzoPanel\Ctrl\Migration\Tables;
 
-use WAM\Ctrl\Migration\Table;
+use OzoPanel\Ctrl\Migration\Table;
 
 class SchemaMigrations extends Table {
 
-    private $table_name = "wam_schema_migrations";
+    private $table_name = "ozopanel_schema_migrations";
 
     public function run_migration($current_version, $helpers)
     {

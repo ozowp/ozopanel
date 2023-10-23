@@ -1,6 +1,6 @@
 {
-	"name": "therakib7/wam",
-	"description": "WP Access Manager",
+	"name": "therakib7/ozopanel",
+	"description": "OzoPanel",
 	"authors": [
 		{
 			"name": "Rakib",
@@ -10,7 +10,7 @@
 	"require": {},
 	"autoload": {
 		"psr-4": {
-			"WAM\\": "app"
+			"OzoPanel\\": "app"
 		}
 	}
 }

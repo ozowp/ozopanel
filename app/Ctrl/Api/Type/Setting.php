@@ -1,12 +1,12 @@
 <?php
 
-namespace WAM\Ctrl\Api\Type;
+namespace OzoPanel\Ctrl\Api\Type;
 
-use WAM\Traits\Singleton;
+use OzoPanel\Traits\Singleton;
 
 /**
  * Class Setting
- * @package WAM\Ctrl\Api\Type
+ * @package OzoPanel\Ctrl\Api\Type
  *
  * REST API endpoints related to settings.
  */
@@ -19,13 +19,13 @@ class Setting
      */
     public function routes()
     {
-        register_rest_route('wam/v1', '/settings' . wam()->plain_route(), [
+        register_rest_route('ozopanel/v1', '/settings' . ozopanel()->plain_route(), [
             'methods' => 'GET',
             'callback' => [$this, 'get'],
             'permission_callback' => [$this, 'get_per'],
         ]);
 
-        register_rest_route('wam/v1', '/settings', [
+        register_rest_route('ozopanel/v1', '/settings', [
             'methods' => 'POST',
             'callback' => [$this, 'create'],
             'permission_callback' => [$this, 'create_per'],
@@ -47,7 +47,7 @@ class Setting
         if (empty($tab)) {
             $reg_errors->add(
                 'field',
-                esc_html__('Tab is missing', 'wp-access-manager')
+                esc_html__('Tab is missing', 'ozopanel')
             );
         }
 
@@ -57,7 +57,7 @@ class Setting
             $data = [];
 
             if ($tab == 'estimate_reminder') {
-                $option = get_option('wam_' . $tab);
+                $option = get_option('ozopanel_' . $tab);
 
                 if ($option) {
                     $data = $option;
@@ -88,7 +88,7 @@ class Setting
         if (empty($tab)) {
             $reg_errors->add(
                 'field',
-                esc_html__('Tab is missing', 'wp-access-manager')
+                esc_html__('Tab is missing', 'ozopanel')
             );
         }
 
@@ -111,7 +111,7 @@ class Setting
                     ? $param['after']
                     : null;
 
-                $option = update_option('wam_' . $tab, $data);
+                $option = update_option('ozopanel_' . $tab, $data);
             }
 
             wp_send_json_success();

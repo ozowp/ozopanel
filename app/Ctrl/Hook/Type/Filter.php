@@ -1,5 +1,5 @@
 <?php
-namespace WAM\Ctrl\Hook\Type;
+namespace OzoPanel\Ctrl\Hook\Type;
 
 class Filter
 {
@@ -16,7 +16,7 @@ class Filter
                 "test-template.php"
             ])
         ) {
-            $classes[] = "wam";
+            $classes[] = "ozopanel";
             $classes[] = get_option("template") . "-theme";
         }
         return $classes;
@@ -25,10 +25,10 @@ class Filter
     function admin_body_class($classes)
     {
         if (
-            (isset($_GET["page"]) && $_GET["page"] == "wam") ||
-            (isset($_GET["page"]) && $_GET["page"] == "wam-welcome")
+            (isset($_GET["page"]) && $_GET["page"] == "ozopanel") ||
+            (isset($_GET["page"]) && $_GET["page"] == "ozopanel-welcome")
         ) {
-            $classes .= " wam " . get_option("template") . "-theme";
+            $classes .= " ozopanel " . get_option("template") . "-theme";
         }
 
         return $classes;

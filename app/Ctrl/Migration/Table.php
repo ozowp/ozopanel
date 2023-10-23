@@ -1,7 +1,7 @@
 <?php
-namespace WAM\Ctrl\Migration;
+namespace OzoPanel\Ctrl\Migration;
 
-use WAM\Ctrl\Migration\Helpers;
+use OzoPanel\Ctrl\Migration\Helpers;
 
 class Table {
     public function __construct($current_version)

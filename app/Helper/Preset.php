@@ -1,5 +1,5 @@
 <?php
-namespace WAM\Helper;
+namespace OzoPanel\Helper;
 /**
  * All the preset data
  *

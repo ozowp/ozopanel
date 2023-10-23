@@ -1,7 +1,7 @@
 <?php
-namespace WAM\Ctrl\Meta;
+namespace OzoPanel\Ctrl\Meta;
 
-use WAM\Ctrl\Meta\User\User;
+use OzoPanel\Ctrl\Meta\User\User;
 
 class MetaCtrl {
 

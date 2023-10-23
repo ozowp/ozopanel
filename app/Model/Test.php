@@ -1,5 +1,5 @@
 <?php
-namespace WAM\Model;
+namespace OzoPanel\Model;
 /**
  * Test model
  *

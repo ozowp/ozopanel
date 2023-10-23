@@ -1,7 +1,7 @@
 <?php 
-namespace WAM\Ctrl\Integrate\Form;
+namespace OzoPanel\Ctrl\Integrate\Form;
  
-use WAM\Ctrl\Integrate\Form\FormList; 
+use OzoPanel\Ctrl\Integrate\Form\FormList; 
 
 class FormCtrl
 { 

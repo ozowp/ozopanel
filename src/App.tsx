@@ -13,7 +13,7 @@ const App = () => {
     return (
         <HashRouter>
             <ToastContainer hideProgressBar />
-            <div className="wam-content">
+            <div className="ozopanel-content">
                 <Suspense fallback={<Spinner />}>
                     <ProModal />
                     <Routes>

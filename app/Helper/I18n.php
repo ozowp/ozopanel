@@ -1,5 +1,5 @@
 <?php
-namespace WAM\Helper;
+namespace OzoPanel\Helper;
 /**
  * All Javascript files translate text
  *
@@ -11,35 +11,25 @@ class I18n
     {
         return [
             // general
-            "select" => esc_html__("Select", "wp-access-manager"),
-            "backTo" => esc_html__("Back to", "wp-access-manager"),
-            "submit" => esc_html__("Submit", "wp-access-manager"),
-            "submiting" => esc_html__("Submitting...", "wp-access-manager"),
-            "restrict" => esc_html__("Restrict", "wp-access-manager"),
-            "restriction" => esc_html__("Restriction", "wp-access-manager"),
+            "select" => esc_html__("Select", "ozopanel"),
+            "backTo" => esc_html__("Back to", "ozopanel"),
+            "submit" => esc_html__("Submit", "ozopanel"),
+            "submiting" => esc_html__("Submitting...", "ozopanel"),
+            "restrict" => esc_html__("Restrict", "ozopanel"),
+            "restriction" => esc_html__("Restriction", "ozopanel"),
             // user
-            "user" => esc_html__("User", "wp-access-manager"),
-            "users" => esc_html__("Users", "wp-access-manager"),
+            "user" => esc_html__("User", "ozopanel"),
+            "users" => esc_html__("Users", "ozopanel"),
             // role
-            "role" => esc_html__("Role", "wp-access-manager"),
-            "roles" => esc_html__("Roles", "wp-access-manager"),
+            "role" => esc_html__("Role", "ozopanel"),
+            "roles" => esc_html__("Roles", "ozopanel"),
             // settings
-            "settings" => esc_html__("Settings", "wp-access-manager"),
+            "settings" => esc_html__("Settings", "ozopanel"),
             // settings > tabs
-            "general" => esc_html__("General", "wp-access-manager"),
-            "other" => esc_html__("Other", "wp-access-manager"),
+            "general" => esc_html__("General", "ozopanel"),
+            "other" => esc_html__("Other", "ozopanel"),
             // toast
-            "sucAdd" => esc_html__("Successfully Added", "wp-access-manager"),
-
-            //alert
-            /* "scf" => esc_html__("Successfully", "wp-access-manager"),
-            "aUpd" => esc_html__("Successfully Updated", "wp-access-manager"),
-            "aDel" => esc_html__("Successfully Deleted", "wp-access-manager"),
-            "aThankM" => esc_html__("Thanks for your message", "wp-access-manager"),
-            "aThankR" => esc_html__("Thanks for payment request", "wp-access-manager"),
-            "aMail" => esc_html__("Mail successfully sent", "wp-access-manager"),
-            "aConf" => esc_html__("Are you sure to delete it?", "wp-access-manager"),
-            "cp" => esc_html__("Copied", "wp-access-manager"), */
+            "sucAdd" => esc_html__("Successfully Added", "ozopanel")
         ];
     }
 }

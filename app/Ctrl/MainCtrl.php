@@ -1,19 +1,19 @@
 <?php
 
-namespace WAM\Ctrl;
+namespace OzoPanel\Ctrl;
 
-use WAM\Traits\Singleton;
-use WAM\Ctrl\Migration\MigrationCtrl;
-use WAM\Ctrl\Api\ApiCtrl;
-use WAM\Ctrl\Asset\AssetCtrl;
-use WAM\Ctrl\Template\TemplateCtrl;
-use WAM\Ctrl\Hook\HookCtrl;
-use WAM\Ctrl\Integrate\IntegrateCtrl;
-use WAM\Ctrl\Assist\AssistCtrl;
-use WAM\Ctrl\Meta\MetaCtrl;
-use WAM\Ctrl\MenuPage\MenuPageCtrl;
-use WAM\Ctrl\Taxonomy\TaxonomyCtrl;
-use WAM\Ctrl\Widget\WidgetCtrl;
+use OzoPanel\Traits\Singleton;
+use OzoPanel\Ctrl\Migration\MigrationCtrl;
+use OzoPanel\Ctrl\Api\ApiCtrl;
+use OzoPanel\Ctrl\Asset\AssetCtrl;
+use OzoPanel\Ctrl\Template\TemplateCtrl;
+use OzoPanel\Ctrl\Hook\HookCtrl;
+use OzoPanel\Ctrl\Integrate\IntegrateCtrl;
+use OzoPanel\Ctrl\Assist\AssistCtrl;
+use OzoPanel\Ctrl\Meta\MetaCtrl;
+use OzoPanel\Ctrl\MenuPage\MenuPageCtrl;
+use OzoPanel\Ctrl\Taxonomy\TaxonomyCtrl;
+use OzoPanel\Ctrl\Widget\WidgetCtrl;
 
 /**
  * Main controller

@@ -10,7 +10,7 @@ const General = lazy(() => import('./tab/General'));
 const Other = lazy(() => import('./tab/Other'));
 import "./style.scss";
 
-const i18n = wam.i18n;
+const i18n = ozopanel.i18n;
 
 interface TabItem {
   id: string;
@@ -50,13 +50,13 @@ const Settings: FC = () => {
   const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component;
 
   return (
-    <div className='wam-settings'>
+    <div className='ozopanel-settings'>
       <h3>{i18n.settings}</h3>
-      <ul className="wam-tab-list">
+      <ul className="ozopanel-tab-list">
         {tabs.map((tab) => (
           <li
             key={tab.id}
-            className={`wam-tab-item ${tab.id === activeTab ? 'wam-active' : ''}`}
+            className={`ozopanel-tab-item ${tab.id === activeTab ? 'ozopanel-active' : ''}`}
             onClick={(e) => addCurrentTab(e, tab.id)}
           >
             <a>{tab.label}</a>
@@ -64,7 +64,7 @@ const Settings: FC = () => {
         ))}
       </ul>
 
-      <div className="wam-tab-content">
+      <div className="ozopanel-tab-content">
         <Suspense fallback={<Spinner />}>
           {ActiveComponent && <ActiveComponent />}
         </Suspense>

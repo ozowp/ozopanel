@@ -1,8 +1,8 @@
 <?php
 
-namespace WAM\Ctrl\Api\Type;
+namespace OzoPanel\Ctrl\Api\Type;
 
-use WAM\Traits\Singleton;
+use OzoPanel\Traits\Singleton;
 
 class Restriction
 {
@@ -10,7 +10,7 @@ class Restriction
 
     public function routes()
     {
-        register_rest_route('wam/v1', '/restrictions/(?P<type>[a-z]+)', [
+        register_rest_route('ozopanel/v1', '/restrictions/(?P<type>[a-z]+)', [
             'methods' => 'POST',
             'callback' => [$this, 'create'],
             'permission_callback' => [$this, 'create_per'],
@@ -23,7 +23,7 @@ class Restriction
             ),
         ]);
 
-        register_rest_route('wam/v1', '/restrictions/(?P<type>[a-z]+)' . wam()->plain_route(), [
+        register_rest_route('ozopanel/v1', '/restrictions/(?P<type>[a-z]+)' . ozopanel()->plain_route(), [
             'methods' => 'GET',
             'callback' => [$this, 'get'],
             'permission_callback' => [$this, 'get_per'],
@@ -36,7 +36,7 @@ class Restriction
             ),
         ]);
 
-        register_rest_route('wam/v1', '/restrictions/(?P<type>[a-z]+)/(?P<id>\d+)', [
+        register_rest_route('ozopanel/v1', '/restrictions/(?P<type>[a-z]+)/(?P<id>\d+)', [
             'methods' => 'GET',
             'callback' => [$this, 'get_single'],
             'permission_callback' => [$this, 'get_per'],
@@ -54,7 +54,7 @@ class Restriction
             ],
         ]);
 
-        register_rest_route('wam/v1', '/restrictions/(?P<id>\d+)/(?P<type>[a-z]+)', array(
+        register_rest_route('ozopanel/v1', '/restrictions/(?P<id>\d+)/(?P<type>[a-z]+)', array(
             'methods' => 'GET',
             'callback' => array($this, 'get_single'),
             'permission_callback' => array($this, 'get_per'),
@@ -72,7 +72,7 @@ class Restriction
             ),
         ));
 
-        register_rest_route('wam/v1', '/restrictions/(?P<id>\d+)', [
+        register_rest_route('ozopanel/v1', '/restrictions/(?P<id>\d+)', [
             'methods' => 'PUT',
             'callback' => [$this, 'update'],
             'permission_callback' => [$this, 'update_per'],
@@ -85,7 +85,7 @@ class Restriction
             ],
         ]);
 
-        register_rest_route('wam/v1', '/restrictions/(?P<id>[0-9,]+)', [
+        register_rest_route('ozopanel/v1', '/restrictions/(?P<id>[0-9,]+)', [
             'methods' => 'DELETE',
             'callback' => [$this, 'delete'],
             'permission_callback' => [$this, 'del_per'],
@@ -120,7 +120,7 @@ class Restriction
             wp_send_json_success();
             //insert user
             $data = [
-                'post_type' => 'wam_user',
+                'post_type' => 'ozopanel_user',
                 'post_title' => 'Lead',
                 'post_content' => '',
                 'post_status' => 'publish',
@@ -134,7 +134,7 @@ class Restriction
                 }
 
                 $param['id'] = $post_id;
-                do_action('wamp/webhook', 'user_add', $param);
+                do_action('ozopanelp/webhook', 'user_add', $param);
 
                 wp_send_json_success($post_id);
             } else {
@@ -161,7 +161,7 @@ class Restriction
         }
 
         $args = [
-            'post_type' => 'wam_user',
+            'post_type' => 'ozopanel_user',
             'post_status' => 'publish',
             'posts_per_page' => $per_page,
             'offset' => $offset,
@@ -208,7 +208,7 @@ class Restriction
         $id = $url_params['id'];
 
         $resp = [];
-        $admin_menu = get_option( 'wam_admin_menu' );
+        $admin_menu = get_option( 'ozopanel_admin_menu' );
         $resp['admin_menu'] = $admin_menu;
         $resp['id_list'] = [];
 
@@ -282,7 +282,7 @@ class Restriction
             wp_delete_post($id);
         }
 
-        do_action("wamp/webhook", "user_del", $ids);
+        do_action("ozopanelp/webhook", "user_del", $ids);
 
         wp_send_json_success($ids);
     }

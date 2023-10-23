@@ -1,7 +1,7 @@
 <?php 
-namespace WAM\Ctrl\Widget;
+namespace OzoPanel\Ctrl\Widget;
 
-use WAM\Ctrl\Widget\Elementor\ElementorCtrl;
+use OzoPanel\Ctrl\Widget\Elementor\ElementorCtrl;
 
 class WidgetCtrl {
 	public function __construct() {   

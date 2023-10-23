@@ -1,6 +1,6 @@
 <?php
 
-namespace WAM\Helper;
+namespace OzoPanel\Helper;
 /**
  * WP self site information
  *
@@ -56,7 +56,7 @@ class Info
             }
         }
 
-        $data['version'] = WAM_VERSION;
+        $data['version'] = OZOPANEL_VERSION;
         $data['package'] = 'free';
 
         return $data;

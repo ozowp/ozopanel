@@ -1,6 +1,6 @@
 <?php return array(
     'root' => array(
-        'name' => 'therakib7/wam',
+        'name' => 'therakib7/ozopanel',
         'pretty_version' => 'dev-test',
         'version' => 'dev-test',
         'reference' => '261378110e0e1f5ab4f499c7298fab1fcd440cf8',
@@ -10,7 +10,7 @@
         'dev' => true,
     ),
     'versions' => array(
-        'therakib7/wam' => array(
+        'therakib7/ozopanel' => array(
             'pretty_version' => 'dev-test',
             'version' => 'dev-test',
             'reference' => '261378110e0e1f5ab4f499c7298fab1fcd440cf8',

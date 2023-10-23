@@ -1,8 +1,8 @@
 <?php
 
-namespace WAM\Ctrl\Api;
+namespace OzoPanel\Ctrl\Api;
 
-use WAM\Ctrl\Api\Type\{
+use OzoPanel\Ctrl\Api\Type\{
     Action,
     Setting,
     Restriction

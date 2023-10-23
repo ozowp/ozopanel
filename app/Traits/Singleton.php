@@ -1,5 +1,5 @@
 <?php
-namespace WAM\Traits;
+namespace OzoPanel\Traits;
 /**
  * Singleton
  *

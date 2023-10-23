@@ -44,10 +44,10 @@ const Restrictions: FC = () => {
 		}
 	};
 
-	const i18n = wam.i18n;
+	const i18n = ozopanel.i18n;
 
 	return (
-		<div className='wam-restrictions'>
+		<div className='ozopanel-restrictions'>
 			<h3>{`${i18n.restriction} ${type === 'users' ? i18n.users : i18n.roles}`}</h3>
 			<button className='' onClick={() => goForm()}>
 				{`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role}`}

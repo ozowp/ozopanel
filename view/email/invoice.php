@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WP Access Manager Email</title>
+  <title>OzoPanel Email</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;900&display=swap" rel="stylesheet" />
@@ -22,7 +22,7 @@
       font-family: 'Inter', sans-serif;
     }
 
-    .wam {
+    .ozopanel {
       margin: 0;
       padding: 40px 0 60px;
       background-color: aliceblue;
@@ -32,7 +32,7 @@
       height: 100%;
     }
 
-    .wam-container {
+    .ozopanel-container {
       display: block !important;
       border-collapse: collapse;
       max-width: 559px;
@@ -40,7 +40,7 @@
       margin-top: 50px;
     }
 
-    .wam-table-container {
+    .ozopanel-table-container {
       display: block !important;
       padding: 30px 30px 60px 40px;
       border-spacing: 0;
@@ -53,26 +53,26 @@
       margin-bottom: 20px;
     }
 
-    .wam-head {
+    .ozopanel-head {
       min-width: 490px;
     }
 
-    .wam-logo {
+    .ozopanel-logo {
       width: 200px;
     }
-    .wam-logo img{
+    .ozopanel-logo img{
       max-width: 200px !important;
       max-height: 90px !important;
     }
 
-    .wam-address {
+    .ozopanel-address {
       width: 202px;
       padding: 13px 13px 13px 20px;
       background-color: #EDF2F7;
       border-radius: 9px;
     }
 
-    .wam-address h6 {
+    .ozopanel-address h6 {
       font-family: 'Inter', sans-serif;
       font-style: normal;
       font-weight: 600;
@@ -82,7 +82,7 @@
       margin-bottom: 2px;
     }
 
-    .wam-address p {
+    .ozopanel-address p {
       font-family: 'Inter';
       font-style: normal;
       font-weight: 400;
@@ -91,12 +91,12 @@
       color: #4A5568;
     }
 
-    .wam-msg {
+    .ozopanel-msg {
       display: inline-table;
       margin: 35px 0 45px 0;
     }
 
-    .wam-msg p {
+    .ozopanel-msg p {
       font-family: 'Inter';
       font-style: normal;
       font-weight: 400;
@@ -106,7 +106,7 @@
       display: inline-block;
     }
 
-    .wam-invoice-table {
+    .ozopanel-invoice-table {
       width: 100%;
       /* border-collapse: separate; */
       /* border-spacing: 16px; */
@@ -114,7 +114,7 @@
       margin-bottom: 40px;
     }
 
-    .wam-invoice-table tr th {
+    .ozopanel-invoice-table tr th {
       text-align: left;
       padding: 8px;
       font-family: 'Inter';
@@ -125,7 +125,7 @@
       color: #2D3748;
     }
 
-    .wam-invoice-table tr td {
+    .ozopanel-invoice-table tr td {
       padding: 8px;
       text-align: right;
       font-family: 'Inter';
@@ -136,40 +136,40 @@
       color: #718096;
     }
 
-    .wam-total {
+    .ozopanel-total {
       background-color: #EDF2F7;
       margin-left: 10px !important;
     }
 
-    .wam-total th {
+    .ozopanel-total th {
       font-weight: 900 !important;
       background-color: #EDF2F7;
       color: #1A202C !important;
     }
 
-    .wam-total td {
+    .ozopanel-total td {
       font-weight: 900 !important;
       padding-right: 10px !important;
       background-color: #EDF2F7;
       color: #1A202C !important;
     }
 
-    .wam-thanks {
+    .ozopanel-thanks {
       font-size: 14px;
       color: #1A202C;
       padding-bottom: 45px;
     }
 
-    .wam-regards {
+    .ozopanel-regards {
       margin-top: 13px;
       font-weight: 600;
     }
 
-    .wam-view {
+    .ozopanel-view {
       text-align: center;
     }
 
-    .wam-view p {
+    .ozopanel-view p {
       margin-top: 29px;
       color: #1A202C;
       font-size: 14px;
@@ -177,7 +177,7 @@
       line-height: 160%;
     }
 
-    .wam-btn {
+    .ozopanel-btn {
       font-family: 'Inter';
       font-style: normal;
       font-weight: 600;
@@ -192,7 +192,7 @@
       margin-bottom: 160px;
     }
 
-    .wam-footer-container {
+    .ozopanel-footer-container {
       overflow: hidden;
       border-spacing: 0;
       text-align: center;
@@ -200,7 +200,7 @@
       margin: 0 auto;
     }
 
-    .wam-footer-text h3 {
+    .ozopanel-footer-text h3 {
       font-style: normal;
       font-weight: 700;
       font-size: 20px;
@@ -209,7 +209,7 @@
       color: #000000;
     }
 
-    .wam-footer-text p {
+    .ozopanel-footer-text p {
       font-family: 'Inter';
       font-style: normal;
       font-weight: 400;
@@ -219,15 +219,15 @@
       color: #000000;
     }
 
-    .wam-social {
+    .ozopanel-social {
       margin-top: 16px;
     }
     
-    .wam-social li {
+    .ozopanel-social li {
       display: inline-block;
     }
 
-    .wam-social li a {
+    .ozopanel-social li a {
       display: inline-block;
       margin: 0 3px;
       list-style: none;
@@ -241,28 +241,28 @@
       vertical-align: middle;
     }
 
-    .wam-social li a img {
+    .ozopanel-social li a img {
       max-height: 16px !important;
       max-width: 16px !important;
     }
   </style>
 </head>
 
-<body class="wam">
-  <table class="wam-container">
+<body class="ozopanel">
+  <table class="ozopanel-container">
     <tbody>
       <tr>
         <td>
-          <table class="wam-table-container">
+          <table class="ozopanel-table-container">
             <tbody>
               <tr>
                 <td>
-                  <table class="wam-head">
+                  <table class="ozopanel-head">
                     <tr>
-                      <td class="wam-logo">
+                      <td class="ozopanel-logo">
                         {org_img}
                       </td>
-                      <td class="wam-address">
+                      <td class="ozopanel-address">
                         <h6>{org_name}</h6>
                         <p>
                           {org_address}
@@ -274,13 +274,13 @@
 
               </tr>
               <tr>
-                <td class="wam-msg">
+                <td class="ozopanel-msg">
                   <p>{msg}</p>
                 </td>
               </tr>
               <tr>
-                <td class="wam-view">
-                  <a href="{url}" target="_blank" class="wam-btn">{view_txt} {title}</a>
+                <td class="ozopanel-view">
+                  <a href="{url}" target="_blank" class="ozopanel-btn">{view_txt} {title}</a>
                 </td>
               </tr>
             </tbody>
@@ -290,12 +290,12 @@
       <tr>
         <td>
           <footer>
-            <table class="wam-footer-container">
+            <table class="ozopanel-footer-container">
               <tbody>
                 <tr>
-                  <td class="wam-footer-text">
+                  <td class="ozopanel-footer-text">
                     {footer_text}
-                    <ul class="wam-social">
+                    <ul class="ozopanel-social">
                       {social}
                     </ul>
                   </td>

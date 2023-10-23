@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'WAM\\' => array($baseDir . '/app'),
+    'OzoPanel\\' => array($baseDir . '/app'),
 );

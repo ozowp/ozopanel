@@ -1,7 +1,7 @@
 <?php
-namespace WAM\Ctrl\Integrate\Form;
+namespace OzoPanel\Ctrl\Integrate\Form;
 
-use WAM\Helper\Fns;
+use OzoPanel\Helper\Fns;
 
 class FormList
 {
@@ -12,7 +12,7 @@ class FormList
 
     public function rest_routes()
     {
-        register_rest_route('wam/v1', '/intg-form', [
+        register_rest_route('ozopanel/v1', '/intg-form', [
             'methods' => 'GET',
             'callback' => [$this, 'get'],
             'permission_callback' => [$this, 'get_per']
@@ -107,6 +107,6 @@ class FormList
 
     public function get_per()
     {
-        return current_user_can("wam_setting");
+        return current_user_can("ozopanel_setting");
     }
 }

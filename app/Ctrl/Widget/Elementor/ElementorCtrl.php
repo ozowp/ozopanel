@@ -1,13 +1,13 @@
 <?php 
-namespace WAM\Ctrl\Widget\Elementor; 
+namespace OzoPanel\Ctrl\Widget\Elementor; 
 
 use Elementor\Plugin; 
-use WAM\Ctrl\Widget\Elementor\Widgets\Registration; 
+use OzoPanel\Ctrl\Widget\Elementor\Widgets\Registration; 
 
 class ElementorCtrl {
 
     public function __construct() {  
-		add_action( 'elementor/elements/categories_registered', array( $this, 'wam_category' ) );
+		add_action( 'elementor/elements/categories_registered', array( $this, 'ozopanel_category' ) );
         add_action( 'elementor/widgets/widgets_registered', array( $this, 'widgets_registered' ) );
     }  
 
@@ -21,12 +21,12 @@ class ElementorCtrl {
 	/**
 	 * @since 1.0
 	 */
-	public function wam_category( $elements_manager ) {
+	public function ozopanel_category( $elements_manager ) {
 
 		$elements_manager->add_category(
-			'wam-category',
+			'ozopanel-category',
 			[
-				'title' => esc_html__( 'WP Access Manager Widgets', 'wp-access-manager' ),
+				'title' => esc_html__( 'OzoPanel Widgets', 'ozopanel' ),
 				'icon' => 'fa fa-plug',
 			]
 		);  

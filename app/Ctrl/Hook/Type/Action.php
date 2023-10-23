@@ -1,5 +1,5 @@
 <?php
-namespace WAM\Ctrl\Hook\Type;
+namespace OzoPanel\Ctrl\Hook\Type;
 
 class Action
 {

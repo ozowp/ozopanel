@@ -1,7 +1,7 @@
 <?php 
-namespace WAM\Ctrl\Integrate\Smtp;
+namespace OzoPanel\Ctrl\Integrate\Smtp;
 
-use WAM\Ctrl\Integrate\Smtp\SmtpList; 
+use OzoPanel\Ctrl\Integrate\Smtp\SmtpList; 
 
 class SmtpCtrl
 { 

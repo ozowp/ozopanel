@@ -1,5 +1,5 @@
 <?php
-namespace WAM\Ctrl\Taxonomy;
+namespace OzoPanel\Ctrl\Taxonomy;
 
 class TaxonomyCtrl {
 	public function __construct() {

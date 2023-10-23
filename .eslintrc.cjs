@@ -3,7 +3,7 @@ module.exports = {
   env: { browser: true, es2020: true },
   globals: {
     // Define your global variables here
-    wam: 'readonly',
+    ozopanel: 'readonly',
     wp: 'readonly',
     wage: 'readonly'
   },

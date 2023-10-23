@@ -1,5 +1,5 @@
 <?php
-namespace WAM\Ctrl\MenuPage\Type;
+namespace OzoPanel\Ctrl\MenuPage\Type;
 
 class Welcome
 {
@@ -9,7 +9,7 @@ class Welcome
 		add_action('admin_menu', [$this, 'add_menu'], 30);
 		add_action('admin_head', function() {
 			echo "<style>
-				li.toplevel_page_wam-welcome {
+				li.toplevel_page_ozopanel-welcome {
 					display: none;
 				}
 			</style>";
@@ -19,16 +19,16 @@ class Welcome
 	public function add_menu()
 	{
 		add_menu_page(
-			esc_html__('WAM Welcome', 'wp-access-manager'),
-			esc_html__('WAM Welcome', 'wp-access-manager'),
+			esc_html__('OZOPANEL Welcome', 'ozopanel'),
+			esc_html__('OZOPANEL Welcome', 'ozopanel'),
 			'manage_options',
-			'wam-welcome',
+			'ozopanel-welcome',
 			array($this, 'render')
 		);
 	}
 
 	function render()
 	{
-		echo '<div class="wrap" id="wam-welcome"></div>';
+		echo '<div class="wrap" id="ozopanel-welcome"></div>';
 	}
 }

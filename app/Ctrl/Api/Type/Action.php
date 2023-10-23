@@ -1,12 +1,12 @@
 <?php
 
-namespace WAM\Ctrl\Api\Type;
+namespace OzoPanel\Ctrl\Api\Type;
 
-use WAM\Traits\Singleton;
+use OzoPanel\Traits\Singleton;
 
 /**
  * Class Action
- * @package WAM\Ctrl\Api\Type
+ * @package OzoPanel\Ctrl\Api\Type
  *
  * REST API endpoints related to actions.
  */
@@ -19,13 +19,13 @@ class Action
      */
     public function routes()
     {
-        register_rest_route('wam/v1', '/actions', [
+        register_rest_route('ozopanel/v1', '/actions', [
             'methods' => 'POST',
             'callback' => [$this, 'create'],
             'permission_callback' => [$this, 'create_per']
         ]);
 
-        register_rest_route('wam/v1', '/actions/(?P<id>[^/]+)', [
+        register_rest_route('ozopanel/v1', '/actions/(?P<id>[^/]+)', [
             'methods' => 'PUT',
             'callback' => [$this, 'update'],
             'permission_callback' => [$this, 'update_per'],
@@ -38,7 +38,7 @@ class Action
             ],
         ]);
 
-        register_rest_route('wam/v1', '/actions/(?P<id>[0-9,]+)', [
+        register_rest_route('ozopanel/v1', '/actions/(?P<id>[0-9,]+)', [
             'methods' => 'DELETE',
             'callback' => [$this, 'delete'],
             'permission_callback' => [$this, 'del_per'],
@@ -72,7 +72,7 @@ class Action
             if (empty($id) || empty($type)) {
                 $reg_errors->add(
                     'field',
-                    esc_html__('Required field is missing', 'wp-access-manager')
+                    esc_html__('Required field is missing', 'ozopanel')
                 );
             }
 
@@ -140,7 +140,7 @@ class Action
             wp_delete_post($id);
         }
 
-        do_action('wamp/webhook', 'user_del', $ids);
+        do_action('ozopanelp/webhook', 'user_del', $ids);
 
         wp_send_json_success($ids);
     }
@@ -152,7 +152,7 @@ class Action
      */
     public function create_per()
     {
-        return current_user_can('wam_action');
+        return current_user_can('ozopanel_action');
     }
 
     /**
@@ -162,7 +162,7 @@ class Action
      */
     public function update_per()
     {
-        return current_user_can('wam_action');
+        return current_user_can('ozopanel_action');
     }
 
     /**
@@ -172,6 +172,6 @@ class Action
      */
     public function del_per()
     {
-        return current_user_can('wam_action');
+        return current_user_can('ozopanel_action');
     }
 }

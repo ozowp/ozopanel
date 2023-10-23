@@ -5,9 +5,9 @@
 
 const url = (api: string, from: string) => {
 	if ( from == 'free' ) {
-		return `/wam/v1/${api}`;
+		return `/ozopanel/v1/${api}`;
 	} else if ( from == 'pro' ) {
-		return `/wamp/v1/${api}`;
+		return `/ozopanelp/v1/${api}`;
 	}
 };
 

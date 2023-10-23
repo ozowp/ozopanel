@@ -1,17 +1,17 @@
 <?php
 /**
- * @package   Rakibul Hasan - WP Access Manager
- * @author    Rakibul Hasan <support@wp-access-manager.com>
- * @link      https://wp-access-manager.com
+ * @package   Rakibul Hasan - OzoPanel
+ * @author    Rakibul Hasan <support@ozopanel.com>
+ * @link      https://ozopanel.com
  * @copyright 2023 Rakibul Hasan
  *
- * Plugin Name: WP Access Manager
- * Plugin URI: https://wordpress.org/plugins/wp-access-manager
+ * Plugin Name: OzoPanel
+ * Plugin URI: https://wordpress.org/plugins/ozopanel
  * Author: Rakibul Hasan
- * Author URI: https://wp-access-manager.com
+ * Author URI: https://ozopanel.com
  * Version: 1.0.0
- * Description: Manager WP user access
- * Text Domain: wp-access-manager
+ * Description: Manager WP Access
+ * Text Domain: ozopanel
  * Domain Path: /languages
  *
  */
@@ -24,21 +24,21 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * If WAM class exist return
+ * If OZOPANEL class exist return
  *
  * @since 1.0.0
  */
 //TODO: this is not working need to check
-// if ( function_exists('wam') ) return;
+// if ( function_exists('ozopanel') ) return;
 
 /**
- * WP Access Manager Final Class
+ * OzoPanel Final Class
  *
  * @since 1.0.0
- * @class WAM The class that holds the entire WAM plugin
+ * @class OZOPANEL The class that holds the entire OZOPANEL plugin
  */
 
-final class WAM {
+final class OZOPANEL {
 
     /**
      * Plugin version
@@ -51,7 +51,7 @@ final class WAM {
 	/**
      * Instance of self
      * @since 1.0.0
-     * @var WAM
+     * @var OZOPANEL
      */
     private static $instance = null;
 
@@ -63,7 +63,7 @@ final class WAM {
     private $min_php = '7.2';
 
     /**
-     * Constructor for the WAM class
+     * Constructor for the OZOPANEL class
      *
      * Sets up all the appropriate hooks and actions
      * within our plugin.
@@ -74,15 +74,15 @@ final class WAM {
 
         $this->define_constants();
 
-        // new WAM\Ctrl\Install\InstallCtrl();
+        // new OzoPanel\Ctrl\Install\InstallCtrl();
         add_action('plugins_loaded', [$this, 'on_plugins_loaded'], -1);
         add_action('init', [$this, 'initial'], 1);
     }
 
 	/**
-     * Initializes the WAM() class
+     * Initializes the OZOPANEL() class
      *
-     * Checks for an existing WAM() instance
+     * Checks for an existing OZOPANEL() instance
      * and if it doesn't find one, create it.
      */
     public static function init() {
@@ -99,13 +99,13 @@ final class WAM {
      * @return void
      */
     public function define_constants() {
-        $this->define( 'WAM_VERSION', $this->version );
-        $this->define( 'WAM_FILE', __FILE__ );
-        $this->define( 'WAM_PATH', plugin_dir_path(__FILE__) );
-        $this->define( 'WAM_URL', plugins_url( '', __FILE__) );
-        $this->define( 'WAM_SLUG', basename( dirname(__FILE__)) );
-        $this->define( 'WAM_ASSEST', plugins_url( 'public', __FILE__ ) );
-        $this->define( 'WAM_TEMPLATE_DEBUG_MODE', false );
+        $this->define( 'OZOPANEL_VERSION', $this->version );
+        $this->define( 'OZOPANEL_FILE', __FILE__ );
+        $this->define( 'OZOPANEL_PATH', plugin_dir_path(__FILE__) );
+        $this->define( 'OZOPANEL_URL', plugins_url( '', __FILE__) );
+        $this->define( 'OZOPANEL_SLUG', basename( dirname(__FILE__)) );
+        $this->define( 'OZOPANEL_ASSEST', plugins_url( 'public', __FILE__ ) );
+        $this->define( 'OZOPANEL_TEMPLATE_DEBUG_MODE', false );
     }
 
     /**
@@ -130,21 +130,21 @@ final class WAM {
      * @return void
      */
     public function initial() {
-        do_action('wam_before_init');
+        do_action('ozopanel_before_init');
 
         $this->localization_setup();
 
-        WAM\Ctrl\MainCtrl::init();
+        OzoPanel\Ctrl\MainCtrl::init();
 
-        do_action('wam_init');
+        do_action('ozopanel_init');
     }
 
     /**
-     * Action hook when load WAM
+     * Action hook when load OZOPANEL
      * @since 1.0.0
      */
     public function on_plugins_loaded() {
-        do_action('wam_loaded');
+        do_action('ozopanel_loaded');
     }
 
     /**
@@ -153,7 +153,7 @@ final class WAM {
      * @uses load_plugin_textdomain()
      */
     public function localization_setup() {
-        load_plugin_textdomain( 'wp-access-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+        load_plugin_textdomain( 'ozopanel', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
     }
 
     /**
@@ -191,7 +191,7 @@ final class WAM {
      * @return string
      */
     public function get_template_path() {
-        return apply_filters('wam_template_path', 'wam/templates/');
+        return apply_filters('ozopanel_template_path', 'ozopanel/templates/');
     }
 
     /**
@@ -200,7 +200,7 @@ final class WAM {
      * @return string
      */
     public function get_partial_path( $path = null, $args = []) {
-        WAM\Helper\Fns::get_template_part( 'partial/' . $path, $args );
+        OzoPanel\Helper\Fns::get_template_part( 'partial/' . $path, $args );
     }
 
     /**
@@ -213,7 +213,7 @@ final class WAM {
     public function get_asset_uri($file) {
         $file = ltrim($file, '/');
 
-        return trailingslashit(WAM_URL . '/dist') . $file;
+        return trailingslashit(OZOPANEL_URL . '/dist') . $file;
     }
 
     /**
@@ -223,7 +223,7 @@ final class WAM {
      */
     public function render($viewName, $args = array(), $return = false) {
         $path = str_replace(".", "/", $viewName);
-        $viewPath = WAM_PATH . '/view/' . $path . '.php';
+        $viewPath = OZOPANEL_PATH . '/view/' . $path . '.php';
         if ( !file_exists($viewPath) ) {
             return;
         }
@@ -280,7 +280,7 @@ final class WAM {
      */
     public function get_default()
     {
-        $preset = new WAM\Helper\Preset;
+        $preset = new OzoPanel\Helper\Preset;
         $result = $preset->data();
         $func_args = func_get_args();
 
@@ -319,16 +319,16 @@ final class WAM {
      */
     public function wage()
     {
-        return function_exists('wamp') && wamp()->wage();
+        return function_exists('ozopanelp') && ozopanelp()->wage();
     }
 }
 
 /**
  * Load Dokan Plugin when all plugins loaded
  *
- * @return WAM
+ * @return OZOPANEL
  */
-function wam() {
-    return WAM::init();
+function ozopanel() {
+    return OZOPANEL::init();
 }
-wam(); // Run WAM Plugin
+ozopanel(); // Run OZOPANEL Plugin

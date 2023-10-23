@@ -1,5 +1,5 @@
 <?php 
-namespace WAM\Ctrl\Meta\User;
+namespace OzoPanel\Ctrl\Meta\User;
 
 class User
 {

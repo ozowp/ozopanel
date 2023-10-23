@@ -1,5 +1,5 @@
 <?php
-namespace WAM\Ctrl\Integrate\Smtp;
+namespace OzoPanel\Ctrl\Integrate\Smtp;
 
 class SmtpList
 {
@@ -10,7 +10,7 @@ class SmtpList
 
     public function rest_routes()
     {
-        register_rest_route("wam/v1", "/intg-smtp", [
+        register_rest_route("ozopanel/v1", "/intg-smtp", [
             "methods" => "GET",
             "callback" => [$this, "get"],
             "permission_callback" => [$this, "get_per"],
@@ -68,7 +68,7 @@ class SmtpList
         ];
 
         $form_list = [];
-        $smtp = get_option("wam_smtp");
+        $smtp = get_option("ozopanel_smtp");
         foreach ($list as $value) {
             if ($value["slug"] == $smtp) {
                 $value["active"] = true;
@@ -81,6 +81,6 @@ class SmtpList
 
     public function get_per()
     {
-        return current_user_can("wam_setting");
+        return current_user_can("ozopanel_setting");
     }
 }

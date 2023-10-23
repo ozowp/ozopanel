@@ -1,3 +1,3 @@
 export default function pro() {
-    document.getElementById('wam-pro-alert').style.display = 'block';
+    document.getElementById('ozopanel-pro-alert').style.display = 'block';
 }

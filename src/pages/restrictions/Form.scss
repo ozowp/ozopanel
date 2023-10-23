@@ -1,6 +1,6 @@
-.wam {
-    .wam-restrictions-form {
-        .wam-restrictions-form-head {
+.ozopanel {
+    .ozopanel-restrictions-form {
+        .ozopanel-restrictions-form-head {
             display: flex;
             justify-content: space-between;
             margin-top: 30px;
@@ -17,7 +17,7 @@
                 cursor: pointer;
             }
         }
-        .wam-restrictions-id {
+        .ozopanel-restrictions-id {
             margin: 20px 0;
             label {
                 margin-right: 10px;
@@ -25,7 +25,7 @@
                 font-weight: 500;
             }
         }
-        .wam-restrictions-menu {
+        .ozopanel-restrictions-menu {
             input[type="checkbox"] {
                 margin: 0;
             }
@@ -37,7 +37,7 @@
             grid-template-columns: 1fr 1fr 1fr 1fr;
             grid-gap: 25px;
 
-            .wam-restrictions-menu-head {
+            .ozopanel-restrictions-menu-head {
                 display: flex;
                 align-items: center;
                 background: #646970;
@@ -49,12 +49,12 @@
                 }
             }
 
-            .wam-restrictions-menu-item {
+            .ozopanel-restrictions-menu-item {
                 border: 1px solid #dcdcde;
                 background: #fff;
-                .wam-restrictions-submenu {
+                .ozopanel-restrictions-submenu {
                     padding: 20px 20px 12px 20px;
-                    .wam-restrictions-submenu-item {
+                    .ozopanel-restrictions-submenu-item {
                         display: flex;
                         align-items: center;
                         margin-bottom: 8px;
@@ -63,7 +63,7 @@
             }
         }
 
-        .wam-restrictions-submit {
+        .ozopanel-restrictions-submit {
             padding: 15px 30px;
             font-size: 14px;
             font-weight: 500;

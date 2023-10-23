@@ -1,7 +1,7 @@
 <?php
-namespace WAM\Ctrl\Migration;
+namespace OzoPanel\Ctrl\Migration;
 
-use WAM\Ctrl\Migration\Tables\{
+use OzoPanel\Ctrl\Migration\Tables\{
     Restrictions,
     SchemaMigrations
 };
@@ -31,7 +31,7 @@ class MigrationCtrl {
     public function check_migration()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . "wam_schema_migrations";
+        $table_name = $wpdb->prefix . "ozopanel_schema_migrations";
 
         $table_exists = $this->is_table_exists($table_name);
         // Check if the table exists

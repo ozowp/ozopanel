@@ -1,8 +1,8 @@
 <?php
 
-namespace WAM\Ctrl\MenuPage\Type;
+namespace OzoPanel\Ctrl\MenuPage\Type;
 
-use WAM\Helper\Fns;
+use OzoPanel\Helper\Fns;
 
 class Dashboard
 {
@@ -14,60 +14,60 @@ class Dashboard
     public function add_settings_menu()
     {
         add_menu_page(
-            esc_html__('WAM', 'wp-access-manager'),
-            esc_html__('WAM', 'wp-access-manager'),
+            esc_html__('OZOPANEL', 'ozopanel'),
+            esc_html__('OZOPANEL', 'ozopanel'),
             'manage_options',
-            'wam',
+            'ozopanel',
             [$this, 'render'],
             'dashicons-shield',
             75
         );
 
         add_submenu_page(
-            'wam',
-            esc_html__('Dashboard', 'wp-access-manager'),
-            esc_html__('Dashboard', 'wp-access-manager'),
+            'ozopanel',
+            esc_html__('Dashboard', 'ozopanel'),
+            esc_html__('Dashboard', 'ozopanel'),
             'manage_options',
-            'wam#',
+            'ozopanel#',
             [$this, 'render']
         );
 
         add_submenu_page(
-            'wam',
-            esc_html__('Users', 'wp-access-manager'),
-            esc_html__('Users', 'wp-access-manager'),
+            'ozopanel',
+            esc_html__('Users', 'ozopanel'),
+            esc_html__('Users', 'ozopanel'),
             'manage_options',
-            'wam#/restrictions/users',
+            'ozopanel#/restrictions/users',
             [$this, 'render']
         );
 
         add_submenu_page(
-            'wam',
-            esc_html__('Roles', 'wp-access-manager'),
-            esc_html__('Roles', 'wp-access-manager'),
+            'ozopanel',
+            esc_html__('Roles', 'ozopanel'),
+            esc_html__('Roles', 'ozopanel'),
             'manage_options',
-            'wam#/restrictions/roles',
+            'ozopanel#/restrictions/roles',
             [$this, 'render']
         );
 
-        add_submenu_page(
-            'wam',
-            esc_html__('Settings', 'wp-access-manager'),
-            esc_html__('Settings', 'wp-access-manager'),
+        /* add_submenu_page(
+            'ozopanel',
+            esc_html__('Settings', 'ozopanel'),
+            esc_html__('Settings', 'ozopanel'),
             'manage_options',
-            'wam#/settings',
+            'ozopanel#/settings',
             [$this, 'render']
-        );
+        ); */
 
-        if ( !function_exists('wamp') ) {
+        /* if ( !function_exists('ozopanelp') ) {
             global $submenu;
-            $submenu['wam'][] = [
+            $submenu['ozopanel'][] = [
                 'Upgrade to Pro',
                 'manage_options',
-                'https://wp-access-manager.com',
+                'https://ozopanel.com',
             ];
-        }
-        remove_submenu_page('wam', 'wam');
+        } */
+        remove_submenu_page('ozopanel', 'ozopanel');
 
         //Save admin menus
         $this->save_admin_menus();
@@ -76,7 +76,7 @@ class Dashboard
 
     function render()
     {
-        echo '<div class="wrap"><div id="wam-dashboard"></div></div>';
+        echo '<div class="wrap"><div id="ozopanel-dashboard"></div></div>';
     }
 
     /**
@@ -133,15 +133,15 @@ class Dashboard
                 isset( $menuItem[6] ) &&
                 (
                     $menuItem[6] != 'wp-menu-separator' &&
-                    $menuItem[2] != 'wam-welcome' && //wam welcome page
-                    $menuItem[2] != 'wam' //main wam page
+                    $menuItem[2] != 'ozopanel-welcome' && //ozopanel welcome page
+                    $menuItem[2] != 'ozopanel' //main ozopanel page
                 )
             ) {
                 $mergedMenu[] = $modifyMenuItem;
             }
         }
 
-        update_option( 'wam_admin_menu', $mergedMenu);
+        update_option( 'ozopanel_admin_menu', $mergedMenu);
     }
 }
 

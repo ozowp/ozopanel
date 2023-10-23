@@ -1,7 +1,7 @@
 <?php
-namespace WAM\Ctrl\MenuPage;
+namespace OzoPanel\Ctrl\MenuPage;
 
-use WAM\Ctrl\MenuPage\Type\{
+use OzoPanel\Ctrl\MenuPage\Type\{
 	Dashboard,
 	Welcome
 };

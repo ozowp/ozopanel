@@ -1,6 +1,6 @@
 <?php
 
-namespace WAM\Helper;
+namespace OzoPanel\Helper;
 /**
  * Helper functions
  *
@@ -60,13 +60,13 @@ class Fns
         // Look within passed path within the theme - this is priority.
         $template = [];
 
-        $template[] = wam()->get_template_path() . $name . ".php";
+        $template[] = ozopanel()->get_template_path() . $name . ".php";
 
-        if (!$template_file = locate_template(apply_filters('wam_locate_template_names', $template))) {
-            $template_file = WAM_PATH . "templates/$name.php";
+        if (!$template_file = locate_template(apply_filters('ozopanel_locate_template_names', $template))) {
+            $template_file = OZOPANEL_PATH . "templates/$name.php";
         }
 
-        return apply_filters('wam_locate_template', $template_file, $name);
+        return apply_filters('ozopanel_locate_template', $template_file, $name);
     }
 
     /* get url by page template */
@@ -86,7 +86,7 @@ class Fns
     /**
      * Get template part (for templates like the shop-loop).
      *
-     * WAM_TEMPLATE_DEBUG_MODE will prevent overrides in themes from taking priority.
+     * OZOPANEL_TEMPLATE_DEBUG_MODE will prevent overrides in themes from taking priority.
      *
      * @param mixed  $slug Template slug.
      * @param string $name Template name (default: '').
@@ -94,27 +94,27 @@ class Fns
     public static function get_template_part($slug, $args = null, $include = true)
     {
         // load template from theme if exist
-        $template = WAM_TEMPLATE_DEBUG_MODE ? '' : locate_template(
+        $template = OZOPANEL_TEMPLATE_DEBUG_MODE ? '' : locate_template(
             array(
                 "{$slug}.php",
-                wam()->get_template_path() . "{$slug}.php"
+                ozopanel()->get_template_path() . "{$slug}.php"
             )
         );
 
         // load template from pro plugin if exist
-        if (!$template && function_exists('wamp')) {
-            $fallback = wam()->plugin_path() . "-pro" . "/templates/{$slug}.php";
+        if (!$template && function_exists('ozopanelp')) {
+            $fallback = ozopanel()->plugin_path() . "-pro" . "/templates/{$slug}.php";
             $template = file_exists($fallback) ? $fallback : '';
         }
 
         // load template from current plugin if exist
         if (!$template) {
-            $fallback = wam()->plugin_path() . "/templates/{$slug}.php";
+            $fallback = ozopanel()->plugin_path() . "/templates/{$slug}.php";
             $template = file_exists($fallback) ? $fallback : '';
         }
 
         // Allow 3rd party plugins to filter template file from their plugin.
-        $template = apply_filters('wam_get_template_part', $template, $slug);
+        $template = apply_filters('ozopanel_get_template_part', $template, $slug);
 
         if ($template) {
             if (!empty($args) && is_array($args)) {
@@ -147,19 +147,19 @@ class Fns
 
         if (!file_exists($located)) {
             /* translators: %s template */
-            self::doing_it_wrong(__FUNCTION__, sprintf(__('%s does not exist.', 'wp-access-manager'), '<code>' . $located . '</code>'), '1.0');
+            self::doing_it_wrong(__FUNCTION__, sprintf(__('%s does not exist.', 'ozopanel'), '<code>' . $located . '</code>'), '1.0');
 
             return;
         }
 
         // Allow 3rd party plugin filter template file from their plugin.
-        $located = apply_filters('wam_get_template', $located, $fileName, $args);
+        $located = apply_filters('ozopanel_get_template', $located, $fileName, $args);
 
-        do_action('wam_before_template_part', $fileName, $located, $args);
+        do_action('ozopanel_before_template_part', $fileName, $located, $args);
 
         include $located;
 
-        do_action('wam_after_template_part', $fileName, $located, $args);
+        do_action('ozopanel_after_template_part', $fileName, $located, $args);
     }
 
 
@@ -172,7 +172,7 @@ class Fns
     /**
      *  String to slug convert
      *
-     * @package WAM Project
+     * @package OZOPANEL Project
      * @since 1.0
      */
     public static function slugify($string)

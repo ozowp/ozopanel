@@ -1,8 +1,8 @@
 <?php 
-namespace WAM\Ctrl\Integrate;
+namespace OzoPanel\Ctrl\Integrate;
 
-use WAM\Ctrl\Integrate\Form\FormCtrl;
-use WAM\Ctrl\Integrate\Smtp\SmtpCtrl;
+use OzoPanel\Ctrl\Integrate\Form\FormCtrl;
+use OzoPanel\Ctrl\Integrate\Smtp\SmtpCtrl;
 
 class IntegrateCtrl
 {

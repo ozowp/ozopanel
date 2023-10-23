@@ -1,8 +1,8 @@
 <?php
 
-namespace WAM\Ctrl\Hook;
+namespace OzoPanel\Ctrl\Hook;
 
-use WAM\Ctrl\Hook\Type\{
+use OzoPanel\Ctrl\Hook\Type\{
     Filter,
     Action
 };

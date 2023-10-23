@@ -1,12 +1,12 @@
 <?php
 
-namespace WAM\Ctrl\Migration\Tables;
+namespace OzoPanel\Ctrl\Migration\Tables;
 
-use WAM\Ctrl\Migration\Table as Table;
+use OzoPanel\Ctrl\Migration\Table as Table;
 
 class Restrictions extends Table
 {
-    private $table_name = "wam_restrictions";
+    private $table_name = "ozopanel_restrictions";
 
     public function run_migration($current_version, $helpers)
     {

@@ -1,38 +1,38 @@
 <?php
 $deactivate_reasons = [
    'no_longer_needed' => [
-      'title' => esc_html__('I no longer need the plugin', 'wp-access-manager'),
+      'title' => esc_html__('I no longer need the plugin', 'ozopanel'),
       'input' => '',
    ],
    'found_a_better' => [
-      'title' => esc_html__('I found a better plugin', 'wp-access-manager'),
-      'input' => esc_html__('Please share which plugin', 'wp-access-manager'),
+      'title' => esc_html__('I found a better plugin', 'ozopanel'),
+      'input' => esc_html__('Please share which plugin', 'ozopanel'),
    ],
    'couldnt_get_to_work' => [
-      'title' => esc_html__('I couldn\'t get the plugin to work', 'wp-access-manager'),
+      'title' => esc_html__('I couldn\'t get the plugin to work', 'ozopanel'),
       'input' => '',
    ],
    'temporary_deactivation' => [
-      'title' => esc_html__('It\'s a temporary deactivation', 'wp-access-manager'),
+      'title' => esc_html__('It\'s a temporary deactivation', 'ozopanel'),
       'input' => '',
    ],
    'has_pro' => [
-      'title' => esc_html__('I have WP Access Manager Pro', 'wp-access-manager'),
+      'title' => esc_html__('I have OzoPanel Pro', 'ozopanel'),
       'input' => '',
-      'alert' => esc_html__('Wait! Don\'t deactivate WP Access Manager. You have to activate both WP Access Manager and WP Access Manager Pro in order for the plugin to work.', 'wp-access-manager'),
+      'alert' => esc_html__('Wait! Don\'t deactivate OzoPanel. You have to activate both OzoPanel and OzoPanel Pro in order for the plugin to work.', 'ozopanel'),
    ],
    'other' => [
-      'title' => esc_html__('Other', 'wp-access-manager'),
-      'input' => esc_html__('Please share the reason', 'wp-access-manager'),
+      'title' => esc_html__('Other', 'ozopanel'),
+      'input' => esc_html__('Please share the reason', 'ozopanel'),
    ],
 ];
 
 ?>
-<div class="wam">
-   <div class="wam-overlay wam-feedback-modal" style="display: none">
-      <div class="wam-modal-content">
-         <div class="wam-modal-header wam-gradient">
-               <span class="wam-close">
+<div class="ozopanel">
+   <div class="ozopanel-overlay ozopanel-feedback-modal" style="display: none">
+      <div class="ozopanel-modal-content">
+         <div class="ozopanel-modal-header ozopanel-gradient">
+               <span class="ozopanel-close">
                   <svg
                      width="25"
                      height="25"
@@ -53,30 +53,30 @@ $deactivate_reasons = [
                      />
                   </svg>
                </span>
-               <h2 class="wam-modal-title"><?php echo esc_html__('Quick Feedback', 'elementor'); ?></h2>
-               <p><?php echo esc_html__('If you have a moment, please share why you are deactivating WP Access Manager', 'wp-access-manager'); ?></p>
+               <h2 class="ozopanel-modal-title"><?php echo esc_html__('Quick Feedback', 'elementor'); ?></h2>
+               <p><?php echo esc_html__('If you have a moment, please share why you are deactivating OzoPanel', 'ozopanel'); ?></p>
          </div>
 
          <form>
-            <div class="wam-content">
-               <div class="wam-form-style-one">
-                  <?php wp_nonce_field('_wam_deactivate_nonce'); ?>
+            <div class="ozopanel-content">
+               <div class="ozopanel-form-style-one">
+                  <?php wp_nonce_field('_ozopanel_deactivate_nonce'); ?>
                   <div class="row">
                      <?php foreach ($deactivate_reasons as $reason_key => $reason) : ?>
                         <div class="col-12">
-                           <div class="wam-field-radio">
+                           <div class="ozopanel-field-radio">
                               <input
                                  type="radio"
-                                 id="wam-deactivate-<?php echo esc_attr($reason_key); ?>"
-                                 class="wam-deactivate-reason"
+                                 id="ozopanel-deactivate-<?php echo esc_attr($reason_key); ?>"
+                                 class="ozopanel-deactivate-reason"
                                  name="reason_key"
                                  value="<?php echo esc_attr($reason_key); ?>"
                               />
-                              <label for="wam-deactivate-<?php echo esc_attr($reason_key); ?>"><?php echo esc_html($reason['title']); ?></label> 
+                              <label for="ozopanel-deactivate-<?php echo esc_attr($reason_key); ?>"><?php echo esc_html($reason['title']); ?></label> 
                            </div>
 
                            <?php if (! empty($reason['input'])) : ?>
-                              <div class="wam-feedback-text" style="display: none" >
+                              <div class="ozopanel-feedback-text" style="display: none" >
                                  <input
                                     type="text"
                                     name="reason_<?php echo esc_attr($reason_key); ?>"
@@ -86,23 +86,23 @@ $deactivate_reasons = [
                            <?php endif; ?>
 
                            <?php if (! empty($reason['alert'])) : ?>
-                              <div class="wam-feedback-alert" style="display: none; color: #ff0000"><?php echo esc_html($reason['alert']); ?></div>
+                              <div class="ozopanel-feedback-alert" style="display: none; color: #ff0000"><?php echo esc_html($reason['alert']); ?></div>
                            <?php endif; ?>
                         </div>
                      <?php endforeach; ?>
 
-                     <div class="wam-data-alert" style="display: none; margin-top: 10px">
+                     <div class="ozopanel-data-alert" style="display: none; margin-top: 10px">
                         <div class="col-12">
-                           <div class="wam-field-radio">
+                           <div class="ozopanel-field-radio">
                               <input
                                  type="checkbox"
-                                 id="wam-data-collect"
+                                 id="ozopanel-data-collect"
                                  name="data_collect"
                                  value='1'
                                  style="zoom: 1"
                                  checked
                               />
-                              <label for="wam-data-collect" style="font-size: 11px"><?php _e('Share your Name and Email for communication purposes', 'wp-access-manager'); ?></label>
+                              <label for="ozopanel-data-collect" style="font-size: 11px"><?php _e('Share your Name and Email for communication purposes', 'ozopanel'); ?></label>
                            </div>
                         </div>
                      </div>
@@ -110,14 +110,14 @@ $deactivate_reasons = [
                </div>
             </div>
 
-            <div class="wam-modal-footer wam-mt-25">
+            <div class="ozopanel-modal-footer ozopanel-mt-25">
                <div class="row">
                   <div class="col">
-                     <button class="wam-feedback-skip wam-btn wam-text-hover-blue"><?php _e('Skip & Deactivate', 'wp-access-manager'); ?></button>
+                     <button class="ozopanel-feedback-skip ozopanel-btn ozopanel-text-hover-blue"><?php _e('Skip & Deactivate', 'ozopanel'); ?></button>
                   </div>
                   <div class="col">
-                     <button class="wam-feedback-submit wam-btn wam-bg-blue wam-bg-hover-blue wam-btn-big wam-float-right wam-color-white">
-                        <?php _e('Submit & Deactivate', 'wp-access-manager'); ?>
+                     <button class="ozopanel-feedback-submit ozopanel-btn ozopanel-bg-blue ozopanel-bg-hover-blue ozopanel-btn-big ozopanel-float-right ozopanel-color-white">
+                        <?php _e('Submit & Deactivate', 'ozopanel'); ?>
                      </button>
                   </div>
                </div>

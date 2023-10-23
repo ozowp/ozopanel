@@ -1,7 +1,7 @@
 <?php 
-namespace WAM\Ctrl\Widget\Gutenberg;
+namespace OzoPanel\Ctrl\Widget\Gutenberg;
 
-// use WAM\Ctrl\Widget\Gutenberg\Blocks\Example; 
+// use OzoPanel\Ctrl\Widget\Gutenberg\Blocks\Example; 
 
 class GutenbergCtrl {
     public function __construct() {  

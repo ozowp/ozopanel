@@ -1,11 +1,11 @@
-.wam {
-	.wam-tab-list {
+.ozopanel {
+	.ozopanel-tab-list {
 		list-style: none;
 		padding: 0;
 		display: flex;
 		background-color: #f2f2f2;
 
-		.wam-tab-item {
+		.ozopanel-tab-item {
 			padding: 10px 20px;
 			border-bottom: 2px solid transparent;
 			transition: border-bottom 0.3s ease;
@@ -24,7 +24,7 @@
 			}
 		}
 
-		.wam-active.wam-tab-item  {
+		.ozopanel-active.ozopanel-tab-item  {
 			border-bottom-color: #007bff;
 
 			a {

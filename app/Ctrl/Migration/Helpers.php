@@ -1,5 +1,5 @@
 <?php
-namespace WAM\Ctrl\Migration;
+namespace OzoPanel\Ctrl\Migration;
 
 class Helpers {
 
@@ -19,7 +19,7 @@ class Helpers {
 
     public function insert_schema_migration($migration_table, $version) {
         global $wpdb;
-        $table_name = $wpdb->prefix . "wam_schema_migrations";
+        $table_name = $wpdb->prefix . "ozopanel_schema_migrations";
 
         $data = [
             "version" => sprintf("%.1f", $version),

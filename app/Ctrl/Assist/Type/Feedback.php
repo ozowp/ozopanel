@@ -1,14 +1,14 @@
 <?php
-namespace WAM\Ctrl\Assist\Type;
+namespace OzoPanel\Ctrl\Assist\Type;
 
-use WAM\Helper\Info;
+use OzoPanel\Helper\Info;
 
 class Feedback {
 
-    private $api = 'https://wp-access-manager.com/wp-json/wama/v1/';
+    private $api = 'https://ozopanel.com/wp-json/ozopanela/v1/';
 
 	public function __construct() {
-		add_action('wp_ajax_wam_deactivate_feedback', [ $this, 'deactivate' ]);
+		add_action('wp_ajax_ozopanel_deactivate_feedback', [ $this, 'deactivate' ]);
 	}
 
 	/**
@@ -18,7 +18,7 @@ class Feedback {
      */
     public function deactivate()
     {
-        if ( !isset($_POST['nonce']) || ! wp_verify_nonce($_POST['nonce'], '_wam_deactivate_nonce') ) {
+        if ( !isset($_POST['nonce']) || ! wp_verify_nonce($_POST['nonce'], '_ozopanel_deactivate_nonce') ) {
             wp_send_json_error();
         }
 
@@ -33,7 +33,7 @@ class Feedback {
         }
         $data['reason_key'] = $reason_key;
         $data['reason'] = $reason;
-        $data['version'] = WAM_VERSION;
+        $data['version'] = OZOPANEL_VERSION;
         $data['package'] = 'free';
 
         wp_remote_post( $this->api . 'uninstaller', [

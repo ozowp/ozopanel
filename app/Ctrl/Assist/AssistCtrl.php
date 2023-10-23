@@ -1,7 +1,7 @@
 <?php
-namespace WAM\Ctrl\Assist;
+namespace OzoPanel\Ctrl\Assist;
 
-use WAM\Ctrl\Assist\Type\{
+use OzoPanel\Ctrl\Assist\Type\{
 	Feedback,
 	Link
 };

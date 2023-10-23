@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, FormEvent } from 'react';
+import { FC, useState, useEffect, FormEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Spinner from '@blocks/preloader/spinner';
@@ -32,7 +32,7 @@ interface FormData {
 
 const Form: FC = () => {
     const { type, id } = useParams();
-    const i18n = wam.i18n;
+    const i18n = ozopanel.i18n;
 
     const navigate = useNavigate();
 
@@ -129,8 +129,8 @@ const Form: FC = () => {
     };
 
     return (
-        <div className='wam-restrictions-form'>
-            <div className='wam-restrictions-form-head'>
+        <div className='ozopanel-restrictions-form'>
+            <div className='ozopanel-restrictions-form-head'>
                 <h3>{`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role}`}</h3>
                 <button className='' onClick={() => navigate(`/restrictions/${type}`)}>
                     {`${i18n.backTo} ${type === 'users' ? i18n.users : i18n.roles}`}
@@ -141,7 +141,7 @@ const Form: FC = () => {
                 <Spinner />
             ) : (
                 <form onSubmit={handleSubmit}>
-                    <div className='wam-restrictions-id'>
+                    <div className='ozopanel-restrictions-id'>
                         <label>{`${i18n.select} ${type === 'users' ? i18n.user : i18n.role}`}:</label>
                         <select onChange={(e) => handleRoleChange(e.target.value)} value={formData.id}>
                             <option value="">{i18n.select}</option>
@@ -153,22 +153,22 @@ const Form: FC = () => {
                         </select>
                     </div>
 
-                    <div className='wam-restrictions-menu'>
+                    <div className='ozopanel-restrictions-menu'>
                         {formData.admin_menu.map((menu, menuIndex) => (
-                            <div className='wam-restrictions-menu-item' key={menu.url}>
+                            <div className='ozopanel-restrictions-menu-item' key={menu.url}>
                                 <div
-                                    className={`wam-restrictions-menu-head ${menu.enabled ? 'active' : ''}`}
+                                    className={`ozopanel-restrictions-menu-head ${menu.enabled ? 'active' : ''}`}
                                     onClick={() => handleAdminMenuToggle(menuIndex)}
                                 >
                                     <input type='checkbox' checked={menu.enabled} readOnly />
                                     <label>{menu.label}</label>
                                 </div>
 
-                                <div className={`wam-restrictions-submenu ${menu.enabled ? 'active' : ''}`}>
+                                <div className={`ozopanel-restrictions-submenu ${menu.enabled ? 'active' : ''}`}>
                                     {menu.submenu.map((submenu, submenuIndex) => (
                                         <div
                                             key={submenu.label}
-                                            className={`wam-restrictions-submenu-item ${submenu.enabled ? 'active' : ''}`}
+                                            className={`ozopanel-restrictions-submenu-item ${submenu.enabled ? 'active' : ''}`}
                                             onClick={() => handleSubMenuToggle(menuIndex, submenuIndex)}>
                                             <input type='checkbox' checked={submenu.enabled} readOnly />
                                             <label>{submenu.label}</label>
@@ -179,7 +179,7 @@ const Form: FC = () => {
                         ))}
                     </div>
 
-                    <button className='wam-restrictions-submit' type='submit' disabled={loadingSubmit}>
+                    <button className='ozopanel-restrictions-submit' type='submit' disabled={loadingSubmit}>
                         {loadingSubmit ? i18n.submiting : i18n.submit}
                     </button>
                 </form>

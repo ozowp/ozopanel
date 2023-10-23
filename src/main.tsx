@@ -2,7 +2,7 @@ import {StrictMode} from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App';
 
-ReactDOM.createRoot(document.getElementById('wam-dashboard')!).render(
+ReactDOM.createRoot(document.getElementById('ozopanel-dashboard')!).render(
   <StrictMode>
     <App />
   </StrictMode>,
@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById('wam-dashboard')!).render(
 
 const checkRoute = () => {
   let currentHash = window.location.hash;
-  const navUl = document.querySelectorAll<HTMLLIElement>('#toplevel_page_wam ul > li');
+  const navUl = document.querySelectorAll<HTMLLIElement>('#toplevel_page_ozopanel ul > li');
 
   for (let y = 0, l = navUl.length; y < l; y++) {
       const anchor = navUl[y].querySelector('a');
@@ -21,7 +21,7 @@ const checkRoute = () => {
       } else {
           navUl[y].classList.remove('current');
           // Only for dashboard menu
-          if (!currentHash && anchor && anchor.getAttribute('href') === 'admin.php?page=wam#') {
+          if (!currentHash && anchor && anchor.getAttribute('href') === 'admin.php?page=ozopanel#') {
               navUl[y].classList.add('current');
           }
       }
@@ -29,7 +29,7 @@ const checkRoute = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  const navUl = document.querySelectorAll<HTMLLIElement>('#toplevel_page_wam ul > li');
+  const navUl = document.querySelectorAll<HTMLLIElement>('#toplevel_page_ozopanel ul > li');
 
   // On click active
   for (let y = 0, l = navUl.length; y < l; y++) {

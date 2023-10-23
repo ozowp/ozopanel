@@ -1,5 +1,5 @@
 <?php
-namespace WAM\Ctrl\Template;
+namespace OzoPanel\Ctrl\Template;
 
 class TemplateCtrl
 {
@@ -16,8 +16,8 @@ class TemplateCtrl
 	 */
 	function template_list($post_templates, $wp_theme, $post, $post_type)
 	{
-		if ( function_exists('wamp') ) {
-			$post_templates['test-template.php'] = esc_html__('WP Access Manager Test', 'wp-access-manager');
+		if ( function_exists('ozopanelp') ) {
+			$post_templates['test-template.php'] = esc_html__('OzoPanel Test', 'ozopanel');
 		}
 		return $post_templates;
 	}
@@ -35,7 +35,7 @@ class TemplateCtrl
 
 		foreach ( $templates as $template ) {
 			if ( get_page_template_slug() === $template .'-template.php' ) {
-				$custom_template = wam()->plugin_path() . '/view/template/' . $template . '-template.php';
+				$custom_template = ozopanel()->plugin_path() . '/view/template/' . $template . '-template.php';
 				if ( file_exists($custom_template) ) {
 					return $custom_template;
 					break;
@@ -47,14 +47,14 @@ class TemplateCtrl
 	}
 
 	/**
-	 *  WAM Project Entity Star Icon
+	 *  OZOPANEL Project Entity Star Icon
 	 *
-	 * @package WAM Project
+	 * @package OZOPANEL Project
 	 * @since 1.0
 	 */
 	function wage_scripts()
 	{
-		wp_localize_script('wam-dashboard', 'wage', apply_filters('wam_wage', ['PT97'])); 
-		wp_localize_script('wam-dashboard', 'has_wage', ['ins' => function_exists('wamp')]);
+		wp_localize_script('ozopanel-dashboard', 'wage', apply_filters('ozopanel_wage', ['PT97'])); 
+		wp_localize_script('ozopanel-dashboard', 'has_wage', ['ins' => function_exists('ozopanelp')]);
 	}
 }
