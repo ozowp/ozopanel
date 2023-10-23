@@ -1,6 +1,7 @@
 <?php
 
 namespace OzoPanel\Helper;
+
 /**
  * Helper functions
  *
@@ -10,6 +11,192 @@ namespace OzoPanel\Helper;
 class Fns
 {
 
+    /**
+     *  String to slug convert
+     *
+     * @since 1.0.0
+     */
+    public static function slugify($string)
+    {
+        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $string), '-'));
+    }
+
+    /**
+     * Get gravatar image by email
+     * @since 1.0.0
+     */
+    public static function get_gravatar($email, $size = 40)
+    {
+        $hash = md5(strtolower(trim($email)));
+        return sprintf('https://www.gravatar.com/avatar/%s?d=blank&s=%s', $hash, $size);
+    }
+
+    /**
+     * Get option value
+     *
+     * @since 1.0.0
+     */
+    public static function option_value($func_get_args)
+    {
+        $option_field = $func_get_args[0];
+        $data = get_option($option_field);
+        $func_args = $func_get_args;
+        array_shift($func_args);
+
+        return self::nested_array($data, $func_args);
+    }
+
+    /**
+     * Get preset value
+     *
+     * @since 1.0.0
+     */
+    public static function preset_value($func_get_args)
+    {
+        $preset = new \OzoPanel\Helper\Preset;
+        $data = $preset->data();
+        return self::nested_array($data, $func_get_args);
+    }
+
+    /**
+     * Access Nested Array
+     * By this function can access nested array like: get_preset('key', 'associate_key');
+     * @since 1.0.0
+     */
+    public static function nested_array($data, $func_args)
+    {
+        foreach ($func_args as $arg) {
+            if (is_array($arg)) {
+                if (!empty($data[$arg[0]])) {
+                    $data = $data[$arg[0]];
+                } else {
+                    $data = $arg[1];
+                }
+            } else {
+                if (!empty($data[$arg])) {
+                    $data = $data[$arg];
+                } else {
+                    $data = null;
+                }
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Sanitize input data
+     *
+     * @since 1.0.0
+     */
+    public function sanitizeInput($value, $type = 'text', $array_map = 'text')
+    {
+        $new_value = null;
+        if (isset($value)) {
+            if ($type == 'text') {
+                $new_value = sanitize_text_field($value);
+            } elseif ($type == 'email') {
+                $new_value = strtolower(sanitize_email($value));
+            } elseif ($type == 'url') {
+                $new_value = esc_url_raw($value);
+            } elseif ($type == 'textarea') {
+                // Allowing some basic HTML tags in the textarea
+                $allowed_tags = array(
+                    'a' => array(
+                        'href' => array(),
+                        'title' => array()
+                    ),
+                    'br' => array(),
+                    'em' => array(),
+                    'strong' => array()
+                );
+                $new_value = wp_kses($value, $allowed_tags);
+            } elseif ($type == 'array_map') {
+                $sanitize = '';
+                switch ($array_map) {
+                    case 'text':
+                        $sanitize = 'sanitize_text_field';
+                        break;
+
+                    case 'boolean':
+                        $sanitize = 'rest_sanitize_boolean';
+                        break;
+                }
+                $new_value = array_map($sanitize, $value);
+            }
+        }
+        return $new_value;
+    }
+
+    /**
+     * Sanitize output data
+     *
+     * @since 1.0.0
+     */
+    public function sanitizeOutput($value, $type = 'text')
+    {
+        $new_value = null;
+        if ($value) {
+            if ($type == 'text') {
+                $new_value = esc_html(stripslashes($value));
+            } elseif ($type == 'url') {
+                $new_value = esc_url(stripslashes($value));
+            } elseif ($type == 'textarea') {
+                $new_value = esc_textarea(stripslashes($value));
+            } else {
+                $new_value = esc_html(stripslashes($value));
+            }
+        }
+        return $new_value;
+    }
+
+    /**
+     * Get any custom template name by slug
+     * @since 1.0.0
+     */
+    public static function template_page_url_by_slug($slug)
+    {
+        $page = get_pages(array(
+            'meta_key' => '_wp_page_template',
+            'meta_value' => $slug . '-template.php'
+        ));
+        if (!empty($page)) {
+            return get_permalink($page[0]->ID);
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Load template from plugin view folder by path
+     *
+     * @param $file
+     * @since 1.0.0
+     * @return string
+     */
+    public static function render($file_name, $args = array(), $return = false) {
+        $path = str_replace(".", "/", $file_name);
+        $viewPath = OZOPANEL_PATH . '/view/' . $path . '.php';
+        if ( !file_exists($viewPath) ) {
+            return;
+        }
+
+        if ( $args ) {
+            extract($args);
+        }
+
+        if ( $return ) {
+            ob_start();
+            include $viewPath;
+
+            return ob_get_clean();
+        }
+        include $viewPath;
+    }
+
+    /**
+     * Convert PHP to JS moment format
+     * @since 1.0.0
+     */
     public static function phpToMomentFormat($format)
     {
         $replacements = [
@@ -55,46 +242,17 @@ class Fns
         return $momentFormat;
     }
 
-    public static function locate_template($name)
-    {
-        // Look within passed path within the theme - this is priority.
-        $template = [];
-
-        $template[] = ozopanel()->get_template_path() . $name . ".php";
-
-        if (!$template_file = locate_template(apply_filters('ozopanel_locate_template_names', $template))) {
-            $template_file = OZOPANEL_PATH . "templates/$name.php";
-        }
-
-        return apply_filters('ozopanel_locate_template', $template_file, $name);
-    }
-
-    /* get url by page template */
-    public static function template_page_url_by_slug($slug)
-    {
-        $page = get_pages(array(
-            'meta_key' => '_wp_page_template',
-            'meta_value' => $slug . '-template.php'
-        ));
-        if (!empty($page)) {
-            return get_permalink($page[0]->ID);
-        } else {
-            return '';
-        }
-    }
-
     /**
      * Get template part (for templates like the shop-loop).
      *
-     * OZOPANEL_TEMPLATE_DEBUG_MODE will prevent overrides in themes from taking priority.
-     *
      * @param mixed  $slug Template slug.
      * @param string $name Template name (default: '').
+     * @since 1.0.0
      */
     public static function get_template_part($slug, $args = null, $include = true)
     {
         // load template from theme if exist
-        $template = OZOPANEL_TEMPLATE_DEBUG_MODE ? '' : locate_template(
+        $template = locate_template(
             array(
                 "{$slug}.php",
                 ozopanel()->get_template_path() . "{$slug}.php"
@@ -128,77 +286,5 @@ class Fns
                 return $template;
             }
         }
-    }
-
-    public static function doing_it_wrong($function, $message, $version)
-    {
-        // @codingStandardsIgnoreStart
-        $message .= ' Backtrace: ' . wp_debug_backtrace_summary();
-        _doing_it_wrong($function, $message, $version);
-    }
-
-    public static function get_template($fileName, $args = null)
-    {
-        if (!empty($args) && is_array($args)) {
-            extract($args); // @codingStandardsIgnoreLine
-        }
-
-        $located = self::locate_template($fileName);
-
-        if (!file_exists($located)) {
-            /* translators: %s template */
-            self::doing_it_wrong(__FUNCTION__, sprintf(__('%s does not exist.', 'ozopanel'), '<code>' . $located . '</code>'), '1.0');
-
-            return;
-        }
-
-        // Allow 3rd party plugin filter template file from their plugin.
-        $located = apply_filters('ozopanel_get_template', $located, $fileName, $args);
-
-        do_action('ozopanel_before_template_part', $fileName, $located, $args);
-
-        include $located;
-
-        do_action('ozopanel_after_template_part', $fileName, $located, $args);
-    }
-
-
-    public static function gravatar($email, $size = 40)
-    {
-        $hash = md5(strtolower(trim($email)));
-        return sprintf('https://www.gravatar.com/avatar/%s?d=blank&s=%s', $hash, $size);
-    }
-
-    /**
-     *  String to slug convert
-     *
-     * @package OZOPANEL Project
-     * @since 1.0
-     */
-    public static function slugify($string)
-    {
-        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $string), '-'));
-    }
-
-    /**
-     * Sanitize output data
-     *
-     * @since 1.0.0
-     */
-    public function sanitizeOutput($value, $type = 'text')
-    {
-        $newValue = null;
-        if ($value) {
-            if ($type == 'text') {
-                $newValue = esc_html(stripslashes($value));
-            } elseif ($type == 'url') {
-                $newValue = esc_url(stripslashes($value));
-            } elseif ($type == 'textarea') {
-                $newValue = esc_textarea(stripslashes($value));
-            } else {
-                $newValue = esc_html(stripslashes($value));
-            }
-        }
-        return $newValue;
     }
 }

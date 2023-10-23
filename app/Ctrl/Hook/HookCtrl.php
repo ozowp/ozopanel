@@ -7,6 +7,11 @@ use OzoPanel\Ctrl\Hook\Type\{
     Action
 };
 
+/**
+ * Action & Filter hook
+ *
+ * @since 1.0.0
+ */
 class HookCtrl
 {
     public function __construct()

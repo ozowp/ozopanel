@@ -14,8 +14,8 @@ class Dashboard
     public function add_settings_menu()
     {
         add_menu_page(
-            esc_html__('OZOPANEL', 'ozopanel'),
-            esc_html__('OZOPANEL', 'ozopanel'),
+            esc_html__('OzoPanel', 'ozopanel'),
+            esc_html__('OzoPanel', 'ozopanel'),
             'manage_options',
             'ozopanel',
             [$this, 'render'],

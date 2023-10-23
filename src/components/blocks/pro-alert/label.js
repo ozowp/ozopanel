@@ -5,7 +5,7 @@ export default (props) => {
 
     return (
         <>
-            {wage.length > 0 && <span className="ozopanel-pro-label" onClick={() => show()} style={{ background: (props.blueBtn) ? '#FFEED9' : 'auto' }}>
+            {gate.length > 0 && <span className="ozopanel-pro-label" onClick={() => show()} style={{ background: (props.blueBtn) ? '#FFEED9' : 'auto' }}>
                 <svg
                     width={13}
                     height={10}

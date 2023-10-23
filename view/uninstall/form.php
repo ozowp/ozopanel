@@ -53,7 +53,7 @@ $deactivate_reasons = [
                      />
                   </svg>
                </span>
-               <h2 class="ozopanel-modal-title"><?php echo esc_html__('Quick Feedback', 'elementor'); ?></h2>
+               <h2 class="ozopanel-modal-title"><?php echo esc_html__('Quick Feedback', 'ozopanel'); ?></h2>
                <p><?php echo esc_html__('If you have a moment, please share why you are deactivating OzoPanel', 'ozopanel'); ?></p>
          </div>
 
@@ -72,7 +72,7 @@ $deactivate_reasons = [
                                  name="reason_key"
                                  value="<?php echo esc_attr($reason_key); ?>"
                               />
-                              <label for="ozopanel-deactivate-<?php echo esc_attr($reason_key); ?>"><?php echo esc_html($reason['title']); ?></label> 
+                              <label for="ozopanel-deactivate-<?php echo esc_attr($reason_key); ?>"><?php echo esc_html($reason['title']); ?></label>
                            </div>
 
                            <?php if (! empty($reason['input'])) : ?>
@@ -102,7 +102,7 @@ $deactivate_reasons = [
                                  style="zoom: 1"
                                  checked
                               />
-                              <label for="ozopanel-data-collect" style="font-size: 11px"><?php _e('Share your Name and Email for communication purposes', 'ozopanel'); ?></label>
+                              <label for="ozopanel-data-collect" style="font-size: 11px"><?php esc_html_e('Share your Name and Email for communication purposes', 'ozopanel'); ?></label>
                            </div>
                         </div>
                      </div>
@@ -113,11 +113,11 @@ $deactivate_reasons = [
             <div class="ozopanel-modal-footer ozopanel-mt-25">
                <div class="row">
                   <div class="col">
-                     <button class="ozopanel-feedback-skip ozopanel-btn ozopanel-text-hover-blue"><?php _e('Skip & Deactivate', 'ozopanel'); ?></button>
+                     <button class="ozopanel-feedback-skip ozopanel-btn ozopanel-text-hover-blue"><?php esc_html_e('Skip and Deactivate', 'ozopanel'); ?></button>
                   </div>
                   <div class="col">
                      <button class="ozopanel-feedback-submit ozopanel-btn ozopanel-bg-blue ozopanel-bg-hover-blue ozopanel-btn-big ozopanel-float-right ozopanel-color-white">
-                        <?php _e('Submit & Deactivate', 'ozopanel'); ?>
+                        <?php esc_html_e('Submit and Deactivate', 'ozopanel'); ?>
                      </button>
                   </div>
                </div>

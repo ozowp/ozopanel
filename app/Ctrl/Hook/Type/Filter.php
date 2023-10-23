@@ -1,6 +1,10 @@
 <?php
 namespace OzoPanel\Ctrl\Hook\Type;
-
+/**
+ * WP Filter hook
+ *
+ * @since 1.0.0
+ */
 class Filter
 {
     public function __construct()

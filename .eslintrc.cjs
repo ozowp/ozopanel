@@ -5,7 +5,7 @@ module.exports = {
     // Define your global variables here
     ozopanel: 'readonly',
     wp: 'readonly',
-    wage: 'readonly'
+    gate: 'readonly'
   },
   extends: [
     'eslint:recommended',

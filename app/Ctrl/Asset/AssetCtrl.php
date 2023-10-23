@@ -5,6 +5,11 @@ namespace OzoPanel\Ctrl\Asset;
 use OzoPanel\Helper\Fns;
 use OzoPanel\Helper\I18n;
 
+/**
+ * All plugin asset
+ *
+ * @since 1.0.0
+ */
 class AssetCtrl
 {
     private $suffix;

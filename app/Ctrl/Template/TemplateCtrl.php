@@ -7,8 +7,8 @@ class TemplateCtrl
 	{
 		add_filter('theme_page_templates', [$this, 'template_list'], 10, 4);
 		add_filter('template_include', [$this, 'template_path']);
-		add_action('wp_enqueue_scripts', array($this, 'wage_scripts'), 9999);
-		add_action('admin_enqueue_scripts', array($this, 'wage_scripts'), 9999);
+		add_action('wp_enqueue_scripts', array($this, 'gate_scripts'), 9999);
+		add_action('admin_enqueue_scripts', array($this, 'gate_scripts'), 9999);
 	}
 
 	/**
@@ -17,7 +17,7 @@ class TemplateCtrl
 	function template_list($post_templates, $wp_theme, $post, $post_type)
 	{
 		if ( function_exists('ozopanelp') ) {
-			$post_templates['test-template.php'] = esc_html__('OzoPanel Test', 'ozopanel');
+			$post_templates['ozopanel-template.php'] = esc_html__('OzoPanel', 'ozopanel');
 		}
 		return $post_templates;
 	}
@@ -47,14 +47,14 @@ class TemplateCtrl
 	}
 
 	/**
-	 *  OZOPANEL Project Entity Star Icon
+	 *  OzoPanel Project Entity Star Icon
 	 *
-	 * @package OZOPANEL Project
+	 * @package OzoPanel Project
 	 * @since 1.0
 	 */
-	function wage_scripts()
+	function gate_scripts()
 	{
-		wp_localize_script('ozopanel-dashboard', 'wage', apply_filters('ozopanel_wage', ['PT97'])); 
-		wp_localize_script('ozopanel-dashboard', 'has_wage', ['ins' => function_exists('ozopanelp')]);
+		wp_localize_script('ozopanel-dashboard', 'gate', apply_filters('ozopanel_gate', ['PT97'])); 
+		wp_localize_script('ozopanel-dashboard', 'has_gate', ['ins' => function_exists('ozopanelp')]);
 	}
 }

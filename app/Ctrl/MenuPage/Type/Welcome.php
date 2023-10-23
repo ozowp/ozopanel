@@ -19,8 +19,8 @@ class Welcome
 	public function add_menu()
 	{
 		add_menu_page(
-			esc_html__('OZOPANEL Welcome', 'ozopanel'),
-			esc_html__('OZOPANEL Welcome', 'ozopanel'),
+			esc_html__('OzoPanel Welcome', 'ozopanel'),
+			esc_html__('OzoPanel Welcome', 'ozopanel'),
 			'manage_options',
 			'ozopanel-welcome',
 			array($this, 'render')

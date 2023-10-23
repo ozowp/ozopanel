@@ -1,14 +1,14 @@
 <?php
 /**
- * @package   Rakibul Hasan - OzoPanel
- * @author    Rakibul Hasan <support@ozopanel.com>
- * @link      https://ozopanel.com
- * @copyright 2023 Rakibul Hasan
+ * @package   WpOzo - OzoPanel
+ * @author    WpOzo <support@ozopanel.com>
+ * @link      https://wpozo.com
+ * @copyright 2023 WpOzo
  *
  * Plugin Name: OzoPanel
  * Plugin URI: https://wordpress.org/plugins/ozopanel
- * Author: Rakibul Hasan
- * Author URI: https://ozopanel.com
+ * Author: WpOzo
+ * Author URI: https://wpozo.com
  * Version: 1.0.0
  * Description: Manager WP Access
  * Text Domain: ozopanel
@@ -24,21 +24,15 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * If OZOPANEL class exist return
- *
- * @since 1.0.0
- */
-//TODO: this is not working need to check
-// if ( function_exists('ozopanel') ) return;
-
-/**
  * OzoPanel Final Class
  *
  * @since 1.0.0
- * @class OZOPANEL The class that holds the entire OZOPANEL plugin
+ * @class OzoPanel The class that holds the entire OzoPanel plugin
  */
 
-final class OZOPANEL {
+use OzoPanel\Helper\Fns;
+
+final class OzoPanel {
 
     /**
      * Plugin version
@@ -51,7 +45,7 @@ final class OZOPANEL {
 	/**
      * Instance of self
      * @since 1.0.0
-     * @var OZOPANEL
+     * @var OzoPanel
      */
     private static $instance = null;
 
@@ -63,7 +57,7 @@ final class OZOPANEL {
     private $min_php = '7.2';
 
     /**
-     * Constructor for the OZOPANEL class
+     * Constructor for the OzoPanel class
      *
      * Sets up all the appropriate hooks and actions
      * within our plugin.
@@ -80,9 +74,9 @@ final class OZOPANEL {
     }
 
 	/**
-     * Initializes the OZOPANEL() class
+     * Initializes the OzoPanel() class
      *
-     * Checks for an existing OZOPANEL() instance
+     * Checks for an existing OzoPanel() instance
      * and if it doesn't find one, create it.
      */
     public static function init() {
@@ -105,7 +99,6 @@ final class OZOPANEL {
         $this->define( 'OZOPANEL_URL', plugins_url( '', __FILE__) );
         $this->define( 'OZOPANEL_SLUG', basename( dirname(__FILE__)) );
         $this->define( 'OZOPANEL_ASSEST', plugins_url( 'public', __FILE__ ) );
-        $this->define( 'OZOPANEL_TEMPLATE_DEBUG_MODE', false );
     }
 
     /**
@@ -132,7 +125,7 @@ final class OZOPANEL {
     public function initial() {
         do_action('ozopanel_before_init');
 
-        $this->localization_setup();
+        $this->localization();
 
         OzoPanel\Ctrl\MainCtrl::init();
 
@@ -140,7 +133,7 @@ final class OZOPANEL {
     }
 
     /**
-     * Action hook when load OZOPANEL
+     * Action hook when load OzoPanel
      * @since 1.0.0
      */
     public function on_plugins_loaded() {
@@ -152,7 +145,7 @@ final class OZOPANEL {
      * @since 1.0.0
      * @uses load_plugin_textdomain()
      */
-    public function localization_setup() {
+    public function localization() {
         load_plugin_textdomain( 'ozopanel', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
     }
 
@@ -195,15 +188,6 @@ final class OZOPANEL {
     }
 
     /**
-     * Get the template partial path.
-     * @since 1.0.0
-     * @return string
-     */
-    public function get_partial_path( $path = null, $args = []) {
-        OzoPanel\Helper\Fns::get_template_part( 'partial/' . $path, $args );
-    }
-
-    /**
      * Get asset location
      *
      * @param $file
@@ -217,59 +201,24 @@ final class OZOPANEL {
     }
 
     /**
+     * Load template from plugin view folder by path
+     *
      * @param $file
      * @since 1.0.0
      * @return string
      */
-    public function render($viewName, $args = array(), $return = false) {
-        $path = str_replace(".", "/", $viewName);
-        $viewPath = OZOPANEL_PATH . '/view/' . $path . '.php';
-        if ( !file_exists($viewPath) ) {
-            return;
-        }
-
-        if ( $args ) {
-            extract($args);
-        }
-
-        if ( $return ) {
-            ob_start();
-            include $viewPath;
-
-            return ob_get_clean();
-        }
-        include $viewPath;
+    public function render($path, $args = array(), $return = false) {
+        return Fns::render( $path, $args, $return);
     }
 
     /**
-     * Get options field value
+     * Get options data
      *
      * @since 1.0.0
      * @return void
      */
-    public function get_options() {
-
-        $option_field = func_get_args()[0];
-        $result = get_option( $option_field );
-        $func_args = func_get_args();
-        array_shift( $func_args );
-
-        foreach ( $func_args as $arg ) {
-            if ( is_array($arg) ) {
-                if ( !empty( $result[$arg[0]] ) ) {
-                    $result = $result[$arg[0]];
-                } else {
-                    $result = $arg[1];
-                }
-            } else {
-                if ( !empty($result[$arg] ) ) {
-                    $result = $result[$arg];
-                } else {
-                    $result = null;
-                }
-            }
-        }
-        return $result;
+    public function get_option() {
+        return Fns::option_value( func_get_args() );
     }
 
     /**
@@ -278,28 +227,8 @@ final class OZOPANEL {
      * @since 1.0.0
      * @return void
      */
-    public function get_default()
-    {
-        $preset = new OzoPanel\Helper\Preset;
-        $result = $preset->data();
-        $func_args = func_get_args();
-
-        foreach ($func_args as $arg) {
-            if (is_array($arg)) {
-                if (!empty($result[$arg[0]])) {
-                    $result = $result[$arg[0]];
-                } else {
-                    $result = $arg[1];
-                }
-            } else {
-                if (!empty($result[$arg])) {
-                    $result = $result[$arg];
-                } else {
-                    $result = null;
-                }
-            }
-        }
-        return $result;
+    public function get_preset() {
+        return Fns::preset_value( func_get_args() );
     }
 
     /**
@@ -317,18 +246,18 @@ final class OZOPANEL {
      * @since 1.0.0
      * @return void
      */
-    public function wage()
+    public function gate()
     {
-        return function_exists('ozopanelp') && ozopanelp()->wage();
+        return function_exists('ozopanelp') && ozopanelp()->gate();
     }
 }
 
 /**
  * Load Dokan Plugin when all plugins loaded
  *
- * @return OZOPANEL
+ * @return OzoPanel
  */
 function ozopanel() {
-    return OZOPANEL::init();
+    return OzoPanel::init();
 }
-ozopanel(); // Run OZOPANEL Plugin
+ozopanel(); // Run OzoPanel Plugin
