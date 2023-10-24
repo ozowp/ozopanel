@@ -100,46 +100,52 @@ class Restriction
     public function create($req)
     {
         $param = $req->get_params();
+
+        $url_param = $req->get_url_params();
+        $type = $url_param['type'];
+
         $reg_errors = new \WP_Error();
 
-        //user
-        $first_name = isset($param['first_name']) ? sanitize_text_field($param['first_name']) : null;
-        $org_name = isset($param['org_name']) ? sanitize_text_field($param['org_name']) : null;
-        $person_id = isset($param['person_id']) ? absint($param['person_id']) : null;
-        $org_id = isset($param['org_id']) ? absint($param['org_id']) : null;
-        if (empty($first_name) && empty($org_name)) {
+        $id = isset($param['id']) ? sanitize_text_field($param['id']) : '';
+
+        $admin_menu = isset($param['admin_menu']) ? ($param['admin_menu']) : '';
+        if (empty($id)) {
+            if ($type == 'users') {
+                $reg_errors->add(
+                    'select_id',
+                    esc_html__('You must select a User', 'ozopanel')
+                );
+            } else {
+                $reg_errors->add(
+                    'select_id',
+                    esc_html__('You must select a Select', 'ozopanel')
+                );
+            }
+        }
+
+        if ( $type == 'users' && user_can( $id, 'administrator' ) ) {
             $reg_errors->add(
-                'field',
-                esc_html__('Contact info is missing', 'ozopanel')
+                'select_id',
+                esc_html__('Administrator restriction not allowed!', 'ozopanel')
+            );
+        }
+
+        if ($type == 'roles' && $id == 'administrator') {
+            $reg_errors->add(
+                'select_id',
+                esc_html__('Administrator restriction not allowed!', 'ozopanel')
             );
         }
 
         if ($reg_errors->get_error_messages()) {
             wp_send_json_error($reg_errors->get_error_messages());
         } else {
-            wp_send_json_success();
-            //insert user
-            $data = [
-                'post_type' => 'ozopanel_user',
-                'post_title' => 'Lead',
-                'post_content' => '',
-                'post_status' => 'publish',
-                'post_author' => get_current_user_id(),
-            ];
-            $post_id = wp_insert_post($data);
-
-            if (!is_wp_error($post_id)) {
-                if ($org_id) {
-                    update_post_meta($post_id, 'org_id', $org_id);
-                }
-
-                $param['id'] = $post_id;
-                do_action('ozopanelp/webhook', 'user_add', $param);
-
-                wp_send_json_success($post_id);
+            if ($type == 'users') {
+                update_user_meta($id, '_ozopanel_admin_menu', $admin_menu);
             } else {
-                wp_send_json_error();
+                update_option('ozopanel_admin_menu_role_' . $id, $admin_menu);
             }
+            wp_send_json_success();
         }
     }
 
@@ -160,39 +166,41 @@ class Restriction
             $offset = $per_page * $param['page'] - $per_page;
         }
 
-        $args = [
-            'post_type' => 'ozopanel_user',
-            'post_status' => 'publish',
-            'posts_per_page' => $per_page,
-            'offset' => $offset,
-        ];
+        $url_params = $req->get_url_params();
+        $type = $url_params['type'];
 
-        $args['meta_query'] = [
-            'relation' => 'OR',
-        ];
-
-        if ($s) {
-        }
-
-        $query = new \WP_Query($args);
-        $total_list = $query->found_posts; //use this for pagination
         $resp = $list = [];
-        while ($query->have_posts()) {
-            $query->the_post();
-            $id = get_the_ID();
+        $total_list = 0;
 
-            $item = [];
-            $item['id'] = $id;
+        if ($type == 'users') {
+            $args = [
+                'number' => $per_page,
+                'offset' => $offset,
+            ];
 
-            $meta = get_post_meta($id);
-            $item['budget'] = isset($meta['budget']) ? $meta['budget'][0] : '';
-            $item['desc'] = get_the_content();
+            $args['meta_query'] = [
+                [
+                    'key' => '_ozopanel_admin_menu',
+                    'compare' => 'EXISTS',
+                ]
+            ];
 
-            $item['author'] = get_the_author();
-            $item['date'] = get_the_time(get_option('date_format'));
-            $list[] = $item;
+            $query = new \WP_User_Query($args);
+            $total_list = $query->get_total(); //use this for pagination
+
+            foreach ($query->get_results() as $user) {
+                // Do something with each user
+                $user_id = $user->ID;
+                $item = array();
+                $item['id'] = $user_id;
+                $item['name'] = $user->display_name;
+                $item['email'] =  $user->user_email;
+
+                $list[] = $item;
+            }
+            wp_reset_postdata();
+        } else {
         }
-        wp_reset_postdata();
 
         $resp['list'] = $list;
         $resp['total'] = $total_list;
@@ -208,21 +216,27 @@ class Restriction
         $id = $url_params['id'];
 
         $resp = [];
-        $admin_menu = get_option( 'ozopanel_admin_menu' );
+        $admin_menu = get_option('ozopanel_admin_menu');
         $resp['admin_menu'] = $admin_menu;
         $resp['id_list'] = [];
 
-        if ( $type == 'roles' ) {
+        if ($type == 'roles') {
             global $wp_roles;
-            foreach( $wp_roles->role_names as $key => $value ) {
+            foreach ($wp_roles->role_names as $key => $value) {
+                //hide administrator
+                if ($key == 'administrator') continue;
                 $modify_roles = [];
                 $modify_roles['id'] = $key;
                 $modify_roles['label'] = $value;
                 $resp['id_list'][] = $modify_roles;
             }
-        } else if ( $type == 'users' ) {
-            $users = get_users();
-            foreach( $users as $user ) {
+        } else if ($type == 'users') {
+            //hide administrator
+            $args = array(
+                'role__not_in' => array( 'administrator' )
+            );
+            $users = get_users( $args );
+            foreach ($users as $user) {
                 $modify_users = [];
                 $modify_users['id'] = $user->ID;
                 $modify_users['label'] = "$user->display_name - $user->user_email";

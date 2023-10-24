@@ -13,6 +13,7 @@ class I18n
             // general
             "select" => esc_html__("Select", "ozopanel"),
             "backTo" => esc_html__("Back to", "ozopanel"),
+            "menu_select_guide" => esc_html__("Select menu and submenu which you want to allow for this", "ozopanel"),
             "submit" => esc_html__("Submit", "ozopanel"),
             "submiting" => esc_html__("Submitting...", "ozopanel"),
             "restrict" => esc_html__("Restrict", "ozopanel"),

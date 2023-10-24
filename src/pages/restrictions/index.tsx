@@ -6,7 +6,9 @@ import api from '@utils/api';
 
 interface Restriction {
 	id: string;
-	label: string;
+	name?: string;
+	email?: string;
+	label?: string;
 }
 
 const Restrictions: FC = () => {
@@ -54,28 +56,55 @@ const Restrictions: FC = () => {
 			</button>
 
 			{loading ? <Spinner /> : (
-				<table>
-					<thead>
-						<tr>
-							<th style={ { width: 20 } }><input type='checkbox' /></th>
-							<th>ID</th>
-							<th>Label</th>
-							<th style={ { width: 80 } }>Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						{restrictions.map((restriction) => (
-							<tr key={restriction.id}>
-								<td><input type='checkbox' /></td>
-								<td>{restriction.id}</td>
-								<td>{restriction.label}</td>
-								<td>
-									<button onClick={() => goForm(restriction.id)}>Edit</button>
-								</td>
+				<>
+					{type === 'users' && <table>
+						<thead>
+							<tr>
+								<th style={ { width: 20 } }><input type='checkbox' /></th>
+								<th>ID</th>
+								<th>Name</th>
+								<th>Email</th>
+								<th style={ { width: 80 } }>Actions</th>
 							</tr>
-						))}
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							{restrictions.map((restriction) => (
+								<tr key={restriction.id}>
+									<td><input type='checkbox' /></td>
+									<td>{restriction.id}</td>
+									<td>{restriction.name}</td>
+									<td>{restriction.email}</td>
+									<td>
+										<button onClick={() => goForm(restriction.id)}>Edit</button>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>}
+
+					{type === 'roles' && <table>
+						<thead>
+							<tr>
+								<th style={ { width: 20 } }><input type='checkbox' /></th>
+								<th>ID</th>
+								<th>Label</th>
+								<th style={ { width: 80 } }>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{restrictions.map((restriction) => (
+								<tr key={restriction.id}>
+									<td><input type='checkbox' /></td>
+									<td>{restriction.id}</td>
+									<td>{restriction.label}</td>
+									<td>
+										<button onClick={() => goForm(restriction.id)}>Edit</button>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>}
+				</>
 			)}
 		</div>
 	);

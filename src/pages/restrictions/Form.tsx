@@ -14,20 +14,20 @@ interface Submenu {
     label: string;
     capability: string;
     url: string;
-    enabled: boolean;
 }
 
 interface Menu {
     label: string;
     capability: string;
     url: string;
-    enabled: boolean;
     submenu: Submenu[];
 }
 
 interface FormData {
     id: string;
-    admin_menu: Menu[];
+    admin_menu: {
+        [key: string]: string[]; // Key is main menu URL, value is an array of submenu URLs
+    };
 }
 
 const Form: FC = () => {
@@ -40,7 +40,7 @@ const Form: FC = () => {
     const [adminMenu, setAdminMenu] = useState<Menu[]>([]);
     const [formData, setFormData] = useState<FormData>({
         id: '',
-        admin_menu: [],
+        admin_menu: {},
     });
 
     const [loadingFetch, setLoadingFetch] = useState(true);
@@ -55,7 +55,7 @@ const Form: FC = () => {
                     const { id_list, admin_menu } = res.data;
                     setIdList(id_list);
                     setAdminMenu(admin_menu);
-                    setFormData({ id: '', admin_menu: admin_menu });
+                    // setFormData({ id: '', admin_menu: [] });
                 } else {
                     res.data.forEach((value: string) => {
                         toast.error(value);
@@ -71,21 +71,11 @@ const Form: FC = () => {
         fetchData();
     }, [type, id]);
 
-    const handleRoleChange = (selectedRoleId: string) => {
-        const selectedRole = idList.find(role => role.id === selectedRoleId);
-        if (selectedRole) {
-            const selectedAdminMenu = adminMenu.map(menu => {
-                const menuCopy = { ...menu };
-                menuCopy.submenu = menuCopy.submenu.map(submenu => {
-                    const submenuCopy = { ...submenu };
-                    submenuCopy.enabled = true; // Enable all submenu items by default
-                    return submenuCopy;
-                });
-                return menuCopy;
-            });
-
-            setFormData({ id: selectedRole.id, admin_menu: selectedAdminMenu });
-        }
+    const handleIdChange = (id: string) => {
+        setFormData(prevForm => ({
+            ...prevForm,
+            id: id
+        }));
     };
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -96,7 +86,7 @@ const Form: FC = () => {
             const res = await api.add(`restrictions/${type}${idParam}`, formData);
             if (res.success) {
                 toast.success(i18n.sucAdd);
-                navigate(`/restrictions/${type}`);
+                // navigate(`/restrictions/${type}`);
             } else {
                 res.data.forEach((value: string) => {
                     toast.error(value);
@@ -109,19 +99,31 @@ const Form: FC = () => {
         }
     };
 
-    const handleAdminMenuToggle = (menuIndex: number) => {
-        const updatedAdminMenu = [...formData.admin_menu];
-        updatedAdminMenu[menuIndex].enabled = !updatedAdminMenu[menuIndex].enabled;
+    const handleAdminMenuToggle = (url: string) => {
+        const updatedAdminMenu = { ...formData.admin_menu };
+        if (updatedAdminMenu[url]) {
+            delete updatedAdminMenu[url]; // Remove main menu URL if it exists
+        } else {
+            updatedAdminMenu[url] = adminMenu.find(menu => menu.url === url)?.submenu.map(submenu => submenu.url) || [];
+        }
+        // console.log(updatedAdminMenu)
         setFormData({
             ...formData,
             admin_menu: updatedAdminMenu,
         });
     };
 
-    const handleSubMenuToggle = (menuIndex: number, submenuIndex: number) => {
-        const updatedAdminMenu = [...formData.admin_menu];
-        updatedAdminMenu[menuIndex].submenu[submenuIndex].enabled = !updatedAdminMenu[menuIndex].submenu[submenuIndex]
-            .enabled;
+    const handleSubMenuToggle = (menuUrl: string, subMenuUrl: string) => {
+        const updatedAdminMenu = { ...formData.admin_menu };
+        if (!updatedAdminMenu[menuUrl]) {
+            updatedAdminMenu[menuUrl] = [];
+        }
+        const submenuIndex = updatedAdminMenu[menuUrl].indexOf(subMenuUrl);
+        if (submenuIndex !== -1) {
+            updatedAdminMenu[menuUrl].splice(submenuIndex, 1); // Remove submenu URL if it exists
+        } else {
+            updatedAdminMenu[menuUrl].push(subMenuUrl); // Add submenu URL
+        }
         setFormData({
             ...formData,
             admin_menu: updatedAdminMenu,
@@ -143,7 +145,7 @@ const Form: FC = () => {
                 <form onSubmit={handleSubmit}>
                     <div className='ozopanel-restrictions-id'>
                         <label>{`${i18n.select} ${type === 'users' ? i18n.user : i18n.role}`}:</label>
-                        <select onChange={(e) => handleRoleChange(e.target.value)} value={formData.id}>
+                        <select onChange={(e) => handleIdChange(e.target.value)} value={formData.id}>
                             <option value="">{i18n.select}</option>
                             {idList.map((role, i) => (
                                 <option key={i} value={role.id}>
@@ -153,24 +155,30 @@ const Form: FC = () => {
                         </select>
                     </div>
 
+                    <p>{`${i18n.menu_select_guide} ${type === 'users' ? i18n.user : i18n.role}`}</p>
                     <div className='ozopanel-restrictions-menu'>
-                        {formData.admin_menu.map((menu, menuIndex) => (
-                            <div className='ozopanel-restrictions-menu-item' key={menu.url}>
+                        {adminMenu.map((menu, menuI) => (
+                            <div key={menuI} className='ozopanel-restrictions-menu-item'>
                                 <div
-                                    className={`ozopanel-restrictions-menu-head ${menu.enabled ? 'active' : ''}`}
-                                    onClick={() => handleAdminMenuToggle(menuIndex)}
+                                    className={`ozopanel-restrictions-menu-head`}
+                                    onClick={() => handleAdminMenuToggle(menu.url)}
                                 >
-                                    <input type='checkbox' checked={menu.enabled} readOnly />
+                                    <input
+                                        type='checkbox'
+                                        checked={formData.admin_menu[menu.url] !== undefined}
+                                        readOnly />
                                     <label>{menu.label}</label>
                                 </div>
 
-                                <div className={`ozopanel-restrictions-submenu ${menu.enabled ? 'active' : ''}`}>
-                                    {menu.submenu.map((submenu, submenuIndex) => (
+                                <div className={`ozopanel-restrictions-submenu`}>
+                                    {menu.submenu.map((submenu, subMenuI) => (
                                         <div
-                                            key={submenu.label}
-                                            className={`ozopanel-restrictions-submenu-item ${submenu.enabled ? 'active' : ''}`}
-                                            onClick={() => handleSubMenuToggle(menuIndex, submenuIndex)}>
-                                            <input type='checkbox' checked={submenu.enabled} readOnly />
+                                            key={subMenuI}
+                                            className={`ozopanel-restrictions-submenu-item`}
+                                            onClick={() => handleSubMenuToggle(menu.url, submenu.url)}>
+                                            <input type='checkbox'
+                                                checked={formData.admin_menu[menu.url]?.includes(submenu.url) || false}
+                                                readOnly />
                                             <label>{submenu.label}</label>
                                         </div>
                                     ))}
