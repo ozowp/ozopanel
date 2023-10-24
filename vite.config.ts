@@ -5,6 +5,7 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  // base: '/wp-content/plugins/ozopanel/dist/', //when build uncomment this
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
