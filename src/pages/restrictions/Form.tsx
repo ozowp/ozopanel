@@ -52,10 +52,12 @@ const Form: FC = () => {
                 const idParam = id ? `/${id}` : `/0`;
                 const res = await api.get(`restrictions/${type}${idParam}`);
                 if (res.success) {
-                    const { id_list, admin_menu } = res.data;
+                    const { id_list, admin_menu, form_data } = res.data;
                     setIdList(id_list);
                     setAdminMenu(admin_menu);
-                    // setFormData({ id: '', admin_menu: [] });
+                    if (id) {
+                        setFormData(form_data);
+                    }
                 } else {
                     res.data.forEach((value: string) => {
                         toast.error(value);
@@ -78,15 +80,34 @@ const Form: FC = () => {
         }));
     };
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if ( !formData.id ) {
+            if ( type == 'users') {
+                toast.error(i18n.pls_select_user);
+                return;
+            } else {
+                toast.error(i18n.pls_select_role);
+                return;
+            }
+        }
+        //if admin_menu object empty
+        if ( Object.keys(formData.admin_menu).length === 0 ) {
+            toast.error(i18n.pls_select_menu);
+            return;
+        }
+
         try {
             setLoadingSubmit(true);
-            const idParam = id ? `/${id}` : '';
-            const res = await api.add(`restrictions/${type}${idParam}`, formData);
+            const apiPath = id ? api.edit(`restrictions/${type}`, id, formData) : api.add(`restrictions/${type}`, formData);
+            const res = await apiPath;
             if (res.success) {
-                toast.success(i18n.sucAdd);
-                // navigate(`/restrictions/${type}`);
+                if ( id ) {
+                    toast.success(i18n.sucEdit);
+                } else {
+                    toast.success(i18n.sucAdd);
+                    navigate(`/restrictions/${type}`);
+                }
             } else {
                 res.data.forEach((value: string) => {
                     toast.error(value);
@@ -145,7 +166,11 @@ const Form: FC = () => {
                 <form onSubmit={handleSubmit}>
                     <div className='ozopanel-restrictions-id'>
                         <label>{`${i18n.select} ${type === 'users' ? i18n.user : i18n.role}`}:</label>
-                        <select onChange={(e) => handleIdChange(e.target.value)} value={formData.id}>
+                        <select
+                            onChange={(e) => handleIdChange(e.target.value)}
+                            value={formData.id}
+                            disabled={(id ? true : false)}
+                        >
                             <option value="">{i18n.select}</option>
                             {idList.map((role, i) => (
                                 <option key={i} value={role.id}>
@@ -188,7 +213,7 @@ const Form: FC = () => {
                     </div>
 
                     <button className='ozopanel-restrictions-submit' type='submit' disabled={loadingSubmit}>
-                        {loadingSubmit ? i18n.submiting : i18n.submit}
+                        {loadingSubmit ? (id ? i18n.updating : i18n.submiting) : (id ? i18n.update : i18n.submit)}
                     </button>
                 </form>
             )}

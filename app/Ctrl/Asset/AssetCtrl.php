@@ -17,7 +17,7 @@ class AssetCtrl
 
     public function __construct()
     {
-        $this->suffix = defined('OZOPANEL_SCRIPT_DEBUG') && OZOPANEL_SCRIPT_DEBUG ? '' : '.min';
+        $this->suffix = OZOPANEL_SCRIPT_DEBUG ? '' : '.min';
         $this->version = defined('WP_DEBUG') && WP_DEBUG ? time() : ozopanel()->version;
 
         add_action('wp_enqueue_scripts', [$this, 'public_scripts'], 9999);
@@ -106,53 +106,41 @@ class AssetCtrl
                 [],
                 $this->version
             ); */
-            /* wp_enqueue_script(
-                'ozopanel-vite-client',
-                // ozopanel()->get_asset_uri('/js/dashboard{$this->suffix}.js'),
-                'http://localhost:3000/@vite/client',
-                ['wp-element'],
-                $this->version,
-                false
-            ); */
 
-            ob_start();
-            ?>
-                import { injectIntoGlobalHook } from 'http://localhost:3000/@react-refresh';
-                injectIntoGlobalHook(window);
-                window.$RefreshReg$ = () => {};
-                window.$RefreshSig$ = () => (type) => type;
-            <?php
-            $script = ob_get_clean();
-
-            // wp_add_inline_script('ozopanel-vite-client', $script);
+            if ( OZOPANEL_SCRIPT_DEBUG ) {
+                wp_enqueue_script(
+                    'ozopanel-vite-client',
+                    'http://localhost:3000/@vite/client',
+                    [],
+                    $this->version,
+                    false
+                );
+                ob_start();
+                ?>
+                    import { injectIntoGlobalHook } from 'http://localhost:3000/@react-refresh';
+                    injectIntoGlobalHook(window);
+                    window.$RefreshReg$ = () => {};
+                    window.$RefreshSig$ = () => (type) => type;
+                <?php
+                $script = ob_get_clean();
+                wp_add_inline_script('ozopanel-vite-client', $script);
+            }
 
             wp_enqueue_script(
                 'ozopanel-dashboard',
-                ozopanel()->get_asset_uri('/main.js'),
-                // ozopanel()->get_asset_uri('/js/dashboard{$this->suffix}.js'),
-                // 'http://localhost:3000/src/main.tsx',
+                OZOPANEL_SCRIPT_DEBUG ? 'http://localhost:3000/src/main.tsx' : ozopanel()->get_asset_uri('/main.js'),
                 ['wp-api-fetch'],
                 $this->version,
                 true
             );
-            $current_user = wp_get_current_user();
+
             wp_localize_script('ozopanel-dashboard', 'ozopanel', [
                 'version' => ozopanel()->version,
                 'dashboard' => admin_url('admin.php?page=ozopanel'),
-                'date_format' => Fns::phpToMomentFormat(
-                    get_option('date_format')
-                ),
+                'date_format' => Fns::phpToMomentFormat( get_option('date_format') ),
                 'assetImgUri' => ozopanel()->get_asset_uri('img/'),
                 'assetUri' => OZOPANEL_ASSEST,
-                'profile' => [
-                    'name' => $current_user->display_name,
-                    'img' => get_avatar_url($current_user->ID, [
-                        'size' => '36',
-                    ]),
-                    'logout' => wp_logout_url(get_permalink()),
-                ],
-                'i18n' => I18n::app(),
-                'caps' => array_keys(wp_get_current_user()->allcaps),
+                'i18n' => I18n::app()
             ]);
         }
     }
@@ -176,8 +164,11 @@ class AssetCtrl
 
         // Check if the script handle matches the one you want to modify
         if (
-            'ozopanel-dashboard' == $handle ||
-            'ozopanel-vite-client' == $handle
+            OZOPANEL_SCRIPT_DEBUG &&
+            (
+                'ozopanel-dashboard' == $handle ||
+                'ozopanel-vite-client' == $handle
+            )
         ) {
             // Add the type='module' attribute to the script tag
             $tag = str_replace( '<script', '<script type="module"', $tag );

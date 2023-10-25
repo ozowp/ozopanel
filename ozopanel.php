@@ -99,6 +99,7 @@ final class OzoPanel {
         $this->define( 'OZOPANEL_URL', plugins_url( '', __FILE__) );
         $this->define( 'OZOPANEL_SLUG', basename( dirname(__FILE__)) );
         $this->define( 'OZOPANEL_ASSEST', plugins_url( 'dist', __FILE__ ) );
+        $this->define( 'OZOPANEL_SCRIPT_DEBUG', true );
     }
 
     /**

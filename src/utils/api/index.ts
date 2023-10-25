@@ -31,7 +31,7 @@ const add = ( api: string, data: object, from = 'free') => {
 	});
 };
 
-const edit = (api: string, id: number, data: object, from = 'free') => {
+const edit = (api: string, id: string, data: object, from = 'free') => {
 	return wp.apiFetch({
 		path: `${url(api, from)}/${id}`,
 		method: 'PUT',
