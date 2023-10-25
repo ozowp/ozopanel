@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   WpOzo - OzoPanel
- * @author    WpOzo <support@ozopanel.com>
+ * @author    WpOzo <contact@wpozo.com>
  * @link      https://wpozo.com
  * @copyright 2023 WpOzo
  *
