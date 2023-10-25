@@ -106,14 +106,14 @@ class AssetCtrl
                 [],
                 $this->version
             ); */
-            wp_enqueue_script(
+            /* wp_enqueue_script(
                 'ozopanel-vite-client',
                 // ozopanel()->get_asset_uri('/js/dashboard{$this->suffix}.js'),
                 'http://localhost:3000/@vite/client',
                 ['wp-element'],
                 $this->version,
                 false
-            );
+            ); */
 
             ob_start();
             ?>
@@ -124,13 +124,13 @@ class AssetCtrl
             <?php
             $script = ob_get_clean();
 
-            wp_add_inline_script('ozopanel-vite-client', $script);
+            // wp_add_inline_script('ozopanel-vite-client', $script);
 
             wp_enqueue_script(
                 'ozopanel-dashboard',
-                // ozopanel()->get_asset_uri('/main.js'),
+                ozopanel()->get_asset_uri('/main.js'),
                 // ozopanel()->get_asset_uri('/js/dashboard{$this->suffix}.js'),
-                'http://localhost:3000/src/main.tsx',
+                // 'http://localhost:3000/src/main.tsx',
                 ['wp-api-fetch'],
                 $this->version,
                 true
