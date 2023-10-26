@@ -3,11 +3,10 @@
  *
  * @since 1.0.0
  */
-import { lazy } from "react";
-const Dashboard = lazy(() => import("@pages/dashboard"));
-const Settings = lazy(() => import("@pages/settings"));
-const Restrictions = lazy(() => import("@/pages/restrictions"));
-const RestrictionsForm = lazy(() => import("@/pages/restrictions/Form"));
+import Dashboard from "@pages/dashboard";
+// import Settings from "@pages/settings";
+import Restrictions from "@/pages/restrictions";
+import RestrictionsForm from "@/pages/restrictions/Form";
 
 const routes = [
     {
@@ -26,7 +25,7 @@ const routes = [
         path: '/restrictions/:type/:id/edit',
         element: RestrictionsForm,
     },
-    {
+    /* {
         path: '/settings',
         element: Settings,
     },
@@ -37,7 +36,7 @@ const routes = [
     {
         path: '/settings/:tab/:subtab',
         element: Settings,
-    }
+    } */
 ];
 
 export default routes;

@@ -3,6 +3,8 @@
         top: 3em;
     }
 
+    @import "partials/Form";
+
     .ozopanel-content {
         max-width: 1020px;
         margin: auto;
@@ -13,6 +15,7 @@
             margin-left: 20px;
             background-color: #973e3e;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;

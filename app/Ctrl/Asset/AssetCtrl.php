@@ -100,12 +100,12 @@ class AssetCtrl
                 'test-template.php'
             ])
         ) {
-            /* wp_enqueue_style(
+            wp_enqueue_style(
                 'ozopanel-dashboard',
-                ozopanel()->get_asset_uri("css/dashboard{$this->suffix}.css"),
+                ozopanel()->get_asset_uri("main.css"),
                 [],
                 $this->version
-            ); */
+            );
 
             if ( OZOPANEL_SCRIPT_DEBUG ) {
                 wp_enqueue_script(
@@ -164,11 +164,8 @@ class AssetCtrl
 
         // Check if the script handle matches the one you want to modify
         if (
-            OZOPANEL_SCRIPT_DEBUG &&
-            (
-                'ozopanel-dashboard' == $handle ||
-                'ozopanel-vite-client' == $handle
-            )
+            'ozopanel-dashboard' == $handle ||
+            'ozopanel-vite-client' == $handle
         ) {
             // Add the type='module' attribute to the script tag
             $tag = str_replace( '<script', '<script type="module"', $tag );

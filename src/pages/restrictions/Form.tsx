@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Spinner from '@blocks/preloader/spinner';
 import api from '@utils/api';
-import './Form.scss'; // Import the SCSS file for styling
 
 interface IdListItem {
     id: string;
@@ -82,8 +81,8 @@ const Form: FC = () => {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if ( !formData.id ) {
-            if ( type == 'users') {
+        if (!formData.id) {
+            if (type == 'users') {
                 toast.error(i18n.pls_select_user);
                 return;
             } else {
@@ -92,7 +91,7 @@ const Form: FC = () => {
             }
         }
         //if admin_menu object empty
-        if ( Object.keys(formData.admin_menu).length === 0 ) {
+        if (Object.keys(formData.admin_menu).length === 0) {
             toast.error(i18n.pls_select_menu);
             return;
         }
@@ -102,7 +101,7 @@ const Form: FC = () => {
             const apiPath = id ? api.edit(`restrictions/${type}`, id, formData) : api.add(`restrictions/${type}`, formData);
             const res = await apiPath;
             if (res.success) {
-                if ( id ) {
+                if (id) {
                     toast.success(i18n.sucEdit);
                 } else {
                     toast.success(i18n.sucAdd);

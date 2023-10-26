@@ -5,19 +5,21 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // base: '/wp-content/plugins/ozopanel/dist/', //when build uncomment this
+  base: '/wp-content/plugins/ozopanel/dist/', //when build uncomment this
   build: {
+    minify: true,
     outDir: 'dist',
     assetsDir: 'assets',
     assetsInlineLimit: 0, // Disable inlining assets
     chunkSizeWarningLimit: 1500, // Adjust chunk size warning limit if needed
     rollupOptions: {
-      /* input: {
+      input: {
         main: 'src/main.tsx',
-      }, */
+      },
       output: {
         dir: "dist",
         entryFileNames: "main.js",
+        assetFileNames: "main.[ext]",
       },
     },
   },
@@ -25,6 +27,7 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
       '@assets': path.resolve(__dirname, './src/assets'),
+      '@scss': path.resolve(__dirname, './src/scss'),
       '@utils': path.resolve(__dirname, './src/utils'),
       '@components': path.resolve(__dirname, './src/components'),
       '@blocks': path.resolve(__dirname, './src/components/blocks'),
@@ -36,7 +39,6 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       sass: {
-        // Any Sass options you need
       },
     },
   }
