@@ -1,0 +1,273 @@
+# Copyright (C) 2023 WpOzo
+# This file is distributed under the same license as the OzoPanel plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: OzoPanel 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ozopanel\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-10-26T06:34:12+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: ozopanel\n"
+
+#. Plugin Name of the plugin
+#: app/Ctrl/MenuPage/Type/Dashboard.php:17
+#: app/Ctrl/MenuPage/Type/Dashboard.php:18
+#: app/Ctrl/Template/TemplateCtrl.php:20
+msgid "OzoPanel"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/ozopanel"
+msgstr ""
+
+#. Description of the plugin
+msgid "Manager WP Access"
+msgstr ""
+
+#. Author of the plugin
+msgid "WpOzo"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://wpozo.com"
+msgstr ""
+
+#: app/Ctrl/Api/Type/Action.php:75
+msgid "Required field is missing"
+msgstr ""
+
+#: app/Ctrl/Api/Type/Action.php:107
+msgid "Contact info is missing"
+msgstr ""
+
+#: app/Ctrl/Api/Type/Restriction.php:110
+#: app/Ctrl/Api/Type/Restriction.php:304
+#: app/Helper/I18n.php:44
+msgid "Please Select User"
+msgstr ""
+
+#: app/Ctrl/Api/Type/Restriction.php:115
+msgid "Please Select Role"
+msgstr ""
+
+#: app/Ctrl/Api/Type/Restriction.php:125
+msgid "User already exist!"
+msgstr ""
+
+#: app/Ctrl/Api/Type/Restriction.php:133
+msgid "Role already exist!"
+msgstr ""
+
+#: app/Ctrl/Api/Type/Restriction.php:141
+#: app/Ctrl/Api/Type/Restriction.php:317
+#: app/Helper/I18n.php:43
+msgid "Please select Menu"
+msgstr ""
+
+#: app/Ctrl/Api/Type/Restriction.php:148
+#: app/Ctrl/Api/Type/Restriction.php:155
+#: app/Ctrl/Api/Type/Restriction.php:324
+#: app/Ctrl/Api/Type/Restriction.php:331
+msgid "Administrator restriction not allowed!"
+msgstr ""
+
+#: app/Ctrl/Api/Type/Restriction.php:309
+#: app/Helper/I18n.php:45
+msgid "Please Seleact Role"
+msgstr ""
+
+#: app/Ctrl/Api/Type/Setting.php:50
+#: app/Ctrl/Api/Type/Setting.php:91
+msgid "Tab is missing"
+msgstr ""
+
+#: app/Ctrl/Assist/Type/Link.php:18
+msgid "Documentation"
+msgstr ""
+
+#: app/Ctrl/Assist/Type/Link.php:20
+msgid "Get Pro"
+msgstr ""
+
+#: app/Ctrl/MenuPage/Type/Dashboard.php:28
+#: app/Ctrl/MenuPage/Type/Dashboard.php:29
+#: app/Helper/I18n.php:33
+msgid "Users"
+msgstr ""
+
+#: app/Ctrl/MenuPage/Type/Dashboard.php:37
+#: app/Ctrl/MenuPage/Type/Dashboard.php:38
+#: app/Helper/I18n.php:36
+msgid "Roles"
+msgstr ""
+
+#: app/Ctrl/MenuPage/Type/Dashboard.php:203
+msgid "Sorry, you are not allowed to access this page."
+msgstr ""
+
+#: app/Ctrl/MenuPage/Type/Welcome.php:22
+#: app/Ctrl/MenuPage/Type/Welcome.php:23
+msgid "OzoPanel Welcome"
+msgstr ""
+
+#: app/Helper/I18n.php:14
+msgid "Select"
+msgstr ""
+
+#: app/Helper/I18n.php:15
+msgid "Back to"
+msgstr ""
+
+#: app/Helper/I18n.php:16
+msgid "Delete"
+msgstr ""
+
+#: app/Helper/I18n.php:17
+msgid "Select menu and submenu which you want to allow for this"
+msgstr ""
+
+#: app/Helper/I18n.php:18
+msgid "Submit"
+msgstr ""
+
+#: app/Helper/I18n.php:19
+msgid "Submitting..."
+msgstr ""
+
+#: app/Helper/I18n.php:20
+msgid "Update"
+msgstr ""
+
+#: app/Helper/I18n.php:21
+msgid "Updatting..."
+msgstr ""
+
+#: app/Helper/I18n.php:22
+msgid "Restrict"
+msgstr ""
+
+#: app/Helper/I18n.php:23
+msgid "Restriction"
+msgstr ""
+
+#: app/Helper/I18n.php:25
+msgid "ID"
+msgstr ""
+
+#: app/Helper/I18n.php:26
+msgid "Name"
+msgstr ""
+
+#: app/Helper/I18n.php:27
+msgid "Email"
+msgstr ""
+
+#: app/Helper/I18n.php:28
+msgid "Label"
+msgstr ""
+
+#: app/Helper/I18n.php:29
+msgid "Edit"
+msgstr ""
+
+#: app/Helper/I18n.php:30
+msgid "Actions"
+msgstr ""
+
+#: app/Helper/I18n.php:32
+msgid "User"
+msgstr ""
+
+#: app/Helper/I18n.php:35
+msgid "Role"
+msgstr ""
+
+#: app/Helper/I18n.php:38
+msgid "Settings"
+msgstr ""
+
+#: app/Helper/I18n.php:40
+msgid "General"
+msgstr ""
+
+#: app/Helper/I18n.php:41
+#: view/uninstall/form.php:25
+msgid "Other"
+msgstr ""
+
+#: app/Helper/I18n.php:46
+msgid "Successfully Added"
+msgstr ""
+
+#: app/Helper/I18n.php:47
+msgid "Successfully Updated"
+msgstr ""
+
+#: app/Helper/I18n.php:48
+msgid "Successfully Deleted"
+msgstr ""
+
+#: view/template/partial/403.php:24
+msgid "Sorry!! You don't have permission to view this page"
+msgstr ""
+
+#: view/template/partial/404.php:40
+msgid "We Can't find this page you're looking for"
+msgstr ""
+
+#: view/uninstall/form.php:4
+msgid "I no longer need the plugin"
+msgstr ""
+
+#: view/uninstall/form.php:8
+msgid "I found a better plugin"
+msgstr ""
+
+#: view/uninstall/form.php:9
+msgid "Please share which plugin"
+msgstr ""
+
+#: view/uninstall/form.php:12
+msgid "I couldn't get the plugin to work"
+msgstr ""
+
+#: view/uninstall/form.php:16
+msgid "It's a temporary deactivation"
+msgstr ""
+
+#: view/uninstall/form.php:20
+msgid "I have OzoPanel Pro"
+msgstr ""
+
+#: view/uninstall/form.php:22
+msgid "Wait! Don't deactivate OzoPanel. You have to activate both OzoPanel and OzoPanel Pro in order for the plugin to work."
+msgstr ""
+
+#: view/uninstall/form.php:26
+msgid "Please share the reason"
+msgstr ""
+
+#: view/uninstall/form.php:56
+msgid "Quick Feedback"
+msgstr ""
+
+#: view/uninstall/form.php:57
+msgid "If you have a moment, please share why you are deactivating OzoPanel"
+msgstr ""
+
+#: view/uninstall/form.php:105
+msgid "Share your Name and Email for communication purposes"
+msgstr ""
+
+#: view/uninstall/form.php:116
+msgid "Skip and Deactivate"
+msgstr ""
+
+#: view/uninstall/form.php:120
+msgid "Submit and Deactivate"
+msgstr ""
