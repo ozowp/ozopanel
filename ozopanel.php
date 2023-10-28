@@ -31,6 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 
 use OzoPanel\Helper\Fns;
+use Dotenv\Dotenv;
 
 final class OzoPanel {
 
@@ -66,6 +67,10 @@ final class OzoPanel {
 
         require_once __DIR__ . '/vendor/autoload.php';
 
+        // Load the .env file
+        $dotenv = Dotenv::createImmutable(__DIR__);
+        $dotenv->load();
+
         $this->define_constants();
 
         // new OzoPanel\Ctrl\Install\InstallCtrl();
@@ -99,7 +104,6 @@ final class OzoPanel {
         $this->define( 'OZOPANEL_URL', plugins_url( '', __FILE__) );
         $this->define( 'OZOPANEL_SLUG', basename( dirname(__FILE__)) );
         $this->define( 'OZOPANEL_ASSEST', plugins_url( 'dist', __FILE__ ) );
-        $this->define( 'OZOPANEL_SCRIPT_DEBUG', false );
     }
 
     /**
@@ -168,6 +172,24 @@ final class OzoPanel {
             case 'cron':
                 return defined('DOING_CRON');
         }
+    }
+
+    /**
+     * Check Script Debug from .env
+     * @since 1.0.0
+     * @return string
+     */
+    public function is_debug() {
+        return ( isset( $_ENV['OZOPANEL_DEBUG'] ) && $_ENV['OZOPANEL_DEBUG'] === 'true' ) ? true : false;
+    }
+
+    /**
+     * Check Script Debug from .env
+     * @since 1.0.0
+     * @return string
+     */
+    public function dev_path() {
+        return isset( $_ENV['OZOPANEL_DEV_PATH'] ) ? esc_url( $_ENV['OZOPANEL_DEV_PATH'] ) : '';
     }
 
     /**

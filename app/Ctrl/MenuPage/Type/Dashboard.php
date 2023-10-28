@@ -25,6 +25,15 @@ class Dashboard
 
         add_submenu_page(
             'ozopanel',
+            esc_html__('Dashboard', 'ozopanel'),
+            esc_html__('Dashboard', 'ozopanel'),
+            'manage_options',
+            'ozopanel#',
+            [$this, 'render']
+        );
+
+        add_submenu_page(
+            'ozopanel',
             esc_html__('Users', 'ozopanel'),
             esc_html__('Users', 'ozopanel'),
             'manage_options',
@@ -40,6 +49,24 @@ class Dashboard
             'ozopanel#/restrictions/roles',
             [$this, 'render']
         );
+
+        add_submenu_page(
+            'ozopanel',
+            esc_html__('Settings', 'ozopanel'),
+            esc_html__('Settings', 'ozopanel'),
+            'manage_options',
+            'ozopanel#/settings',
+            [$this, 'render']
+        );
+
+        /* if ( !function_exists('ozopanelp') ) {
+            global $submenu;
+            $submenu['ozopanel'][] = [
+                'Upgrade to Pro',
+                'manage_options',
+                'https://ozopanel.com',
+            ];
+        } */
 
         remove_submenu_page('ozopanel', 'ozopanel');
 

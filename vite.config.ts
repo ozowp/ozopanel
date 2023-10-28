@@ -1,11 +1,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config(); // Load environment variables from .env file
 
 // https://vitejs.dev/config/
-export default defineConfig({
+const config = defineConfig({
   plugins: [react()],
-  base: '/wp-content/plugins/ozopanel/dist/', //when build uncomment this
+  base: '',
   build: {
     minify: true,
     outDir: 'dist',
@@ -13,9 +16,6 @@ export default defineConfig({
     assetsInlineLimit: 0, // Disable inlining assets
     chunkSizeWarningLimit: 1500, // Adjust chunk size warning limit if needed
     rollupOptions: {
-      input: {
-        main: 'src/main.tsx',
-      },
       output: {
         dir: "dist",
         entryFileNames: "main.js",
@@ -42,4 +42,14 @@ export default defineConfig({
       },
     },
   }
-})
+});
+
+// Check if OZOPANEL_DEBUG environment variable is not set or set to a truthy value
+if (!process.env.OZOPANEL_DEBUG) {
+  config.base = '/wp-content/plugins/ozopanel/dist/';
+  config.build.rollupOptions.input = {
+    main: 'src/main.tsx',
+  };
+}
+
+export default config;

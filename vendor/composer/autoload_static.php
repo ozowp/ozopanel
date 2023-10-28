@@ -6,49 +6,75 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit8ae942ccb94fac7f3c519ee6a8da4e52
 {
+    public static $files = array (
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Php80\\' => 23,
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
+        ),
+        'P' => 
+        array (
+            'PhpOption\\' => 10,
+        ),
         'O' => 
         array (
             'OzoPanel\\' => 9,
         ),
+        'G' => 
+        array (
+            'GrahamCampbell\\ResultType\\' => 26,
+        ),
+        'D' => 
+        array (
+            'Dotenv\\' => 7,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Polyfill\\Php80\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
+        'PhpOption\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
         'OzoPanel\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+        'GrahamCampbell\\ResultType\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
+        ),
+        'Dotenv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
     );
 
     public static $classMap = array (
+        'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'OzoPanel\\Ctrl\\Api\\ApiCtrl' => __DIR__ . '/../..' . '/app/Ctrl/Api/ApiCtrl.php',
-        'OzoPanel\\Ctrl\\Api\\Type\\Action' => __DIR__ . '/../..' . '/app/Ctrl/Api/Type/Action.php',
-        'OzoPanel\\Ctrl\\Api\\Type\\Restriction' => __DIR__ . '/../..' . '/app/Ctrl/Api/Type/Restriction.php',
-        'OzoPanel\\Ctrl\\Api\\Type\\Setting' => __DIR__ . '/../..' . '/app/Ctrl/Api/Type/Setting.php',
-        'OzoPanel\\Ctrl\\Asset\\AssetCtrl' => __DIR__ . '/../..' . '/app/Ctrl/Asset/AssetCtrl.php',
-        'OzoPanel\\Ctrl\\Assist\\AssistCtrl' => __DIR__ . '/../..' . '/app/Ctrl/Assist/AssistCtrl.php',
-        'OzoPanel\\Ctrl\\Assist\\Type\\Feedback' => __DIR__ . '/../..' . '/app/Ctrl/Assist/Type/Feedback.php',
-        'OzoPanel\\Ctrl\\Assist\\Type\\Link' => __DIR__ . '/../..' . '/app/Ctrl/Assist/Type/Link.php',
-        'OzoPanel\\Ctrl\\Hook\\HookCtrl' => __DIR__ . '/../..' . '/app/Ctrl/Hook/HookCtrl.php',
-        'OzoPanel\\Ctrl\\Hook\\Type\\Action' => __DIR__ . '/../..' . '/app/Ctrl/Hook/Type/Action.php',
-        'OzoPanel\\Ctrl\\Hook\\Type\\Filter' => __DIR__ . '/../..' . '/app/Ctrl/Hook/Type/Filter.php',
-        'OzoPanel\\Ctrl\\MainCtrl' => __DIR__ . '/../..' . '/app/Ctrl/MainCtrl.php',
-        'OzoPanel\\Ctrl\\MenuPage\\MenuPageCtrl' => __DIR__ . '/../..' . '/app/Ctrl/MenuPage/MenuPageCtrl.php',
-        'OzoPanel\\Ctrl\\MenuPage\\Type\\Dashboard' => __DIR__ . '/../..' . '/app/Ctrl/MenuPage/Type/Dashboard.php',
-        'OzoPanel\\Ctrl\\MenuPage\\Type\\Welcome' => __DIR__ . '/../..' . '/app/Ctrl/MenuPage/Type/Welcome.php',
-        'OzoPanel\\Ctrl\\Migration\\Helpers' => __DIR__ . '/../..' . '/app/Ctrl/Migration/Helpers.php',
-        'OzoPanel\\Ctrl\\Migration\\MigrationCtrl' => __DIR__ . '/../..' . '/app/Ctrl/Migration/MigrationCtrl.php',
-        'OzoPanel\\Ctrl\\Migration\\Table' => __DIR__ . '/../..' . '/app/Ctrl/Migration/Table.php',
-        'OzoPanel\\Ctrl\\Migration\\Tables\\Restrictions' => __DIR__ . '/../..' . '/app/Ctrl/Migration/Tables/Restrictions.php',
-        'OzoPanel\\Ctrl\\Migration\\Tables\\SchemaMigrations' => __DIR__ . '/../..' . '/app/Ctrl/Migration/Tables/SchemaMigrations.php',
-        'OzoPanel\\Ctrl\\Template\\TemplateCtrl' => __DIR__ . '/../..' . '/app/Ctrl/Template/TemplateCtrl.php',
-        'OzoPanel\\Helper\\Fns' => __DIR__ . '/../..' . '/app/Helper/Fns.php',
-        'OzoPanel\\Helper\\I18n' => __DIR__ . '/../..' . '/app/Helper/I18n.php',
-        'OzoPanel\\Helper\\Info' => __DIR__ . '/../..' . '/app/Helper/Info.php',
-        'OzoPanel\\Helper\\Preset' => __DIR__ . '/../..' . '/app/Helper/Preset.php',
-        'OzoPanel\\Model\\Test' => __DIR__ . '/../..' . '/app/Model/Test.php',
-        'OzoPanel\\Traits\\Singleton' => __DIR__ . '/../..' . '/app/Traits/Singleton.php',
+        'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+        'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
+        'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+        'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

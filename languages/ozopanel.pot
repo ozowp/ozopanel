@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-10-26T06:34:12+00:00\n"
+"POT-Creation-Date: 2023-10-28T11:01:26+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: ozopanel\n"
 
 #. Plugin Name of the plugin
@@ -96,17 +96,28 @@ msgstr ""
 
 #: app/Ctrl/MenuPage/Type/Dashboard.php:28
 #: app/Ctrl/MenuPage/Type/Dashboard.php:29
-#: app/Helper/I18n.php:33
-msgid "Users"
+msgid "Dashboard"
 msgstr ""
 
 #: app/Ctrl/MenuPage/Type/Dashboard.php:37
 #: app/Ctrl/MenuPage/Type/Dashboard.php:38
+#: app/Helper/I18n.php:33
+msgid "Users"
+msgstr ""
+
+#: app/Ctrl/MenuPage/Type/Dashboard.php:46
+#: app/Ctrl/MenuPage/Type/Dashboard.php:47
 #: app/Helper/I18n.php:36
 msgid "Roles"
 msgstr ""
 
-#: app/Ctrl/MenuPage/Type/Dashboard.php:203
+#: app/Ctrl/MenuPage/Type/Dashboard.php:55
+#: app/Ctrl/MenuPage/Type/Dashboard.php:56
+#: app/Helper/I18n.php:38
+msgid "Settings"
+msgstr ""
+
+#: app/Ctrl/MenuPage/Type/Dashboard.php:230
 msgid "Sorry, you are not allowed to access this page."
 msgstr ""
 
@@ -185,10 +196,6 @@ msgstr ""
 
 #: app/Helper/I18n.php:35
 msgid "Role"
-msgstr ""
-
-#: app/Helper/I18n.php:38
-msgid "Settings"
 msgstr ""
 
 #: app/Helper/I18n.php:40

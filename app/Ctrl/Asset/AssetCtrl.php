@@ -17,7 +17,7 @@ class AssetCtrl
 
     public function __construct()
     {
-        $this->suffix = OZOPANEL_SCRIPT_DEBUG ? '' : '.min';
+        $this->suffix = ozopanel()->is_debug() ? '' : '.min';
         $this->version = defined('WP_DEBUG') && WP_DEBUG ? time() : ozopanel()->version;
 
         add_action('wp_enqueue_scripts', [$this, 'public_scripts'], 9999);
@@ -107,17 +107,17 @@ class AssetCtrl
                 $this->version
             );
 
-            if ( OZOPANEL_SCRIPT_DEBUG ) {
+            if ( ozopanel()->is_debug() ) {
                 wp_enqueue_script(
                     'ozopanel-vite-client',
-                    'http://localhost:3000/@vite/client',
+                    ozopanel()->dev_path() . '/@vite/client',
                     [],
                     $this->version,
                     false
                 );
                 ob_start();
                 ?>
-                    import { injectIntoGlobalHook } from 'http://localhost:3000/@react-refresh';
+                    import { injectIntoGlobalHook } from '<?php echo ozopanel()->dev_path(); ?>/@react-refresh';
                     injectIntoGlobalHook(window);
                     window.$RefreshReg$ = () => {};
                     window.$RefreshSig$ = () => (type) => type;
@@ -128,7 +128,7 @@ class AssetCtrl
 
             wp_enqueue_script(
                 'ozopanel-dashboard',
-                OZOPANEL_SCRIPT_DEBUG ? 'http://localhost:3000/src/main.tsx' : ozopanel()->get_asset_uri('/main.js'),
+                ozopanel()->is_debug() ? ozopanel()->dev_path() . '/src/main.tsx' : ozopanel()->get_asset_uri('/main.js'),
                 ['wp-api-fetch'],
                 $this->version,
                 true
