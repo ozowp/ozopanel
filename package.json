@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsc && vite --port 3000",
-    "build": "tsc && vite build && wp i18n make-pot . ./languages/ozopanel.pot",
+    "makepot": "wp i18n make-pot . languages/ozopanel.pot --domain='ozopanel' --exclude='dist' --include='**/*.php' --headers='{\"Last-Translator\":\"therakib7@gmail.com\",\"Report-Msgid-Bugs-To\":\"https://github.com/therakib7/ozopanel/issues\"}' --file-comment=\"Copyright (c) $(date +'%Y') OzoPanel. All Rights Reserved.\" ",
+    "build": "tsc && vite build && yarn makepot",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
