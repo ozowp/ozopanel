@@ -52,6 +52,15 @@ class Dashboard
 
         add_submenu_page(
             'ozopanel',
+            esc_html__('Admin Columns', 'ozopanel'),
+            esc_html__('Admin Columns', 'ozopanel'),
+            'manage_options',
+            'ozopanel#/admin-columns',
+            [$this, 'render']
+        );
+
+        add_submenu_page(
+            'ozopanel',
             esc_html__('Settings', 'ozopanel'),
             esc_html__('Settings', 'ozopanel'),
             'manage_options',

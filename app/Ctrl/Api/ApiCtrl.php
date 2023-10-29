@@ -4,6 +4,7 @@ namespace OzoPanel\Ctrl\Api;
 
 use OzoPanel\Ctrl\Api\Type\{
     Action,
+    AdminColumn,
     Setting,
     Restriction
 };
@@ -27,6 +28,7 @@ class ApiCtrl
         // Register custom REST API endpoints
         add_action('rest_api_init', function() {
             Restriction::init()->routes();
+            AdminColumn::init()->routes();
             Action::init()->routes();
             Setting::init()->routes();
         });

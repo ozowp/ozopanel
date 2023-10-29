@@ -21,6 +21,7 @@ class I18n
             'updating' => esc_html__('Updatting...', 'ozopanel'),
             'restrict' => esc_html__('Restrict', 'ozopanel'),
             'restriction' => esc_html__('Restriction', 'ozopanel'),
+            'admin_columns' => esc_html__('Admin Columns', 'ozopanel'),
             //table
             'id' => esc_html__('ID', 'ozopanel'),
             'name' => esc_html__('Name', 'ozopanel'),
