@@ -143,6 +143,43 @@ class AssetCtrl
                 'i18n' => I18n::app()
             ]);
         }
+
+        /**
+         * Show/Hide nav menu roles selections option
+         *
+         * @since 1.0.0
+         */
+        if ( is_admin() && isset($GLOBALS['pagenow']) && $GLOBALS['pagenow'] === 'nav-menus.php' ) {
+            ob_start();
+                ?>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var whoCanSeeSelects = document.querySelectorAll(".edit-menu-item-ozopanel-who-can-see");
+                    var rolesFields = document.querySelectorAll(".field-ozopanel-roles");
+
+                    // Hide roles fields by default
+                    rolesFields.forEach(function(field) {
+                        field.style.display = "none";
+                    });
+
+                    // Show/hide roles field based on the selected option for each menu item
+                    whoCanSeeSelects.forEach(function(select, index) {
+                        if (select.value === "roles") {
+                            rolesFields[index].style.display = "block";
+                        }
+                        select.addEventListener("change", function() {
+                            if (select.value === "roles") {
+                                rolesFields[index].style.display = "block";
+                            } else {
+                                rolesFields[index].style.display = "none";
+                            }
+                        });
+                    });
+                });
+            <?php
+            $script = ob_get_clean();
+
+            wp_add_inline_script('nav-menu', $script);
+        }
     }
 
     public function public_scripts()

@@ -131,8 +131,7 @@ final class OzoPanel {
         do_action('ozopanel_before_init');
 
         $this->localization();
-        $role = get_role('administrator'); // Replace 'author' with the appropriate user role
-        $role->add_cap('administrator');
+
         OzoPanel\Ctrl\MainCtrl::init();
 
         do_action('ozopanel_init');

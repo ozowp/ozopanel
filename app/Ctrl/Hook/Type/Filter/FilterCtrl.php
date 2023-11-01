@@ -1,14 +1,18 @@
 <?php
-namespace OzoPanel\Ctrl\Hook\Type;
+namespace OzoPanel\Ctrl\Hook\Type\Filter;
+
+use OzoPanel\Ctrl\Hook\Type\Filter\Type\NavMenu;
+
 /**
  * WP Filter hook
  *
  * @since 1.0.0
  */
-class Filter
+class FilterCtrl
 {
     public function __construct()
     {
+        new NavMenu();
         add_filter("body_class", [$this, "body_class"]);
         add_filter("admin_body_class", [$this, "admin_body_class"]);
     }
