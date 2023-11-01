@@ -3,11 +3,13 @@
  * @since 1.0.0
  */
 
-import { FC, MouseEvent, lazy, Suspense, useState } from 'react';
+import { FC, MouseEvent, /* lazy, */ Suspense, useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import Spinner from "@blocks/preloader/spinner";
-const General = lazy(() => import('./tab/General'));
-const Other = lazy(() => import('./tab/Other'));
+// const General = lazy(() => import('./tab/General')); // lazy not working when build
+// const Other = lazy(() => import('./tab/Other'));
+import General from './tab/General';
+import Other from './tab/Other';
 import "./style.scss";
 
 const i18n = ozopanel.i18n;

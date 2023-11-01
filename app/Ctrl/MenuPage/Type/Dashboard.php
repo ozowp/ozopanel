@@ -79,11 +79,24 @@ class Dashboard
 
         remove_submenu_page('ozopanel', 'ozopanel');
 
+        /* global $menu;
+
+        // Find the menu page you want to update
+        foreach ($menu as $key => $item) {
+            if ($item[2] == 'users.php') {
+                // Update the capability required to access the menu page
+                $menu[$key][1] = 'author'; // Replace 'new_capability' with your desired capability
+            }
+        } */
+    /* $current_user = wp_get_current_user();
+$caps = $current_user->caps;
+error_log(print_r($caps, true)); */
+
         //Save admin menus
         $this->save_admin_menus();
 
         //restrict_menu
-        $this->restrict_menu();
+        // $this->restrict_menu();
     }
 
     /**
