@@ -7,7 +7,6 @@ import Dashboard from "@pages/dashboard";
 import Restrictions from "@/pages/restrictions";
 import RestrictionsForm from "@/pages/restrictions/Form";
 import AdminColumns from "@/pages/admin-columns";
-import AdminColumnsForm from "@/pages/admin-columns/Form";
 import Settings from "@pages/settings";
 
 const routes = [
@@ -32,8 +31,8 @@ const routes = [
         element: AdminColumns,
     },
     {
-        path: '/admin-columns/:id/edit',
-        element: AdminColumnsForm,
+        path: '/admin-columns/:id',
+        element: AdminColumns,
     },
     {
         path: '/settings',

@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Spinner from '@blocks/preloader/spinner';
+import Spinner from '@components/preloader/spinner';
 import api from '@utils/api';
 
 interface Restriction {

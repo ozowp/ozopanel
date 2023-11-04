@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "@scss/main.scss";
 import routes from "./routes";
 
-import Spinner from "@blocks/preloader/spinner";
+import Spinner from "@components/preloader/spinner";
 
 const App: FC = () => {
     return (

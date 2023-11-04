@@ -1,6 +1,7 @@
 <?php
 namespace OzoPanel\Ctrl\Hook\Type\Filter;
 
+use OzoPanel\Ctrl\Hook\Type\Filter\Type\AdminColumn;
 use OzoPanel\Ctrl\Hook\Type\Filter\Type\NavMenu;
 
 /**
@@ -13,6 +14,7 @@ class FilterCtrl
     public function __construct()
     {
         new NavMenu();
+        new AdminColumn();
         add_filter("body_class", [$this, "body_class"]);
         add_filter("admin_body_class", [$this, "admin_body_class"]);
     }

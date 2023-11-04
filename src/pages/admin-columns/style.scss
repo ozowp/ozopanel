@@ -1,0 +1,16 @@
+.ozopanel-sortable-list {
+    list-style: none;
+    padding: 0;
+}
+
+.ozopanel-sortable-item {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    margin-bottom: 8px;
+    padding: 8px;
+    cursor: grab;
+
+    &:hover {
+        background-color: #e3e3e3;
+    }
+}

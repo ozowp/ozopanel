@@ -1,27 +1,26 @@
 import { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Spinner from '@blocks/preloader/spinner';
+import Spinner from '@components/preloader/spinner';
+import SelectGroup from '@components/select-group';
+import Columns from './Columns';
 import api from '@utils/api';
 
-interface AdminColumn {
-	id: string;
-	name?: string;
-	email?: string;
-	label?: string;
-}
-
 const AdminColumns: FC = () => {
+	const { id = 'post' } = useParams();
+
 	const navigate = useNavigate();
-	const [adminColumns, setAdminColumns] = useState<AdminColumn[]>([]);
+	const [screens, setScreens] = useState([]);
+	const [columns, setColumns] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const res = await api.get(`admin-columns`);
+				const res = await api.get(`admin-columns/${id}`);
 				if (res.success) {
-					setAdminColumns(res.data.list);
+					setScreens(res.data.screens);
+					setColumns(res.data.columns);
 				} else {
 					res.data.forEach((value: string) => {
 						toast.error(value);
@@ -35,13 +34,17 @@ const AdminColumns: FC = () => {
 		};
 
 		fetchData();
-	}, []);
+	}, [id]);
 
 
-	const goForm = (id?: string) => {
+	const screenChange = (id?: string) => {
 		if (id) {
-			navigate(`/admin-columns/${id}/edit`);
+			navigate(`/admin-columns/${id}`);
 		}
+	};
+
+	const handleColumnChange = (newColumns: any) => {
+		setColumns(newColumns);
 	};
 
 	const i18n = ozopanel.i18n;
@@ -49,26 +52,11 @@ const AdminColumns: FC = () => {
 	return (
 		<div className='ozopanel-admin-columns'>
 			<h3>{i18n.admin_columns}</h3>
-
 			{loading ? <Spinner /> : (
-				<table>
-					<thead>
-						<tr>
-							<th>{i18n.label}</th>
-							<th style={{ width: 80 }}>{i18n.actions}</th>
-						</tr>
-					</thead>
-					<tbody>
-						{adminColumns.map((adminColumn) => (
-							<tr key={adminColumn.id}>
-								<td>{adminColumn.label}</td>
-								<td>
-									<button onClick={() => goForm(adminColumn.id)}>{i18n.edit}</button>
-								</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
+				<>
+					<SelectGroup groups={screens} value={id} onChange={screenChange} />
+					<Columns columns={columns} onChange={handleColumnChange} />
+				</>
 			)}
 		</div>
 	);

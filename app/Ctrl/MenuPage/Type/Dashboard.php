@@ -3,6 +3,8 @@
 namespace OzoPanel\Ctrl\MenuPage\Type;
 
 use OzoPanel\Helper\Fns;
+use OzoPanel\Helper\AdminColumn\WpListTableFactory;
+use OzoPanel\Model\AdminColumn as ModelAdminColumn;
 
 class Dashboard
 {
@@ -12,6 +14,30 @@ class Dashboard
     }
 
     public function add_settings_menu()
+    {
+        global $pagenow;
+        //add_menu_page
+        $this->add_menu_page();
+
+        // load this condtion only ozopanel settings page
+        if ( $pagenow === 'admin.php' && isset($_GET['page']) && $_GET['page'] === 'ozopanel' ) {
+            //Save admin menus
+            $this->save_admin_menus();
+
+            //Save admin columns
+            $this->save_admin_columns();
+        }
+
+        //restrict_menu
+        $this->restrict_menu();
+    }
+
+    /**
+     * React js render tag
+     *
+     * @since 1.0.0
+     */
+    function add_menu_page()
     {
         add_menu_page(
             esc_html__('OzoPanel', 'ozopanel'),
@@ -78,25 +104,6 @@ class Dashboard
         } */
 
         remove_submenu_page('ozopanel', 'ozopanel');
-
-        /* global $menu;
-
-        // Find the menu page you want to update
-        foreach ($menu as $key => $item) {
-            if ($item[2] == 'users.php') {
-                // Update the capability required to access the menu page
-                $menu[$key][1] = 'author'; // Replace 'new_capability' with your desired capability
-            }
-        } */
-    /* $current_user = wp_get_current_user();
-$caps = $current_user->caps;
-error_log(print_r($caps, true)); */
-
-        //Save admin menus
-        $this->save_admin_menus();
-
-        //restrict_menu
-        // $this->restrict_menu();
     }
 
     /**
@@ -174,6 +181,32 @@ error_log(print_r($caps, true)); */
         }
 
         update_option('ozopanel_admin_menu', $mergedMenu);
+    }
+
+    /**
+     * Save admin columns to option table
+     *
+     * @since 1.0.0
+     */
+    function save_admin_columns()
+    {
+        //Post type table
+        $post_types = ModelAdminColumn::get_post_types();
+        foreach ($post_types as $post_type) {
+            $columns = (new WpListTableFactory())->get_post_table('edit-' . $post_type)->get_columns();
+            update_option('ozopanel_admin_column_' . $post_type . '_default', $columns, false);
+        }
+        //Media table
+        $columns = (new WpListTableFactory())->get_media_table('upload')->get_columns();
+        update_option('ozopanel_admin_column_upload_default', $columns, false);
+
+        //Comment table
+        $columns = (new WpListTableFactory())->get_comment_table('edit-comments')->get_columns();
+        update_option('ozopanel_admin_column_edit-comments_default', $columns, false);
+
+        //Comment table
+        $columns = (new WpListTableFactory())->get_user_table('users')->get_columns();
+        update_option('ozopanel_admin_column_users_default', $columns, false);
     }
 
     /**
