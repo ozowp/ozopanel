@@ -15,64 +15,64 @@ import "./style.scss";
 const i18n = ozopanel.i18n;
 
 interface TabItem {
-  id: string;
-  label: string;
-  icon: string;
-  component: FC;
+    id: string;
+    label: string;
+    icon: string;
+    component: FC;
 }
 
 const tabs: TabItem[] = [
-  {
-    id: 'general',
-    label: i18n.general,
-    icon: '',
-    component: General
-  },
-  {
-    id: 'other',
-    label: i18n.other,
-    icon: '',
-    component: Other
-  },
+    {
+        id: 'general',
+        label: i18n.general,
+        icon: '',
+        component: General
+    },
+    {
+        id: 'other',
+        label: i18n.other,
+        icon: '',
+        component: Other
+    },
 ];
 
 const Settings: FC = () => {
-  const { tab } = useParams();
-  const navigate = useNavigate();
+    const { tab } = useParams();
+    const navigate = useNavigate();
 
-  const tabDefault: string = tab || 'general';
-  const [activeTab, setActiveTab] = useState<string>(tabDefault);
+    const tabDefault: string = tab || 'general';
+    const [activeTab, setActiveTab] = useState<string>(tabDefault);
 
-  const addCurrentTab = (e: MouseEvent<HTMLElement>, tab: string) => {
-    e.preventDefault();
-    setActiveTab(tab);
-    navigate(`/settings/${tab}`);
-  };
+    const addCurrentTab = (e: MouseEvent<HTMLElement>, tab: string) => {
+        e.preventDefault();
+        setActiveTab(tab);
+        navigate(`/settings/${tab}`);
+    };
 
-  const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component;
+    const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component;
 
-  return (
-    <div className='ozopanel-settings'>
-      <h3>{i18n.settings}</h3>
-      <ul className="ozopanel-tab-list">
-        {tabs.map((tab) => (
-          <li
-            key={tab.id}
-            className={`ozopanel-tab-item ${tab.id === activeTab ? 'ozopanel-active' : ''}`}
-            onClick={(e) => addCurrentTab(e, tab.id)}
-          >
-            <a>{tab.label}</a>
-          </li>
-        ))}
-      </ul>
+    return (
+        <div className='ozopanel-settings'>
+            <h3>{i18n.settings}</h3>
+            <ul className="ozopanel-tab-list">
+                {tabs.map((tab) => (
+                    <li
+                        key={tab.id}
+                        className={`ozopanel-tab-item ${tab.id === activeTab ? 'ozopanel-active' : ''}`}
+                        onClick={(e) => addCurrentTab(e, tab.id)}
+                    >
+                        <a>{tab.label}</a>
+                    </li>
+                ))}
+            </ul>
 
-      <div className="ozopanel-tab-content">
-        <Suspense fallback={<Spinner />}>
-          {ActiveComponent && <ActiveComponent />}
-        </Suspense>
-      </div>
-    </div>
-  );
+            <div className="ozopanel-tab-content">
+                <Suspense fallback={<Spinner />}>
+                    {ActiveComponent && <ActiveComponent />}
+                </Suspense>
+            </div>
+        </div>
+    );
 };
 
 export default Settings;
