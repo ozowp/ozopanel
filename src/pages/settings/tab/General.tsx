@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+/* import { useEffect } from 'react';
 import { toast } from "react-toastify";
-import api from '@utils/api';
+import api from '@utils/api'; */
 
 const General = () => {
   // const [form, setFrom] = useState({});
 
-  useEffect(() => {
+  /* useEffect(() => {
     get();
   }, []);
 
@@ -21,7 +21,7 @@ const General = () => {
             } );
           }
       })
-  }
+  } */
 
   return (
     <div>

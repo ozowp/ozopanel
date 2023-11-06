@@ -19,7 +19,7 @@ type Action =
     | { type: 'SET_LOADING'; payload: boolean }
     | { type: 'TOGGLE_INDIVIDUAL_CHECKBOX'; payload: string };
 
-export const initialState: State = {
+export const initState: State = {
     restrictions: [],
     selectedItems: [],
     selectAll: false,

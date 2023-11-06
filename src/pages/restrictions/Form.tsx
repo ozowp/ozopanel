@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Spinner from '@components/preloader/spinner';
 import api from '@utils/api';
-import { reducer, initialState } from './formReducer';
+import { reducer, initState } from './formReducer';
 
 const Form: FC = () => {
 
@@ -11,7 +11,7 @@ const Form: FC = () => {
     const i18n = ozopanel.i18n;
     const navigate = useNavigate();
 
-    const [state, dispatch] = useReducer(reducer, initialState); // Use the reducer and initial state
+    const [state, dispatch] = useReducer(reducer, initState); // Use the reducer and initial state
 
     useEffect(() => {
         const fetchData = async () => {

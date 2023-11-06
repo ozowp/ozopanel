@@ -1,3 +1,15 @@
+interface Option {
+    label: string;
+    value: string;
+}
+
+interface Screen {
+    group: string;
+    screen_id: string;
+    label: string;
+    options: Option[];
+}
+
 export interface Column {
     id: string;
     type: string;
@@ -8,16 +20,16 @@ export interface Column {
 
 interface State {
     loading: boolean;
-    screens: any[]; // Replace 'any' with the correct type for your screens data
+    screens: Screen[];
     columns: Column[];
 }
 
 type Action =
     | { type: 'SET_LOADING'; payload: boolean }
-    | { type: 'SET_SCREENS'; payload: any[] } // Replace 'any' with the correct type for your screens data
+    | { type: 'SET_SCREENS'; payload: Screen[] }
     | { type: 'SET_COLUMNS'; payload: Column[] };
 
-export const initialState: State = {
+export const initState: State = {
     loading: true,
     screens: [],
     columns: [],

@@ -5,12 +5,12 @@ import Spinner from '@components/preloader/spinner';
 import SelectGroup from '@components/select-group';
 import Columns from './Columns';
 import api from '@utils/api';
-import { reducer, initialState, Column } from './reducer';
+import { reducer, initState, Column } from './reducer';
 
 const AdminColumns: FC = () => {
 	const { id = 'post' } = useParams();
     const navigate = useNavigate();
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initState);
 
 	useEffect(() => {
         const fetchData = async () => {

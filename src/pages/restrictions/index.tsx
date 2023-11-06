@@ -3,12 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Spinner from '@components/preloader/spinner';
 import api from '@utils/api';
-import { reducer, initialState } from './reducer';
+import { reducer, initState } from './reducer';
 
 const Restrictions: FC = () => {
     const { type } = useParams();
     const navigate = useNavigate();
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initState);
     const { restrictions, selectedItems, selectAll, loading } = state;
 
     useEffect(() => {

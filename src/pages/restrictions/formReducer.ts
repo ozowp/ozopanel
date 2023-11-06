@@ -38,7 +38,7 @@ type Action =
     | { type: 'SET_LOADING_FETCH'; payload: boolean }
     | { type: 'SET_LOADING_SUBMIT'; payload: boolean }
 
-export const initialState: State = {
+export const initState: State = {
     idList: [],
     adminMenu: [],
     formData: {

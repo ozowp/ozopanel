@@ -1,12 +1,17 @@
-import { StrictMode } from 'react'
+// import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App';
 
 ReactDOM.createRoot(document.getElementById('ozopanel-dashboard')!).render(
+  <App />,
+)
+
+//react-beautiful-dnd not working in StrictMode
+/* ReactDOM.createRoot(document.getElementById('ozopanel-dashboard')!).render(
   <StrictMode>
     <App />
   </StrictMode>,
-)
+) */
 
 const checkRoute = () => {
   let currentHash = window.location.hash;
