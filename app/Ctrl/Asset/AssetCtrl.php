@@ -100,12 +100,14 @@ class AssetCtrl
                 'test-template.php'
             ])
         ) {
-            wp_enqueue_style(
-                'ozopanel-dashboard',
-                ozopanel()->get_asset_uri("main.css"),
-                [],
-                $this->version
-            );
+            if ( ! ozopanel()->is_debug() ) {
+                wp_enqueue_style(
+                    'ozopanel-dashboard',
+                    ozopanel()->get_asset_uri("main.css"),
+                    [],
+                    $this->version
+                );
+            }
 
             if ( ozopanel()->is_debug() ) {
                 wp_enqueue_script(

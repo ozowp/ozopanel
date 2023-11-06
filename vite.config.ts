@@ -39,9 +39,10 @@ const config = defineConfig({
   css: {
     preprocessorOptions: {
       sass: {
+        additionalData: `@import "./src/scss/style.scss";`, // Import your main styles file
       },
     },
-  }
+  },
 });
 
 // Check if OZOPANEL_DEBUG environment variable is not set or set to a truthy value

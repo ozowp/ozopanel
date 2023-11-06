@@ -2,7 +2,6 @@ import { Suspense, FC } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "@scss/main.scss";
 import routes from "./routes";
 
 import Spinner from "@components/preloader/spinner";
