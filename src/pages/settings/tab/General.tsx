@@ -26,7 +26,7 @@ const General = () => {
   return (
     <div>
       General Settings
-      <div className="bg-red-500 text-white p-4">
+      <div className="tw-bg-blue-500 tw-text-white tw-p-4">
         This is a component with Tailwind CSS styles.
       </div>
     </div>

@@ -1,6 +1,6 @@
 function Snipper() {
   return (
-    <div className="ozopanel-preloader">Loading...</div>
+    <div className="ozop-preloader">Loading...</div>
   )
 }
 export default Snipper

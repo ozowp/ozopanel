@@ -1,21 +1,20 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+
+@import "partials/tailwind";
 
 .wp-admin.ozopanel {
     .Toastify__toast-container.Toastify__toast-container--top-right {
         top: 3em;
     }
 
-    @import "partials/Form";
+    @import "partials/form";
 
-    .ozopanel-content {
+    .ozop-content {
         max-width: 1020px;
         margin: auto;
     }
 
-    .ozopanel-restrictions {
-        .ozopanel-restrictions-del-btn {
+    .ozop-restrictions {
+        .ozop-restrictions-del-btn {
             margin-left: 20px;
             background-color: #973e3e;
         }

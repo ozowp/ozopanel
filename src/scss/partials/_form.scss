@@ -1,5 +1,5 @@
-.ozopanel-restrictions-form {
-    .ozopanel-restrictions-form-head {
+.ozop-restrictions-form {
+    .ozop-restrictions-form-head {
         display: flex;
         justify-content: space-between;
         margin-top: 30px;
@@ -19,7 +19,7 @@
         }
     }
 
-    .ozopanel-restrictions-id {
+    .ozop-restrictions-id {
         margin: 20px 0;
 
         label {
@@ -29,7 +29,7 @@
         }
     }
 
-    .ozopanel-restrictions-menu {
+    .ozop-restrictions-menu {
         input[type="checkbox"] {
             margin: 0;
         }
@@ -42,7 +42,7 @@
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-gap: 25px;
 
-        .ozopanel-restrictions-menu-head {
+        .ozop-restrictions-menu-head {
             display: flex;
             align-items: center;
             background: #646970;
@@ -55,14 +55,14 @@
             }
         }
 
-        .ozopanel-restrictions-menu-item {
+        .ozop-restrictions-menu-item {
             border: 1px solid #dcdcde;
             background: #fff;
 
-            .ozopanel-restrictions-submenu {
+            .ozop-restrictions-submenu {
                 padding: 20px 20px 12px 20px;
 
-                .ozopanel-restrictions-submenu-item {
+                .ozop-restrictions-submenu-item {
                     display: flex;
                     align-items: center;
                     margin-bottom: 8px;
@@ -71,7 +71,7 @@
         }
     }
 
-    .ozopanel-restrictions-submit {
+    .ozop-restrictions-submit {
         padding: 15px 30px;
         font-size: 14px;
         font-weight: 500;

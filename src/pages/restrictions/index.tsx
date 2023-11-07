@@ -79,13 +79,13 @@ const Restrictions: FC = () => {
     const i18n = ozopanel.i18n;
 
 	return (
-		<div className='ozopanel-restrictions'>
+		<div className='ozop-restrictions'>
 			<h3>{`${i18n.restriction} ${type === 'users' ? i18n.users : i18n.roles}`}</h3>
 			<button className='' onClick={() => goForm()}>
 				{`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role}`}
 			</button>
 			{selectedItems.length > 0 && <button
-			className='ozopanel-restrictions-del-btn'
+			className='ozop-restrictions-del-btn'
 			onClick={handleDelete}>
 				{i18n.del}
 			</button>}

@@ -52,13 +52,13 @@ const Settings: FC = () => {
     const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component;
 
     return (
-        <div className='ozopanel-settings'>
-            <h3>{i18n.settings}</h3>
-            <ul className="ozopanel-tab-list">
+        <div className='ozop-settings'>
+            <h3 className="tw-h-6">{i18n.settings}</h3>
+            <ul className="ozop-tab-list">
                 {tabs.map((tab) => (
                     <li
                         key={tab.id}
-                        className={`ozopanel-tab-item ${tab.id === activeTab ? 'ozopanel-active' : ''}`}
+                        className={`ozop-tab-item ${tab.id === activeTab ? 'ozop-active' : ''}`}
                         onClick={(e) => addCurrentTab(e, tab.id)}
                     >
                         <a>{tab.label}</a>
@@ -66,7 +66,7 @@ const Settings: FC = () => {
                 ))}
             </ul>
 
-            <div className="ozopanel-tab-content">
+            <div className="ozop-tab-content">
                 <Suspense fallback={<Spinner />}>
                     {ActiveComponent && <ActiveComponent />}
                 </Suspense>

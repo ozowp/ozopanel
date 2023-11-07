@@ -2,7 +2,7 @@
 const Dashboard = () => {
 
     return (
-        <div className="ozopanel-dashboard">
+        <div className="ozop-dashboard">
             <h3>Dashboard</h3>
 
         </div>

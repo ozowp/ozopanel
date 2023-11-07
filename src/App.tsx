@@ -8,22 +8,22 @@ import Spinner from "@components/preloader/spinner";
 
 const App: FC = () => {
     return (
-        <HashRouter>
-            <ToastContainer hideProgressBar />
-            <div className="ozopanel-content">
-                <Suspense fallback={<Spinner />}>
-                    <Routes>
-                        {routes.map((route, i) => (
-                            <Route
-                                key={i}
-                                path={route.path}
-                                element={<route.element />}
-                            />
-                        ))}
-                    </Routes>
-                </Suspense>
-            </div>
-        </HashRouter>
+        <div className="ozop-content">
+            <HashRouter>
+                <ToastContainer hideProgressBar />
+                    <Suspense fallback={<Spinner />}>
+                        <Routes>
+                            {routes.map((route, i) => (
+                                <Route
+                                    key={i}
+                                    path={route.path}
+                                    element={<route.element />}
+                                />
+                            ))}
+                        </Routes>
+                    </Suspense>
+            </HashRouter>
+        </div>
     );
 };
 

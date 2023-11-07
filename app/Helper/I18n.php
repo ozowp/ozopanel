@@ -12,6 +12,8 @@ class I18n
         return [
             // general
             'select' => esc_html__('Select', 'ozopanel'),
+            'save' => esc_html__('Save', 'ozopanel'),
+            'cancel' => esc_html__('Cancel', 'ozopanel'),
             'backTo' => esc_html__('Back to', 'ozopanel'),
             'del' => esc_html__('Delete', 'ozopanel'),
             'menu_select_guide' => esc_html__('Select menu and submenu which you want to allow for this', 'ozopanel'),

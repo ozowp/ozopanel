@@ -1,11 +1,11 @@
 export default (props) => {
     const show = () => {
-        document.getElementById('ozopanel-pro-alert').style.display = 'block';
+        document.getElementById('ozop-pro-alert').style.display = 'block';
     };
 
     return (
         <>
-            {gate.length > 0 && <span className="ozopanel-pro-label" onClick={() => show()} style={{ background: (props.blueBtn) ? '#FFEED9' : 'auto' }}>
+            {gate.length > 0 && <span className="ozop-pro-label" onClick={() => show()} style={{ background: (props.blueBtn) ? '#FFEED9' : 'auto' }}>
                 <svg
                     width={13}
                     height={10}

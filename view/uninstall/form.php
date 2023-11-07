@@ -58,7 +58,7 @@ $deactivate_reasons = [
          </div>
 
          <form>
-            <div class="ozopanel-content">
+            <div class="ozop-content">
                <div class="ozopanel-form-style-one">
                   <?php wp_nonce_field('_ozopanel_deactivate_nonce'); ?>
                   <div class="row">

@@ -1,11 +1,11 @@
-.ozopanel {
-	.ozopanel-tab-list {
+.ozp {
+	.ozop-tab-list {
 		list-style: none;
 		padding: 0;
 		display: flex;
 		background-color: #f2f2f2;
 
-		.ozopanel-tab-item {
+		.ozop-tab-item {
 			padding: 10px 20px;
 			border-bottom: 2px solid transparent;
 			transition: border-bottom 0.3s ease;
@@ -24,7 +24,7 @@
 			}
 		}
 
-		.ozopanel-active.ozopanel-tab-item  {
+		.ozop-active.ozop-tab-item  {
 			border-bottom-color: #007bff;
 
 			a {

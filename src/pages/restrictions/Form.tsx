@@ -109,8 +109,8 @@ const Form: FC = () => {
     };
 
     return (
-        <div className='ozopanel-restrictions-form'>
-            <div className='ozopanel-restrictions-form-head'>
+        <div className='ozop-restrictions-form'>
+            <div className='ozop-restrictions-form-head'>
                 <h3>{`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role}`}</h3>
                 <button className='' onClick={() => navigate(`/restrictions/${type}`)}>
                     {`${i18n.backTo} ${type === 'users' ? i18n.users : i18n.roles}`}
@@ -121,7 +121,7 @@ const Form: FC = () => {
                 <Spinner />
             ) : (
                 <form onSubmit={handleSubmit}>
-                    <div className='ozopanel-restrictions-id'>
+                    <div className='ozop-restrictions-id'>
                         <label>{`${i18n.select} ${type === 'users' ? i18n.user : i18n.role}`}:</label>
                         <select
                             onChange={(e) => handleIdChange(e.target.value)}
@@ -138,11 +138,11 @@ const Form: FC = () => {
                     </div>
 
                     <p>{`${i18n.menu_select_guide} ${type === 'users' ? i18n.user : i18n.role}`}</p>
-                    <div className='ozopanel-restrictions-menu'>
+                    <div className='ozop-restrictions-menu'>
                         {state.adminMenu.map((menu, menuI) => (
-                            <div key={menuI} className='ozopanel-restrictions-menu-item'>
+                            <div key={menuI} className='ozop-restrictions-menu-item'>
                                 <div
-                                    className={`ozopanel-restrictions-menu-head`}
+                                    className={`ozop-restrictions-menu-head`}
                                     onClick={() => handleAdminMenuToggle(menu.url)}
                                 >
                                     <input
@@ -152,11 +152,11 @@ const Form: FC = () => {
                                     <label>{menu.label}</label>
                                 </div>
 
-                                <div className={`ozopanel-restrictions-submenu`}>
+                                <div className={`ozop-restrictions-submenu`}>
                                     {menu.submenu.map((submenu, subMenuI) => (
                                         <div
                                             key={subMenuI}
-                                            className={`ozopanel-restrictions-submenu-item`}
+                                            className={`ozop-restrictions-submenu-item`}
                                             onClick={() => handleSubMenuToggle(menu.url, submenu.url)}>
                                             <input type='checkbox'
                                                 checked={state.formData.admin_menu[menu.url]?.includes(submenu.url) || false}
@@ -169,7 +169,7 @@ const Form: FC = () => {
                         ))}
                     </div>
 
-                    <button className='ozopanel-restrictions-submit' type='submit' disabled={state.loadingSubmit}>
+                    <button className='ozop-restrictions-submit' type='submit' disabled={state.loadingSubmit}>
                         {state.loadingSubmit ? (id ? i18n.updating : i18n.submiting) : (id ? i18n.update : i18n.submit)}
                     </button>
                 </form>
