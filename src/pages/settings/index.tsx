@@ -53,7 +53,7 @@ const Settings: FC = () => {
 
     return (
         <div className='ozop-settings'>
-            <h3 className="tw-h-6">{i18n.settings}</h3>
+            <h3 className="h-6">{i18n.settings}</h3>
             <ul className="ozop-tab-list">
                 {tabs.map((tab) => (
                     <li

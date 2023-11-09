@@ -26,7 +26,7 @@ class AdminColumn
             ],
         ]);
 
-        register_rest_route('ozopanel/v1', '/admin-columns/(?P<id>[a-z0-9-]+)', [
+        register_rest_route('ozopanel/v1', '/admin-columns/(?P<id>[a-z0-9_]+)', [
             'methods' => 'PUT',
             'callback' => [$this, 'update'],
             'permission_callback' => [$this, 'update_per'],
@@ -58,26 +58,44 @@ class AdminColumn
         $url_params = $req->get_url_params();
         $id = $url_params['id'];
 
-        $resp = [];
-        $resp['screens'] = ModelAdminColumn::list_screens();
-        $resp['columns'] = [];
-        if ( $id ) {
-            if ( post_type_exists( $id ) ) {
-                $columns = get_option('ozopanel_admin_column_' . $id . '_default', []);
-                $resp['columns'] = Fns::format_column( $columns );
-            } elseif ( $id == 'wp_media' ) {
-                $columns = get_option('ozopanel_admin_column_upload_default', []);
-                $resp['columns'] = Fns::format_column( $columns );
+        $reg_errors = new \WP_Error();
 
-            } elseif ( $id == 'wp_comments' ) {
-                $columns = get_option('ozopanel_admin_column_edit-comments_default', []);
-                $resp['columns'] = Fns::format_column( $columns );
-            } elseif ( $id == 'wp_users' ) {
-                $columns = get_option('ozopanel_admin_column_users_default', []);
-                $resp['columns'] = Fns::format_column( $columns );
-            }
+        if ( !$id ) {
+            $reg_errors->add(
+                'select_id',
+                esc_html__('Screen ID is required!', 'ozopanel')
+            );
         }
-        wp_send_json_success($resp);
+
+        if ( $reg_errors->get_error_messages() ) {
+            wp_send_json_error($reg_errors->get_error_messages());
+        } else {
+            $resp = [];
+            $resp['screens'] = ModelAdminColumn::screens();
+            $columns_default = [];
+            if ( $id ) {
+                if ( post_type_exists( $id ) ) {
+                    $columns = get_option('ozopanel_admin_column_' . $id . '_default', []);
+                    $columns_default = Fns::format_column( $columns );
+                } elseif ( $id == 'wp_media' ) {
+                    $columns = get_option('ozopanel_admin_column_upload_default', []);
+                    $columns_default = Fns::format_column( $columns );
+
+                } elseif ( $id == 'wp_comments' ) {
+                    $columns = get_option('ozopanel_admin_column_edit-comments_default', []);
+                    $columns_default = Fns::format_column( $columns );
+                } elseif ( $id == 'wp_users' ) {
+                    $columns = get_option('ozopanel_admin_column_users_default', []);
+                    $columns_default = Fns::format_column( $columns );
+                }
+            }
+
+            $resp['columns_default'] = $columns_default;
+            $custom_columns = get_option('ozopanel_admin_column_' . $id, []);
+            $resp['columns'] = $custom_columns ? $custom_columns : $columns_default; //custom column otherwise default column
+            wp_send_json_success($resp);
+        }
+
     }
 
     public function update($req)
@@ -86,54 +104,22 @@ class AdminColumn
 
         $url_param = $req->get_url_params();
         $id = $url_param["id"];
-        $type = $url_param['type'];
 
         $reg_errors = new \WP_Error();
 
-        $admin_menu = isset($param['admin_menu']) ? ($param['admin_menu']) : '';
-        if ( empty($id) ) {
-            if ($type == 'users') {
-                $reg_errors->add(
-                    'select_id',
-                    esc_html__('Please Select User', 'ozopanel')
-                );
-            } else {
-                $reg_errors->add(
-                    'select_id',
-                    esc_html__('Please Seleact Role', 'ozopanel')
-                );
-            }
-        }
+        $admin_column = isset($param['admin_column']) ? ($param['admin_column']) : '';
 
-        if ( empty($admin_menu) ) {
-            $reg_errors->add(
-                'select_menu',
-                esc_html__('Please select Menu', 'ozopanel')
-            );
-        }
-
-        if ( $type == 'users' && user_can( $id, 'administrator' ) ) {
+        if ( !$id ) {
             $reg_errors->add(
                 'select_id',
-                esc_html__('Administrator restriction not allowed!', 'ozopanel')
-            );
-        }
-
-        if ($type == 'roles' && $id == 'administrator') {
-            $reg_errors->add(
-                'select_id',
-                esc_html__('Administrator restriction not allowed!', 'ozopanel')
+                esc_html__('Screen ID is required!', 'ozopanel')
             );
         }
 
         if ($reg_errors->get_error_messages()) {
             wp_send_json_error($reg_errors->get_error_messages());
         } else {
-            if ($type == 'users') {
-                update_user_meta($id, '_ozopanel_admin_menu', $admin_menu);
-            } else {
-                update_option('ozopanel_admin_menu_role_' . $id, $admin_menu);
-            }
+            update_option('ozopanel_admin_column_' . $id, $admin_column);
             wp_send_json_success();
         }
     }

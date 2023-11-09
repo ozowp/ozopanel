@@ -5,7 +5,7 @@ import Spinner from '@components/preloader/spinner';
 import SelectGroup from '@components/select-group';
 import Columns from './Columns';
 import api from '@utils/api';
-import { reducer, initState, Column } from './reducer';
+import { reducer, initState, Action, Column } from './reducer';
 import ColumnEdit from './ColumnEdit';
 
 const AdminColumns: FC = () => {
@@ -43,7 +43,8 @@ const AdminColumns: FC = () => {
     };
 
     const handleColumnChange = (newColumns: Column[]) => {
-        dispatch({ type: 'SET_COLUMNS', payload: newColumns });
+        //api request
+        handleSubmit( { type: 'SET_COLUMNS', payload: newColumns } );
     };
 
     const handleSelectColumn = (index: null | number) => {
@@ -55,13 +56,35 @@ const AdminColumns: FC = () => {
         if ( selectedColumn !== null ) {
             const updatedColumns = [...state.columns];
             updatedColumns[selectedColumn] = updatedColumn;
-            dispatch({ type: 'SET_COLUMNS', payload: updatedColumns });
 
             //api request
+            handleSubmit( { type: 'SET_COLUMNS', payload: updatedColumns } );
         }
 
         // Reset the editedColumnIndex
         handleSelectColumn(null);
+    };
+
+
+    const handleSubmit = async ( action: Action ) => {
+
+        dispatch(action);
+        const nextState = reducer(state, action);
+
+        try {
+            const res = await api.edit(`admin-columns`, id, { admin_column: nextState.columns } );
+            if (res.success) {
+                if (id) {
+                    toast.success(i18n.sucEdit);
+                }
+            } else {
+                res.data.forEach((value: string) => {
+                    toast.error(value);
+                });
+            }
+        } catch (error) {
+            console.error('Error submitting data:', error);
+        }
     };
 
     const i18n = ozopanel.i18n;

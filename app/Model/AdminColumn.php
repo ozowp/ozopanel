@@ -12,8 +12,8 @@ class AdminColumn {
 	 * @return array
 	 * @since 1.0.0
 	 */
-	public static function list_screens() {
-		$list_screens = [
+	public static function screens() {
+		$screens = [
 			[
 				'group' => 'post_type',
 				'screen_id' => 'edit',
@@ -45,7 +45,7 @@ class AdminColumn {
 		];
 
 		if ( ! is_multisite() ) {
-			$list_screens[] = [
+			$screens[] = [
 				'group' => 'user',
 				'screen_id' => 'users',
 				'label' => esc_html__( 'Users', 'ozopanel' ),
@@ -70,9 +70,9 @@ class AdminColumn {
 				];
 			}
 		}
-		$list_screens[0]['options'] = $post_types;
+		$screens[0]['options'] = $post_types;
 
-		return apply_filters( 'ozopanel/list_screens', $list_screens );
+		return apply_filters( 'ozopanel/admin_column_screens', $screens );
 	}
 
     /**

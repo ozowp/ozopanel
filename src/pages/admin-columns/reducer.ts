@@ -25,7 +25,7 @@ interface State {
     selectedColumn: null|number;
 }
 
-type Action =
+export type Action =
     | { type: 'SET_LOADING'; payload: boolean }
     | { type: 'SET_SCREENS'; payload: Screen[] }
     | { type: 'SET_COLUMNS'; payload: Column[] }

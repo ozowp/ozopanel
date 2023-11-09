@@ -94,15 +94,6 @@ class Dashboard
             [$this, 'render']
         );
 
-        /* if ( !function_exists('ozopanelp') ) {
-            global $submenu;
-            $submenu['ozopanel'][] = [
-                'Upgrade to Pro',
-                'manage_options',
-                'https://ozopanel.com',
-            ];
-        } */
-
         remove_submenu_page('ozopanel', 'ozopanel');
     }
 
@@ -139,7 +130,6 @@ class Dashboard
 
             $cleanLabel = preg_replace('/\d+/', '', strip_tags($menuItem[0]));
             $modifyMenuItem['label'] = $cleanLabel;
-            // $modifyMenuItem['label'] = $menuItem[0];
             $modifyMenuItem['capability'] = $menuItem[1];
             $modifyMenuItem['url'] = $menuItem[2];
 
