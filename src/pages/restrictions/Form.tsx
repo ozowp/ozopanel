@@ -48,16 +48,16 @@ const Form: FC = () => {
         e.preventDefault();
         if (!state.formData.id) {
             if (type === 'users') {
-                toast.error(i18n.pls_select_user);
+                toast.error(i18n.plsSelectUser);
             } else {
-                toast.error(i18n.pls_select_role);
+                toast.error(i18n.plsSelectRole);
             }
             return;
         }
 
         //if admin_menu object empty
         if (Object.keys(state.formData.admin_menu).length === 0) {
-            toast.error(i18n.pls_select_menu);
+            toast.error(i18n.plsSelectMenu);
             return;
         }
 
@@ -137,7 +137,7 @@ const Form: FC = () => {
                         </select>
                     </div>
 
-                    <p>{`${i18n.menu_select_guide} ${type === 'users' ? i18n.user : i18n.role}`}</p>
+                    <p>{`${i18n.menuSelectGuide} ${type === 'users' ? i18n.user : i18n.role}`}</p>
                     <div className='ozop-restrictions-menu'>
                         {state.adminMenu.map((menu, menuI) => (
                             <div key={menuI} className='ozop-restrictions-menu-item'>

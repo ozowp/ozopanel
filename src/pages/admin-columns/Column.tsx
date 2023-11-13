@@ -1,25 +1,25 @@
-// Inside ColumnEdit.tsx
+// Inside Column.tsx
 
 import React, { FC, useState, useEffect } from 'react';
 import { Column } from './reducer';
 
-interface ColumnEditProps {
+interface ColumnProps {
     column: Column;
     onSave: (updatedColumn: Column) => void;
     onCancel: () => void;
 }
 
-const ColumnEdit: FC<ColumnEditProps> = ({ column, onSave, onCancel }) => {
-    const [editedColumn, setEditedColumn] = useState<Column>(column);
+const Column: FC<ColumnProps> = ({ column, onSave, onCancel }) => {
+    const [form, setForm] = useState<Column>(column);
 
-    // Update the editedColumn state when the column prop changes
+    // Update the form state when the column prop changes
     useEffect(() => {
-        setEditedColumn(column);
+        setForm(column);
     }, [column]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setEditedColumn(prevState => ({
+        setForm(prevState => ({
             ...prevState,
             [name]: value,
         }));
@@ -27,13 +27,13 @@ const ColumnEdit: FC<ColumnEditProps> = ({ column, onSave, onCancel }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSave(editedColumn);
+        onSave(form);
     };
 
     const i18n = ozopanel.i18n;
 
     return (
-        <div>
+        <>
             <h3>Edit Column</h3>
             <form onSubmit={handleSubmit}>
                 <div>
@@ -42,7 +42,7 @@ const ColumnEdit: FC<ColumnEditProps> = ({ column, onSave, onCancel }) => {
                         type="text"
                         id="label"
                         name="label"
-                        value={editedColumn.label}
+                        value={form.label}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -52,7 +52,7 @@ const ColumnEdit: FC<ColumnEditProps> = ({ column, onSave, onCancel }) => {
                         type="text"
                         id="type"
                         name="type"
-                        value={editedColumn.type}
+                        value={form.type}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -62,7 +62,7 @@ const ColumnEdit: FC<ColumnEditProps> = ({ column, onSave, onCancel }) => {
                         type="text"
                         id="width"
                         name="width"
-                        value={editedColumn.width}
+                        value={form.width}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -72,19 +72,19 @@ const ColumnEdit: FC<ColumnEditProps> = ({ column, onSave, onCancel }) => {
                         type="text"
                         id="width_unit"
                         name="width_unit"
-                        value={editedColumn.width_unit}
+                        value={form.width_unit}
                         onChange={handleInputChange}
                     />
                 </div>
                 <button type="submit" className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-                    {i18n.save}
+                    {i18n.apply}
                 </button>
                 <button type="reset" onClick={onCancel} className="text-gray-800 font-semibold py-2 px-4">
                     {i18n.cancel}
                 </button>
             </form>
-        </div>
+        </>
     );
 };
 
-export default ColumnEdit;
+export default Column;

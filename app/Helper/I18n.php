@@ -12,18 +12,22 @@ class I18n
         return [
             // general
             'select' => esc_html__('Select', 'ozopanel'),
+            'view' => esc_html__('View', 'ozopanel'),
+            'apply' => esc_html__('Apply', 'ozopanel'),
             'save' => esc_html__('Save', 'ozopanel'),
+            'saveChanges' => esc_html__('Save Changes', 'ozopanel'),
+            'resetChanges' => esc_html__('Reset Changes', 'ozopanel'),
             'cancel' => esc_html__('Cancel', 'ozopanel'),
             'backTo' => esc_html__('Back to', 'ozopanel'),
             'del' => esc_html__('Delete', 'ozopanel'),
-            'menu_select_guide' => esc_html__('Select menu and submenu which you want to allow for this', 'ozopanel'),
+            'menuSelectGuide' => esc_html__('Select menu and submenu which you want to allow for this', 'ozopanel'),
             'submit' => esc_html__('Submit', 'ozopanel'),
             'submiting' => esc_html__('Submitting...', 'ozopanel'),
             'update' => esc_html__('Update', 'ozopanel'),
             'updating' => esc_html__('Updatting...', 'ozopanel'),
             'restrict' => esc_html__('Restrict', 'ozopanel'),
             'restriction' => esc_html__('Restriction', 'ozopanel'),
-            'admin_columns' => esc_html__('Admin Columns', 'ozopanel'),
+            'adminColumns' => esc_html__('Admin Columns', 'ozopanel'),
             //table
             'id' => esc_html__('ID', 'ozopanel'),
             'name' => esc_html__('Name', 'ozopanel'),
@@ -43,9 +47,9 @@ class I18n
             'general' => esc_html__('General', 'ozopanel'),
             'other' => esc_html__('Other', 'ozopanel'),
             // toast
-            'pls_select_menu' => esc_html__('Please select Menu', 'ozopanel'),
-            'pls_select_user' => esc_html__('Please Select User', 'ozopanel'),
-            'pls_select_role' => esc_html__('Please Seleact Role', 'ozopanel'),
+            'plsSelectMenu' => esc_html__('Please select Menu', 'ozopanel'),
+            'plsSelectUser' => esc_html__('Please Select User', 'ozopanel'),
+            'plsSelectRole' => esc_html__('Please Seleact Role', 'ozopanel'),
             'sucAdd' => esc_html__('Successfully Added', 'ozopanel'),
             'sucEdit' => esc_html__('Successfully Updated', 'ozopanel'),
             'sucDel' => esc_html__('Successfully Deleted', 'ozopanel')

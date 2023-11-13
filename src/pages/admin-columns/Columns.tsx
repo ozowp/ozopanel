@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useDeleteConfirmation } from '@/components/alert/delete/Provider';
 import "./style.scss";
 
 interface Column {
@@ -13,10 +14,13 @@ interface ColumnsProps {
     columns: Column[];
     onChange: (columns: Column[]) => void;
     onSelect: (index: number) => void;
+    onDelete: (index: number) => void;
 }
 
-const Columns: FC<ColumnsProps> = ({ columns, onChange, onSelect }) => {
+const Columns: FC<ColumnsProps> = ({ columns, onChange, onSelect, onDelete }) => {
     const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+
+    const { openDeleteConfirmation } = useDeleteConfirmation();
 
     const handleDragStart = (index: number) => {
         setDraggedIndex(index);
@@ -33,23 +37,36 @@ const Columns: FC<ColumnsProps> = ({ columns, onChange, onSelect }) => {
         setDraggedIndex(index);
     };
 
+    const handleDeleteClick = (index: number) => {
+        openDeleteConfirmation( () => {
+            onDelete(index);
+        });
+    };
+
     return (
-        <div>
-            <ul className="ozop-sortable-list">
-                {columns.map((column, index) => (
-                    <li
-                        key={column.id}
-                        className="bg-white cursor-grab hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-                        draggable
-                        onDragStart={() => handleDragStart(index)}
-                        onDragOver={() => handleDragOver(index)}
-                        onClick={() => onSelect(index)} // Handle click event for editing
+        <ul className="ozop-sortable-list">
+            {columns.map((column, index) => (
+                <li
+                    key={column.id}
+                    className="bg-white cursor-grab hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                    draggable
+                    onDragStart={() => handleDragStart(index)}
+                    onDragOver={() => handleDragOver(index)}
+                    onClick={() => onSelect(index)} // Handle click event for editing
+                >
+                    <span dangerouslySetInnerHTML={{__html: column.label}} />
+                    <button
+                        className="ml-2 text-red-500"
+                        onClick={(e) => {
+                            e.stopPropagation(); // Prevent the click event from triggering the parent li click event
+                            handleDeleteClick(index);
+                        }}
                     >
-                        {column.label}
-                    </li>
-                ))}
-            </ul>
-        </div>
+                        Delete
+                    </button>
+                </li>
+            ))}
+        </ul>
     );
 };
 

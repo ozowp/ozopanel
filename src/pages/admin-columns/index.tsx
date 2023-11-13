@@ -1,12 +1,13 @@
 import { FC, useReducer, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
 import Spinner from '@components/preloader/spinner';
 import SelectGroup from '@components/select-group';
 import Columns from './Columns';
+import Column from './Column';
 import api from '@utils/api';
-import { reducer, initState, Action, Column } from './reducer';
-import ColumnEdit from './ColumnEdit';
+import { reducer, initState, Column as ColumnItf } from './reducer';
 
 const AdminColumns: FC = () => {
     const { id = 'post' } = useParams();
@@ -42,37 +43,47 @@ const AdminColumns: FC = () => {
         }
     };
 
-    const handleColumnChange = (newColumns: Column[]) => {
-        //api request
-        handleSubmit( { type: 'SET_COLUMNS', payload: newColumns } );
+    const handleColumnOrder = (newColumns: ColumnItf[]) => {
+        dispatch({ type: 'SET_COLUMNS', payload: newColumns });
     };
 
-    const handleSelectColumn = (index: null | number) => {
-        dispatch({ type: 'SET_SELECT_COLUMN', payload: index });
+    const handleColumnSelect = (index: null | number) => {
+        dispatch({ type: 'SET_COLUMN_SELECT', payload: index });
     };
 
-    const handleSaveColumn = (updatedColumn: Column) => {
+    // Helper function to create a new instance with default values
+    const createEmptyColumn = (): ColumnItf => {
+        const uniqueId = `ozop_custom_${uuidv4()}`;
+        return {
+            id: uniqueId,
+            type: 'default',
+            label: 'Column Name',
+            width: '',
+            width_unit: '',
+        };
+    };
 
-        if ( selectedColumn !== null ) {
+    // Inside your component
+    const handleColumnNew = () => {
+        dispatch({ type: 'SET_COLUMN_NEW', payload: createEmptyColumn() });
+    };
+
+    const handleColumnChange = (updatedColumn: ColumnItf) => {
+
+        if (selectedColumn !== null) {
             const updatedColumns = [...state.columns];
             updatedColumns[selectedColumn] = updatedColumn;
-
-            //api request
-            handleSubmit( { type: 'SET_COLUMNS', payload: updatedColumns } );
+            dispatch({ type: 'SET_COLUMNS', payload: updatedColumns });
         }
 
         // Reset the editedColumnIndex
-        handleSelectColumn(null);
+        handleColumnSelect(null);
     };
 
 
-    const handleSubmit = async ( action: Action ) => {
-
-        dispatch(action);
-        const nextState = reducer(state, action);
-
+    const handleSubmit = async () => {
         try {
-            const res = await api.edit(`admin-columns`, id, { admin_column: nextState.columns } );
+            const res = await api.edit(`admin-columns`, id, { admin_column: state.columns });
             if (res.success) {
                 if (id) {
                     toast.success(i18n.sucEdit);
@@ -87,14 +98,21 @@ const AdminColumns: FC = () => {
         }
     };
 
+    const handleColumnDelete = (index: number) => {
+        const updatedColumns = [...state.columns];
+        updatedColumns.splice(index, 1);
+        dispatch({ type: 'SET_COLUMNS', payload: updatedColumns });
+    };
+
     const i18n = ozopanel.i18n;
 
     return (
         <div className='ozop-admin-columns'>
-            <h3 className='text-2xl mb-3'>{i18n.admin_columns}</h3>
-            {loading ? <Spinner /> : (
+            <h3 className='text-2xl mb-3'>{i18n.adminColumns}</h3>
+            {loading && <Spinner />}
+            {!loading && (
                 <>
-                    <div className="grid grid-cols-2 gap-6 mb-10">
+                    <div className="grid grid-cols-3 gap-6 mb-10">
                         <div className='col'>
                             <SelectGroup
                                 groups={screens}
@@ -103,7 +121,17 @@ const AdminColumns: FC = () => {
                             />
                         </div>
                         <div className='col'>
-
+                            <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                                {`${i18n.view} ${id}`}
+                            </button>
+                        </div>
+                        <div className='col'>
+                            <button onClick={handleSubmit} className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                                {i18n.saveChanges}
+                            </button>
+                            <button className="text-gray-800 font-semibold py-2 px-4">
+                                {i18n.resetChanges}
+                            </button>
                         </div>
                     </div>
 
@@ -111,15 +139,19 @@ const AdminColumns: FC = () => {
                         <div className='col'>
                             <Columns
                                 columns={columns}
-                                onChange={handleColumnChange}
-                                onSelect={handleSelectColumn}
+                                onChange={handleColumnOrder}
+                                onSelect={handleColumnSelect}
+                                onDelete={handleColumnDelete}
                             />
+                            <button onClick={handleColumnNew} className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                                Add new Column
+                            </button>
                         </div>
                         <div className='col'>
-                            {selectedColumn !== null && <ColumnEdit
+                            {selectedColumn !== null && <Column
                                 column={columns[selectedColumn]}
-                                onSave={handleSaveColumn}
-                                onCancel={() => handleSelectColumn(null)}
+                                onSave={handleColumnChange}
+                                onCancel={() => handleColumnSelect(null)}
                             />}
                         </div>
                     </div>

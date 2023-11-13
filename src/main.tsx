@@ -1,11 +1,13 @@
 // import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App';
-
+import { DeleteConfirmationProvider } from '@/components/alert/delete/Provider';
 import "@scss/main.scss";
 
 ReactDOM.createRoot(document.getElementById('ozopanel-dashboard')!).render(
-  <App />,
+  <DeleteConfirmationProvider>
+      <App />
+  </DeleteConfirmationProvider>,
 )
 
 //react-beautiful-dnd not working in StrictMode

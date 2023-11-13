@@ -22,14 +22,15 @@ interface State {
     loading: boolean;
     screens: Screen[];
     columns: Column[];
-    selectedColumn: null|number;
+    selectedColumn: null | number;
 }
 
 export type Action =
     | { type: 'SET_LOADING'; payload: boolean }
     | { type: 'SET_SCREENS'; payload: Screen[] }
     | { type: 'SET_COLUMNS'; payload: Column[] }
-    | { type: 'SET_SELECT_COLUMN'; payload: null|number };
+    | { type: 'SET_COLUMN_SELECT'; payload: null | number }
+    | { type: 'SET_COLUMN_NEW'; payload: Column };
 
 export const initState: State = {
     loading: true,
@@ -46,8 +47,14 @@ export const reducer = (state: State, action: Action): State => {
             return { ...state, screens: action.payload };
         case 'SET_COLUMNS':
             return { ...state, columns: action.payload };
-        case 'SET_SELECT_COLUMN':
+        case 'SET_COLUMN_SELECT':
             return { ...state, selectedColumn: action.payload };
+        case 'SET_COLUMN_NEW':
+            return {
+                ...state,
+                columns: [...state.columns, action.payload], // Assuming action.payload is an empty instance of ColumnItf
+                selectedColumn: state.columns.length, // Select the newly added column
+            };
         default:
             return state;
     }

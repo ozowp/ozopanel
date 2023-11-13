@@ -1,0 +1,19 @@
+.comment-grey-bubble {
+    height:16px;
+    width:16px;
+}
+
+.comment-grey-bubble:before {
+    content: "";
+    font: normal 20px/.5 "dashicons";
+    speak: none;
+    display: inline-block;
+    padding: 0;
+    top: 5px;
+    left: 0;
+    position: relative;
+    vertical-align: top;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none !important
+}
