@@ -26,17 +26,17 @@ const SelectGroup: React.FC<SelectGroupProps> = ({ groups, value, onChange }) =>
   const i18n = ozopanel.i18n;
   return (
     <select value={value} onChange={handleSelectChange}>
-        {!value && <option value="">{i18n.select}</option>}
-        {groups.map((group: OptionGroup) => (
-          <optgroup key={group.label} label={group.label}>
-            {group.options.map((option: Option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </optgroup>
-        ))}
-      </select>
+      {!value && <option value="">{i18n.select}</option>}
+      {groups.map((group: OptionGroup) => (
+        <optgroup key={group.label} label={group.label}>
+          {group.options.map((option: Option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </optgroup>
+      ))}
+    </select>
   );
 };
 

@@ -59,7 +59,7 @@ const AdminColumns: FC = () => {
             type: 'default',
             label: 'Column Name',
             width: '',
-            width_unit: '',
+            width_unit: '%',
         };
     };
 
