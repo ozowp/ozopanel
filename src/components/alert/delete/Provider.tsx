@@ -1,23 +1,23 @@
-// DeleteConfirmationProvider.tsx
+// Provider.tsx
 import React, { createContext, useContext, useState } from 'react';
 import DeleteConfirmationModal from './Modal';
 
-interface DeleteConfirmationProviderProps {
+interface ProviderProps {
     children: React.ReactNode;
 }
 
-interface DeleteConfirmationContextProps {
-    openDeleteConfirmation: (onConfirm: () => void, onCancel?: () => void) => void;
+interface ConfirmContextProps {
+    openDelConfirm: (onConfirm: () => void, onCancel?: () => void) => void;
 }
 
-const DeleteConfirmationContext = createContext<DeleteConfirmationContextProps | undefined>(undefined);
+const ConfirmContext = createContext<ConfirmContextProps | undefined>(undefined);
 
-export const DeleteConfirmationProvider: React.FC<DeleteConfirmationProviderProps> = ({ children }) => {
+export const Provider: React.FC<ProviderProps> = ({ children }) => {
     const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
     const [cancelHandler, setCancelHandler] = useState<() => void>(() => {});
     const [confirmHandler, setConfirmHandler] = useState<() => void>(() => {});
 
-    const openDeleteConfirmation = (onConfirm: () => void, onCancel?: () => void) => {
+    const openDelConfirm = (onConfirm: () => void, onCancel?: () => void) => {
         setCancelHandler(() => onCancel || (() => {}));
         setConfirmHandler(() => onConfirm);
         setDeleteConfirmationOpen(true);
@@ -28,7 +28,7 @@ export const DeleteConfirmationProvider: React.FC<DeleteConfirmationProviderProp
     };
 
     return (
-        <DeleteConfirmationContext.Provider value={{ openDeleteConfirmation }}>
+        <ConfirmContext.Provider value={{ openDelConfirm }}>
             {children}
             <DeleteConfirmationModal
                 isOpen={isDeleteConfirmationOpen}
@@ -41,14 +41,14 @@ export const DeleteConfirmationProvider: React.FC<DeleteConfirmationProviderProp
                     closeDeleteConfirmation();
                 }}
             />
-        </DeleteConfirmationContext.Provider>
+        </ConfirmContext.Provider>
     );
 };
 
-export const useDeleteConfirmation = () => {
-    const context = useContext(DeleteConfirmationContext);
+export const useDelConfirm = () => {
+    const context = useContext(ConfirmContext);
     if (!context) {
-        throw new Error('useDeleteConfirmation must be used within a DeleteConfirmationProvider');
+        throw new Error('useDelConfirm must be used within a Provider');
     }
     return context;
 };

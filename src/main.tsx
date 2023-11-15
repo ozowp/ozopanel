@@ -1,13 +1,21 @@
 // import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
+import {
+  QueryClient,
+  QueryClientProvider
+} from '@tanstack/react-query'
 import App from './App';
-import { DeleteConfirmationProvider } from '@/components/alert/delete/Provider';
+import { Provider as ConfirmProvider} from '@/components/alert/delete/Provider';
 import "@scss/main.scss";
 
+const queryClient = new QueryClient()
+
 ReactDOM.createRoot(document.getElementById('ozopanel-dashboard')!).render(
-  <DeleteConfirmationProvider>
+  <QueryClientProvider client={queryClient}>
+    <ConfirmProvider>
       <App />
-  </DeleteConfirmationProvider>,
+    </ConfirmProvider>
+  </QueryClientProvider>,
 )
 
 //react-beautiful-dnd not working in StrictMode

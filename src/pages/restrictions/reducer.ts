@@ -1,4 +1,4 @@
-interface Restriction {
+interface Item {
     id: string;
     name?: string;
     email?: string;
@@ -6,21 +6,21 @@ interface Restriction {
 }
 
 interface State {
-    restrictions: Restriction[];
+    items: Item[];
     selectedItems: string[];
     selectAll: boolean;
     loading: boolean;
 }
 
 type Action =
-    | { type: 'SET_RESTRICTIONS'; payload: Restriction[] }
+    | { type: 'SET_ITEMS'; payload: Item[] }
     | { type: 'SET_SELECTED_ITEMS'; payload: string[] }
     | { type: 'SET_SELECT_ALL'; payload: boolean }
     | { type: 'SET_LOADING'; payload: boolean }
-    | { type: 'TOGGLE_INDIVIDUAL_CHECKBOX'; payload: string };
+    | { type: 'SET_TOGGLE_ITEM'; payload: string };
 
 export const initState: State = {
-    restrictions: [],
+    items: [],
     selectedItems: [],
     selectAll: false,
     loading: true,
@@ -28,15 +28,15 @@ export const initState: State = {
 
 export const reducer = (state: State, action: Action): State => {
     switch (action.type) {
-        case 'SET_RESTRICTIONS':
-            return { ...state, restrictions: action.payload };
+        case 'SET_ITEMS':
+            return { ...state, items: action.payload };
         case 'SET_SELECTED_ITEMS':
             return { ...state, selectedItems: action.payload };
         case 'SET_SELECT_ALL':
             return { ...state, selectAll: action.payload };
         case 'SET_LOADING':
             return { ...state, loading: action.payload };
-        case 'TOGGLE_INDIVIDUAL_CHECKBOX':
+        case 'SET_TOGGLE_ITEM':
             return {
                 ...state,
                 selectedItems: state.selectedItems.includes(action.payload)

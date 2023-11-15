@@ -1,14 +1,14 @@
-// DeleteConfirmationModal.tsx
+// Modal.tsx
 import React from 'react';
 import './style.scss'
 
-interface DeleteConfirmationModalProps {
+interface ModalProps {
     isOpen: boolean;
     onCancel: () => void;
     onConfirm: () => void;
 }
 
-const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({ isOpen, onCancel, onConfirm }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onCancel, onConfirm }) => {
     if (!isOpen) {
         return null;
     }
@@ -29,4 +29,4 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({ isOpe
     );
 };
 
-export default DeleteConfirmationModal;
+export default Modal;

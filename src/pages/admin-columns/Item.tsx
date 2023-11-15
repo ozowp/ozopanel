@@ -1,21 +1,21 @@
-// Inside Column.tsx
+// Inside Item.tsx
 
 import React, { FC, useState, useEffect } from 'react';
-import { Column } from './reducer';
+import { Item } from './reducer';
 
-interface ColumnProps {
-    column: Column;
-    onSave: (updatedColumn: Column) => void;
+interface ItemProps {
+    item: Item;
+    onSave: (updatedItem: Item) => void;
     onCancel: () => void;
 }
 
-const Column: FC<ColumnProps> = ({ column, onSave, onCancel }) => {
-    const [form, setForm] = useState<Column>(column);
+const Item: FC<ItemProps> = ({ item, onSave, onCancel }) => {
+    const [form, setForm] = useState<Item>(item);
 
-    // Update the form state when the column prop changes
+    // Update the form state when the item prop changes
     useEffect(() => {
-        setForm(column);
-    }, [column]);
+        setForm(item);
+    }, [item]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -34,7 +34,7 @@ const Column: FC<ColumnProps> = ({ column, onSave, onCancel }) => {
 
     return (
         <>
-            <h3>Edit Column</h3>
+            <h3>{i18n.editColumn}</h3>
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1">
                     <div className='col'>
@@ -93,4 +93,4 @@ const Column: FC<ColumnProps> = ({ column, onSave, onCancel }) => {
     );
 };
 
-export default Column;
+export default Item;

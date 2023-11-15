@@ -1,16 +1,15 @@
-interface Option {
-    label: string;
-    value: string;
-}
 
 interface Screen {
     group: string;
     screen_id: string;
     label: string;
-    options: Option[];
+    options: {
+        label: string;
+        value: string;
+    }[];
 }
 
-export interface Column {
+export interface Item {
     id: string;
     type: string;
     label: string;
@@ -21,22 +20,22 @@ export interface Column {
 interface State {
     loading: boolean;
     screens: Screen[];
-    columns: Column[];
-    selectedColumn: null | number;
+    items: Item[];
+    selectedItem: null | number;
 }
 
 export type Action =
     | { type: 'SET_LOADING'; payload: boolean }
     | { type: 'SET_SCREENS'; payload: Screen[] }
-    | { type: 'SET_COLUMNS'; payload: Column[] }
+    | { type: 'SET_COLUMNS'; payload: Item[] }
     | { type: 'SET_COLUMN_SELECT'; payload: null | number }
-    | { type: 'SET_COLUMN_NEW'; payload: Column };
+    | { type: 'SET_COLUMN_NEW'; payload: Item };
 
 export const initState: State = {
     loading: true,
     screens: [],
-    columns: [],
-    selectedColumn: null,
+    items: [],
+    selectedItem: null,
 };
 
 export const reducer = (state: State, action: Action): State => {
@@ -46,14 +45,14 @@ export const reducer = (state: State, action: Action): State => {
         case 'SET_SCREENS':
             return { ...state, screens: action.payload };
         case 'SET_COLUMNS':
-            return { ...state, columns: action.payload };
+            return { ...state, items: action.payload };
         case 'SET_COLUMN_SELECT':
-            return { ...state, selectedColumn: action.payload };
+            return { ...state, selectedItem: action.payload };
         case 'SET_COLUMN_NEW':
             return {
                 ...state,
-                columns: [...state.columns, action.payload], // Assuming action.payload is an empty instance of ColumnItf
-                selectedColumn: state.columns.length, // Select the newly added column
+                items: [...state.items, action.payload],
+                selectedItem: state.items.length,
             };
         default:
             return state;
