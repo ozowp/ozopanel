@@ -58,17 +58,17 @@ class AdminColumn
         $url_params = $req->get_url_params();
         $id = $url_params['id'];
 
-        $reg_errors = new \WP_Error();
+        $wp_err = new \WP_Error();
 
         if ( !$id ) {
-            $reg_errors->add(
+            $wp_err->add(
                 'select_id',
                 esc_html__('Screen ID is required!', 'ozopanel')
             );
         }
 
-        if ( $reg_errors->get_error_messages() ) {
-            wp_send_json_error($reg_errors->get_error_messages());
+        if ( $wp_err->get_error_messages() ) {
+            wp_send_json_error($wp_err->get_error_messages());
         } else {
             $resp = [];
             $resp['screens'] = ModelAdminColumn::screens();
@@ -105,19 +105,19 @@ class AdminColumn
         $url_param = $req->get_url_params();
         $id = $url_param["id"];
 
-        $reg_errors = new \WP_Error();
+        $wp_err = new \WP_Error();
 
         $admin_column = isset($param['admin_column']) ? ($param['admin_column']) : '';
 
         if ( !$id ) {
-            $reg_errors->add(
+            $wp_err->add(
                 'select_id',
                 esc_html__('Screen ID is required!', 'ozopanel')
             );
         }
 
-        if ($reg_errors->get_error_messages()) {
-            wp_send_json_error($reg_errors->get_error_messages());
+        if ($wp_err->get_error_messages()) {
+            wp_send_json_error($wp_err->get_error_messages());
         } else {
             update_option('ozopanel_admin_column_' . $id, $admin_column);
             wp_send_json_success();

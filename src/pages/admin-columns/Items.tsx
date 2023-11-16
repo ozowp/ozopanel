@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { useDelConfirm } from '@/components/alert/delete/Provider'
+import { useAlert } from '@/components/alert/Provider'
 import './style.scss'
 
 interface Item {
@@ -20,7 +20,7 @@ interface ItemsProps {
 const Items: FC<ItemsProps> = ({ items, onChange, onSelect, onDelete }) => {
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
 
-  const { openDelConfirm } = useDelConfirm()
+  const { delConfirm /* , proAlert */ } = useAlert()
 
   const handleDragStart = (i: number) => {
     setDraggedIndex(i)
@@ -38,7 +38,8 @@ const Items: FC<ItemsProps> = ({ items, onChange, onSelect, onDelete }) => {
   }
 
   const handleDeleteClick = (i: number) => {
-    openDelConfirm(() => {
+    // proAlert()
+    delConfirm(() => {
       onDelete(i)
     })
   }

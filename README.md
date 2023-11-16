@@ -2,11 +2,13 @@
 
 * WP Rest API
 * React
+* Reqct Query
 * TypeScript
 * Vite
 * React Router
 * Yarn
 * SCSS
+* Prettier
 * PostCSS
 * Eslint
 * Tailwind

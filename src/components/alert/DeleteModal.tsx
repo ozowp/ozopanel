@@ -1,14 +1,14 @@
-// Modal.tsx
-import React from 'react'
+// DeleteModal.tsx
+import { FC } from 'react'
 import './style.scss'
 
-interface ModalProps {
+interface DeleteModalProps {
   isOpen: boolean
   onCancel: () => void
   onConfirm: () => void
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onCancel, onConfirm }) => {
+const DeleteModal: FC<DeleteModalProps> = ({ isOpen, onCancel, onConfirm }) => {
   if (!isOpen) {
     return null
   }
@@ -31,4 +31,4 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onCancel, onConfirm }) => {
   )
 }
 
-export default Modal
+export default DeleteModal

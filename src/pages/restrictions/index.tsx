@@ -1,70 +1,48 @@
-import { FC, useReducer } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { FC, useReducer, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import Spinner from '@components/preloader/spinner'
-import api from '@utils/api'
-import { reducer, initState } from './reducer'
+import { getData, delData } from './api'
+import { reducer, initState, Item } from './reducer'
 
-/* const fetchData = async () => {
-    try {
-        const res = await api.get(`restrictions/${type}`);
-        if (res.success) {
-            dispatch({ type: 'SET_ITEMS', payload: res.data.list });
-        } else {
-            res.data.forEach((value: string) => {
-                toast.error(value);
-            });
-        }
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    } finally {
-        dispatch({ type: 'SET_LOADING', payload: false });
-    }
-}; */
-
-const fetchData = async () => {
-  try {
-    const res = await api.get(`restrictions/users`)
-    if (res.success) {
-      return res.data.list
-    } else {
-      res.data.forEach((value: string) => {
-        toast.error(value)
-      })
-      throw new Error('Error fetching data')
-    }
-  } catch (error) {
-    console.error('Error fetching data:', error)
-    throw error
-  }
-}
-
+/**
+ * Restrictions
+ *
+ * @since 1.0.0
+ */
 const Restrictions: FC = () => {
-  const { type } = useParams()
+  const { type = '' } = useParams()
   const navigate = useNavigate()
-  // const { isLoading, error, items} = useQuery(['restrictions', type], () => fetchData(type));
-  const {
-    isLoading,
-    error,
-    data: items,
-  } = useQuery({
-    queryKey: ['restrictions'],
-    queryFn: () => fetchData(),
-  })
+  const queryClient = useQueryClient()
   const [state, dispatch] = useReducer(reducer, initState)
-  const { selectedItems } = state
+  const { items, selectedItems, selectAll, loading } = state
 
-  /* useEffect(() => {
-  
-  
-          fetchData();
-      }, [type]); */
+  const { data } = useQuery({
+    queryKey: ['restrictions', { type }],
+    queryFn: () => getData(type),
+  })
 
-  /* useEffect(() => {
-          dispatch({ type: 'SET_SELECT_ALL', payload: selectedItems.length === items.length && items.length > 0 });
-      }, [selectedItems, items]); */
+  useEffect(() => {
+    if (data) {
+      dispatch({ type: 'SET_ITEMS', payload: data.list })
+      dispatch({ type: 'SET_LOADING', payload: false })
+    }
+  }, [data])
 
+  useEffect(() => {
+    dispatch({
+      type: 'SET_SELECT_ALL',
+      payload: selectedItems.length === items.length && items.length > 0,
+    })
+  }, [selectedItems, items])
+
+  /**
+   * Go to single form by id
+   *
+   * @param {string} id
+   * @since 1.0.0
+   */
   const goForm = (id?: string) => {
     if (id) {
       navigate(`/restrictions/${type}/${id}/edit`)
@@ -73,68 +51,70 @@ const Restrictions: FC = () => {
     }
   }
 
-  /* const handleSelectAll = () => {
-          if (selectAll) {
-              dispatch({ type: 'SET_SELECTED_ITEMS', payload: [] });
-          } else {
-              const allItemIds = items.map(item => item.id);
-              dispatch({ type: 'SET_SELECTED_ITEMS', payload: allItemIds });
-          }
-      }; */
+  const handleSelectAll = () => {
+    if (selectAll) {
+      dispatch({ type: 'SET_SELECTED_ITEMS', payload: [] })
+    } else {
+      const allItemIds = items.map((item: Item) => item.id)
+      dispatch({ type: 'SET_SELECTED_ITEMS', payload: allItemIds })
+    }
+  }
 
   const handleToggleItem = (itemId: string) => {
     dispatch({ type: 'SET_TOGGLE_ITEM', payload: itemId })
   }
 
-  /* const handleDelete = async () => {
-          try {
-              const apiPath = api.del(`restrictions/${type}`, selectedItems.join(','));
-              const res = await apiPath;
-              if (res.success) {
-                  const updatedItems = items.filter(item => !selectedItems.includes(item.id));
-                  dispatch({ type: 'SET_ITEMS', payload: updatedItems });
-                  dispatch({ type: 'SET_SELECTED_ITEMS', payload: [] });
-                  toast.success('Successfully deleted.');
-              } else {
-                  res.data.forEach((value: string) => {
-                      toast.error(value);
-                  });
-              }
-          } catch (error) {
-              console.error('Error submitting data:', error);
-          }
-      }; */
+  const delMutation = useMutation({
+    mutationFn: (selectedItems: string[]) => delData(type, selectedItems),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['restrictions'] })
+      const updatedItems = items.filter(
+        (item: Item) => !selectedItems.includes(item.id),
+      )
+      dispatch({ type: 'SET_ITEMS', payload: updatedItems })
+      dispatch({ type: 'SET_SELECTED_ITEMS', payload: [] })
+      toast.success('Successfully deleted.')
+    },
+    /* onError: (error: []) => {
+      error.forEach((value: Error) => {
+        toast.error(value.message);
+      });
+    }, */
+  })
+
+  const handleDelete = () => {
+    delMutation.mutate(selectedItems)
+  }
 
   const i18n = ozopanel.i18n
 
-  if (error) return 'An error has occurred: ' + error.message
-
   return (
     <div className="ozop-restrictions">
-      <h3>{`${i18n.restriction} ${
-        type === 'users' ? i18n.users : i18n.roles
-      }`}</h3>
+      <h3>{`${i18n.restriction} ${type === 'users' ? i18n.users : i18n.roles
+        }`}</h3>
+
       <button className="" onClick={() => goForm()}>
         {`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role}`}
       </button>
-      {/* {selectedItems.length > 0 && <button
-                className='ozop-restrictions-del-btn'
-                onClick={handleDelete}>
-                {i18n.del}
-            </button>} */}
 
-      {isLoading ? (
-        <Spinner />
-      ) : (
+      {selectedItems.length > 0 && (
+        <button className="ozop-restrictions-del-btn" onClick={handleDelete}>
+          {i18n.del}
+        </button>
+      )}
+
+      {loading && <Spinner />}
+
+      {!loading && (
         <table>
           <thead>
             <tr>
               <th style={{ width: 20 }}>
-                {/* <input
-                                    type='checkbox'
-                                    checked={selectAll}
-                                    onChange={handleSelectAll}
-                                /> */}
+                <input
+                  type="checkbox"
+                  checked={selectAll}
+                  onChange={handleSelectAll}
+                />
               </th>
               {type === 'users' ? (
                 <>
@@ -151,7 +131,7 @@ const Restrictions: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item: any) => (
+            {items.map((item: Item) => (
               <tr key={item.id}>
                 <td>
                   <input

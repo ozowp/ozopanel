@@ -98,19 +98,19 @@ class Restriction
         $url_param = $req->get_url_params();
         $type = $url_param['type'];
 
-        $reg_errors = new \WP_Error();
+        $wp_err = new \WP_Error();
 
         $id = isset($param['id']) ? sanitize_text_field($param['id']) : '';
 
         $admin_menu = isset($param['admin_menu']) ? ($param['admin_menu']) : '';
         if ( empty($id) ) {
             if ($type == 'users') {
-                $reg_errors->add(
+                $wp_err->add(
                     'select_id',
                     esc_html__('Please Select User', 'ozopanel')
                 );
             } else {
-                $reg_errors->add(
+                $wp_err->add(
                     'select_id',
                     esc_html__('Please Select Role', 'ozopanel')
                 );
@@ -120,7 +120,7 @@ class Restriction
         if ( $type == 'users' ) {
             $id_admin_menu = get_user_meta( $id, '_ozopanel_admin_menu', true);
             if ( $id_admin_menu ) {
-                $reg_errors->add(
+                $wp_err->add(
                     'user_exist',
                     esc_html__('User already exist!', 'ozopanel')
                 );
@@ -128,7 +128,7 @@ class Restriction
         } else {
             $role_admin_menu = get_option('ozopanel_admin_menu_role_' . $id);
             if ( $role_admin_menu ) {
-                $reg_errors->add(
+                $wp_err->add(
                     'role_exist',
                     esc_html__('Role already exist!', 'ozopanel')
                 );
@@ -136,28 +136,28 @@ class Restriction
         }
 
         if ( empty( $admin_menu ) ) {
-            $reg_errors->add(
+            $wp_err->add(
                 'select_menu',
                 esc_html__('Please select Menu', 'ozopanel')
             );
         }
 
         if ( $type == 'users' && user_can( $id, 'administrator' ) ) {
-            $reg_errors->add(
+            $wp_err->add(
                 'select_id',
                 esc_html__('Administrator restriction not allowed!', 'ozopanel')
             );
         }
 
         if ($type == 'roles' && $id == 'administrator') {
-            $reg_errors->add(
+            $wp_err->add(
                 'select_id',
                 esc_html__('Administrator restriction not allowed!', 'ozopanel')
             );
         }
 
-        if ($reg_errors->get_error_messages()) {
-            wp_send_json_error($reg_errors->get_error_messages());
+        if ($wp_err->get_error_messages()) {
+            wp_send_json_error($wp_err->get_error_messages());
         } else {
             if ($type == 'users') {
                 update_user_meta($id, '_ozopanel_admin_menu', $admin_menu);
@@ -294,17 +294,17 @@ class Restriction
         $id = $url_param["id"];
         $type = $url_param['type'];
 
-        $reg_errors = new \WP_Error();
+        $wp_err = new \WP_Error();
 
         $admin_menu = isset($param['admin_menu']) ? ($param['admin_menu']) : '';
         if ( empty($id) ) {
             if ($type == 'users') {
-                $reg_errors->add(
+                $wp_err->add(
                     'select_id',
                     esc_html__('Please Select User', 'ozopanel')
                 );
             } else {
-                $reg_errors->add(
+                $wp_err->add(
                     'select_id',
                     esc_html__('Please Seleact Role', 'ozopanel')
                 );
@@ -312,28 +312,28 @@ class Restriction
         }
 
         if ( empty($admin_menu) ) {
-            $reg_errors->add(
+            $wp_err->add(
                 'select_menu',
                 esc_html__('Please select Menu', 'ozopanel')
             );
         }
 
         if ( $type == 'users' && user_can( $id, 'administrator' ) ) {
-            $reg_errors->add(
+            $wp_err->add(
                 'select_id',
                 esc_html__('Administrator restriction not allowed!', 'ozopanel')
             );
         }
 
         if ($type == 'roles' && $id == 'administrator') {
-            $reg_errors->add(
+            $wp_err->add(
                 'select_id',
                 esc_html__('Administrator restriction not allowed!', 'ozopanel')
             );
         }
 
-        if ($reg_errors->get_error_messages()) {
-            wp_send_json_error($reg_errors->get_error_messages());
+        if ($wp_err->get_error_messages()) {
+            wp_send_json_error($wp_err->get_error_messages());
         } else {
             if ($type == 'users') {
                 update_user_meta($id, '_ozopanel_admin_menu', $admin_menu);
@@ -346,6 +346,17 @@ class Restriction
 
     public function delete($req)
     {
+        $wp_err = new \WP_Error();
+
+        /* $wp_err->add(
+            'select_id',
+            esc_html__('Wrong ID', 'ozopanel')
+        ); */
+
+        if ($wp_err->get_error_messages()) {
+            wp_send_json_error($wp_err->get_error_messages());
+        }
+
         $url_param = $req->get_url_params();
         $type = $url_param['type'];
         $ids = explode(",", $url_param["id"]);

@@ -1,5 +1,6 @@
 import { FC, useReducer, useEffect, FormEvent } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import Spinner from '@components/preloader/spinner'
 import api from '@utils/api'
@@ -9,7 +10,7 @@ const Form: FC = () => {
   const { type, id } = useParams()
   const i18n = ozopanel.i18n
   const navigate = useNavigate()
-
+  const queryClient = useQueryClient()
   const [state, dispatch] = useReducer(reducer, initState) // Use the reducer and initial state
 
   useEffect(() => {
@@ -71,6 +72,7 @@ const Form: FC = () => {
           toast.success(i18n.sucEdit)
         } else {
           toast.success(i18n.sucAdd)
+          queryClient.invalidateQueries({ queryKey: ['restrictions'] })
           navigate(`/restrictions/${type}`)
         }
       } else {

@@ -40,19 +40,19 @@ class Setting
     public function get($req)
     {
         $param = $req->get_params();
-        $reg_errors = new \WP_Error();
+        $wp_err = new \WP_Error();
 
         $tab = isset($param['tab']) ? sanitize_text_field($param['tab']) : null;
 
         if (empty($tab)) {
-            $reg_errors->add(
+            $wp_err->add(
                 'field',
                 esc_html__('Tab is missing', 'ozopanel')
             );
         }
 
-        if ($reg_errors->get_error_messages()) {
-            wp_send_json_error($reg_errors->get_error_messages());
+        if ($wp_err->get_error_messages()) {
+            wp_send_json_error($wp_err->get_error_messages());
         } else {
             $data = [];
 
@@ -81,19 +81,19 @@ class Setting
     public function create($req)
     {
         $param = $req->get_params();
-        $reg_errors = new \WP_Error();
+        $wp_err = new \WP_Error();
 
         $tab = isset($param['tab']) ? sanitize_text_field($param['tab']) : '';
 
         if (empty($tab)) {
-            $reg_errors->add(
+            $wp_err->add(
                 'field',
                 esc_html__('Tab is missing', 'ozopanel')
             );
         }
 
-        if ($reg_errors->get_error_messages()) {
-            wp_send_json_error($reg_errors->get_error_messages());
+        if ($wp_err->get_error_messages()) {
+            wp_send_json_error($wp_err->get_error_messages());
         } else {
             $data = [];
 

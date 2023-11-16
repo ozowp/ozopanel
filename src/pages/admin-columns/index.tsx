@@ -9,6 +9,11 @@ import Item from './Item'
 import api from '@utils/api'
 import { reducer, initState, Item as ItemI } from './reducer'
 
+/**
+ * AdminColumns
+ *
+ * @since 1.0.0
+ */
 const AdminColumns: FC = () => {
   const { id = 'post' } = useParams()
   const navigate = useNavigate()

@@ -58,7 +58,7 @@ class Action
     public function create($req)
     {
         $param = $req->get_params();
-        $reg_errors = new \WP_Error();
+        $wp_err = new \WP_Error();
 
         // modified for multiple id support
         $str_id = isset($param['id']) ? $param['id'] : null;
@@ -70,14 +70,14 @@ class Action
             $id = (int)$id;
 
             if (empty($id) || empty($type)) {
-                $reg_errors->add(
+                $wp_err->add(
                     'field',
                     esc_html__('Required field is missing', 'ozopanel')
                 );
             }
 
-            if ($reg_errors->get_error_messages()) {
-                wp_send_json_error($reg_errors->get_error_messages());
+            if ($wp_err->get_error_messages()) {
+                wp_send_json_error($wp_err->get_error_messages());
             } else {
                 // Your logic for creating action(s)
             }
@@ -92,7 +92,7 @@ class Action
     public function update($req)
     {
         $param = $req->get_params();
-        $reg_errors = new \WP_Error();
+        $wp_err = new \WP_Error();
 
         $url_params = $req->get_url_params();
         $post_id = $url_params['id'];
@@ -102,14 +102,14 @@ class Action
         $org_name = isset($param['org_name']) ? sanitize_text_field($param['org_name']) : '';
 
         if (empty($first_name) && empty($org_name)) {
-            $reg_errors->add(
+            $wp_err->add(
                 'field',
                 esc_html__('Contact info is missing', 'ozopanel')
             );
         }
 
-        if ($reg_errors->get_error_messages()) {
-            wp_send_json_error($reg_errors->get_error_messages());
+        if ($wp_err->get_error_messages()) {
+            wp_send_json_error($wp_err->get_error_messages());
         } else {
             $data = [
                 'ID' => $post_id,

@@ -1,27 +1,55 @@
-// import { StrictMode } from 'react'
+import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient, QueryCache, MutationCache, QueryClientProvider } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
 import App from './App'
-import { Provider as ConfirmProvider } from '@/components/alert/delete/Provider'
+import { AlertProvider } from '@/components/alert/Provider'
 import '@scss/main.scss'
 
-const queryClient = new QueryClient()
+/**
+ * react-query instead of showing error multiple place show it ones
+ *
+ * @since 1.0.0
+ */
+const onError = (error: Error | Error[]) => {
+  if (Array.isArray(error)) {
+    error.forEach((value: Error) => {
+      toast.error(value.message);
+    });
+  } else {
+    toast.error(error.message);
+  }
+};
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+    },
+  },
+  queryCache: new QueryCache({
+    onError,
+  }),
+  mutationCache: new MutationCache({
+    onError,
+  })
+})
 
 ReactDOM.createRoot(document.getElementById('ozopanel-dashboard')!).render(
-  <QueryClientProvider client={queryClient}>
-    <ConfirmProvider>
-      <App />
-    </ConfirmProvider>
-  </QueryClientProvider>,
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <AlertProvider>
+        <App />
+      </AlertProvider>
+    </QueryClientProvider>
+  </StrictMode>,
 )
 
-//react-beautiful-dnd not working in StrictMode
-/* ReactDOM.createRoot(document.getElementById('ozopanel-dashboard')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-) */
-
+/**
+ * WP admin menu add active class
+ *
+ * @since 1.0.0
+ */
 const checkRoute = () => {
   let currentHash = window.location.hash
   const navUl = document.querySelectorAll<HTMLLIElement>(
