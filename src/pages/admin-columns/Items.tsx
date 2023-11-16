@@ -49,7 +49,7 @@ const Items: FC<ItemsProps> = ({ items, onChange, onSelect, onDelete }) => {
       {items.map((item, i) => (
         <li
           key={item.id}
-          className="cursor-grab rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
+          className="ozop-shortable-item"
           draggable
           onDragStart={() => handleDragStart(i)}
           onDragOver={() => handleDragOver(i)}
