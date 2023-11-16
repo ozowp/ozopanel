@@ -1,143 +1,160 @@
-import { FC, useReducer, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import Spinner from '@components/preloader/spinner';
-import api from '@utils/api';
-import { reducer, initState } from './reducer';
+import { FC, useReducer, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import Spinner from '@components/preloader/spinner'
+import api from '@utils/api'
+import { reducer, initState } from './reducer'
 
 const Restrictions: FC = () => {
-    const { type } = useParams();
-    const navigate = useNavigate();
-    const [state, dispatch] = useReducer(reducer, initState);
-    const { items, selectedItems, selectAll, loading } = state;
+  const { type } = useParams()
+  const navigate = useNavigate()
+  const [state, dispatch] = useReducer(reducer, initState)
+  const { items, selectedItems, selectAll, loading } = state
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await api.get(`restrictions/${type}`);
-                if (res.success) {
-                    dispatch({ type: 'SET_ITEMS', payload: res.data.list });
-                } else {
-                    res.data.forEach((value: string) => {
-                        toast.error(value);
-                    });
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                dispatch({ type: 'SET_LOADING', payload: false });
-            }
-        };
-
-        fetchData();
-    }, [type]);
-
-    useEffect(() => {
-        dispatch({ type: 'SET_SELECT_ALL', payload: selectedItems.length === items.length && items.length > 0 });
-    }, [selectedItems, items]);
-
-    const goForm = (id?: string) => {
-        if (id) {
-            navigate(`/restrictions/${type}/${id}/edit`);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await api.get(`restrictions/${type}`)
+        if (res.success) {
+          dispatch({ type: 'SET_ITEMS', payload: res.data.list })
         } else {
-            navigate(`/restrictions/${type}/add`);
+          res.data.forEach((value: string) => {
+            toast.error(value)
+          })
         }
-    };
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      } finally {
+        dispatch({ type: 'SET_LOADING', payload: false })
+      }
+    }
 
-    const handleSelectAll = () => {
-        if (selectAll) {
-            dispatch({ type: 'SET_SELECTED_ITEMS', payload: [] });
-        } else {
-            const allItemIds = items.map(item => item.id);
-            dispatch({ type: 'SET_SELECTED_ITEMS', payload: allItemIds });
-        }
-    };
+    fetchData()
+  }, [type])
 
-    const handleToggleItem = (itemId: string) => {
-        dispatch({ type: 'SET_TOGGLE_ITEM', payload: itemId });
-    };
+  useEffect(() => {
+    dispatch({
+      type: 'SET_SELECT_ALL',
+      payload: selectedItems.length === items.length && items.length > 0,
+    })
+  }, [selectedItems, items])
 
-    const handleDelete = async () => {
-        try {
-            const apiPath = api.del(`restrictions/${type}`, selectedItems.join(','));
-            const res = await apiPath;
-            if (res.success) {
-                const updatedItems = items.filter(item => !selectedItems.includes(item.id));
-                dispatch({ type: 'SET_ITEMS', payload: updatedItems });
-                dispatch({ type: 'SET_SELECTED_ITEMS', payload: [] });
-                toast.success('Successfully deleted.');
-            } else {
-                res.data.forEach((value: string) => {
-                    toast.error(value);
-                });
-            }
-        } catch (error) {
-            console.error('Error submitting data:', error);
-        }
-    };
+  const goForm = (id?: string) => {
+    if (id) {
+      navigate(`/restrictions/${type}/${id}/edit`)
+    } else {
+      navigate(`/restrictions/${type}/add`)
+    }
+  }
 
-    const i18n = ozopanel.i18n;
+  const handleSelectAll = () => {
+    if (selectAll) {
+      dispatch({ type: 'SET_SELECTED_ITEMS', payload: [] })
+    } else {
+      const allItemIds = items.map((item) => item.id)
+      dispatch({ type: 'SET_SELECTED_ITEMS', payload: allItemIds })
+    }
+  }
 
-	return (
-		<div className='ozop-restrictions'>
-			<h3>{`${i18n.restriction} ${type === 'users' ? i18n.users : i18n.roles}`}</h3>
-			<button className='' onClick={() => goForm()}>
-				{`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role}`}
-			</button>
-			{selectedItems.length > 0 && <button
-			className='ozop-restrictions-del-btn'
-			onClick={handleDelete}>
-				{i18n.del}
-			</button>}
+  const handleToggleItem = (itemId: string) => {
+    dispatch({ type: 'SET_TOGGLE_ITEM', payload: itemId })
+  }
 
-			{loading ? <Spinner /> : (
-				<table>
-					<thead>
-						<tr>
-							<th style={{ width: 20 }}>
-								<input
-									type='checkbox'
-									checked={selectAll}
-									onChange={handleSelectAll}
-								/>
-							</th>
-							{type === 'users' ? <>
-								<th>{i18n.id}</th>
-								<th>{i18n.name}</th>
-								<th>{i18n.email}</th>
-							</> : <>
-								<th>{i18n.label}</th>
-							</>}
-							<th style={{ width: 80 }}>{i18n.actions}</th>
-						</tr>
-					</thead>
-					<tbody>
-						{items.map((item) => (
-							<tr key={item.id}>
-								<td>
-									<input
-										type='checkbox'
-										checked={selectedItems.includes(item.id)}
-										onChange={() => handleToggleItem(item.id)}
-									/>
-								</td>
-								{type === 'users' ? <>
-									<td>{item.id}</td>
-									<td>{item.name}</td>
-									<td>{item.email}</td>
-								</> : <>
-									<td>{item.label}</td>
-								</>}
-								<td>
-									<button onClick={() => goForm(item.id)}>{i18n.edit}</button>
-								</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
-			)}
-		</div>
-	);
-};
+  const handleDelete = async () => {
+    try {
+      const apiPath = api.del(`restrictions/${type}`, selectedItems.join(','))
+      const res = await apiPath
+      if (res.success) {
+        const updatedItems = items.filter(
+          (item) => !selectedItems.includes(item.id),
+        )
+        dispatch({ type: 'SET_ITEMS', payload: updatedItems })
+        dispatch({ type: 'SET_SELECTED_ITEMS', payload: [] })
+        toast.success('Successfully deleted.')
+      } else {
+        res.data.forEach((value: string) => {
+          toast.error(value)
+        })
+      }
+    } catch (error) {
+      console.error('Error submitting data:', error)
+    }
+  }
 
-export default Restrictions;
+  const i18n = ozopanel.i18n
+
+  return (
+    <div className="ozop-restrictions">
+      <h3>{`${i18n.restriction} ${
+        type === 'users' ? i18n.users : i18n.roles
+      }`}</h3>
+      <button className="" onClick={() => goForm()}>
+        {`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role}`}
+      </button>
+      {selectedItems.length > 0 && (
+        <button className="ozop-restrictions-del-btn" onClick={handleDelete}>
+          {i18n.del}
+        </button>
+      )}
+
+      {loading ? (
+        <Spinner />
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th style={{ width: 20 }}>
+                <input
+                  type="checkbox"
+                  checked={selectAll}
+                  onChange={handleSelectAll}
+                />
+              </th>
+              {type === 'users' ? (
+                <>
+                  <th>{i18n.id}</th>
+                  <th>{i18n.name}</th>
+                  <th>{i18n.email}</th>
+                </>
+              ) : (
+                <>
+                  <th>{i18n.label}</th>
+                </>
+              )}
+              <th style={{ width: 80 }}>{i18n.actions}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item) => (
+              <tr key={item.id}>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={selectedItems.includes(item.id)}
+                    onChange={() => handleToggleItem(item.id)}
+                  />
+                </td>
+                {type === 'users' ? (
+                  <>
+                    <td>{item.id}</td>
+                    <td>{item.name}</td>
+                    <td>{item.email}</td>
+                  </>
+                ) : (
+                  <>
+                    <td>{item.label}</td>
+                  </>
+                )}
+                <td>
+                  <button onClick={() => goForm(item.id)}>{i18n.edit}</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  )
+}
+
+export default Restrictions

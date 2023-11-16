@@ -8,6 +8,7 @@
     "makepot": "wp i18n make-pot . languages/ozopanel.pot --domain='ozopanel' --exclude='dist' --include='**/*.php' --headers='{\"Last-Translator\":\"therakib7@gmail.com\",\"Report-Msgid-Bugs-To\":\"https://github.com/therakib7/ozopanel/issues\"}' --file-comment=\"Copyright (c) $(date +'%Y') OzoPanel. All Rights Reserved.\" ",
     "build": "tsc && vite build",
     "buildWithPot": "tsc && vite build && yarn makepot",
+    "format": "prettier --write \"src/**/*.tsx\" \"src/**/*.ts\" \"src/**/*.jsx\" \"src/**/*.js\"",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -34,6 +35,8 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "prettier": "^3.1.0",
+    "prettier-plugin-tailwindcss": "^0.5.7",
     "sass": "^1.69.4",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"

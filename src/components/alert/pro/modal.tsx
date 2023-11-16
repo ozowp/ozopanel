@@ -1,7 +1,5 @@
-
 const ProModal = () => {
-    return '';
+  return ''
+}
 
-};
-
-export default ProModal;
+export default ProModal

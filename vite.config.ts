@@ -8,6 +8,10 @@ dotenv.config(); // Load environment variables from .env file
 // https://vitejs.dev/config/
 const config = defineConfig({
   plugins: [react()],
+  // Add Prettier to the Vite config
+  optimizeDeps: {
+    include: ['prettier'],
+  },
   base: '',
   build: {
     minify: true,

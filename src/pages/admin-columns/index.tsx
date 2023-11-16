@@ -1,163 +1,170 @@
-import { FC, useReducer, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { v4 as uuidv4 } from 'uuid';
-import Spinner from '@components/preloader/spinner';
-import SelectGroup from '@components/select-group';
-import Items from './Items';
-import Item from './Item';
-import api from '@utils/api';
-import { reducer, initState, Item as ItemI } from './reducer';
+import { FC, useReducer, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { v4 as uuidv4 } from 'uuid'
+import Spinner from '@components/preloader/spinner'
+import SelectGroup from '@components/select-group'
+import Items from './Items'
+import Item from './Item'
+import api from '@utils/api'
+import { reducer, initState, Item as ItemI } from './reducer'
 
 const AdminColumns: FC = () => {
-    const { id = 'post' } = useParams();
-    const navigate = useNavigate();
-    const [state, dispatch] = useReducer(reducer, initState);
-    const { loading, screens, items, selectedItem } = state;
+  const { id = 'post' } = useParams()
+  const navigate = useNavigate()
+  const [state, dispatch] = useReducer(reducer, initState)
+  const { loading, screens, items, selectedItem } = state
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await api.get(`admin-columns/${id}`);
-                if (res.success) {
-                    dispatch({ type: 'SET_SCREENS', payload: res.data.screens });
-                    dispatch({ type: 'SET_COLUMNS', payload: res.data.columns });
-                } else {
-                    res.data.forEach((value: string) => {
-                        toast.error(value);
-                    });
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                dispatch({ type: 'SET_LOADING', payload: false });
-            }
-        };
-
-        fetchData();
-    }, [id]);
-
-    const handleScreenChange = (selectedId?: string) => {
-        if (selectedId) {
-            navigate(`/admin-columns/${selectedId}`);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await api.get(`admin-columns/${id}`)
+        if (res.success) {
+          dispatch({ type: 'SET_SCREENS', payload: res.data.screens })
+          dispatch({ type: 'SET_COLUMNS', payload: res.data.columns })
+        } else {
+          res.data.forEach((value: string) => {
+            toast.error(value)
+          })
         }
-    };
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      } finally {
+        dispatch({ type: 'SET_LOADING', payload: false })
+      }
+    }
 
-    const handleItemOrder = (newItems: ItemI[]) => {
-        dispatch({ type: 'SET_COLUMNS', payload: newItems });
-    };
+    fetchData()
+  }, [id])
 
-    const handleItemSelect = (index: null | number) => {
-        dispatch({ type: 'SET_COLUMN_SELECT', payload: index });
-    };
+  const handleScreenChange = (selectedId?: string) => {
+    if (selectedId) {
+      navigate(`/admin-columns/${selectedId}`)
+    }
+  }
 
+  const handleItemOrder = (newItems: ItemI[]) => {
+    dispatch({ type: 'SET_COLUMNS', payload: newItems })
+  }
 
-    const createNewItem = (): ItemI => {
-        const uniqueId = `ozop_custom_${uuidv4()}`;
-        return {
-            id: uniqueId,
-            type: 'default',
-            label: 'Item Name',
-            width: '',
-            width_unit: '%',
-        };
-    };
+  const handleItemSelect = (index: null | number) => {
+    dispatch({ type: 'SET_COLUMN_SELECT', payload: index })
+  }
 
-    const handleItemNew = () => {
-        dispatch({ type: 'SET_COLUMN_NEW', payload: createNewItem() });
-    };
+  const createNewItem = (): ItemI => {
+    const uniqueId = `ozop_custom_${uuidv4()}`
+    return {
+      id: uniqueId,
+      type: 'default',
+      label: 'Item Name',
+      width: '',
+      width_unit: '%',
+    }
+  }
 
-    const handleItemChange = (updatedItem: ItemI) => {
+  const handleItemNew = () => {
+    dispatch({ type: 'SET_COLUMN_NEW', payload: createNewItem() })
+  }
 
-        if (selectedItem !== null) {
-            const updatedItems = [...state.items];
-            updatedItems[selectedItem] = updatedItem;
-            dispatch({ type: 'SET_COLUMNS', payload: updatedItems });
+  const handleItemChange = (updatedItem: ItemI) => {
+    if (selectedItem !== null) {
+      const updatedItems = [...state.items]
+      updatedItems[selectedItem] = updatedItem
+      dispatch({ type: 'SET_COLUMNS', payload: updatedItems })
+    }
+
+    // Reset the editedItemIndex
+    handleItemSelect(null)
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const res = await api.edit(`admin-columns`, id, {
+        admin_item: state.items,
+      })
+      if (res.success) {
+        if (id) {
+          toast.success(i18n.sucEdit)
         }
+      } else {
+        res.data.forEach((value: string) => {
+          toast.error(value)
+        })
+      }
+    } catch (error) {
+      console.error('Error submitting data:', error)
+    }
+  }
 
-        // Reset the editedItemIndex
-        handleItemSelect(null);
-    };
+  const handleItemDelete = (index: number) => {
+    const updatedItems = [...state.items]
+    updatedItems.splice(index, 1)
+    dispatch({ type: 'SET_COLUMNS', payload: updatedItems })
+  }
 
+  const i18n = ozopanel.i18n
 
-    const handleSubmit = async () => {
-        try {
-            const res = await api.edit(`admin-columns`, id, { admin_item: state.items });
-            if (res.success) {
-                if (id) {
-                    toast.success(i18n.sucEdit);
-                }
-            } else {
-                res.data.forEach((value: string) => {
-                    toast.error(value);
-                });
-            }
-        } catch (error) {
-            console.error('Error submitting data:', error);
-        }
-    };
+  return (
+    <div className="ozop-admin-columns">
+      <h3 className="mb-3 text-2xl">{i18n.adminItems}</h3>
+      {loading && <Spinner />}
+      {!loading && (
+        <>
+          <div className="mb-10 grid grid-cols-3 gap-6">
+            <div className="col">
+              <SelectGroup
+                groups={screens}
+                value={id}
+                onChange={handleScreenChange}
+              />
+            </div>
+            <div className="col">
+              <button className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100">
+                {`${i18n.view} ${id}`}
+              </button>
+            </div>
+            <div className="col">
+              <button
+                onClick={handleSubmit}
+                className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
+              >
+                {i18n.saveChanges}
+              </button>
+              <button className="px-4 py-2 font-semibold text-gray-800">
+                {i18n.resetChanges}
+              </button>
+            </div>
+          </div>
 
-    const handleItemDelete = (index: number) => {
-        const updatedItems = [...state.items];
-        updatedItems.splice(index, 1);
-        dispatch({ type: 'SET_COLUMNS', payload: updatedItems });
-    };
+          <div className="grid grid-cols-2 gap-6">
+            <div className="col">
+              <Items
+                items={items}
+                onChange={handleItemOrder}
+                onSelect={handleItemSelect}
+                onDelete={handleItemDelete}
+              />
+              <button
+                onClick={handleItemNew}
+                className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
+              >
+                {i18n.addNewColumn}
+              </button>
+            </div>
+            <div className="col">
+              {selectedItem !== null && items[selectedItem] && (
+                <Item
+                  item={items[selectedItem]}
+                  onSave={handleItemChange}
+                  onCancel={() => handleItemSelect(null)}
+                />
+              )}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
 
-    const i18n = ozopanel.i18n;
-
-    return (
-        <div className='ozop-admin-columns'>
-            <h3 className='text-2xl mb-3'>{i18n.adminItems}</h3>
-            {loading && <Spinner />}
-            {!loading && (
-                <>
-                    <div className="grid grid-cols-3 gap-6 mb-10">
-                        <div className='col'>
-                            <SelectGroup
-                                groups={screens}
-                                value={id}
-                                onChange={handleScreenChange}
-                            />
-                        </div>
-                        <div className='col'>
-                            <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-                                {`${i18n.view} ${id}`}
-                            </button>
-                        </div>
-                        <div className='col'>
-                            <button onClick={handleSubmit} className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-                                {i18n.saveChanges}
-                            </button>
-                            <button className="text-gray-800 font-semibold py-2 px-4">
-                                {i18n.resetChanges}
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-6">
-                        <div className='col'>
-                            <Items
-                                items={items}
-                                onChange={handleItemOrder}
-                                onSelect={handleItemSelect}
-                                onDelete={handleItemDelete}
-                            />
-                            <button onClick={handleItemNew} className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-                                {i18n.addNewColumn}
-                            </button>
-                        </div>
-                        <div className='col'>
-                            {selectedItem !== null && items[selectedItem] && <Item
-                                item={items[selectedItem]}
-                                onSave={handleItemChange}
-                                onCancel={() => handleItemSelect(null)}
-                            />}
-                        </div>
-                    </div>
-                </>
-            )}
-        </div>
-    );
-};
-
-export default AdminColumns;
+export default AdminColumns

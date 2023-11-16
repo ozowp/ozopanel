@@ -1,29 +1,32 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react'
 
 interface OptionGroup {
-  label: string;
-  options: Option[];
+  label: string
+  options: Option[]
 }
 
 interface Option {
-  label: string;
-  value: string;
+  label: string
+  value: string
 }
 
 interface SelectGroupProps {
-  groups: OptionGroup[];
-  value: string;
-  onChange: (value: string) => void;
+  groups: OptionGroup[]
+  value: string
+  onChange: (value: string) => void
 }
 
-const SelectGroup: React.FC<SelectGroupProps> = ({ groups, value, onChange }) => {
-
+const SelectGroup: React.FC<SelectGroupProps> = ({
+  groups,
+  value,
+  onChange,
+}) => {
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const value = event.target.value;
-    onChange(value); // Pass the selected value to the parent component
-  };
+    const value = event.target.value
+    onChange(value) // Pass the selected value to the parent component
+  }
 
-  const i18n = ozopanel.i18n;
+  const i18n = ozopanel.i18n
   return (
     <select value={value} onChange={handleSelectChange}>
       {!value && <option value="">{i18n.select}</option>}
@@ -37,7 +40,7 @@ const SelectGroup: React.FC<SelectGroupProps> = ({ groups, value, onChange }) =>
         </optgroup>
       ))}
     </select>
-  );
-};
+  )
+}
 
-export default SelectGroup;
+export default SelectGroup

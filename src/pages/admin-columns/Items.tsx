@@ -1,74 +1,74 @@
-import { FC, useState } from "react";
-import { useDelConfirm } from '@/components/alert/delete/Provider';
-import "./style.scss";
+import { FC, useState } from 'react'
+import { useDelConfirm } from '@/components/alert/delete/Provider'
+import './style.scss'
 
 interface Item {
-    id: string;
-    type: string;
-    label: string;
-    width: string;
-    width_unit: string;
+  id: string
+  type: string
+  label: string
+  width: string
+  width_unit: string
 }
 
 interface ItemsProps {
-    items: Item[];
-    onChange: (items: Item[]) => void;
-    onSelect: (i: number) => void;
-    onDelete: (i: number) => void;
+  items: Item[]
+  onChange: (items: Item[]) => void
+  onSelect: (i: number) => void
+  onDelete: (i: number) => void
 }
 
 const Items: FC<ItemsProps> = ({ items, onChange, onSelect, onDelete }) => {
-    const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
 
-    const { openDelConfirm } = useDelConfirm();
+  const { openDelConfirm } = useDelConfirm()
 
-    const handleDragStart = (i: number) => {
-        setDraggedIndex(i);
-    };
+  const handleDragStart = (i: number) => {
+    setDraggedIndex(i)
+  }
 
-    const handleDragOver = (i: number) => {
-        if (draggedIndex === null) return;
-        if (i === draggedIndex) return;
+  const handleDragOver = (i: number) => {
+    if (draggedIndex === null) return
+    if (i === draggedIndex) return
 
-        const reorderedItems = Array.from(items);
-        const [draggedItem] = reorderedItems.splice(draggedIndex, 1);
-        reorderedItems.splice(i, 0, draggedItem);
-        onChange(reorderedItems);
-        setDraggedIndex(i);
-    };
+    const reorderedItems = Array.from(items)
+    const [draggedItem] = reorderedItems.splice(draggedIndex, 1)
+    reorderedItems.splice(i, 0, draggedItem)
+    onChange(reorderedItems)
+    setDraggedIndex(i)
+  }
 
-    const handleDeleteClick = (i: number) => {
-        openDelConfirm( () => {
-            onDelete(i);
-        });
-    };
+  const handleDeleteClick = (i: number) => {
+    openDelConfirm(() => {
+      onDelete(i)
+    })
+  }
 
-    const i18n = ozopanel.i18n;
-    return (
-        <ul className="ozop-sortable-list">
-            {items.map((item, i) => (
-                <li
-                    key={item.id}
-                    className="bg-white cursor-grab hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-                    draggable
-                    onDragStart={() => handleDragStart(i)}
-                    onDragOver={() => handleDragOver(i)}
-                    onClick={() => onSelect(i)}
-                >
-                    <span dangerouslySetInnerHTML={{__html: item.label}} />
-                    <button
-                        className="ml-2 text-red-500"
-                        onClick={(e) => {
-                            e.stopPropagation(); // Prevent the click event from triggering the parent li click event
-                            handleDeleteClick(i);
-                        }}
-                    >
-                        {i18n.del}
-                    </button>
-                </li>
-            ))}
-        </ul>
-    );
-};
+  const i18n = ozopanel.i18n
+  return (
+    <ul className="ozop-sortable-list">
+      {items.map((item, i) => (
+        <li
+          key={item.id}
+          className="cursor-grab rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
+          draggable
+          onDragStart={() => handleDragStart(i)}
+          onDragOver={() => handleDragOver(i)}
+          onClick={() => onSelect(i)}
+        >
+          <span dangerouslySetInnerHTML={{ __html: item.label }} />
+          <button
+            className="ml-2 text-red-500"
+            onClick={(e) => {
+              e.stopPropagation() // Prevent the click event from triggering the parent li click event
+              handleDeleteClick(i)
+            }}
+          >
+            {i18n.del}
+          </button>
+        </li>
+      ))}
+    </ul>
+  )
+}
 
-export default Items;
+export default Items
