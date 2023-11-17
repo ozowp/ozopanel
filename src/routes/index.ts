@@ -3,11 +3,13 @@
  *
  * @since 1.0.0
  */
-import Dashboard from '@pages/dashboard'
-import Restrictions from '@/pages/restrictions'
-import RestrictionsForm from '@/pages/restrictions/Form'
-import AdminColumns from '@/pages/admin-columns'
-import Settings from '@pages/settings'
+import { lazy } from 'react'
+
+const Dashboard = lazy(() => import('@pages/dashboard'));
+const Restrictions = lazy(() => import('@/pages/restrictions'));
+const RestrictionsForm = lazy(() => import('@/pages/restrictions/Form'));
+const AdminColumns = lazy(() => import('@/pages/admin-columns'));
+const Settings = lazy(() => import('@pages/settings'));
 
 const routes = [
   {

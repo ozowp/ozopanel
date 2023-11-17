@@ -132,7 +132,7 @@ class AssetCtrl
                 'ozopanel-dashboard',
                 ozopanel()->is_debug() ? ozopanel()->dev_path() . '/src/main.tsx' : ozopanel()->get_asset_uri('/main.js'),
                 ['wp-api-fetch'],
-                $this->version,
+                null,
                 true
             );
 

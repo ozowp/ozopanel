@@ -1,11 +1,11 @@
-/* import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { toast } from "react-toastify";
-import api from '@utils/api'; */
+import api from '@utils/api';
 
 const General = () => {
   // const [form, setFrom] = useState({});
 
-  /* useEffect(() => {
+  useEffect(() => {
     get();
   }, []);
 
@@ -13,15 +13,15 @@ const General = () => {
     api.get('settings', 'tab=test_tab')
       .then((res: { success: boolean; data: any; }) => {
         // setPosts(data);
-          if (res.success) {
-            // toast.success('Data Found');
-          } else {
-            res.data.forEach( (value: string) => {
-              toast.error(value);
-            } );
-          }
+        if (res.success) {
+          // toast.success('Data Found');
+        } else {
+          res.data.forEach((value: string) => {
+            toast.error(value);
+          });
+        }
       })
-  } */
+  }
 
   return (
     <div>

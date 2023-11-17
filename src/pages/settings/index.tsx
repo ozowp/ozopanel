@@ -3,13 +3,11 @@
  * @since 1.0.0
  */
 
-import { FC, MouseEvent, /* lazy, */ Suspense, useState } from 'react'
+import { FC, MouseEvent, lazy, Suspense, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Spinner from '@components/preloader/spinner'
-// const General = lazy(() => import('./tab/General')); // lazy not working when build
-// const Other = lazy(() => import('./tab/Other'));
-import General from './tab/General'
-import Other from './tab/Other'
+const General = lazy(() => import('./tab/General'));
+const Other = lazy(() => import('./tab/Other'));
 import './style.scss'
 
 const i18n = ozopanel.i18n
@@ -58,9 +56,8 @@ const Settings: FC = () => {
         {tabs.map((tab) => (
           <li
             key={tab.id}
-            className={`ozop-tab-item ${
-              tab.id === activeTab ? 'ozop-active' : ''
-            }`}
+            className={`ozop-tab-item ${tab.id === activeTab ? 'ozop-active' : ''
+              }`}
             onClick={(e) => addCurrentTab(e, tab.id)}
           >
             <a>{tab.label}</a>

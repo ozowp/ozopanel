@@ -9,8 +9,8 @@ import Spinner from '@components/preloader/spinner'
 const App: FC = () => {
   return (
     <div className="ozop-content">
+      <ToastContainer hideProgressBar />
       <HashRouter>
-        <ToastContainer hideProgressBar />
         <Suspense fallback={<Spinner />}>
           <Routes>
             {routes.map((route, i) => (
