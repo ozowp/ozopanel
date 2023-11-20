@@ -6,8 +6,8 @@
 import { FC, MouseEvent, lazy, Suspense, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Spinner from '@components/preloader/spinner'
-const General = lazy(() => import('./tab/General'));
-const Other = lazy(() => import('./tab/Other'));
+const General = lazy(() => import('./tab/General'))
+const Other = lazy(() => import('./tab/Other'))
 import './style.scss'
 
 const i18n = ozopanel.i18n
@@ -35,11 +35,10 @@ const tabs: TabItem[] = [
 ]
 
 const Settings: FC = () => {
-  const { tab } = useParams()
+  const { tab = 'general' } = useParams()
   const navigate = useNavigate()
 
-  const tabDefault: string = tab || 'general'
-  const [activeTab, setActiveTab] = useState<string>(tabDefault)
+  const [activeTab, setActiveTab] = useState<string>(tab)
 
   const addCurrentTab = (e: MouseEvent<HTMLElement>, tab: string) => {
     e.preventDefault()
@@ -56,8 +55,9 @@ const Settings: FC = () => {
         {tabs.map((tab) => (
           <li
             key={tab.id}
-            className={`ozop-tab-item ${tab.id === activeTab ? 'ozop-active' : ''
-              }`}
+            className={`ozop-tab-item ${
+              tab.id === activeTab ? 'ozop-active' : ''
+            }`}
             onClick={(e) => addCurrentTab(e, tab.id)}
           >
             <a>{tab.label}</a>

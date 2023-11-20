@@ -1,6 +1,11 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
-import { QueryClient, QueryCache, MutationCache, QueryClientProvider } from '@tanstack/react-query'
+import {
+  QueryClient,
+  QueryCache,
+  MutationCache,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import App from './App'
 import { AlertProvider } from '@/components/alert/Provider'
@@ -14,12 +19,12 @@ import '@scss/main.scss'
 const onError = (error: Error | Error[]) => {
   if (Array.isArray(error)) {
     error.forEach((value: Error) => {
-      toast.error(value.message);
-    });
+      toast.error(value.message)
+    })
   } else {
-    toast.error(error.message);
+    toast.error(error.message)
   }
-};
+}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,7 +37,7 @@ const queryClient = new QueryClient({
   }),
   mutationCache: new MutationCache({
     onError,
-  })
+  }),
 })
 
 ReactDOM.createRoot(document.getElementById('ozopanel-dashboard')!).render(

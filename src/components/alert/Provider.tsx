@@ -17,7 +17,9 @@ const ConfirmContext = createContext<ConfirmContextProps | undefined>(undefined)
 export const AlertProvider: React.FC<ProviderProps> = ({ children }) => {
   //delete confirm
   const [delModalStatus, setDelModalStaus] = useState(false)
-  const [delConfirmHandler, setDelConfirmHandler] = useState<() => void>(() => {})
+  const [delConfirmHandler, setDelConfirmHandler] = useState<() => void>(
+    () => {},
+  )
 
   //pro alert
   const [proModalStatus, setProModalStaus] = useState(false)
@@ -28,7 +30,7 @@ export const AlertProvider: React.FC<ProviderProps> = ({ children }) => {
   }
 
   const proAlert = () => {
-    setProModalStaus(true);
+    setProModalStaus(true)
   }
 
   const closeDelConfirm = () => {
@@ -52,10 +54,7 @@ export const AlertProvider: React.FC<ProviderProps> = ({ children }) => {
           closeDelConfirm()
         }}
       />
-      <ProModal
-        isOpen={proModalStatus}
-        onCancel={closeProAlert}
-      />
+      <ProModal isOpen={proModalStatus} onCancel={closeProAlert} />
     </ConfirmContext.Provider>
   )
 }

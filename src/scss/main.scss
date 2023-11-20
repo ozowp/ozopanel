@@ -10,52 +10,17 @@
 
     .ozop-content {
         max-width: 1020px;
+        margin-top: 30px;
         margin: auto;
+    }
+    .ozop-sortable-list {
+        list-style: none;
+        padding: 0;
     }
 
     .ozop-shortable-item {
         @apply cursor-grab rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100;
-    }
-
-    .ozop-restrictions {
-        .ozop-restrictions-del-btn {
-            margin-left: 20px;
-            background-color: #973e3e;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-
-            th {
-                background-color: #646970;
-                color: white;
-                text-align: left;
-                padding: 10px;
-                font-weight: bold;
-            }
-
-            td {
-                padding: 10px;
-                border-bottom: 1px solid #ccc;
-            }
-
-            tr:nth-child(even) {
-                background-color: #f2f2f2;
-            }
-
-            input[type="checkbox"] {
-                margin: 0;
-            }
-        }
-
-        button {
-            background-color: #2271b1;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            cursor: pointer;
-        }
+        display: flex;
+        justify-content: space-between;
     }
 }

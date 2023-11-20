@@ -1,24 +1,25 @@
-import { useEffect } from 'react';
-import { toast } from "react-toastify";
-import api from '@utils/api';
+import { useEffect } from 'react'
+import { toast } from 'react-toastify'
+import api from '@utils/api'
 
 const General = () => {
   // const [form, setFrom] = useState({});
 
   useEffect(() => {
-    get();
-  }, []);
+    get()
+  }, [])
 
   const get = () => {
-    api.get('settings', 'tab=test_tab')
-      .then((res: { success: boolean; data: any; }) => {
+    api
+      .get('settings', 'tab=test_tab')
+      .then((res: { success: boolean; data: [] }) => {
         // setPosts(data);
         if (res.success) {
           // toast.success('Data Found');
         } else {
           res.data.forEach((value: string) => {
-            toast.error(value);
-          });
+            toast.error(value)
+          })
         }
       })
   }

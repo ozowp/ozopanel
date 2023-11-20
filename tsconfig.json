@@ -2,11 +2,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
@@ -24,44 +20,23 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@assets/*": [
-        "src/assets/*"
-      ],
-      "@scss/*": [
-        "src/scss/*"
-      ],
-      "@utils/*": [
-        "src/utils/*"
-      ],
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@blocks/*": [
-        "src/components/blocks/*"
-      ],
-      "@pages/*": [
-        "src/pages/*"
-      ],
-      "@contexts/*": [
-        "src/contexts/*"
-      ],
-      "@reducers/*": [
-        "src/reducers/*"
-      ],
+      "@/*": ["src/*"],
+      "@assets/*": ["src/assets/*"],
+      "@scss/*": ["src/scss/*"],
+      "@utils/*": ["src/utils/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@interfaces/*": ["src/interfaces/*"],
+      "@reducers/*": ["src/reducers/*"],
+      "@components/*": ["src/components/*"],
+      "@blocks/*": ["src/components/blocks/*"],
+      "@pages/*": ["src/pages/*"]
     }
   },
-  "include": [
-    "src"
-  ],
-  "files": [
-    "globals.d.ts"
-  ],
+  "include": ["src"],
+  "files": ["globals.d.ts"],
   "references": [
     {
       "path": "./tsconfig.node.json"
     }
-  ],
+  ]
 }

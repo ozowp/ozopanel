@@ -1,10 +1,13 @@
 import { FC, useReducer, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
+import { useAlert } from '@/components/alert/Provider'
 import { toast } from 'react-toastify'
 import Spinner from '@components/preloader/spinner'
 import { getData, delData } from './api'
-import { reducer, initState, Item } from './reducer'
+import { reducer, initState } from './reducer'
+import { Item } from '@interfaces/restrictions'
+import Table from './Table'
 
 /**
  * Restrictions
@@ -17,6 +20,8 @@ const Restrictions: FC = () => {
   const queryClient = useQueryClient()
   const [state, dispatch] = useReducer(reducer, initState)
   const { items, selectedItems, selectAll, loading } = state
+
+  const { delConfirm } = useAlert()
 
   const { data } = useQuery({
     queryKey: ['restrictions', { type }],
@@ -51,6 +56,14 @@ const Restrictions: FC = () => {
     }
   }
 
+  const selectType = (id?: string) => {
+    if (id == 'roles') {
+      navigate(`/restrictions/roles`)
+    } else {
+      navigate(`/restrictions/users`)
+    }
+  }
+
   const handleSelectAll = () => {
     if (selectAll) {
       dispatch({ type: 'SET_SELECTED_ITEMS', payload: [] })
@@ -75,89 +88,76 @@ const Restrictions: FC = () => {
       dispatch({ type: 'SET_SELECTED_ITEMS', payload: [] })
       toast.success('Successfully deleted.')
     },
-    /* onError: (error: []) => {
-      error.forEach((value: Error) => {
-        toast.error(value.message);
-      });
-    }, */
   })
 
   const handleDelete = () => {
-    delMutation.mutate(selectedItems)
+    delConfirm(() => {
+      delMutation.mutate(selectedItems)
+    })
   }
 
   const i18n = ozopanel.i18n
 
   return (
     <div className="ozop-restrictions">
-      <h3>{`${i18n.restriction} ${type === 'users' ? i18n.users : i18n.roles
-        }`}</h3>
+      <h3 className="text-2xl text-gray-900 dark:text-white">{`${
+        i18n.restriction
+      } ${type === 'users' ? i18n.users : i18n.roles}`}</h3>
 
-      <button className="" onClick={() => goForm()}>
-        {`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role}`}
-      </button>
+      <div className="mb-6 mt-6 flex justify-between">
+        <div className="">
+          <button
+            className={`rounded ${
+              type === 'roles'
+                ? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
+                : 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
+            }`}
+            onClick={() => selectType('roles')}
+          >
+            {i18n.roles}
+          </button>
+          <button
+            className={`rounded ${
+              type === 'users'
+                ? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
+                : 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
+            }`}
+            onClick={() => selectType('users')}
+          >
+            {i18n.users}
+          </button>
+        </div>
+        <div className="">
+          <button
+            className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
+            onClick={() => goForm()}
+          >
+            {`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role}`}
+          </button>
 
-      {selectedItems.length > 0 && (
-        <button className="ozop-restrictions-del-btn" onClick={handleDelete}>
-          {i18n.del}
-        </button>
-      )}
+          {selectedItems.length > 0 && (
+            <button
+              className="mb-2 me-2 rounded bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
+              onClick={handleDelete}
+            >
+              {i18n.del}
+            </button>
+          )}
+        </div>
+      </div>
 
       {loading && <Spinner />}
 
       {!loading && (
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: 20 }}>
-                <input
-                  type="checkbox"
-                  checked={selectAll}
-                  onChange={handleSelectAll}
-                />
-              </th>
-              {type === 'users' ? (
-                <>
-                  <th>{i18n.id}</th>
-                  <th>{i18n.name}</th>
-                  <th>{i18n.email}</th>
-                </>
-              ) : (
-                <>
-                  <th>{i18n.label}</th>
-                </>
-              )}
-              <th style={{ width: 80 }}>{i18n.actions}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item: Item) => (
-              <tr key={item.id}>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedItems.includes(item.id)}
-                    onChange={() => handleToggleItem(item.id)}
-                  />
-                </td>
-                {type === 'users' ? (
-                  <>
-                    <td>{item.id}</td>
-                    <td>{item.name}</td>
-                    <td>{item.email}</td>
-                  </>
-                ) : (
-                  <>
-                    <td>{item.label}</td>
-                  </>
-                )}
-                <td>
-                  <button onClick={() => goForm(item.id)}>{i18n.edit}</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Table
+          type={type}
+          selectAll={selectAll}
+          handleSelectAll={handleSelectAll}
+          items={items}
+          selectedItems={selectedItems}
+          handleToggleItem={handleToggleItem}
+          goForm={goForm}
+        />
       )}
     </div>
   )

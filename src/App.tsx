@@ -8,7 +8,7 @@ import Spinner from '@components/preloader/spinner'
 
 const App: FC = () => {
   return (
-    <div className="ozop-content">
+    <div className="ozop-content mt-5">
       <ToastContainer hideProgressBar />
       <HashRouter>
         <Suspense fallback={<Spinner />}>

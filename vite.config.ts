@@ -33,11 +33,12 @@ const config = defineConfig({
       '@assets': path.resolve(__dirname, './src/assets'),
       '@scss': path.resolve(__dirname, './src/scss'),
       '@utils': path.resolve(__dirname, './src/utils'),
+      '@contexts': path.resolve(__dirname, './src/contexts'),
+      '@interfaces': path.resolve(__dirname, './src/interfaces'),
+      '@reducers': path.resolve(__dirname, './src/reducers'),
       '@components': path.resolve(__dirname, './src/components'),
       '@blocks': path.resolve(__dirname, './src/components/blocks'),
-      '@pages': path.resolve(__dirname, './src/pages'),
-      '@contexts': path.resolve(__dirname, './src/contexts'),
-      '@reducers': path.resolve(__dirname, './src/reducers'),
+      '@pages': path.resolve(__dirname, './src/pages')
     },
   },
   css: {

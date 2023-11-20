@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import Spinner from '@components/preloader/spinner'
 import api from '@utils/api'
 import { reducer, initState } from './formReducer'
+import './style.scss'
 
 const Form: FC = () => {
   const { type, id } = useParams()
@@ -122,18 +123,25 @@ const Form: FC = () => {
 
   return (
     <div className="ozop-restrictions-form">
-      <div className="ozop-restrictions-form-head">
-        <h3>{`${i18n.restrict} ${
-          type === 'users' ? i18n.user : i18n.role
-        }`}</h3>
-        <button className="" onClick={() => navigate(`/restrictions/${type}`)}>
-          {`${i18n.backTo} ${type === 'users' ? i18n.users : i18n.roles}`}
-        </button>
+      <div className="mb-6 mt-6 grid grid-cols-2 gap-6">
+        <div className="col">
+          <h3>{`${i18n.restrict} ${
+            type === 'users' ? i18n.user : i18n.role
+          }`}</h3>
+        </div>
+        <div className="col">
+          <button
+            className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
+            onClick={() => navigate(`/restrictions/${type}`)}
+          >
+            {`${i18n.backTo} ${type === 'users' ? i18n.users : i18n.roles}`}
+          </button>
+        </div>
       </div>
 
-      {state.loadingFetch ? (
-        <Spinner />
-      ) : (
+      {state.loadingFetch && <Spinner />}
+
+      {!state.loadingFetch && (
         <form onSubmit={handleSubmit}>
           <div className="ozop-restrictions-id">
             <label>
@@ -153,9 +161,10 @@ const Form: FC = () => {
             </select>
           </div>
 
-          <p>{`${i18n.menuSelectGuide} ${
-            type === 'users' ? i18n.user : i18n.role
-          }`}</p>
+          <p className="text-gray-500 dark:text-gray-400">{`${
+            i18n.menuSelectGuide
+          } ${type === 'users' ? i18n.user : i18n.role}`}</p>
+
           <div className="ozop-restrictions-menu">
             {state.adminMenu.map((menu, menuI) => (
               <div key={menuI} className="ozop-restrictions-menu-item">
@@ -196,7 +205,7 @@ const Form: FC = () => {
           </div>
 
           <button
-            className="ozop-restrictions-submit"
+            className="mb-5 me-2 mt-5 rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
             type="submit"
             disabled={state.loadingSubmit}
           >

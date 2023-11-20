@@ -7,7 +7,8 @@ import SelectGroup from '@components/select-group'
 import Items from './Items'
 import Item from './Item'
 import api from '@utils/api'
-import { reducer, initState, Item as ItemI } from './reducer'
+import { reducer, initState } from './reducer'
+import { Item as ItemI } from '@interfaces/adminColumnEditor'
 
 /**
  * AdminColumns
@@ -44,7 +45,7 @@ const AdminColumns: FC = () => {
 
   const handleScreenChange = (selectedId?: string) => {
     if (selectedId) {
-      navigate(`/admin-columns/${selectedId}`)
+      navigate(`/admin-column-editor/${selectedId}`)
     }
   }
 
@@ -128,17 +129,7 @@ const AdminColumns: FC = () => {
                 {`${i18n.view} ${id}`}
               </button>
             </div>
-            <div className="col">
-              <button
-                onClick={handleSubmit}
-                className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
-              >
-                {i18n.saveChanges}
-              </button>
-              <button className="px-4 py-2 font-semibold text-gray-800">
-                {i18n.resetChanges}
-              </button>
-            </div>
+            <div className="col"></div>
           </div>
 
           <div className="grid grid-cols-2 gap-6">
@@ -157,15 +148,24 @@ const AdminColumns: FC = () => {
               </button>
             </div>
             <div className="col">
-              {selectedItem !== null && items[selectedItem] && (
-                <Item
-                  item={items[selectedItem]}
-                  onSave={handleItemChange}
-                  onCancel={() => handleItemSelect(null)}
-                />
-              )}
+              <button
+                onClick={handleSubmit}
+                className="rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+              >
+                {i18n.saveChanges}
+              </button>
+              <button className="px-4 py-2 font-semibold text-gray-800">
+                {i18n.resetChanges}
+              </button>
             </div>
           </div>
+          {selectedItem !== null && items[selectedItem] && (
+            <Item
+              item={items[selectedItem]}
+              onSave={handleItemChange}
+              onClose={() => handleItemSelect(null)}
+            />
+          )}
         </>
       )}
     </div>

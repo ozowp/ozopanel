@@ -1,16 +1,4 @@
-export interface Item {
-  id: string
-  name?: string
-  email?: string
-  label?: string
-}
-
-interface State {
-  items: Item[]
-  selectedItems: string[]
-  selectAll: boolean
-  loading: boolean
-}
+import { Item, State } from '@interfaces/restrictions'
 
 type Action =
   | { type: 'SET_ITEMS'; payload: Item[] }

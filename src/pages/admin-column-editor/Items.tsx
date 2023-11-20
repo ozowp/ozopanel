@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { useAlert } from '@/components/alert/Provider'
-import './style.scss'
+import { DropdownRow } from '@/components/dropdown'
 
 interface Item {
   id: string
@@ -46,29 +46,35 @@ const Items: FC<ItemsProps> = ({ items, onChange, onSelect, onDelete }) => {
 
   const i18n = ozopanel.i18n
   return (
-    <ul className="ozop-sortable-list">
+    <div className="ozop-sortable-list">
       {items.map((item, i) => (
-        <li
+        <div
           key={item.id}
-          className="ozop-shortable-item"
+          className="ozop-shortable-item mb-2"
           draggable
           onDragStart={() => handleDragStart(i)}
           onDragOver={() => handleDragOver(i)}
-          onClick={() => onSelect(i)}
         >
-          <span dangerouslySetInnerHTML={{ __html: item.label }} />
-          <button
-            className="ml-2 text-red-500"
-            onClick={(e) => {
-              e.stopPropagation() // Prevent the click event from triggering the parent li click event
-              handleDeleteClick(i)
-            }}
-          >
-            {i18n.del}
-          </button>
-        </li>
+          <div dangerouslySetInnerHTML={{ __html: item.label }} />
+          <DropdownRow>
+            <li>
+              <button
+                className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                onClick={() => onSelect(i)}
+              >
+                {i18n.edit}
+              </button>
+              <button
+                className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                onClick={() => handleDeleteClick(i)}
+              >
+                {i18n.del}
+              </button>
+            </li>
+          </DropdownRow>
+        </div>
       ))}
-    </ul>
+    </div>
   )
 }
 

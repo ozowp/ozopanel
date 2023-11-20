@@ -5,11 +5,11 @@
  */
 import { lazy } from 'react'
 
-const Dashboard = lazy(() => import('@pages/dashboard'));
-const Restrictions = lazy(() => import('@/pages/restrictions'));
-const RestrictionsForm = lazy(() => import('@/pages/restrictions/Form'));
-const AdminColumns = lazy(() => import('@/pages/admin-columns'));
-const Settings = lazy(() => import('@pages/settings'));
+const Dashboard = lazy(() => import('@pages/dashboard'))
+const Restrictions = lazy(() => import('@/pages/restrictions'))
+const RestrictionsForm = lazy(() => import('@/pages/restrictions/Form'))
+const AdminColumns = lazy(() => import('@/pages/admin-column-editor'))
+const Settings = lazy(() => import('@pages/settings'))
 
 const routes = [
   {
@@ -29,12 +29,16 @@ const routes = [
     element: RestrictionsForm,
   },
   {
-    path: '/admin-columns',
+    path: '/admin-column-editor',
     element: AdminColumns,
   },
   {
-    path: '/admin-columns/:id',
+    path: '/admin-column-editor/:id',
     element: AdminColumns,
+  },
+  {
+    path: '/addons',
+    element: Settings,
   },
   {
     path: '/settings',
