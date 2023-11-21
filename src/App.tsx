@@ -1,24 +1,19 @@
-import { Suspense, FC } from 'react'
-import { HashRouter, Routes, Route } from 'react-router-dom'
+import { FC, Suspense, lazy } from 'react'
+import { RouterProvider } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import routes from './routes'
+import Router from './routes'
 
 import Spinner from '@components/preloader/spinner'
+const NotFound = lazy(() => import('@pages/404'))
 
 const App: FC = () => {
   return (
     <div className="ozop-content mt-5">
       <ToastContainer hideProgressBar />
-      <HashRouter>
-        <Suspense fallback={<Spinner />}>
-          <Routes>
-            {routes.map((route, i) => (
-              <Route key={i} path={route.path} element={<route.element />} />
-            ))}
-          </Routes>
-        </Suspense>
-      </HashRouter>
+      <Suspense fallback={<Spinner />}>
+        <RouterProvider router={Router} fallbackElement={<NotFound />} />
+      </Suspense>
     </div>
   )
 }

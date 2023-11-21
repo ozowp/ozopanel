@@ -125,7 +125,7 @@ const Form: FC = () => {
     <div className="ozop-restrictions-form">
       <div className="mb-6 mt-6 grid grid-cols-2 gap-6">
         <div className="col">
-          <h3>{`${i18n.restrict} ${
+          <h3 className='text-2xl text-gray-900 dark:text-white'>{`${i18n.restrict} ${
             type === 'users' ? i18n.user : i18n.role
           }`}</h3>
         </div>

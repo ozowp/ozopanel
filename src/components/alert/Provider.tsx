@@ -59,11 +59,10 @@ export const AlertProvider: React.FC<ProviderProps> = ({ children }) => {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const useAlert = () => {
+export const UseAlert = () => {
   const context = useContext(ConfirmContext)
   if (!context) {
-    throw new Error('useAlert must be used within a Provider')
+    throw new Error('UseAlert must be used within a Provider')
   }
   return context
 }

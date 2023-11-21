@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { useAlert } from '@/components/alert/Provider'
+import { UseAlert } from '@/components/alert/Provider'
 import { DropdownRow } from '@/components/dropdown'
 
 interface Item {
@@ -20,7 +20,7 @@ interface ItemsProps {
 const Items: FC<ItemsProps> = ({ items, onChange, onSelect, onDelete }) => {
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
 
-  const { delConfirm /* , proAlert */ } = useAlert()
+  const { delConfirm /* , proAlert */ } = UseAlert()
 
   const handleDragStart = (i: number) => {
     setDraggedIndex(i)

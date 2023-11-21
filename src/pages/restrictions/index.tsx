@@ -1,7 +1,7 @@
 import { FC, useReducer, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
-import { useAlert } from '@/components/alert/Provider'
+import { UseAlert } from '@/components/alert/Provider'
 import { toast } from 'react-toastify'
 import Spinner from '@components/preloader/spinner'
 import { getData, delData } from './api'
@@ -21,7 +21,7 @@ const Restrictions: FC = () => {
   const [state, dispatch] = useReducer(reducer, initState)
   const { items, selectedItems, selectAll, loading } = state
 
-  const { delConfirm } = useAlert()
+  const { delConfirm } = UseAlert()
 
   const { data } = useQuery({
     queryKey: ['restrictions', { type }],

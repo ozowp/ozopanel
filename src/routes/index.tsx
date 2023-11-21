@@ -4,54 +4,60 @@
  * @since 1.0.0
  */
 import { lazy } from 'react'
+import { createHashRouter } from 'react-router-dom'
 
 const Dashboard = lazy(() => import('@pages/dashboard'))
 const Restrictions = lazy(() => import('@/pages/restrictions'))
 const RestrictionsForm = lazy(() => import('@/pages/restrictions/Form'))
 const AdminColumns = lazy(() => import('@/pages/admin-column-editor'))
 const Settings = lazy(() => import('@pages/settings'))
+const NotFound = lazy(() => import('@pages/404'))
 
-const routes = [
+const Router = createHashRouter([
   {
     path: '/',
-    element: Dashboard,
+    element: <Dashboard />,
   },
   {
     path: '/restrictions/:type',
-    element: Restrictions,
+    element: <Restrictions />,
   },
   {
     path: '/restrictions/:type/add',
-    element: RestrictionsForm,
+    element: <RestrictionsForm />,
   },
   {
     path: '/restrictions/:type/:id/edit',
-    element: RestrictionsForm,
+    element: <RestrictionsForm />,
   },
   {
     path: '/admin-column-editor',
-    element: AdminColumns,
+    element: <AdminColumns />,
   },
   {
     path: '/admin-column-editor/:id',
-    element: AdminColumns,
+    element: <AdminColumns />,
   },
   {
     path: '/addons',
-    element: Settings,
+    element: <Settings />,
   },
   {
     path: '/settings',
-    element: Settings,
+    element: <Settings />,
   },
   {
     path: '/settings/:tab',
-    element: Settings,
+    element: <Settings />,
   },
   {
     path: '/settings/:tab/:subtab',
-    element: Settings,
+    element: <Settings />,
   },
-]
+  {
+    path: '*',
+    element: <NotFound />,
+  },
+])
 
-export default routes
+export default Router
