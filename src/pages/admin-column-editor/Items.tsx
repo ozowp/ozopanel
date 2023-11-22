@@ -46,11 +46,11 @@ const Items: FC<ItemsProps> = ({ items, onChange, onSelect, onDelete }) => {
 
   const i18n = ozopanel.i18n
   return (
-    <div className="ozop-sortable-list">
+    <div className="">
       {items.map((item, i) => (
         <div
           key={item.id}
-          className="ozop-shortable-item mb-2"
+          className="ozop-shortable-item"
           draggable
           onDragStart={() => handleDragStart(i)}
           onDragOver={() => handleDragOver(i)}

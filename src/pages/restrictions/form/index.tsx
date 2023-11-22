@@ -1,11 +1,11 @@
-import { FC, useReducer, useEffect, FormEvent } from 'react'
+import { FC, useReducer, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import Spinner from '@components/preloader/spinner'
 import api from '@utils/api'
-import { reducer, initState } from './formReducer'
-import './style.scss'
+import { reducer, initState } from './reducer'
+import Menu from './Menu'
 
 const Form: FC = () => {
   const { type, id } = useParams()
@@ -21,10 +21,10 @@ const Form: FC = () => {
         const res = await api.get(`restrictions/${type}${idParam}`)
         if (res.success) {
           const { id_list, admin_menu, form_data } = res.data
-          dispatch({ type: 'SET_ID_LIST', payload: id_list })
-          dispatch({ type: 'SET_ADMIN_MENU', payload: admin_menu })
+          dispatch({ type: 'set_id_list', payload: id_list })
+          dispatch({ type: 'set_admin_menu', payload: admin_menu })
           if (id) {
-            dispatch({ type: 'SET_FORM_DATA', payload: form_data })
+            dispatch({ type: 'set_form_data', payload: form_data })
           }
         } else {
           res.data.forEach((value: string) => {
@@ -34,7 +34,7 @@ const Form: FC = () => {
       } catch (error) {
         console.error('Error fetching data:', error)
       } finally {
-        dispatch({ type: 'SET_LOADING_FETCH', payload: false })
+        dispatch({ type: 'set_loading_fetch', payload: false })
       }
     }
 
@@ -42,11 +42,10 @@ const Form: FC = () => {
   }, [type, id])
 
   const handleIdChange = (id: string) => {
-    dispatch({ type: 'SET_FORM_DATA', payload: { ...state.formData, id: id } })
+    dispatch({ type: 'set_form_data', payload: { ...state.formData, id: id } })
   }
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = async () => {
     if (!state.formData.id) {
       if (type === 'users') {
         toast.error(i18n.plsSelectUser)
@@ -63,7 +62,7 @@ const Form: FC = () => {
     }
 
     try {
-      dispatch({ type: 'SET_LOADING_SUBMIT', payload: true })
+      dispatch({ type: 'set_loading_submit', payload: true })
       const apiPath = id
         ? api.edit(`restrictions/${type}`, id, state.formData)
         : api.add(`restrictions/${type}`, state.formData)
@@ -84,7 +83,7 @@ const Form: FC = () => {
     } catch (error) {
       console.error('Error submitting data:', error)
     } finally {
-      dispatch({ type: 'SET_LOADING_SUBMIT', payload: false })
+      dispatch({ type: 'set_loading_submit', payload: false })
     }
   }
 
@@ -99,9 +98,17 @@ const Form: FC = () => {
           ?.submenu.map((submenu) => submenu.url) || []
     }
     dispatch({
-      type: 'SET_FORM_DATA',
+      type: 'set_form_data',
       payload: { ...state.formData, admin_menu: updatedAdminMenu },
     })
+  }
+
+  const onMenuExpand = (url: string) => {
+    let expand_url = (state.menuExpand === url) ? null : url;
+    dispatch({
+      type: 'set_menu_expand',
+      payload: expand_url,
+    });
   }
 
   const handleSubMenuToggle = (menuUrl: string, subMenuUrl: string) => {
@@ -116,7 +123,7 @@ const Form: FC = () => {
       updatedAdminMenu[menuUrl].push(subMenuUrl) // Add submenu URL
     }
     dispatch({
-      type: 'SET_FORM_DATA',
+      type: 'set_form_data',
       payload: { ...state.formData, admin_menu: updatedAdminMenu },
     })
   }
@@ -125,9 +132,8 @@ const Form: FC = () => {
     <div className="ozop-restrictions-form">
       <div className="mb-6 mt-6 grid grid-cols-2 gap-6">
         <div className="col">
-          <h3 className='text-2xl text-gray-900 dark:text-white'>{`${i18n.restrict} ${
-            type === 'users' ? i18n.user : i18n.role
-          }`}</h3>
+          <h3 className='text-2xl text-gray-900 dark:text-white'>{`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role
+            }`}</h3>
         </div>
         <div className="col">
           <button
@@ -142,15 +148,15 @@ const Form: FC = () => {
       {state.loadingFetch && <Spinner />}
 
       {!state.loadingFetch && (
-        <form onSubmit={handleSubmit}>
-          <div className="ozop-restrictions-id">
-            <label>
-              {`${i18n.select} ${type === 'users' ? i18n.user : i18n.role}`}:
-            </label>
+        <>
+          <label className='mb-3 block'>
+            {`${i18n.select} ${type === 'users' ? i18n.user : i18n.role}`}:
+
             <select
               onChange={(e) => handleIdChange(e.target.value)}
               value={state.formData.id}
               disabled={id ? true : false}
+              className='ml-2'
             >
               <option value="">{i18n.select}</option>
               {state.idList.map((role, i) => (
@@ -159,65 +165,43 @@ const Form: FC = () => {
                 </option>
               ))}
             </select>
+          </label>
+
+          <p className="text-gray-500 dark:text-gray-400 mb-3">{`${i18n.menuSelectGuide
+            } ${type === 'users' ? i18n.user : i18n.role}`}</p>
+
+          <div className="grid grid-cols-2 gap-6">
+            <div className="col">
+              {state.adminMenu.map((menu) => (
+                <Menu
+                  key={menu.url}
+                  menu={menu}
+                  formData={state.formData}
+                  onToggle={() => handleAdminMenuToggle(menu.url)}
+                  onMenuExpand={() => onMenuExpand(menu.url)}
+                  menuExpand={state.menuExpand === menu.url}
+                  onSubMenuToggle={(menuUrl: string, submenuUrl: string) => handleSubMenuToggle(menuUrl, submenuUrl)}
+                />
+              ))}
+            </div>
+            <div className="col">
+
+              <button
+                onClick={handleSubmit}
+                className="rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+                disabled={state.loadingSubmit}
+              >
+                {state.loadingSubmit
+                  ? id
+                    ? i18n.updating
+                    : i18n.submiting
+                  : id
+                    ? i18n.update
+                    : i18n.submit}
+              </button>
+            </div>
           </div>
-
-          <p className="text-gray-500 dark:text-gray-400">{`${
-            i18n.menuSelectGuide
-          } ${type === 'users' ? i18n.user : i18n.role}`}</p>
-
-          <div className="ozop-restrictions-menu">
-            {state.adminMenu.map((menu, menuI) => (
-              <div key={menuI} className="ozop-restrictions-menu-item">
-                <div
-                  className={`ozop-restrictions-menu-head`}
-                  onClick={() => handleAdminMenuToggle(menu.url)}
-                >
-                  <input
-                    type="checkbox"
-                    checked={state.formData.admin_menu[menu.url] !== undefined}
-                    readOnly
-                  />
-                  <label>{menu.label}</label>
-                </div>
-
-                <div className={`ozop-restrictions-submenu`}>
-                  {menu.submenu.map((submenu, subMenuI) => (
-                    <div
-                      key={subMenuI}
-                      className={`ozop-restrictions-submenu-item`}
-                      onClick={() => handleSubMenuToggle(menu.url, submenu.url)}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={
-                          state.formData.admin_menu[menu.url]?.includes(
-                            submenu.url,
-                          ) || false
-                        }
-                        readOnly
-                      />
-                      <label>{submenu.label}</label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <button
-            className="mb-5 me-2 mt-5 rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
-            type="submit"
-            disabled={state.loadingSubmit}
-          >
-            {state.loadingSubmit
-              ? id
-                ? i18n.updating
-                : i18n.submiting
-              : id
-                ? i18n.update
-                : i18n.submit}
-          </button>
-        </form>
+        </>
       )}
     </div>
   )

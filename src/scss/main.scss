@@ -13,14 +13,31 @@
         margin-top: 30px;
         margin: auto;
     }
-    .ozop-sortable-list {
-        list-style: none;
-        padding: 0;
+
+    .ozop-shortable-item {
+        @apply cursor-grab rounded border border-gray-400 bg-white px-4 py-2 mb-2 font-semibold text-gray-800 shadow hover:bg-gray-100;
     }
 
     .ozop-shortable-item {
-        @apply cursor-grab rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100;
-        display: flex;
-        justify-content: space-between;
+        position: relative;
+
+        input {
+            margin-right: 8px;
+        }
+
+        .ozop-arrow-icon {
+            position: absolute;
+            right: 10px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .ozop-arrow-icon.ozop-collapsed {
+            transform: rotate(0deg);
+        }
+
+        .ozop-arrow-icon.ozop-expanded {
+            transform: rotate(180deg);
+        }
     }
 }

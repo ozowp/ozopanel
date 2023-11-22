@@ -5,10 +5,10 @@ import { v4 as uuidv4 } from 'uuid'
 import Spinner from '@components/preloader/spinner'
 import SelectGroup from '@components/select-group'
 import Items from './Items'
-import Item from './Item'
+import Form from './Form'
 import api from '@utils/api'
 import { reducer, initState } from './reducer'
-import { Item as ItemI } from '@interfaces/adminColumnEditor'
+import { Item } from '@interfaces/admin-column-editor'
 
 /**
  * AdminColumns
@@ -26,8 +26,8 @@ const AdminColumns: FC = () => {
       try {
         const res = await api.get(`admin-columns/${id}`)
         if (res.success) {
-          dispatch({ type: 'SET_SCREENS', payload: res.data.screens })
-          dispatch({ type: 'SET_COLUMNS', payload: res.data.columns })
+          dispatch({ type: 'set_screens', payload: res.data.screens })
+          dispatch({ type: 'set_columns', payload: res.data.columns })
         } else {
           res.data.forEach((value: string) => {
             toast.error(value)
@@ -36,7 +36,7 @@ const AdminColumns: FC = () => {
       } catch (error) {
         console.error('Error fetching data:', error)
       } finally {
-        dispatch({ type: 'SET_LOADING', payload: false })
+        dispatch({ type: 'set_loading', payload: false })
       }
     }
 
@@ -49,15 +49,15 @@ const AdminColumns: FC = () => {
     }
   }
 
-  const handleItemOrder = (newItems: ItemI[]) => {
-    dispatch({ type: 'SET_COLUMNS', payload: newItems })
+  const handleItemOrder = (newItems: Item[]) => {
+    dispatch({ type: 'set_columns', payload: newItems })
   }
 
   const handleItemSelect = (index: null | number) => {
-    dispatch({ type: 'SET_COLUMN_SELECT', payload: index })
+    dispatch({ type: 'set_column_select', payload: index })
   }
 
-  const createNewItem = (): ItemI => {
+  const createNewItem = (): Item => {
     const uniqueId = `ozop_custom_${uuidv4()}`
     return {
       id: uniqueId,
@@ -69,14 +69,14 @@ const AdminColumns: FC = () => {
   }
 
   const handleItemNew = () => {
-    dispatch({ type: 'SET_COLUMN_NEW', payload: createNewItem() })
+    dispatch({ type: 'set_column_new', payload: createNewItem() })
   }
 
-  const handleItemChange = (updatedItem: ItemI) => {
+  const handleItemChange = (updatedItem: Item) => {
     if (selectedItem !== null) {
       const updatedItems = [...state.items]
       updatedItems[selectedItem] = updatedItem
-      dispatch({ type: 'SET_COLUMNS', payload: updatedItems })
+      dispatch({ type: 'set_columns', payload: updatedItems })
     }
 
     // Reset the editedItemIndex
@@ -105,7 +105,7 @@ const AdminColumns: FC = () => {
   const handleItemDelete = (index: number) => {
     const updatedItems = [...state.items]
     updatedItems.splice(index, 1)
-    dispatch({ type: 'SET_COLUMNS', payload: updatedItems })
+    dispatch({ type: 'set_columns', payload: updatedItems })
   }
 
   const i18n = ozopanel.i18n
@@ -160,7 +160,7 @@ const AdminColumns: FC = () => {
             </div>
           </div>
           {selectedItem !== null && items[selectedItem] && (
-            <Item
+            <Form
               item={items[selectedItem]}
               onSave={handleItemChange}
               onClose={() => handleItemSelect(null)}

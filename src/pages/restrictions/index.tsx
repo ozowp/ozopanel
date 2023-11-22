@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import Spinner from '@components/preloader/spinner'
 import { getData, delData } from './api'
 import { reducer, initState } from './reducer'
-import { Item } from '@interfaces/restrictions'
+import { Item } from '@/interfaces/restrictions'
 import Table from './Table'
 
 /**
@@ -30,14 +30,14 @@ const Restrictions: FC = () => {
 
   useEffect(() => {
     if (data) {
-      dispatch({ type: 'SET_ITEMS', payload: data.list })
-      dispatch({ type: 'SET_LOADING', payload: false })
+      dispatch({ type: 'set_items', payload: data.list })
+      dispatch({ type: 'set_loading', payload: false })
     }
   }, [data])
 
   useEffect(() => {
     dispatch({
-      type: 'SET_SELECT_ALL',
+      type: 'set_select_all',
       payload: selectedItems.length === items.length && items.length > 0,
     })
   }, [selectedItems, items])
@@ -66,15 +66,15 @@ const Restrictions: FC = () => {
 
   const handleSelectAll = () => {
     if (selectAll) {
-      dispatch({ type: 'SET_SELECTED_ITEMS', payload: [] })
+      dispatch({ type: 'set_selected_items', payload: [] })
     } else {
       const allItemIds = items.map((item: Item) => item.id)
-      dispatch({ type: 'SET_SELECTED_ITEMS', payload: allItemIds })
+      dispatch({ type: 'set_selected_items', payload: allItemIds })
     }
   }
 
   const handleToggleItem = (itemId: string) => {
-    dispatch({ type: 'SET_TOGGLE_ITEM', payload: itemId })
+    dispatch({ type: 'set_toggle_item', payload: itemId })
   }
 
   const delMutation = useMutation({
@@ -84,8 +84,8 @@ const Restrictions: FC = () => {
       const updatedItems = items.filter(
         (item: Item) => !selectedItems.includes(item.id),
       )
-      dispatch({ type: 'SET_ITEMS', payload: updatedItems })
-      dispatch({ type: 'SET_SELECTED_ITEMS', payload: [] })
+      dispatch({ type: 'set_items', payload: updatedItems })
+      dispatch({ type: 'set_selected_items', payload: [] })
       toast.success('Successfully deleted.')
     },
   })
@@ -100,28 +100,25 @@ const Restrictions: FC = () => {
 
   return (
     <div className="ozop-restrictions">
-      <h3 className="text-2xl text-gray-900 dark:text-white">{`${
-        i18n.restriction
-      } ${type === 'users' ? i18n.users : i18n.roles}`}</h3>
+      <h3 className="text-2xl text-gray-900 dark:text-white">{`${i18n.restriction
+        } ${type === 'users' ? i18n.users : i18n.roles}`}</h3>
 
       <div className="mb-6 mt-6 flex justify-between">
         <div className="">
           <button
-            className={`rounded ${
-              type === 'roles'
-                ? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
-                : 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
-            }`}
+            className={`rounded ${type === 'roles'
+              ? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
+              : 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
+              }`}
             onClick={() => selectType('roles')}
           >
             {i18n.roles}
           </button>
           <button
-            className={`rounded ${
-              type === 'users'
-                ? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
-                : 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
-            }`}
+            className={`rounded ${type === 'users'
+              ? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
+              : 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
+              }`}
             onClick={() => selectType('users')}
           >
             {i18n.users}

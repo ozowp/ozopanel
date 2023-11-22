@@ -1,11 +1,11 @@
-import { Item, State, Screen } from '@interfaces/adminColumnEditor'
+import { Item, State, Screen } from '@interfaces/admin-column-editor'
 
 export type Action =
-  | { type: 'SET_LOADING'; payload: boolean }
-  | { type: 'SET_SCREENS'; payload: Screen[] }
-  | { type: 'SET_COLUMNS'; payload: Item[] }
-  | { type: 'SET_COLUMN_SELECT'; payload: null | number }
-  | { type: 'SET_COLUMN_NEW'; payload: Item }
+  | { type: 'set_loading'; payload: boolean }
+  | { type: 'set_screens'; payload: Screen[] }
+  | { type: 'set_columns'; payload: Item[] }
+  | { type: 'set_column_select'; payload: null | number }
+  | { type: 'set_column_new'; payload: Item }
 
 export const initState: State = {
   loading: true,
@@ -16,15 +16,15 @@ export const initState: State = {
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'SET_LOADING':
+    case 'set_loading':
       return { ...state, loading: action.payload }
-    case 'SET_SCREENS':
+    case 'set_screens':
       return { ...state, screens: action.payload }
-    case 'SET_COLUMNS':
+    case 'set_columns':
       return { ...state, items: action.payload }
-    case 'SET_COLUMN_SELECT':
+    case 'set_column_select':
       return { ...state, selectedItem: action.payload }
-    case 'SET_COLUMN_NEW':
+    case 'set_column_new':
       return {
         ...state,
         items: [...state.items, action.payload],

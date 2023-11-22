@@ -1,6 +1,6 @@
 import { FC } from 'react'
 const i18n = ozopanel.i18n
-import { Table } from '@interfaces/restrictions'
+import { Table } from '@/interfaces/restrictions'
 
 const Head: FC<Table> = ({ type, selectAll, handleSelectAll }) => {
   return (

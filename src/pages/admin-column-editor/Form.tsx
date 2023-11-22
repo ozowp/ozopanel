@@ -1,7 +1,7 @@
 // Inside Item.tsx
 
 import React, { FC, useState, useEffect } from 'react'
-import { Item } from '@interfaces/adminColumnEditor'
+import { Item } from '@interfaces/admin-column-editor'
 
 interface ItemProps {
   item: Item

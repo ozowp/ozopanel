@@ -8,7 +8,7 @@ import { createHashRouter } from 'react-router-dom'
 
 const Dashboard = lazy(() => import('@pages/dashboard'))
 const Restrictions = lazy(() => import('@/pages/restrictions'))
-const RestrictionsForm = lazy(() => import('@/pages/restrictions/Form'))
+const RestrictionsForm = lazy(() => import('@/pages/restrictions/form'))
 const AdminColumns = lazy(() => import('@/pages/admin-column-editor'))
 const Settings = lazy(() => import('@pages/settings'))
 const NotFound = lazy(() => import('@pages/404'))

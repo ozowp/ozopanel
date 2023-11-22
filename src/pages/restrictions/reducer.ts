@@ -1,11 +1,11 @@
-import { Item, State } from '@interfaces/restrictions'
+import { Item, State } from '@/interfaces/restrictions'
 
 type Action =
-  | { type: 'SET_ITEMS'; payload: Item[] }
-  | { type: 'SET_SELECTED_ITEMS'; payload: string[] }
-  | { type: 'SET_SELECT_ALL'; payload: boolean }
-  | { type: 'SET_LOADING'; payload: boolean }
-  | { type: 'SET_TOGGLE_ITEM'; payload: string }
+  | { type: 'set_items'; payload: Item[] }
+  | { type: 'set_selected_items'; payload: string[] }
+  | { type: 'set_select_all'; payload: boolean }
+  | { type: 'set_loading'; payload: boolean }
+  | { type: 'set_toggle_item'; payload: string }
 
 export const initState: State = {
   items: [],
@@ -16,15 +16,15 @@ export const initState: State = {
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'SET_ITEMS':
+    case 'set_items':
       return { ...state, items: action.payload }
-    case 'SET_SELECTED_ITEMS':
+    case 'set_selected_items':
       return { ...state, selectedItems: action.payload }
-    case 'SET_SELECT_ALL':
+    case 'set_select_all':
       return { ...state, selectAll: action.payload }
-    case 'SET_LOADING':
+    case 'set_loading':
       return { ...state, loading: action.payload }
-    case 'SET_TOGGLE_ITEM':
+    case 'set_toggle_item':
       return {
         ...state,
         selectedItems: state.selectedItems.includes(action.payload)
