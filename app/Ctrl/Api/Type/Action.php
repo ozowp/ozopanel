@@ -2,52 +2,71 @@
 
 namespace OzoPanel\Ctrl\Api\Type;
 
-use OzoPanel\Traits\Singleton;
+use OzoPanel\Abstracts\RestCtrl;
 
 /**
- * Class Action
- * @package OzoPanel\Ctrl\Api\Type
+ * API Action class.
  *
- * REST API endpoints related to actions.
+ * @since 1.0.0
  */
-class Action
+
+class Action extends RestCtrl
 {
-    use Singleton;
 
     /**
-     * Register REST API routes.
+     * Route base.
+     *
+     * @var string
+     * @since 1.0.0
+     */
+    protected $base = 'actions';
+
+    /**
+     * Register all routes related with carts.
+     *
+     * @return void
+     * @since 1.0.0
      */
     public function routes()
     {
-        register_rest_route('ozopanel/v1', '/actions', [
-            'methods' => 'POST',
-            'callback' => [$this, 'create'],
-            'permission_callback' => [$this, 'create_per']
-        ]);
+        register_rest_route(
+            $this->namespace, '/' . $this->base,
+            [
+                'methods' => 'POST',
+                'callback' => [$this, 'create'],
+                'permission_callback' => [$this, 'create_per']
+            ]
+        );
 
-        register_rest_route('ozopanel/v1', '/actions/(?P<id>[^/]+)', [
-            'methods' => 'PUT',
-            'callback' => [$this, 'update'],
-            'permission_callback' => [$this, 'update_per'],
-            'args' => [
-                'id' => [
-                    'validate_callback' => function ($param) {
-                        return is_numeric($param);
-                    },
+        register_rest_route(
+            $this->namespace, '/' . $this->base . '/(?P<id>[^/]+)',
+            [
+                'methods' => 'PUT',
+                'callback' => [$this, 'update'],
+                'permission_callback' => [$this, 'update_per'],
+                'args' => [
+                    'id' => [
+                        'validate_callback' => function ($param) {
+                            return is_numeric($param);
+                        },
+                    ],
                 ],
-            ],
-        ]);
+            ]
+        );
 
-        register_rest_route('ozopanel/v1', '/actions/(?P<id>[0-9,]+)', [
-            'methods' => 'DELETE',
-            'callback' => [$this, 'delete'],
-            'permission_callback' => [$this, 'del_per'],
-            'args' => [
-                'id' => [
-                    'sanitize_callback' => 'sanitize_text_field',
+        register_rest_route(
+            $this->namespace, '/' . $this->base . '/(?P<id>[0-9,]+)',
+            [
+                'methods' => 'DELETE',
+                'callback' => [$this, 'delete'],
+                'permission_callback' => [$this, 'del_per'],
+                'args' => [
+                    'id' => [
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ],
                 ],
-            ],
-        ]);
+            ]
+        );
     }
 
     /**

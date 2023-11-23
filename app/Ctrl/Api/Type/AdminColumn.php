@@ -1,56 +1,84 @@
 <?php
 
 namespace OzoPanel\Ctrl\Api\Type;
+// use OzoPanel\Abstracts\RESTController;
 
+use OzoPanel\Abstracts\RestCtrl;
 use OzoPanel\Helper\AdminColumn\Fns;
 use OzoPanel\Model\AdminColumn as ModelAdminColumn;
-use OzoPanel\Traits\Singleton;
 
-class AdminColumn
+/**
+ * API AdminColumn class.
+ *
+ * @since 1.0.0
+ */
+class AdminColumn extends RestCtrl
 {
-    use Singleton;
 
+    /**
+     * Route base.
+     *
+     * @var string
+     * @since 1.0.0
+     */
+    protected $base = 'admin-columns';
+
+    /**
+     * Register all routes related with carts.
+     *
+     * @return void
+     * @since 1.0.0
+     */
     public function routes()
     {
 
-        register_rest_route('ozopanel/v1', '/admin-columns/(?P<id>[a-z0-9_]+)', [
-            'methods' => 'GET',
-            'callback' => [$this, 'get_single'],
-            'permission_callback' => [$this, 'get_per'],
-            'args' => [
-                'id' => [
-                    'validate_callback' => function ($param) {
-                        return is_string($param);
-                    }
+        register_rest_route(
+            $this->namespace, '/' . $this->base . '/(?P<id>[a-z0-9_]+)',
+            [
+                'methods' => 'GET',
+                'callback' => [$this, 'get_single'],
+                'permission_callback' => [$this, 'get_per'],
+                'args' => [
+                    'id' => [
+                        'validate_callback' => function ($param) {
+                            return is_string($param);
+                        }
+                    ],
                 ],
-            ],
-        ]);
+            ]
+        );
 
-        register_rest_route('ozopanel/v1', '/admin-columns/(?P<id>[a-z0-9_]+)', [
-            'methods' => 'PUT',
-            'callback' => [$this, 'update'],
-            'permission_callback' => [$this, 'update_per'],
-            'args' => [
-                'id' => [
-                    'validate_callback' => function ($param) {
-                        return is_string($param);
-                    }
+        register_rest_route(
+            $this->namespace, '/' . $this->base . '/(?P<id>[a-z0-9_]+)',
+            [
+                'methods' => 'PUT',
+                'callback' => [$this, 'update'],
+                'permission_callback' => [$this, 'update_per'],
+                'args' => [
+                    'id' => [
+                        'validate_callback' => function ($param) {
+                            return is_string($param);
+                        }
+                    ],
                 ],
-            ],
-        ]);
+            ]
+        );
 
-        register_rest_route('ozopanel/v1', '/admin-columns/(?P<id>[a-z0-9,]+)', [
-            'methods' => 'DELETE',
-            'callback' => [$this, 'delete'],
-            'permission_callback' => [$this, 'del_per'],
-            'args' => [
-                'id' => [
-                    'validate_callback' => function ($param) {
-                        return is_string($param);
-                    }
+        register_rest_route(
+            $this->namespace, '/' . $this->base . '/(?P<id>[a-z0-9,]+)',
+            [
+                'methods' => 'DELETE',
+                'callback' => [$this, 'delete'],
+                'permission_callback' => [$this, 'del_per'],
+                'args' => [
+                    'id' => [
+                        'validate_callback' => function ($param) {
+                            return is_string($param);
+                        }
+                    ],
                 ],
-            ],
-        ]);
+            ]
+        );
     }
 
     public function get_single($req)
@@ -60,33 +88,32 @@ class AdminColumn
 
         $wp_err = new \WP_Error();
 
-        if ( !$id ) {
+        if (!$id) {
             $wp_err->add(
                 'select_id',
                 esc_html__('Screen ID is required!', 'ozopanel')
             );
         }
 
-        if ( $wp_err->get_error_messages() ) {
+        if ($wp_err->get_error_messages()) {
             wp_send_json_error($wp_err->get_error_messages());
         } else {
             $resp = [];
             $resp['screens'] = ModelAdminColumn::screens();
             $columns_default = [];
-            if ( $id ) {
-                if ( post_type_exists( $id ) ) {
+            if ($id) {
+                if (post_type_exists($id)) {
                     $columns = get_option('ozopanel_admin_column_' . $id . '_default', []);
-                    $columns_default = Fns::format_column( $columns );
-                } elseif ( $id == 'wp_media' ) {
+                    $columns_default = Fns::format_column($columns);
+                } elseif ($id == 'wp_media') {
                     $columns = get_option('ozopanel_admin_column_upload_default', []);
-                    $columns_default = Fns::format_column( $columns );
-
-                } elseif ( $id == 'wp_comments' ) {
+                    $columns_default = Fns::format_column($columns);
+                } elseif ($id == 'wp_comments') {
                     $columns = get_option('ozopanel_admin_column_edit-comments_default', []);
-                    $columns_default = Fns::format_column( $columns );
-                } elseif ( $id == 'wp_users' ) {
+                    $columns_default = Fns::format_column($columns);
+                } elseif ($id == 'wp_users') {
                     $columns = get_option('ozopanel_admin_column_users_default', []);
-                    $columns_default = Fns::format_column( $columns );
+                    $columns_default = Fns::format_column($columns);
                 }
             }
 
@@ -95,7 +122,6 @@ class AdminColumn
             $resp['columns'] = $custom_columns ? $custom_columns : $columns_default; //custom column otherwise default column
             wp_send_json_success($resp);
         }
-
     }
 
     public function update($req)
@@ -109,7 +135,7 @@ class AdminColumn
 
         $admin_column = isset($param['admin_column']) ? ($param['admin_column']) : '';
 
-        if ( !$id ) {
+        if (!$id) {
             $wp_err->add(
                 'select_id',
                 esc_html__('Screen ID is required!', 'ozopanel')
@@ -130,8 +156,8 @@ class AdminColumn
         $type = $url_param['type'];
         $ids = explode(",", $url_param["id"]);
         foreach ($ids as $id) {
-            if ( $type == 'users' ) {
-                delete_user_meta( $id, '_ozopanel_admin_menu');
+            if ($type == 'users') {
+                delete_user_meta($id, '_ozopanel_admin_menu');
             } else {
                 delete_option('ozopanel_admin_menu_role_' . $id);
             }

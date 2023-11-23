@@ -38,9 +38,9 @@ class I18n
             'roles' => esc_html__('Roles', 'ozopanel'),
             'name' => esc_html__('Name', 'ozopanel'),
             'email' => esc_html__('Email', 'ozopanel'),
-            // admin menu
-            // admin column
-            'adminColumns' => esc_html__('Admin Columns', 'ozopanel'),
+            // admin menu editor
+            // admin column editor
+            'adminColumnEditor' => esc_html__('Admin Column Editor', 'ozopanel'),
             'addNewColumn' => esc_html__('Add New Column', 'ozopanel'),
             'editColumn' => esc_html__('Edit Column', 'ozopanel'),
 

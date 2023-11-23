@@ -19,22 +19,56 @@ class ApiCtrl
 {
 
     /**
+     * Class dir and class name mapping.
+     *
+     * @var array
+     *
+     * @since 1.0.0
+     */
+    protected $class_map;
+
+    /**
      * ApiCtrl constructor.
-     * Registers custom REST API endpoints and handles plain permalink API support.
+     * 
      * @since 1.0.0
      */
     public function __construct()
     {
         // Register custom REST API endpoints
-        add_action('rest_api_init', function() {
-            Restriction::init()->routes();
-            AdminColumn::init()->routes();
-            Action::init()->routes();
-            Setting::init()->routes();
-        });
+        if (!class_exists('WP_REST_Server')) {
+            return;
+        }
+
+        $this->class_map = apply_filters(
+            'ozopanel_rest_api_class_map',
+            [
+                Restriction::class,
+                AdminColumn::class,
+                Action::class,
+                Setting::class,
+            ]
+        );
+
+        // Init REST API routes.
+        add_action('rest_api_init', array($this, 'register_rest_routes'), 10);
 
         // For plain permalink API support
         add_filter('rest_request_before_callbacks', [$this, 'rest_request_filter'], 10, 3);
+    }
+
+    /**
+     * Register REST API routes.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function register_rest_routes(): void
+    {
+        foreach ($this->class_map as $controller) {
+            $this->$controller = new $controller();
+            $this->$controller->routes();
+        }
     }
 
     /**
@@ -46,16 +80,17 @@ class ApiCtrl
      * @return \WP_REST_Request Modified request.
      * @since 1.0.0
      */
-    public function rest_request_filter($resp, $handler, $req) {
+    public function rest_request_filter($resp, $handler, $req)
+    {
         $permalink_structure = get_option('permalink_structure');
-        if ( $permalink_structure === '' ) {
+        if ($permalink_structure === '') {
             $params = $req->get_params();
-            if ( isset($params['rest_route']) ) {
+            if (isset($params['rest_route'])) {
                 $query_string = parse_url($params['rest_route'], PHP_URL_QUERY);
                 // Parse the query string into an array of parameters
                 parse_str($query_string, $param_form_args);
-                foreach( $param_form_args as $key => $val) {
-                    $req->set_param( $key, $val);
+                foreach ($param_form_args as $key => $val) {
+                    $req->set_param($key, $val);
                 }
             }
         }

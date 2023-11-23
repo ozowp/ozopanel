@@ -51,6 +51,10 @@ const Items: FC<ItemsProps> = ({ items, onChange, onSelect, onDelete }) => {
         <div
           key={item.id}
           className="ozop-shortable-item"
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
           draggable
           onDragStart={() => handleDragStart(i)}
           onDragOver={() => handleDragOver(i)}

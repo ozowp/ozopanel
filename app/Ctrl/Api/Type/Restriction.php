@@ -2,93 +2,127 @@
 
 namespace OzoPanel\Ctrl\Api\Type;
 
-use OzoPanel\Traits\Singleton;
+use OzoPanel\Abstracts\RestCtrl;
 
-class Restriction
+/**
+ * API Restriction class.
+ *
+ * @since 1.0.0
+ */
+class Restriction extends RestCtrl
 {
-    use Singleton;
+
+    /**
+     * Route base.
+     *
+     * @var string
+     * @since 1.0.0
+     */
+    protected $base = 'restrictions';
+
+    /**
+     * Register all routes related with carts.
+     *
+     * @return void
+     * @since 1.0.0
+     */
 
     public function routes()
     {
-        register_rest_route('ozopanel/v1', '/restrictions/(?P<type>[a-z]+)', [
-            'methods' => 'POST',
-            'callback' => [$this, 'create'],
-            'permission_callback' => [$this, 'create_per'],
-            'args' => [
-                'type' => [
-                    'validate_callback' => function ($param) {
-                        return is_string($param);
-                    }
-                ]
-            ],
-        ]);
+        register_rest_route(
+            $this->namespace, '/' . $this->base . '/(?P<type>[a-z]+)',
+            [
+                'methods' => 'POST',
+                'callback' => [$this, 'create'],
+                'permission_callback' => [$this, 'create_per'],
+                'args' => [
+                    'type' => [
+                        'validate_callback' => function ($param) {
+                            return is_string($param);
+                        }
+                    ]
+                ],
+            ]
+        );
 
-        register_rest_route('ozopanel/v1', '/restrictions/(?P<type>[a-z]+)' . ozopanel()->plain_route(), [
-            'methods' => 'GET',
-            'callback' => [$this, 'get'],
-            'permission_callback' => [$this, 'get_per'],
-            'args' => [
-                'type' => [
-                    'validate_callback' => function ($param) {
-                        return is_string($param);
-                    }
-                ]
-            ],
-        ]);
+        register_rest_route(
+            $this->namespace, '/' . $this->base . '/(?P<type>[a-z]+)' . ozopanel()->plain_route(),
+            [
+                'methods' => 'GET',
+                'callback' => [$this, 'get'],
+                'permission_callback' => [$this, 'get_per'],
+                'args' => [
+                    'type' => [
+                        'validate_callback' => function ($param) {
+                            return is_string($param);
+                        }
+                    ]
+                ],
+            ]
+        );
 
-        register_rest_route('ozopanel/v1', '/restrictions/(?P<type>[a-z]+)/(?P<id>[a-z0-9]+)', [
-            'methods' => 'GET',
-            'callback' => [$this, 'get_single'],
-            'permission_callback' => [$this, 'get_per'],
-            'args' => [
-                'type' => [
-                    'validate_callback' => function ($param) {
-                        return is_string($param);
-                    }
+        register_rest_route(
+            $this->namespace, '/' . $this->base . '/(?P<type>[a-z]+)/(?P<id>[a-z0-9]+)',
+            [
+                'methods' => 'GET',
+                'callback' => [$this, 'get_single'],
+                'permission_callback' => [$this, 'get_per'],
+                'args' => [
+                    'type' => [
+                        'validate_callback' => function ($param) {
+                            return is_string($param);
+                        }
+                    ],
+                    'id' => [
+                        'validate_callback' => function ($param) {
+                            return is_string($param);
+                        }
+                    ],
                 ],
-                'id' => [
-                    'validate_callback' => function ($param) {
-                        return is_string($param);
-                    }
-                ],
-            ],
-        ]);
+            ]
+        );
 
-        register_rest_route('ozopanel/v1', '/restrictions/(?P<type>[a-z]+)/(?P<id>[a-z0-9]+)', [
-            'methods' => 'PUT',
-            'callback' => [$this, 'update'],
-            'permission_callback' => [$this, 'update_per'],
-            'args' => [
-                'type' => [
-                    'validate_callback' => function ($param) {
-                        return is_string($param);
-                    }
+        register_rest_route(
+            $this->namespace, '/' . $this->base . '/(?P<type>[a-z]+)/(?P<id>[a-z0-9]+)',
+            [
+                'methods' => 'PUT',
+                'callback' => [$this, 'update'],
+                'permission_callback' => [$this, 'update_per'],
+                'args' => [
+                    'type' => [
+                        'validate_callback' => function ($param) {
+                            return is_string($param);
+                        }
+                    ],
+                    'id' => [
+                        'validate_callback' => function ($param) {
+                            return is_string($param);
+                        }
+                    ],
                 ],
-                'id' => [
-                    'validate_callback' => function ($param) {
-                        return is_string($param);
-                    }
-                ],
-            ],
-        ]);
+            ]
+        );
 
-        register_rest_route('ozopanel/v1', '/restrictions/(?P<type>[a-z]+)/(?P<id>[a-z0-9,]+)', [
-            'methods' => 'DELETE',
-            'callback' => [$this, 'delete'],
-            'permission_callback' => [$this, 'del_per'],
-            'args' => [
-                'type' => [
-                    'validate_callback' => function ($param) {
-                        return is_string($param);
-                    }
+        register_rest_route(
+            $this->namespace, '/' . $this->base . '/(?P<type>[a-z]+)/(?P<id>[a-z0-9,]+)',
+            [
+                'methods' => 'DELETE',
+                'callback' => [$this, 'delete'],
+                'permission_callback' => [$this, 'del_per'],
+                'args' => [
+                    'type' => [
+                        'validate_callback' => function ($param) {
+                            return is_string($param);
+                        }
+                    ],
+                    'id' => [
+                        'validate_callback' => function ($param) {
+                            return is_string($param);
+                        }
+                    ],
                 ],
-                'id' => [
-                    'validate_callback' => function ($param) {
-                        return is_string($param);
-                    }
-                ],
-            ],
-        ]);
+            ]
+        );
     }
 
     public function create($req)
@@ -103,7 +137,7 @@ class Restriction
         $id = isset($param['id']) ? sanitize_text_field($param['id']) : '';
 
         $admin_menu = isset($param['admin_menu']) ? ($param['admin_menu']) : '';
-        if ( empty($id) ) {
+        if (empty($id)) {
             if ($type == 'users') {
                 $wp_err->add(
                     'select_id',
@@ -117,9 +151,9 @@ class Restriction
             }
         }
 
-        if ( $type == 'users' ) {
-            $id_admin_menu = get_user_meta( $id, '_ozopanel_admin_menu', true);
-            if ( $id_admin_menu ) {
+        if ($type == 'users') {
+            $id_admin_menu = get_user_meta($id, '_ozopanel_admin_menu', true);
+            if ($id_admin_menu) {
                 $wp_err->add(
                     'user_exist',
                     esc_html__('User already exist!', 'ozopanel')
@@ -127,7 +161,7 @@ class Restriction
             }
         } else {
             $role_admin_menu = get_option('ozopanel_admin_menu_role_' . $id);
-            if ( $role_admin_menu ) {
+            if ($role_admin_menu) {
                 $wp_err->add(
                     'role_exist',
                     esc_html__('Role already exist!', 'ozopanel')
@@ -135,14 +169,14 @@ class Restriction
             }
         }
 
-        if ( empty( $admin_menu ) ) {
+        if (empty($admin_menu)) {
             $wp_err->add(
                 'select_menu',
                 esc_html__('Please select Menu', 'ozopanel')
             );
         }
 
-        if ( $type == 'users' && user_can( $id, 'administrator' ) ) {
+        if ($type == 'users' && user_can($id, 'administrator')) {
             $wp_err->add(
                 'select_id',
                 esc_html__('Administrator restriction not allowed!', 'ozopanel')
@@ -220,9 +254,9 @@ class Restriction
             global $wp_roles;
             foreach ($wp_roles->role_names as $key => $value) {
                 //hide administrator
-                if ( $key == 'administrator' ) continue;
+                if ($key == 'administrator') continue;
 
-                if ( get_option('ozopanel_admin_menu_role_' . $key) ) {
+                if (get_option('ozopanel_admin_menu_role_' . $key)) {
                     $item = [];
                     $item['id'] = $key;
                     $item['label'] = $value;
@@ -253,9 +287,9 @@ class Restriction
         if ($type == 'users') {
             //hide administrator
             $args = array(
-                'role__not_in' => array( 'administrator' )
+                'role__not_in' => array('administrator')
             );
-            $users = get_users( $args );
+            $users = get_users($args);
             foreach ($users as $user) {
                 $modify_users = [];
                 $modify_users['id'] = $user->ID;
@@ -274,12 +308,12 @@ class Restriction
             }
         }
 
-        if ( $id ) {
+        if ($id) {
             $resp['form_data']['id'] = $id;
-            if ( $type == 'users' ) {
+            if ($type == 'users') {
                 $resp['form_data']['admin_menu'] = get_user_meta($id, '_ozopanel_admin_menu', true);
             } else if ($type == 'roles') {
-                $resp['form_data']['admin_menu'] = get_option('ozopanel_admin_menu_role_'. $id) ?? [];
+                $resp['form_data']['admin_menu'] = get_option('ozopanel_admin_menu_role_' . $id) ?? [];
             }
         }
 
@@ -297,7 +331,7 @@ class Restriction
         $wp_err = new \WP_Error();
 
         $admin_menu = isset($param['admin_menu']) ? ($param['admin_menu']) : '';
-        if ( empty($id) ) {
+        if (empty($id)) {
             if ($type == 'users') {
                 $wp_err->add(
                     'select_id',
@@ -311,14 +345,14 @@ class Restriction
             }
         }
 
-        if ( empty($admin_menu) ) {
+        if (empty($admin_menu)) {
             $wp_err->add(
                 'select_menu',
                 esc_html__('Please select Menu', 'ozopanel')
             );
         }
 
-        if ( $type == 'users' && user_can( $id, 'administrator' ) ) {
+        if ($type == 'users' && user_can($id, 'administrator')) {
             $wp_err->add(
                 'select_id',
                 esc_html__('Administrator restriction not allowed!', 'ozopanel')
@@ -361,8 +395,8 @@ class Restriction
         $type = $url_param['type'];
         $ids = explode(",", $url_param["id"]);
         foreach ($ids as $id) {
-            if ( $type == 'users' ) {
-                delete_user_meta( $id, '_ozopanel_admin_menu');
+            if ($type == 'users') {
+                delete_user_meta($id, '_ozopanel_admin_menu');
             } else {
                 delete_option('ozopanel_admin_menu_role_' . $id);
             }

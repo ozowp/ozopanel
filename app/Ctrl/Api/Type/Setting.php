@@ -2,34 +2,52 @@
 
 namespace OzoPanel\Ctrl\Api\Type;
 
-use OzoPanel\Traits\Singleton;
+use OzoPanel\Abstracts\RestCtrl;
 
 /**
- * Class Setting
- * @package OzoPanel\Ctrl\Api\Type
+ * API Setting class.
  *
- * REST API endpoints related to settings.
+ * @since 1.0.0
  */
-class Setting
+
+class Setting extends RestCtrl
 {
-    use Singleton;
+    /**
+     * Route base.
+     *
+     * @var string
+     * @since 1.0.0
+     */
+    protected $base = 'settings';
 
     /**
-     * Register REST API routes.
+     * Register all routes related with carts.
+     *
+     * @return void
+     * @since 1.0.0
      */
+
     public function routes()
     {
-        register_rest_route('ozopanel/v1', '/settings' . ozopanel()->plain_route(), [
-            'methods' => 'GET',
-            'callback' => [$this, 'get'],
-            'permission_callback' => [$this, 'get_per'],
-        ]);
+        register_rest_route(
+            $this->namespace, '/' . $this->base,
+            [
+                'methods' => 'GET',
+                'callback' => [$this, 'get'],
+                'permission_callback' => [$this, 'get_per'],
+            ]
+        );
 
-        register_rest_route('ozopanel/v1', '/settings', [
-            'methods' => 'POST',
-            'callback' => [$this, 'create'],
-            'permission_callback' => [$this, 'create_per'],
-        ]);
+        register_rest_route(
+            $this->namespace, '/' . $this->base . ozopanel()->plain_route(),
+            'ozopanel/v1',
+            '/settings',
+            [
+                'methods' => 'POST',
+                'callback' => [$this, 'create'],
+                'permission_callback' => [$this, 'create_per'],
+            ]
+        );
     }
 
     /**

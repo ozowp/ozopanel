@@ -112,11 +112,11 @@ const AdminColumns: FC = () => {
 
   return (
     <div className="ozop-admin-columns">
-      <h3 className="mb-3 text-2xl">{i18n.adminItems}</h3>
+      <h3 className="mb-3 text-2xl">{i18n.adminColumnEditor}</h3>
       {loading && <Spinner />}
       {!loading && (
         <>
-          <div className="mb-10 grid grid-cols-3 gap-6">
+          <div className="mb-5 grid grid-cols-3 gap-6">
             <div className="col">
               <SelectGroup
                 groups={screens}
