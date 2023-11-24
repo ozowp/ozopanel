@@ -1,9 +1,9 @@
 <?php
+namespace OzoPanel\Tests;
 /**
  * PHPUnit bootstrap file
  */
 
-// Composer autoloader must be loaded before WP_PHPUNIT__DIR will be available
 // Composer autoloader must be loaded before WP_PHPUNIT__DIR will be available
 require_once dirname( __FILE__, 3 ) . '/vendor/autoload.php';
 $_tests_dir = getenv( 'WP_TESTS_DIR' ) ? getenv( 'WP_TESTS_DIR' ) : getenv( 'WP_PHPUNIT__DIR' );
@@ -20,10 +20,16 @@ if ( ! file_exists( "{$_tests_dir}/includes/functions.php" ) ) {
 // Give access to tests_add_filter() function.
 require_once "{$_tests_dir}/includes/functions.php";
 
-tests_add_filter( 'muplugins_loaded', function() {
-    // test set up, plugin activation, etc.
-    // require dirname( __DIR__ ) . '/example-plugin.php';
-} );
-
+/**
+ * Manually load the plugin being tested.
+ *
+ * @since 1.0.0
+ *
+ * @return void
+ */
+function manually_load_plugin() {
+    require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/ozopanel.php';
+}
+tests_add_filter( 'muplugins_loaded', __NAMESPACE__ . '\\manually_load_plugin' );
 // Start up the WP testing environment.
 require "{$_tests_dir}/includes/bootstrap.php";
