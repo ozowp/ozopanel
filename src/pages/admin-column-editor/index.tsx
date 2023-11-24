@@ -1,12 +1,13 @@
 import { FC, useReducer, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid'
 import Spinner from '@components/preloader/spinner'
 import SelectGroup from '@components/select-group'
 import Items from './Items'
 import Form from './Form'
-import api from '@utils/api/url'
+import { get, edit } from '@utils/api'
 import { reducer, initState } from './reducer'
 import { Item } from '@interfaces/admin-column-editor'
 
@@ -18,30 +19,22 @@ import { Item } from '@interfaces/admin-column-editor'
 const AdminColumns: FC = () => {
   const { id = 'post' } = useParams()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const [state, dispatch] = useReducer(reducer, initState)
   const { loading, screens, items, selectedItem } = state
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await api.get(`admin-columns/${id}`)
-        if (res.success) {
-          dispatch({ type: 'set_screens', payload: res.data.screens })
-          dispatch({ type: 'set_columns', payload: res.data.columns })
-        } else {
-          res.data.forEach((value: string) => {
-            toast.error(value)
-          })
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      } finally {
-        dispatch({ type: 'set_loading', payload: false })
-      }
-    }
+  const { data } = useQuery({
+    queryKey: ['admin-columns', { id }],
+    queryFn: () => get('admin-columns/' + id),
+  })
 
-    fetchData()
-  }, [id])
+  useEffect(() => {
+    if (data) {
+      dispatch({ type: 'set_screens', payload: data.screens })
+      dispatch({ type: 'set_columns', payload: data.columns })
+      dispatch({ type: 'set_loading', payload: false })
+    }
+  }, [data])
 
   const handleScreenChange = (selectedId?: string) => {
     if (selectedId) {
@@ -83,23 +76,20 @@ const AdminColumns: FC = () => {
     handleItemSelect(null)
   }
 
-  const handleSubmit = async () => {
-    try {
-      const res = await api.edit(`admin-columns`, id, {
-        admin_item: state.items,
-      })
-      if (res.success) {
-        if (id) {
-          toast.success(i18n.sucEdit)
-        }
-      } else {
-        res.data.forEach((value: string) => {
-          toast.error(value)
-        })
+  const submitMutation = useMutation({
+    mutationFn: () => edit('admin-columns', id, {
+      admin_item: state.items,
+    }),
+    onSuccess: () => {
+      if (id) {
+        toast.success(i18n.sucEdit)
+        queryClient.invalidateQueries({ queryKey: ['admin-columns'] })
       }
-    } catch (error) {
-      console.error('Error submitting data:', error)
-    }
+    },
+  })
+
+  const handleSubmit = async () => {
+    submitMutation.mutate()
   }
 
   const handleItemDelete = (index: number) => {

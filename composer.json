@@ -19,10 +19,10 @@
 	},
 	"require-dev": {
 		"wp-phpunit/wp-phpunit": "^6.0",
-        "yoast/phpunit-polyfills": "^1.0",
-        "phpunit/phpunit": "^9.5"
+		"yoast/phpunit-polyfills": "^1.0",
+		"phpunit/phpunit": "^9.5"
 	},
 	"scripts": {
-        "test": "phpunit"
-    }
+		"test": "phpunit"
+	}
 }

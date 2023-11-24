@@ -1,38 +1,24 @@
-import { useEffect } from 'react'
-import { toast } from 'react-toastify'
-import api from '@utils/api/url'
+import { FC, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { get } from '@utils/api'
 
-const General = () => {
-  // const [form, setFrom] = useState({});
+const General: FC = () => {
+
+  const { data } = useQuery({
+    queryKey: ['setting_general'],
+    queryFn: () => get('settings', 'tab=test_tab'),
+  })
 
   useEffect(() => {
-    get()
-  }, [])
-
-  const get = () => {
-    api
-      .get('settings', 'tab=test_tab')
-      .then((res: { success: boolean; data: [] }) => {
-        // setPosts(data);
-        if (res.success) {
-          // toast.success('Data Found');
-        } else {
-          res.data.forEach((value: string) => {
-            toast.error(value)
-          })
-        }
-      })
-  }
+    if (data) {
+      //set state here
+      console.log(data)
+    }
+  }, [data])
 
   return (
     <div>
       General Settings
-      <div className="bg-blue-500 p-4 text-white">
-        This is a component with Tailwind CSS styles.
-        <button className="bg-sky-700 px-4 py-2 text-white hover:bg-sky-800 sm:px-8 sm:py-3">
-          Test
-        </button>
-      </div>
     </div>
   )
 }
