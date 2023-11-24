@@ -30,6 +30,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: Infinity,
+      retry: false
     },
   },
   queryCache: new QueryCache({
