@@ -1,49 +1,56 @@
 import { FC, useReducer, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import Spinner from '@components/preloader/spinner'
-import api from '@utils/api'
+import { get, add, edit } from '@utils/api'
 import { reducer, initState } from './reducer'
 import Menu from './Menu'
 
 const Form: FC = () => {
-  const { type, id } = useParams()
+  const { type, id = '' } = useParams()
   const i18n = ozopanel.i18n
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const [state, dispatch] = useReducer(reducer, initState) // Use the reducer and initial state
+  const apiPath = `restrictions/${type}`;
+  const { data } = useQuery({
+    queryKey: ['restriction-form', { type, id }],
+    queryFn: () => get(`${apiPath}${id ? `/${id}` : `/0`}`),
+  })
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const idParam = id ? `/${id}` : `/0`
-        const res = await api.get(`restrictions/${type}${idParam}`)
-        if (res.success) {
-          const { id_list, admin_menu, form_data } = res.data
-          dispatch({ type: 'set_id_list', payload: id_list })
-          dispatch({ type: 'set_admin_menu', payload: admin_menu })
-          if (id) {
-            dispatch({ type: 'set_form_data', payload: form_data })
-          }
-        } else {
-          res.data.forEach((value: string) => {
-            toast.error(value)
-          })
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      } finally {
-        dispatch({ type: 'set_loading_fetch', payload: false })
+    if (data) {
+      const { id_list, admin_menu, form_data } = data
+      dispatch({ type: 'set_id_list', payload: id_list })
+      dispatch({ type: 'set_admin_menu', payload: admin_menu })
+      if (id) {
+        dispatch({ type: 'set_form_data', payload: form_data })
       }
+      dispatch({ type: 'set_loading_fetch', payload: false })
     }
-
-    fetchData()
-  }, [type, id])
+  }, [data, id])
 
   const handleIdChange = (id: string) => {
     dispatch({ type: 'set_form_data', payload: { ...state.formData, id: id } })
   }
+
+  const submitMutation = useMutation({
+    mutationFn: () => {
+      return id ? edit(apiPath, id, state.formData) : add(apiPath, state.formData);
+    },
+    onSuccess: () => {
+      if (id) {
+        toast.success(i18n.sucEdit)
+      } else {
+        toast.success(i18n.sucAdd)
+        if (!id) {
+          queryClient.invalidateQueries({ queryKey: ['restrictions'] })
+        }
+        navigate(`/restrictions/${type}`)
+      }
+    },
+  })
 
   const handleSubmit = async () => {
     if (!state.formData.id) {
@@ -61,30 +68,7 @@ const Form: FC = () => {
       return
     }
 
-    try {
-      dispatch({ type: 'set_loading_submit', payload: true })
-      const apiPath = id
-        ? api.edit(`restrictions/${type}`, id, state.formData)
-        : api.add(`restrictions/${type}`, state.formData)
-      const res = await apiPath
-      if (res.success) {
-        if (id) {
-          toast.success(i18n.sucEdit)
-        } else {
-          toast.success(i18n.sucAdd)
-          queryClient.invalidateQueries({ queryKey: ['restrictions'] })
-          navigate(`/restrictions/${type}`)
-        }
-      } else {
-        res.data.forEach((value: string) => {
-          toast.error(value)
-        })
-      }
-    } catch (error) {
-      console.error('Error submitting data:', error)
-    } finally {
-      dispatch({ type: 'set_loading_submit', payload: false })
-    }
+    submitMutation.mutate()
   }
 
   const handleAdminMenuToggle = (url: string) => {

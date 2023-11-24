@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
-import api from '@utils/api'
+import api from '@utils/api/url'
 
 const General = () => {
   // const [form, setFrom] = useState({});

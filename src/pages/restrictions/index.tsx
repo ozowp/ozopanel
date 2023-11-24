@@ -4,7 +4,7 @@ import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
 import { UseAlert } from '@/components/alert/Provider'
 import { toast } from 'react-toastify'
 import Spinner from '@components/preloader/spinner'
-import { getData, delData } from './api'
+import { get, del } from '@utils/api'
 import { reducer, initState } from './reducer'
 import { Item } from '@/interfaces/restrictions'
 import Table from './Table'
@@ -25,7 +25,7 @@ const Restrictions: FC = () => {
 
   const { data } = useQuery({
     queryKey: ['restrictions', { type }],
-    queryFn: () => getData(type),
+    queryFn: () => get('restrictions/' + type),
   })
 
   useEffect(() => {
@@ -78,7 +78,7 @@ const Restrictions: FC = () => {
   }
 
   const delMutation = useMutation({
-    mutationFn: (selectedItems: string[]) => delData(type, selectedItems),
+    mutationFn: (selectedItems: string[]) => del('restrictions/' + type, selectedItems.join(',')),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['restrictions'] })
       const updatedItems = items.filter(

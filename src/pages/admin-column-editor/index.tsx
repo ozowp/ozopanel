@@ -6,7 +6,7 @@ import Spinner from '@components/preloader/spinner'
 import SelectGroup from '@components/select-group'
 import Items from './Items'
 import Form from './Form'
-import api from '@utils/api'
+import api from '@utils/api/url'
 import { reducer, initState } from './reducer'
 import { Item } from '@interfaces/admin-column-editor'
 

@@ -2,54 +2,79 @@
  * All register api helper
  * @since 1.0.0
  */
+const namepsace = 'ozopanel/v1';
+const namepsacePro = 'ozopanelp/v1';
 
 const url = (api: string, from: string) => {
   if (from == 'free') {
-    return `/ozopanel/v1/${api}`
+    return `/${namepsace}/${api}`
   } else if (from == 'pro') {
-    return `/ozopanelp/v1/${api}`
+    return `/${namepsacePro}/${api}`
   }
 }
 
-const get = (api: string, args = '', from = 'free') => {
-  return wp.apiFetch({
-    path: `${url(api, from)}/?${args}`,
-  })
+export const get = async (api: string, args = '', from = 'free') => {
+  const res = await wp.apiFetch({
+    path: `${url(api, from)}/?${args}`
+  });
+
+  if (res.success) {
+    return res.data
+  } else {
+    throw res.data.map((value: string) => new Error(value))
+  }
 }
 
-const getS = (api: string, id: number, from = 'free') => {
-  return wp.apiFetch({
-    path: `${url(api, from)}/${id}`,
-  })
+export const getS = async (api: string, id: number, from = 'free') => {
+  const res = await wp.apiFetch({
+    path: `${url(api, from)}/${id}`
+  });
+
+  if (res.success) {
+    return res.data
+  } else {
+    throw res.data.map((value: string) => new Error(value))
+  }
 }
 
-const add = (api: string, data: object, from = 'free') => {
-  return wp.apiFetch({
+export const add = async (api: string, data: object, from = 'free') => {
+  const res = await wp.apiFetch({
     path: `${url(api, from)}`,
     method: 'POST',
-    data,
-  })
+    data
+  });
+
+  if (res.success) {
+    return res.data
+  } else {
+    throw res.data.map((value: string) => new Error(value))
+  }
 }
 
-const edit = (api: string, id: string, data: object, from = 'free') => {
-  return wp.apiFetch({
+export const edit = async (api: string, id: string, data: object, from = 'free') => {
+  const res = await wp.apiFetch({
     path: `${url(api, from)}/${id}`,
     method: 'PUT',
-    data,
-  })
+    data
+  });
+
+  if (res.success) {
+    return res.data
+  } else {
+    throw res.data.map((value: string) => new Error(value))
+  }
 }
 
-const del = (api: string, id: string, from = 'free') => {
-  return wp.apiFetch({
+export const del = async (api: string, id: string, from = 'free') => {
+
+  const res = await wp.apiFetch({
     path: `${url(api, from)}/${id}`,
-    method: 'DELETE',
-  })
-}
+    method: 'DELETE'
+  });
 
-export default {
-  add,
-  get,
-  getS,
-  edit,
-  del,
+  if (res.success) {
+    return res.data
+  } else {
+    throw res.data.map((value: string) => new Error(value))
+  }
 }
