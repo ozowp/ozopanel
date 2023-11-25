@@ -200,14 +200,20 @@ class Restriction extends RestCtrl
         }
 
         if ($wp_err->get_error_messages()) {
-            wp_send_json_error($wp_err->get_error_messages());
+            return new \WP_REST_Response([
+                'success'  => false,
+                'data' => $wp_err->get_error_messages()
+            ], 200);
         } else {
             if ($type == 'users') {
                 update_user_meta($id, '_ozopanel_admin_menu', $admin_menu);
             } else {
                 update_option('ozopanel_admin_menu_role_' . $id, $admin_menu);
             }
-            wp_send_json_success();
+            return new \WP_REST_Response([
+                'success'  => true,
+                'data' => null
+            ], 200);
         }
     }
 
@@ -288,7 +294,10 @@ class Restriction extends RestCtrl
         $resp['list'] = $list;
         $resp['total'] = $total_list;
 
-        wp_send_json_success($resp);
+        return new \WP_REST_Response([
+            'success'  => true,
+            'data' => $resp
+        ], 200);
     }
 
     /**
@@ -344,7 +353,10 @@ class Restriction extends RestCtrl
             }
         }
 
-        wp_send_json_success($resp);
+        return new \WP_REST_Response([
+            'success'  => true,
+            'data' => $resp
+        ], 200);
     }
 
     /**
@@ -403,14 +415,20 @@ class Restriction extends RestCtrl
         }
 
         if ($wp_err->get_error_messages()) {
-            wp_send_json_error($wp_err->get_error_messages());
+            return new \WP_REST_Response([
+                'success'  => false,
+                'data' => $wp_err->get_error_messages()
+            ], 200);
         } else {
             if ($type == 'users') {
                 update_user_meta($id, '_ozopanel_admin_menu', $admin_menu);
             } else {
                 update_option('ozopanel_admin_menu_role_' . $id, $admin_menu);
             }
-            wp_send_json_success();
+            return new \WP_REST_Response([
+                'success'  => true,
+                'data' => null
+            ], 200);
         }
     }
 
@@ -427,13 +445,11 @@ class Restriction extends RestCtrl
     {
         $wp_err = new \WP_Error();
 
-        /* $wp_err->add(
-            'select_id',
-            esc_html__('Wrong ID', 'ozopanel')
-        ); */
-
-        if ($wp_err->get_error_messages()) {
-            wp_send_json_error($wp_err->get_error_messages());
+        if ( $wp_err->get_error_messages() ) {
+            return new \WP_REST_Response([
+                'success'  => false,
+                'data' => $wp_err->get_error_messages()
+            ], 200);
         }
 
         $url_param = $req->get_url_params();
@@ -447,7 +463,10 @@ class Restriction extends RestCtrl
             }
         }
 
-        wp_send_json_success($ids);
+        return new \WP_REST_Response([
+            'success'  => true,
+            'data' => $ids
+        ], 200);
     }
 
     // check permission

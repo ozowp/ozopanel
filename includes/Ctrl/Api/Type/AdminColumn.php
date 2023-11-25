@@ -168,10 +168,16 @@ class AdminColumn extends RestCtrl
         }
 
         if ($wp_err->get_error_messages()) {
-            wp_send_json_error($wp_err->get_error_messages());
+            return new \WP_REST_Response([
+                'success'  => false,
+                'data' => $wp_err->get_error_messages()
+            ], 200);
         } else {
             update_option('ozopanel_admin_column_' . $id, $admin_column);
-            wp_send_json_success();
+            return new \WP_REST_Response([
+                'success'  => true,
+                'data' => null,
+            ], 200);
         }
     }
 
@@ -197,7 +203,10 @@ class AdminColumn extends RestCtrl
             }
         }
 
-        wp_send_json_success($ids);
+        return new \WP_REST_Response([
+            'success'  => true,
+            'data' => $ids,
+        ], 200);
     }
 
     // check permission

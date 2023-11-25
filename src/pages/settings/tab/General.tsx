@@ -12,7 +12,7 @@ const General: FC = () => {
   useEffect(() => {
     if (data) {
       //set state here
-      console.log(data)
+      // console.log(data)
     }
   }, [data])
 

@@ -9,7 +9,8 @@ import { createHashRouter } from 'react-router-dom'
 const Dashboard = lazy(() => import('@pages/dashboard'))
 const Restrictions = lazy(() => import('@/pages/restrictions'))
 const RestrictionsForm = lazy(() => import('@/pages/restrictions/form'))
-const AdminColumns = lazy(() => import('@/pages/admin-column-editor'))
+const AdminMenuEdior = lazy(() => import('@/pages/admin-menu-editor'))
+const AdminColumnEdior = lazy(() => import('@/pages/admin-column-editor'))
 const Settings = lazy(() => import('@pages/settings'))
 const NotFound = lazy(() => import('@pages/404'))
 
@@ -31,12 +32,16 @@ const Router = createHashRouter([
     element: <RestrictionsForm />,
   },
   {
+    path: '/admin-menu-editor',
+    element: <AdminMenuEdior />,
+  },
+  {
     path: '/admin-column-editor',
-    element: <AdminColumns />,
+    element: <AdminColumnEdior />,
   },
   {
     path: '/admin-column-editor/:id',
-    element: <AdminColumns />,
+    element: <AdminColumnEdior />,
   },
   {
     path: '/addons',

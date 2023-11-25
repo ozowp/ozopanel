@@ -5,14 +5,15 @@ import { toast } from 'react-toastify'
 import Spinner from '@components/preloader/spinner'
 import { get, add, edit } from '@utils/api'
 import { reducer, initState } from './reducer'
-import Menu from './Menu'
+import Menus from './Menus'
 
 const Form: FC = () => {
   const { type, id = '' } = useParams()
   const i18n = ozopanel.i18n
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const [state, dispatch] = useReducer(reducer, initState) // Use the reducer and initial state
+  const [state, dispatch] = useReducer(reducer, initState)
+  const { loadingFetch, idList, formData, adminMenu, menuExpand, loadingSubmit } = state
   const apiPath = `restrictions/${type}`;
   const { data } = useQuery({
     queryKey: ['restriction-form', { type, id }],
@@ -32,12 +33,12 @@ const Form: FC = () => {
   }, [data, id])
 
   const handleIdChange = (id: string) => {
-    dispatch({ type: 'set_form_data', payload: { ...state.formData, id: id } })
+    dispatch({ type: 'set_form_data', payload: { ...formData, id: id } })
   }
 
   const submitMutation = useMutation({
     mutationFn: () => {
-      return id ? edit(apiPath, id, state.formData) : add(apiPath, state.formData);
+      return id ? edit(apiPath, id, formData) : add(apiPath, formData);
     },
     onSuccess: () => {
       if (id) {
@@ -53,7 +54,7 @@ const Form: FC = () => {
   })
 
   const handleSubmit = async () => {
-    if (!state.formData.id) {
+    if (!formData.id) {
       if (type === 'users') {
         toast.error(i18n.plsSelectUser)
       } else {
@@ -63,7 +64,7 @@ const Form: FC = () => {
     }
 
     //if admin_menu object empty
-    if (Object.keys(state.formData.admin_menu).length === 0) {
+    if (Object.keys(formData.admin_menu).length === 0) {
       toast.error(i18n.plsSelectMenu)
       return
     }
@@ -72,23 +73,23 @@ const Form: FC = () => {
   }
 
   const handleAdminMenuToggle = (url: string) => {
-    const updatedAdminMenu = { ...state.formData.admin_menu }
+    const updatedAdminMenu = { ...formData.admin_menu }
     if (updatedAdminMenu[url]) {
       delete updatedAdminMenu[url] // Remove main menu URL if it exists
     } else {
       updatedAdminMenu[url] =
-        state.adminMenu
+        adminMenu
           .find((menu) => menu.url === url)
           ?.submenu.map((submenu) => submenu.url) || []
     }
     dispatch({
       type: 'set_form_data',
-      payload: { ...state.formData, admin_menu: updatedAdminMenu },
+      payload: { ...formData, admin_menu: updatedAdminMenu },
     })
   }
 
   const onMenuExpand = (url: string) => {
-    let expand_url = (state.menuExpand === url) ? null : url;
+    let expand_url = (menuExpand === url) ? null : url;
     dispatch({
       type: 'set_menu_expand',
       payload: expand_url,
@@ -96,7 +97,7 @@ const Form: FC = () => {
   }
 
   const handleSubMenuToggle = (menuUrl: string, subMenuUrl: string) => {
-    const updatedAdminMenu = { ...state.formData.admin_menu }
+    const updatedAdminMenu = { ...formData.admin_menu }
     if (!updatedAdminMenu[menuUrl]) {
       updatedAdminMenu[menuUrl] = []
     }
@@ -108,7 +109,7 @@ const Form: FC = () => {
     }
     dispatch({
       type: 'set_form_data',
-      payload: { ...state.formData, admin_menu: updatedAdminMenu },
+      payload: { ...formData, admin_menu: updatedAdminMenu },
     })
   }
 
@@ -129,21 +130,21 @@ const Form: FC = () => {
         </div>
       </div>
 
-      {state.loadingFetch && <Spinner />}
+      {loadingFetch && <Spinner />}
 
-      {!state.loadingFetch && (
+      {!loadingFetch && (
         <>
           <label className='mb-3 block'>
             {`${i18n.select} ${type === 'users' ? i18n.user : i18n.role}`}:
 
             <select
               onChange={(e) => handleIdChange(e.target.value)}
-              value={state.formData.id}
+              value={formData.id}
               disabled={id ? true : false}
               className='ml-2'
             >
               <option value="">{i18n.select}</option>
-              {state.idList.map((role, i) => (
+              {idList.map((role, i) => (
                 <option key={i} value={role.id}>
                   {role.label}
                 </option>
@@ -156,26 +157,23 @@ const Form: FC = () => {
 
           <div className="grid grid-cols-2 gap-6">
             <div className="col">
-              {state.adminMenu.map((menu) => (
-                <Menu
-                  key={menu.url}
-                  menu={menu}
-                  formData={state.formData}
-                  onToggle={() => handleAdminMenuToggle(menu.url)}
-                  onMenuExpand={() => onMenuExpand(menu.url)}
-                  menuExpand={state.menuExpand === menu.url}
-                  onSubMenuToggle={(menuUrl: string, submenuUrl: string) => handleSubMenuToggle(menuUrl, submenuUrl)}
-                />
-              ))}
+              <Menus
+                adminMenu={adminMenu}
+                formData={formData}
+                onToggle={handleAdminMenuToggle}
+                onMenuExpand={onMenuExpand}
+                menuExpand={menuExpand}
+                onSubMenuToggle={(menuUrl: string, submenuUrl: string) => handleSubMenuToggle(menuUrl, submenuUrl)}
+              />
             </div>
             <div className="col">
 
               <button
                 onClick={handleSubmit}
                 className="rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
-                disabled={state.loadingSubmit}
+                disabled={loadingSubmit}
               >
-                {state.loadingSubmit
+                {loadingSubmit
                   ? id
                     ? i18n.updating
                     : i18n.submiting

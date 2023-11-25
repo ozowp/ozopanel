@@ -3,10 +3,11 @@
 namespace OzoPanel\Ctrl\Api;
 
 use OzoPanel\Ctrl\Api\Type\{
-    Action,
+    Restriction,
+    AdminMenu,
     AdminColumn,
     Setting,
-    Restriction
+    Action
 };
 
 /**
@@ -43,9 +44,10 @@ class ApiCtrl
             'ozopanel_rest_api_class_map',
             [
                 Restriction::class,
+                AdminMenu::class,
                 AdminColumn::class,
-                Action::class,
                 Setting::class,
+                Action::class
             ]
         );
 

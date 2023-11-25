@@ -1,14 +1,7 @@
 import { FC, useState } from 'react'
 import { UseAlert } from '@/components/alert/Provider'
 import { DropdownRow } from '@/components/dropdown'
-
-interface Item {
-  id: string
-  type: string
-  label: string
-  width: string
-  width_unit: string
-}
+import { Item } from '@interfaces/admin-column-editor'
 
 interface ItemsProps {
   items: Item[]
@@ -20,7 +13,7 @@ interface ItemsProps {
 const Items: FC<ItemsProps> = ({ items, onChange, onSelect, onDelete }) => {
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
 
-  const { delConfirm /* , proAlert */ } = UseAlert()
+  const { delConfirm } = UseAlert()
 
   const handleDragStart = (i: number) => {
     setDraggedIndex(i)

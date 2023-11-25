@@ -100,7 +100,7 @@ const Restrictions: FC = () => {
 
   return (
     <div className="ozop-restrictions">
-      <h3 className="text-2xl text-gray-900 dark:text-white">{`${i18n.restriction
+      <h3 className="text-2xl mt-6 text-gray-900 dark:text-white">{`${i18n.restriction
         } ${type === 'users' ? i18n.users : i18n.roles}`}</h3>
 
       <div className="mb-6 mt-6 flex justify-between">

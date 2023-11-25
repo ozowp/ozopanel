@@ -12,11 +12,11 @@ import { reducer, initState } from './reducer'
 import { Item } from '@interfaces/admin-column-editor'
 
 /**
- * AdminColumns
+ * AdminColumn
  *
  * @since 1.0.0
  */
-const AdminColumns: FC = () => {
+const AdminColumn: FC = () => {
   const { id = 'post' } = useParams()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -102,7 +102,7 @@ const AdminColumns: FC = () => {
 
   return (
     <div className="ozop-admin-columns">
-      <h3 className="mb-3 text-2xl">{i18n.adminColumnEditor}</h3>
+      <h3 className="mb-3 mt-6 text-2xl">{i18n.adminColumnEditor}</h3>
       {loading && <Spinner />}
       {!loading && (
         <>
@@ -162,4 +162,4 @@ const AdminColumns: FC = () => {
   )
 }
 
-export default AdminColumns
+export default AdminColumn

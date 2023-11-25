@@ -68,24 +68,27 @@ class Setting extends RestCtrl
         }
 
         if ($wp_err->get_error_messages()) {
-            wp_send_json_error($wp_err->get_error_messages());
+            return new \WP_REST_Response([
+                'success'  => false,
+                'data' => $wp_err->get_error_messages()
+            ], 200);
         } else {
             $data = [];
 
-            if ($tab == 'estimate_reminder') {
+            if ($tab == 'test_tab') {
                 $option = get_option('ozopanel_' . $tab);
 
                 if ($option) {
                     $data = $option;
                 } else {
                     $data['status'] = false;
-                    $data['due_date'] = false;
-                    $data['before'] = [];
-                    $data['after'] = [];
                 }
             }
 
-            wp_send_json_success($data);
+            return new \WP_REST_Response([
+                'success'  => true,
+                'data' => $data
+            ], 200);
         }
     }
 
@@ -109,7 +112,10 @@ class Setting extends RestCtrl
         }
 
         if ($wp_err->get_error_messages()) {
-            wp_send_json_error($wp_err->get_error_messages());
+            return new \WP_REST_Response([
+                'success'  => false,
+                'data' => $wp_err->get_error_messages()
+            ], 200);
         } else {
             $data = [];
 
@@ -130,7 +136,10 @@ class Setting extends RestCtrl
                 $option = update_option('ozopanel_' . $tab, $data);
             }
 
-            wp_send_json_success();
+            return new \WP_REST_Response([
+                'success'  => true,
+                'data' => null
+            ], 200);
         }
     }
 
