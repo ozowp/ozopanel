@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import { Menu, FormData } from '@/interfaces/restrictions/form'
-import SubMenu from './SubMenu'
+import { Menu, Submenu, FormData } from '@/interfaces/restrictions/form'
 
 interface MenusProps {
 	adminMenu: Menu[];
@@ -8,15 +7,44 @@ interface MenusProps {
 	onToggle: (menuUrl: string) => void;
 	menuExpand: null | string;
 	onMenuExpand: (menuUrl: string) => void;
-	onSubMenuToggle: (menuUrl: string, submenuUrl: string) => void;
+	onSubmenuToggle: (menuUrl: string, submenuUrl: string) => void;
 }
 
-const Menus: FC<MenusProps> = ({ adminMenu, formData, onToggle, menuExpand, onMenuExpand, onSubMenuToggle }) => {
+interface SubmenusProps {
+	menu: Menu
+	menuExpand: null | string;
+	formData: FormData
+	submenu: Submenu[];
+	onToggle: (menuUrl: string, submenuUrl: string) => void;
+}
+
+const Submenus: FC<SubmenusProps> = ({ menu, menuExpand, formData, submenu, onToggle }) => {
+	return (
+		<div className={`ozop-restrictions-submenu ${menuExpand === menu.url ? 'visible' : 'hidden'}`}>
+			{submenu.map((item) => (
+				<div key={item.url}>
+					<label htmlFor={`${item.url}`}>
+						<input
+							type="checkbox"
+							id={`${item.url}`}
+							checked={formData.admin_menu[menu.url]?.includes(item.url) || false}
+							onChange={() => onToggle(menu.url, item.url)}
+						/>
+						{item.label}
+					</label>
+				</div>
+			))}
+		</div>
+
+	);
+};
+
+const Menus: FC<MenusProps> = ({ adminMenu, formData, onToggle, menuExpand, onMenuExpand, onSubmenuToggle }) => {
 	return (
 		<div className="">
 			{adminMenu.map((menu) => (
 				<div key={menu.url} className="ozop-shortable-item">
-					<div>
+					<div className='flex justify-between items-center'>
 						<label htmlFor={menu.url}>
 							<input
 								type="checkbox"
@@ -31,20 +59,13 @@ const Menus: FC<MenusProps> = ({ adminMenu, formData, onToggle, menuExpand, onMe
 						</span>}
 					</div>
 
-					<div className={`ozop-restrictions-submenu ${menuExpand === menu.url ? 'visible' : 'hidden'}`}>
-						{menu.submenu.map((submenu) => (
-							<SubMenu
-								key={submenu.url}
-								submenu={submenu}
-								checked={
-									formData.admin_menu[menu.url]?.includes(
-										submenu.url,
-									) || false
-								}
-								onToggle={() => onSubMenuToggle(menu.url, submenu.url)}
-							/>
-						))}
-					</div>
+					<Submenus
+						menu={menu}
+						menuExpand={menuExpand}
+						formData={formData}
+						submenu={menu.submenu}
+						onToggle={(menuUrl: string, submenuUrl: string) => onSubmenuToggle(menuUrl, submenuUrl)}
+					/>
 				</div>
 			))}
 		</div>

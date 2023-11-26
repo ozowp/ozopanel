@@ -20,4 +20,5 @@ export interface Table {
   selectedItems: string[]
   handleToggleItem: (itemId: string) => void
   goForm: (id?: string) => void
+  handleDelete: (id?: string) => void
 }

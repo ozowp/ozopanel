@@ -152,8 +152,7 @@ const Form: FC = () => {
             </select>
           </label>
 
-          <p className="text-gray-500 dark:text-gray-400 mb-3">{`${i18n.menuSelectGuide
-            } ${type === 'users' ? i18n.user : i18n.role}`}</p>
+          <p className="text-gray-500 dark:text-gray-400 mb-3">{`${i18n.menuSelectGuide} ${type === 'users' ? i18n.user : i18n.role}`}</p>
 
           <div className="grid grid-cols-2 gap-6">
             <div className="col">
@@ -163,7 +162,7 @@ const Form: FC = () => {
                 onToggle={handleAdminMenuToggle}
                 onMenuExpand={onMenuExpand}
                 menuExpand={menuExpand}
-                onSubMenuToggle={(menuUrl: string, submenuUrl: string) => handleSubMenuToggle(menuUrl, submenuUrl)}
+                onSubmenuToggle={(menuUrl: string, submenuUrl: string) => handleSubMenuToggle(menuUrl, submenuUrl)}
               />
             </div>
             <div className="col">

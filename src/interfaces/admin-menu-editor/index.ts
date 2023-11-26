@@ -14,17 +14,9 @@ export interface Menu {
 export interface FormData {
   id: string
   admin_menu: {
-    [key: string]: string[] // Key is main menu URL, value is an array of submenu URLs
+    [key: string]: string[]
   }
 }
-
-/* export interface Item {
-  id: string
-  type: string
-  label: string
-  width: string
-  width_unit: string
-} */
 
 export interface State {
   loadingFetch: boolean

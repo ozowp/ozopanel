@@ -26,20 +26,12 @@ const AdminMenu: FC = () => {
     }
   }, [data])
 
-  const handleAdminMenuToggle = () => {
-
-  }
-
   const onMenuExpand = (url: string) => {
     let expand_url = (menuExpand === url) ? null : url;
     dispatch({
       type: 'set_menu_expand',
       payload: expand_url,
     });
-  }
-
-  const handleSubMenuToggle = (menuUrl: string, subMenuUrl: string) => {
-
   }
 
   const handleMenuOrder = (newMenus: Menu[]) => {
@@ -76,9 +68,10 @@ const AdminMenu: FC = () => {
     handleMenuSelect(null)
   }
 
-  const handleMenuDelete = (index: number) => {
+  const handleMenuHide = (menu: number, submenu?: number) => {
+    console.log(submenu)
     const updatedMenus = [...state.menus]
-    updatedMenus.splice(index, 1)
+    updatedMenus.splice(menu, 1)
     dispatch({ type: 'set_menus', payload: updatedMenus })
   }
 
@@ -116,11 +109,9 @@ const AdminMenu: FC = () => {
                 menus={menus}
                 onOrderChange={handleMenuOrder}
                 onSelect={handleMenuSelect}
-                onDelete={handleMenuDelete}
-                onToggle={handleAdminMenuToggle}
+                onHide={handleMenuHide}
                 onMenuExpand={onMenuExpand}
                 menuExpand={menuExpand}
-                onSubMenuToggle={(menuUrl: string, submenuUrl: string) => handleSubMenuToggle(menuUrl, submenuUrl)}
               />
               <button
                 onClick={handleMenuNew}

@@ -90,9 +90,10 @@ const Restrictions: FC = () => {
     },
   })
 
-  const handleDelete = () => {
+  const handleDelete = (id?: string) => {
     delConfirm(() => {
-      delMutation.mutate(selectedItems)
+      const ids = id ? [id] : selectedItems;
+      delMutation.mutate(ids)
     })
   }
 
@@ -134,8 +135,8 @@ const Restrictions: FC = () => {
 
           {selectedItems.length > 0 && (
             <button
-              className="mb-2 me-2 rounded bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
-              onClick={handleDelete}
+              className="mb-2 ml-2 rounded bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
+              onClick={() => handleDelete()}
             >
               {i18n.del}
             </button>
@@ -154,6 +155,7 @@ const Restrictions: FC = () => {
           selectedItems={selectedItems}
           handleToggleItem={handleToggleItem}
           goForm={goForm}
+          handleDelete={handleDelete}
         />
       )}
     </div>

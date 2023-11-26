@@ -19,7 +19,7 @@ export interface Menu {
 export interface FormData {
   id: string
   admin_menu: {
-    [key: string]: string[] // Key is main menu URL, value is an array of submenu URLs
+    [key: string]: string[]
   }
 }
 

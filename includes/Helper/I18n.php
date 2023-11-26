@@ -42,6 +42,7 @@ class I18n
             'adminMenuEditor' => esc_html__('Admin Menu Editor', 'ozopanel'),
             'addNewMenu' => esc_html__('Add New Menu', 'ozopanel'),
             'editMenu' => esc_html__('Edit Menu', 'ozopanel'),
+            'hide' => esc_html__('Hide', 'ozopanel'),
             // admin column editor
             'adminColumnEditor' => esc_html__('Admin Column Editor', 'ozopanel'),
             'addNewColumn' => esc_html__('Add New Column', 'ozopanel'),

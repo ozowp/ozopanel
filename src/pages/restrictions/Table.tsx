@@ -1,6 +1,7 @@
 import { FC } from 'react'
 const i18n = ozopanel.i18n
 import { Table } from '@/interfaces/restrictions'
+import { DropdownRow } from '@/components/dropdown'
 
 const Head: FC<Table> = ({ type, selectAll, handleSelectAll }) => {
   return (
@@ -43,6 +44,7 @@ const Body: FC<Table> = ({
   selectedItems,
   handleToggleItem,
   goForm,
+  handleDelete
 }) => {
   return (
     <tbody>
@@ -77,8 +79,23 @@ const Body: FC<Table> = ({
               </td>
             </>
           )}
-          <td className="px-6 py-4">
-            <button onClick={() => goForm(item.id)}>{i18n.edit}</button>
+          <td className="px-6 py-4 text-right">
+            <DropdownRow>
+              <li>
+                <button
+                  className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                  onClick={() => goForm(item.id)}
+                >
+                  {i18n.edit}
+                </button>
+                <button
+                  className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                  onClick={() => handleDelete(item.id)}
+                >
+                  {i18n.del}
+                </button>
+              </li>
+            </DropdownRow>
           </td>
         </tr>
       ))}
