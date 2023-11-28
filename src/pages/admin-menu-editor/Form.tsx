@@ -1,21 +1,21 @@
 // Inside Menu.tsx
 
 import React, { FC, useState, useEffect } from 'react'
-import { Menu } from '@interfaces/admin-menu-editor'
+import { Menu, Submenu } from '@interfaces/admin-menu-editor'
 
 interface MenuProps {
-  menu: Menu
-  onSave: (updatedMenu: Menu) => void
+  data: Menu | Submenu
+  onSave: (updatedMenu: Menu | Submenu) => void
   onClose: () => void
 }
 
-const Menu: FC<MenuProps> = ({ menu, onSave, onClose }) => {
-  const [form, setForm] = useState<Menu>(menu)
+const Menu: FC<MenuProps> = ({ data, onSave, onClose }) => {
+  const [form, setForm] = useState<Menu | Submenu>(data)
 
   // Update the form state when the menu prop changes
   useEffect(() => {
-    setForm(menu)
-  }, [menu])
+    setForm(data)
+  }, [data])
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -107,7 +107,7 @@ const Menu: FC<MenuProps> = ({ menu, onSave, onClose }) => {
               Url:
             </label>
             <input
-              type="url"
+              type="text"
               id="url"
               name="url"
               value={form.url}

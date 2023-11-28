@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import Spinner from '@components/preloader/spinner'
 import { get, edit } from '@utils/api'
 import { reducer, initState } from './reducer'
-import { Menu } from '@interfaces/admin-menu-editor'
+import { Menu, Submenu } from '@interfaces/admin-menu-editor'
 import Menus from './Menus'
 import Form from './Form'
 
@@ -12,7 +12,7 @@ const AdminMenu: FC = () => {
   const i18n = ozopanel.i18n
   const queryClient = useQueryClient()
   const [state, dispatch] = useReducer(reducer, initState)
-  const { loadingFetch, menus, menuExpand, selectedMenu, loadingSubmit } = state
+  const { loadingFetch, menus, menuExpand, selectedMenu, selectedSubmenu, loadingSubmit } = state
   const { data } = useQuery({
     queryKey: ['admin-menus'],
     queryFn: () => get('admin-menus'),
@@ -38,9 +38,17 @@ const AdminMenu: FC = () => {
     dispatch({ type: 'set_menus', payload: newMenus })
   }
 
-  const handleMenuSelect = (index: null | number) => {
-    dispatch({ type: 'set_menu_select', payload: index })
-  }
+  const handleMenuSelect = (menuIndex: number | null, submenuIndex?: number | null) => {
+    dispatch({
+      type: 'set_menu_select',
+      payload: menuIndex,
+    });
+
+    dispatch({
+      type: 'set_submenu_select',
+      payload: submenuIndex !== undefined ? submenuIndex : null,
+    });
+  };
 
   const createNewMenu = (): Menu => {
     // const uniqueId = `ozop_custom_${uuidv4()}`
@@ -57,16 +65,19 @@ const AdminMenu: FC = () => {
     dispatch({ type: 'set_menu_new', payload: createNewMenu() })
   }
 
-  const handleMenuChange = (updatedMenu: Menu) => {
-    if (selectedMenu !== null) {
-      const updatedMenus = [...state.menus]
-      updatedMenus[selectedMenu] = updatedMenu
-      dispatch({ type: 'set_menus', payload: updatedMenus })
+  const handleMenuChange = (updatedMenu: Menu | Submenu) => {
+    const updatedMenus = [...state.menus];
+    if (selectedMenu !== null && selectedSubmenu !== null) {
+      updatedMenus[selectedMenu].submenu[selectedSubmenu] = updatedMenu as Submenu;
+    } else if (selectedMenu !== null) {
+      updatedMenus[selectedMenu] = updatedMenu as Menu;
     }
+    dispatch({ type: 'set_menus', payload: updatedMenus });
 
     // Reset the editedItemIndex
-    handleMenuSelect(null)
-  }
+    handleMenuSelect(null);
+  };
+
 
   const handleMenuHide = (menu: number, submenu?: number) => {
     console.log(submenu)
@@ -86,8 +97,6 @@ const AdminMenu: FC = () => {
   const handleSubmit = async () => {
     submitMutation.mutate()
   }
-
-
 
   return (
     <div className="ozop-restrictions-form">
@@ -134,7 +143,7 @@ const AdminMenu: FC = () => {
 
           {selectedMenu !== null && menus[selectedMenu] && (
             <Form
-              menu={menus[selectedMenu]}
+              data={(selectedMenu !== null && selectedSubmenu !== null) ? menus[selectedMenu].submenu[selectedSubmenu] : menus[selectedMenu]}
               onSave={handleMenuChange}
               onClose={() => handleMenuSelect(null)}
             />

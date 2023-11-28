@@ -23,5 +23,6 @@ export interface State {
   menus: Menu[]
   menuExpand: null | string
   selectedMenu: null | number
+  selectedSubmenu: null | number
   loadingSubmit: boolean
 }

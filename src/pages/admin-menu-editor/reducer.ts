@@ -5,6 +5,7 @@ type Action =
   | { type: 'set_menus'; payload: Menu[] }
   | { type: 'set_menu_expand'; payload: null | string }
   | { type: 'set_menu_select'; payload: null | number }
+  | { type: 'set_submenu_select'; payload: null | number }
   | { type: 'set_menu_new'; payload: Menu }
   | { type: 'set_loading_submit'; payload: boolean }
 
@@ -13,6 +14,7 @@ export const initState: State = {
   menus: [],
   menuExpand: null,
   selectedMenu: null,
+  selectedSubmenu: null,
   loadingSubmit: false,
 }
 
@@ -26,6 +28,8 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, menuExpand: action.payload }
     case 'set_menu_select':
       return { ...state, selectedMenu: action.payload }
+    case 'set_submenu_select':
+      return { ...state, selectedSubmenu: action.payload }
     case 'set_menu_new':
       return {
         ...state,
