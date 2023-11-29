@@ -26,24 +26,6 @@ interface SubmenusProps {
 const i18n = ozopanel.i18n
 
 const Submenus: FC<SubmenusProps> = ({ menuIndex, menus, menu, submenu, onOrderChange, menuExpand, onSelect, onHide }) => {
-	/* const [dragSubmenuIndex, setDragSubmenuIndex] = useState({ menuIndex: null, submenuIndex: null });
-
-	const handleDragSubmenuStart = (menuIndex: number, submenuIndex: number) => {
-		setDragSubmenuIndex({ menuIndex: menuIndex, submenuIndex: submenuIndex })
-	}
-
-	const handleDragSubmenuOver = (menuIndex: number, submenuIndex: number) => {
-		if (dragMenuIndex === null) return
-		if (i === dragMenuIndex) return
-
-		const reorderedMenu = Array.from(menus)
-		const [draggedItem] = reorderedMenu.splice(dragMenuIndex, 1)
-		reorderedMenu.splice(i, 0, draggedItem)
-		onOrderChange(reorderedMenu)
-		setDragSubmenuIndex(i)
-		onOrderChange(menu)
-		// onOrderChange(menus)
-	} */
 
 	const [dragSubmenuIndex, setDragSubmenuIndex] = useState<{ submenuIndex: number | null }>({ submenuIndex: null });
 
@@ -71,6 +53,7 @@ const Submenus: FC<SubmenusProps> = ({ menuIndex, menus, menu, submenu, onOrderC
 		onOrderChange(updatedMenus);
 		setDragSubmenuIndex({ submenuIndex: targetSubmenuIndex });
 	}
+
 	return (
 		<div className={`ozop-restrictions-submenu mt-2 ${menuExpand === menu.url ? 'visible' : 'hidden'}`}>
 			{submenu.map((item, i) => (
