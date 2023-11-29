@@ -14,6 +14,8 @@ interface MenusProps {
 
 interface SubmenusProps {
 	menuIndex: number;
+	menus: Menu[]
+	onOrderChange: (menus: Menu[]) => void
 	menu: Menu;
 	menuExpand: null | string;
 	submenu: Submenu[];
@@ -23,11 +25,62 @@ interface SubmenusProps {
 
 const i18n = ozopanel.i18n
 
-const Submenus: FC<SubmenusProps> = ({ menuIndex, menu, submenu, menuExpand, onSelect, onHide }) => {
+const Submenus: FC<SubmenusProps> = ({ menuIndex, menus, menu, submenu, onOrderChange, menuExpand, onSelect, onHide }) => {
+	/* const [dragSubmenuIndex, setDragSubmenuIndex] = useState({ menuIndex: null, submenuIndex: null });
+
+	const handleDragSubmenuStart = (menuIndex: number, submenuIndex: number) => {
+		setDragSubmenuIndex({ menuIndex: menuIndex, submenuIndex: submenuIndex })
+	}
+
+	const handleDragSubmenuOver = (menuIndex: number, submenuIndex: number) => {
+		if (dragMenuIndex === null) return
+		if (i === dragMenuIndex) return
+
+		const reorderedMenu = Array.from(menus)
+		const [draggedItem] = reorderedMenu.splice(dragMenuIndex, 1)
+		reorderedMenu.splice(i, 0, draggedItem)
+		onOrderChange(reorderedMenu)
+		setDragSubmenuIndex(i)
+		onOrderChange(menu)
+		// onOrderChange(menus)
+	} */
+
+	const [dragSubmenuIndex, setDragSubmenuIndex] = useState<{ submenuIndex: number | null }>({ submenuIndex: null });
+
+	const handleDragSubmenuStart = (submenuIndex: number) => {
+		setDragSubmenuIndex({ submenuIndex });
+	}
+
+	const handleDragSubmenuOver = (targetSubmenuIndex: number) => {
+		const draggedSubmenuIndex = dragSubmenuIndex.submenuIndex;
+
+		// Check if the drag operation is valid
+		if (draggedSubmenuIndex === null || draggedSubmenuIndex === targetSubmenuIndex) {
+			return;
+		}
+
+		// Copy the submenu array for immutability
+		const newSubmenus = Array.from(submenu);
+		const [draggedItem] = newSubmenus.splice(draggedSubmenuIndex, 1);
+		newSubmenus.splice(targetSubmenuIndex, 0, draggedItem);
+
+		// Update the parent menus array
+		const updatedMenus = Array.from(menus);
+		updatedMenus[menuIndex].submenu = newSubmenus;
+
+		onOrderChange(updatedMenus);
+		setDragSubmenuIndex({ submenuIndex: targetSubmenuIndex });
+	}
 	return (
 		<div className={`ozop-restrictions-submenu mt-2 ${menuExpand === menu.url ? 'visible' : 'hidden'}`}>
 			{submenu.map((item, i) => (
-				<div key={item.url} className='ozop-shortable-item flex justify-between items-center'>
+				<div
+					key={item.url}
+					className='ozop-shortable-item flex justify-between items-center'
+					draggable
+					onDragStart={() => handleDragSubmenuStart(i)}
+					onDragOver={() => handleDragSubmenuOver(i)}
+				>
 					<label htmlFor={`${item.url}`}>
 						{item.label}
 					</label>
@@ -55,23 +108,23 @@ const Submenus: FC<SubmenusProps> = ({ menuIndex, menu, submenu, menuExpand, onS
 };
 
 const Menus: FC<MenusProps> = ({ menus, onOrderChange, onSelect, onHide, menuExpand, onMenuExpand }) => {
-	const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
+	const [dragMenuIndex, setDragMenuIndex] = useState<number | null>(null)
 
 	const { delConfirm } = UseAlert()
 
-	const handleDragStart = (i: number) => {
-		setDraggedIndex(i)
+	const handleDragMenuStart = (i: number) => {
+		setDragMenuIndex(i)
 	}
 
-	const handleDragOver = (i: number) => {
-		if (draggedIndex === null) return
-		if (i === draggedIndex) return
+	const handleDragMenuOver = (i: number) => {
+		if (dragMenuIndex === null) return
+		if (i === dragMenuIndex) return
 
 		const reorderedMenu = Array.from(menus)
-		const [draggedItem] = reorderedMenu.splice(draggedIndex, 1)
+		const [draggedItem] = reorderedMenu.splice(dragMenuIndex, 1)
 		reorderedMenu.splice(i, 0, draggedItem)
 		onOrderChange(reorderedMenu)
-		setDraggedIndex(i)
+		setDragMenuIndex(i)
 	}
 
 	const handleHide = (menu: number, submenu?: number) => {
@@ -87,8 +140,8 @@ const Menus: FC<MenusProps> = ({ menus, onOrderChange, onSelect, onHide, menuExp
 					key={menu.url}
 					className="ozop-shortable-item"
 					draggable
-					onDragStart={() => handleDragStart(i)}
-					onDragOver={() => handleDragOver(i)}
+					onDragStart={() => handleDragMenuStart(i)}
+					onDragOver={() => handleDragMenuOver(i)}
 				>
 					<div
 						className='flex justify-between items-center'
@@ -120,11 +173,13 @@ const Menus: FC<MenusProps> = ({ menus, onOrderChange, onSelect, onHide, menuExp
 
 					<Submenus
 						menuIndex={i}
+						menus={menus}
 						menu={menu}
-						menuExpand={menuExpand}
 						submenu={menu.submenu}
+						menuExpand={menuExpand}
 						onSelect={onSelect}
 						onHide={handleHide}
+						onOrderChange={onOrderChange}
 					/>
 				</div>
 			))}
