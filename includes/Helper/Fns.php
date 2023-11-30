@@ -11,6 +11,18 @@ class Fns
 {
 
     /**
+     *  API request permission Check
+     *
+     * @since 1.0.0
+     */
+    public static function gate($string, $method = '')
+    {
+        // when run php test
+        //return true;
+        return current_user_can('administrator');
+    }
+
+    /**
      *  String to slug convert
      *
      * @since 1.0.0

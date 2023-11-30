@@ -4,7 +4,8 @@ namespace OzoPanel\Ctrl\Api\Type;
 // use OzoPanel\Abstracts\RESTController;
 
 use OzoPanel\Abstracts\RestCtrl;
-use OzoPanel\Helper\AdminColumn\Fns;
+use OzoPanel\Helper\AdminColumn\Fns as ColumnFns;
+use OzoPanel\Helper\Fns;
 use OzoPanel\Model\AdminColumn as ModelAdminColumn;
 
 /**
@@ -37,7 +38,7 @@ class AdminColumn extends RestCtrl
             [
                 'methods' => 'GET',
                 'callback' => [$this, 'get_single'],
-                'permission_callback' => [$this, 'get_per'],
+                'permission_callback' => Fns::gate($this->base, 'get'),
                 'args' => [
                     'id' => [
                         'validate_callback' => function ($param) {
@@ -53,7 +54,7 @@ class AdminColumn extends RestCtrl
             [
                 'methods' => 'PUT',
                 'callback' => [$this, 'update'],
-                'permission_callback' => [$this, 'update_per'],
+                'permission_callback' => Fns::gate($this->base, 'edit'),
                 'args' => [
                     'id' => [
                         'validate_callback' => function ($param) {
@@ -69,7 +70,7 @@ class AdminColumn extends RestCtrl
             [
                 'methods' => 'DELETE',
                 'callback' => [$this, 'delete'],
-                'permission_callback' => [$this, 'del_per'],
+                'permission_callback' => Fns::gate($this->base, 'del'),
                 'args' => [
                     'id' => [
                         'validate_callback' => function ($param) {
@@ -116,16 +117,16 @@ class AdminColumn extends RestCtrl
             if ($id) {
                 if (post_type_exists($id)) {
                     $columns = get_option('ozopanel_admin_column_' . $id . '_default', []);
-                    $columns_default = Fns::format_column($columns);
+                    $columns_default = ColumnFns::format_column($columns);
                 } elseif ($id == 'wp_media') {
                     $columns = get_option('ozopanel_admin_column_upload_default', []);
-                    $columns_default = Fns::format_column($columns);
+                    $columns_default = ColumnFns::format_column($columns);
                 } elseif ($id == 'wp_comments') {
                     $columns = get_option('ozopanel_admin_column_edit-comments_default', []);
-                    $columns_default = Fns::format_column($columns);
+                    $columns_default = ColumnFns::format_column($columns);
                 } elseif ($id == 'wp_users') {
                     $columns = get_option('ozopanel_admin_column_users_default', []);
-                    $columns_default = Fns::format_column($columns);
+                    $columns_default = ColumnFns::format_column($columns);
                 }
             }
 
@@ -207,21 +208,5 @@ class AdminColumn extends RestCtrl
             'success'  => true,
             'data' => $ids,
         ], 200);
-    }
-
-    // check permission
-    public function get_per()
-    {
-        return current_user_can('administrator');
-    }
-
-    public function update_per()
-    {
-        return current_user_can('administrator');
-    }
-
-    public function del_per()
-    {
-        return current_user_can('administrator');
     }
 }
