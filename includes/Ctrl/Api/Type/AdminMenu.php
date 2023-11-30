@@ -63,7 +63,9 @@ class AdminMenu extends RestCtrl
     {
         $resp = [];
         $admin_menu = get_option('ozopanel_admin_menu');
-        $resp['menus'] = $admin_menu;
+        $admin_menu_editor = get_option('ozopanel_admin_menu_editor');
+        $menus = $admin_menu_editor ? $admin_menu_editor : $admin_menu;
+        $resp['menus'] = $menus;
 
 
         /* if ($id) {
@@ -93,7 +95,6 @@ class AdminMenu extends RestCtrl
         $wp_err = new \WP_Error();
 
         $admin_menu = isset($param['admin_menu']) ? ($param['admin_menu']) : '';
- 
 
         if ($wp_err->get_error_messages()) {
             return new \WP_REST_Response([

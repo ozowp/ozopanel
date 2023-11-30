@@ -27,6 +27,7 @@ class I18n
             'updating' => esc_html__('Updatting...', 'ozopanel'),
             // restriction
             'restrict' => esc_html__('Restrict', 'ozopanel'),
+            'no_restriction_data' => esc_html__('You have not restrict any', 'ozopanel'),
             'restriction' => esc_html__('Restriction', 'ozopanel'),
             'menuSelectGuide' => esc_html__('Select menu and submenu which you want to allow for this', 'ozopanel'),
             'plsSelectMenu' => esc_html__('Please select Menu', 'ozopanel'),

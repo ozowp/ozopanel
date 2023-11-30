@@ -147,16 +147,20 @@ const Restrictions: FC = () => {
       {loading && <Spinner />}
 
       {!loading && (
-        <Table
-          type={type}
-          selectAll={selectAll}
-          handleSelectAll={handleSelectAll}
-          items={items}
-          selectedItems={selectedItems}
-          handleToggleItem={handleToggleItem}
-          goForm={goForm}
-          handleDelete={handleDelete}
-        />
+        <>
+          {items.length > 0 && <Table
+            type={type}
+            selectAll={selectAll}
+            handleSelectAll={handleSelectAll}
+            items={items}
+            selectedItems={selectedItems}
+            handleToggleItem={handleToggleItem}
+            goForm={goForm}
+            handleDelete={handleDelete}
+          />}
+
+          {!items.length && <p className='text-gray-500 dark:text-gray-400 mb-3'>{`${i18n.no_restriction_data} ${type === 'users' ? i18n.user : i18n.role}`}</p>}
+        </>
       )}
     </div>
   )

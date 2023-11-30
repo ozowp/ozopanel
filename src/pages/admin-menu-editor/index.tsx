@@ -27,7 +27,7 @@ const AdminMenu: FC = () => {
   }, [data])
 
   const onMenuExpand = (url: string) => {
-    let expand_url = (menuExpand === url) ? null : url;
+    const expand_url = (menuExpand === url) ? null : url;
     dispatch({
       type: 'set_menu_expand',
       payload: expand_url,
@@ -87,7 +87,7 @@ const AdminMenu: FC = () => {
   }
 
   const submitMutation = useMutation({
-    mutationFn: () => edit('admin-menus', '', menus),
+    mutationFn: () => edit('admin-menus', '', { admin_menu: menus }),
     onSuccess: () => {
       toast.success(i18n.sucEdit)
       queryClient.invalidateQueries({ queryKey: ['admin-menus'] })
