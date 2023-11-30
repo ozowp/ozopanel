@@ -1,1 +1,0 @@
-{"version":1,"defects":{"OzoPanel\\Tests\\Api\\AdminColumnTest::test_admin_columns_endpoint_exists":3,"OzoPanel\\Tests\\Api\\AdminMenuTest::test_admin_menus_endpoint_exists":3},"times":{"OzoPanel\\Tests\\Api\\AdminColumnTest::test_admin_columns_endpoint_exists":0.023,"OzoPanel\\Tests\\Api\\AdminMenuTest::test_admin_menus_endpoint_exists":0.0080000000000000002}}
