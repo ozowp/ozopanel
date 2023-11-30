@@ -2,7 +2,7 @@
 
 namespace OzoPanel\Ctrl\Api\Type;
 
-use OzoPanel\Abstracts\RestCtrl;
+use OzoPanel\Abstract\RestCtrl;
 use OzoPanel\Helper\AdminColumn\Fns as ColumnFns;
 use OzoPanel\Helper\Fns;
 use OzoPanel\Model\AdminColumn as ModelAdminColumn;

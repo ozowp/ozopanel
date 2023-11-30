@@ -1,6 +1,6 @@
 <?php
 
-namespace OzoPanel\Abstracts;
+namespace OzoPanel\Abstract;
 
 use WP_REST_Controller;
 

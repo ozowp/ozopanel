@@ -2,7 +2,7 @@
 
 namespace OzoPanel\Ctrl\Api\Type;
 
-use OzoPanel\Abstracts\RestCtrl;
+use OzoPanel\Abstract\RestCtrl;
 use OzoPanel\Helper\Fns;
 
 /**

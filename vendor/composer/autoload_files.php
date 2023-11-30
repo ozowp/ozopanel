@@ -13,4 +13,5 @@ return array(
     'a4a119a56e50fbb293281d9a48007e0e' => $vendorDir . '/symfony/polyfill-php80/bootstrap.php',
     '38fbb71d514eee25044aa9d94851ee76' => $vendorDir . '/wp-phpunit/wp-phpunit/__loaded.php',
     '7d3b315c4f303f2fc14aca642a738e50' => $vendorDir . '/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php',
+    '65343bfa0be130f58ab6a22ddcdf54ca' => $baseDir . '/Lib/vite.php',
 );

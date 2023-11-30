@@ -2,12 +2,15 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import path from 'path';
 import dotenv from 'dotenv';
-
+import { v4wp } from '@kucrut/vite-for-wp';
 dotenv.config(); // Load environment variables from .env file
 
 // https://vitejs.dev/config/
 const config = defineConfig({
-  plugins: [react()],
+  plugins: [react(), v4wp( {
+    input: 'src/main.tsx', // Optional, defaults to 'src/main.js'.
+    outDir: 'dist', // Optional, defaults to 'dist'.
+  } ),],
   // Add Prettier to the Vite config
   optimizeDeps: {
     include: ['prettier'],
@@ -51,11 +54,11 @@ const config = defineConfig({
 });
 
 // Check if OZOPANEL_DEBUG environment variable is not set or set to a truthy value
-if (!process.env.OZOPANEL_DEBUG) {
+/* if (!process.env.OZOPANEL_DEBUG) {
   config.base = '/wp-content/plugins/ozopanel/dist/';
   config.build.rollupOptions.input = {
     main: 'src/main.tsx',
   };
-}
+} */
 
 export default config;

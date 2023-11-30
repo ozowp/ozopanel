@@ -4,6 +4,7 @@ namespace OzoPanel\Ctrl\Asset;
 
 use OzoPanel\Helper\Fns;
 use OzoPanel\Helper\I18n;
+use OzoPanel\Vite;
 
 /**
  * All plugin asset
@@ -29,7 +30,7 @@ class AssetCtrl
             add_filter('update_footer', '__return_empty_string', 11);
         }
 
-        add_filter('script_loader_tag', [$this, 'add_type_attribute'] , 10, 3);
+        // add_filter('script_loader_tag', [$this, 'add_type_attribute'] , 10, 3);
 
         add_action('current_screen', function () {
             if (!$this->is_plugins_screen()) {
@@ -100,7 +101,7 @@ class AssetCtrl
                 'test-template.php'
             ])
         ) {
-            if ( ! ozopanel()->is_debug() ) {
+            /* if ( ! ozopanel()->is_debug() ) {
                 wp_enqueue_style(
                     'ozopanel-dashboard',
                     ozopanel()->get_asset_uri("main.css"),
@@ -143,7 +144,28 @@ class AssetCtrl
                 'assetImgUri' => ozopanel()->get_asset_uri('img/'),
                 'assetUri' => OZOPANEL_ASSEST,
                 'i18n' => I18n::app()
-            ]);
+            ]); */
+
+            //$allowed_screens = ['toplevel_page_coldmailar', 'coldmailar_page_coldmailar-campaigns'];
+            //if (in_array($screen, $allowed_screens)) {
+                Vite\enqueue_asset(
+                    COLDMAILAR_DIR . '/dist',
+                    'src/main.tsx',
+                    [
+                        'dependencies' => ['react', 'react-dom'],
+                        'handle' => 'ozopanel-dashboard',
+                        'in-footer' => true,
+                    ]
+                );
+                wp_localize_script('ozopanel-dashboard', 'ozopanel', [
+                    'version' => ozopanel()->version,
+                    'dashboard' => admin_url('admin.php?page=ozopanel'),
+                    'date_format' => Fns::phpToMomentFormat( get_option('date_format') ),
+                    'assetImgUri' => ozopanel()->get_asset_uri('img/'),
+                    'assetUri' => OZOPANEL_ASSEST,
+                    'i18n' => I18n::app()
+                ]);
+            //}
         }
 
         /**

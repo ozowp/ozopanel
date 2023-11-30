@@ -15,7 +15,10 @@
 		"psr-4": {
 			"OzoPanel\\": "includes",
 			"OzoPanel\\Tests\\": "tests/phpunit/"
-		}
+		},
+		"files": [
+			"Lib/vite.php"
+        ]
 	},
 	"require-dev": {
 		"wp-phpunit/wp-phpunit": "^6.0",
