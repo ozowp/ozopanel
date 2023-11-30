@@ -3,6 +3,7 @@
 namespace OzoPanel\Ctrl\Api\Type;
 
 use OzoPanel\Abstracts\RestCtrl;
+use OzoPanel\Helper\Fns;
 
 /**
  * API Setting class.
@@ -34,7 +35,9 @@ class Setting extends RestCtrl
             [
                 'methods' => 'GET',
                 'callback' => [$this, 'get'],
-                'permission_callback' => [$this, 'get_per'],
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'get');
+                },
             ]
         );
 
@@ -43,7 +46,9 @@ class Setting extends RestCtrl
             [
                 'methods' => 'POST',
                 'callback' => [$this, 'create'],
-                'permission_callback' => [$this, 'create_per'],
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'add');
+                }
             ]
         );
     }
@@ -141,25 +146,5 @@ class Setting extends RestCtrl
                 'data' => null
             ], 200);
         }
-    }
-
-    /**
-     * Check permission for getting settings data.
-     *
-     * @return bool Whether the current user can access the endpoint.
-     */
-    public function get_per()
-    {
-        return current_user_can('administrator');
-    }
-
-    /**
-     * Check permission for updating settings data.
-     *
-     * @return bool Whether the current user can access the endpoint.
-     */
-    public function create_per()
-    {
-        return current_user_can('administrator');
     }
 }

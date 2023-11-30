@@ -1,7 +1,6 @@
 <?php
 
 namespace OzoPanel\Ctrl\Api\Type;
-// use OzoPanel\Abstracts\RESTController;
 
 use OzoPanel\Abstracts\RestCtrl;
 use OzoPanel\Helper\AdminColumn\Fns as ColumnFns;
@@ -38,7 +37,9 @@ class AdminColumn extends RestCtrl
             [
                 'methods' => 'GET',
                 'callback' => [$this, 'get_single'],
-                'permission_callback' => Fns::gate($this->base, 'get'),
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'get');
+                },
                 'args' => [
                     'id' => [
                         'validate_callback' => function ($param) {
@@ -54,7 +55,9 @@ class AdminColumn extends RestCtrl
             [
                 'methods' => 'PUT',
                 'callback' => [$this, 'update'],
-                'permission_callback' => Fns::gate($this->base, 'edit'),
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'edit');
+                },
                 'args' => [
                     'id' => [
                         'validate_callback' => function ($param) {
@@ -70,7 +73,9 @@ class AdminColumn extends RestCtrl
             [
                 'methods' => 'DELETE',
                 'callback' => [$this, 'delete'],
-                'permission_callback' => Fns::gate($this->base, 'del'),
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'del');
+                },
                 'args' => [
                     'id' => [
                         'validate_callback' => function ($param) {

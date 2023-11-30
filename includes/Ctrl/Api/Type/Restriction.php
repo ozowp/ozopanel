@@ -3,6 +3,7 @@
 namespace OzoPanel\Ctrl\Api\Type;
 
 use OzoPanel\Abstracts\RestCtrl;
+use OzoPanel\Helper\Fns;
 
 /**
  * API Restriction class.
@@ -34,7 +35,9 @@ class Restriction extends RestCtrl
             [
                 'methods' => 'POST',
                 'callback' => [$this, 'create'],
-                'permission_callback' => [$this, 'create_per'],
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'add');
+                },
                 'args' => [
                     'type' => [
                         'validate_callback' => function ($param) {
@@ -50,7 +53,9 @@ class Restriction extends RestCtrl
             [
                 'methods' => 'GET',
                 'callback' => [$this, 'get'],
-                'permission_callback' => [$this, 'get_per'],
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'get');
+                },
                 'args' => [
                     'type' => [
                         'validate_callback' => function ($param) {
@@ -66,7 +71,9 @@ class Restriction extends RestCtrl
             [
                 'methods' => 'GET',
                 'callback' => [$this, 'get_single'],
-                'permission_callback' => [$this, 'get_per'],
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'get');
+                },
                 'args' => [
                     'type' => [
                         'validate_callback' => function ($param) {
@@ -87,7 +94,9 @@ class Restriction extends RestCtrl
             [
                 'methods' => 'PUT',
                 'callback' => [$this, 'update'],
-                'permission_callback' => [$this, 'update_per'],
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'edit');
+                },
                 'args' => [
                     'type' => [
                         'validate_callback' => function ($param) {
@@ -108,7 +117,9 @@ class Restriction extends RestCtrl
             [
                 'methods' => 'DELETE',
                 'callback' => [$this, 'delete'],
-                'permission_callback' => [$this, 'del_per'],
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'del');
+                },
                 'args' => [
                     'type' => [
                         'validate_callback' => function ($param) {
@@ -467,26 +478,5 @@ class Restriction extends RestCtrl
             'success'  => true,
             'data' => $ids
         ], 200);
-    }
-
-    // check permission
-    public function create_per()
-    {
-        return current_user_can('administrator');
-    }
-
-    public function get_per()
-    {
-        return current_user_can('administrator');
-    }
-
-    public function update_per()
-    {
-        return current_user_can('administrator');
-    }
-
-    public function del_per()
-    {
-        return current_user_can('administrator');
     }
 }

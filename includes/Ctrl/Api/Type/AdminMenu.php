@@ -3,6 +3,7 @@
 namespace OzoPanel\Ctrl\Api\Type;
 
 use OzoPanel\Abstracts\RestCtrl;
+use OzoPanel\Helper\Fns;
 
 /**
  * API Restriction class.
@@ -35,7 +36,9 @@ class AdminMenu extends RestCtrl
             [
                 'methods' => 'GET',
                 'callback' => [$this, 'get_single'],
-                'permission_callback' => [$this, 'get_per']
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'get');
+                },
             ]
         );
 
@@ -44,7 +47,9 @@ class AdminMenu extends RestCtrl
             [
                 'methods' => 'PUT',
                 'callback' => [$this, 'update'],
-                'permission_callback' => [$this, 'update_per']
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'edit');
+                },
             ]
         );
 
@@ -67,17 +72,10 @@ class AdminMenu extends RestCtrl
         $menus = $admin_menu_editor ? $admin_menu_editor : $admin_menu;
         $resp['menus'] = $menus;
 
-
-        /* if ($id) {
-            $resp['form_data']['id'] = $id;
-            if ($type == 'users') {
-                $resp['form_data']['admin_menu'] = get_user_meta($id, '_ozopanel_admin_menu', true);
-            } else if ($type == 'roles') {
-                $resp['form_data']['admin_menu'] = get_option('ozopanel_admin_menu_role_' . $id) ?? [];
-            }
-        } */
-
-        wp_send_json_success($resp);
+        return new \WP_REST_Response([
+            'success'  => true,
+            'data' => $resp,
+        ], 200);
     }
 
     /**
@@ -108,17 +106,5 @@ class AdminMenu extends RestCtrl
                 'data' => null
             ], 200);
         }
-    }
-
-
-    // check permission
-    public function get_per()
-    {
-        return current_user_can('administrator');
-    }
-
-    public function update_per()
-    {
-        return current_user_can('administrator');
     }
 }

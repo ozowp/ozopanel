@@ -118,6 +118,7 @@ return array(
     'OzoPanel\\Helper\\Preset' => $baseDir . '/includes/Helper/Preset.php',
     'OzoPanel\\Model\\AdminColumn' => $baseDir . '/includes/Model/AdminColumn.php',
     'OzoPanel\\Tests\\Api\\AdminColumnTest' => $baseDir . '/tests/phpunit/Api/AdminColumnTest.php',
+    'OzoPanel\\Tests\\Api\\AdminMenuTest' => $baseDir . '/tests/phpunit/Api/AdminMenuTest.php',
     'OzoPanel\\Traits\\Singleton' => $baseDir . '/includes/Traits/Singleton.php',
     'PHPUnit\\Exception' => $vendorDir . '/phpunit/phpunit/src/Exception.php',
     'PHPUnit\\Framework\\ActualValueIsNotAnObjectException' => $vendorDir . '/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php',

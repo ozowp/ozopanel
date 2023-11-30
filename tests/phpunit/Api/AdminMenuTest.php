@@ -7,11 +7,11 @@ use WP_REST_Server;
 use WP_UnitTestCase;
 
 /**
- * API AdminColumn Test.
+ * API AdminMenu Test.
  *
  * @since 1.0.0
  */
-class AdminColumnTest extends WP_UnitTestCase {
+class AdminMenuTest extends WP_UnitTestCase {
 
     /**
 	 * Test REST Server
@@ -32,7 +32,7 @@ class AdminColumnTest extends WP_UnitTestCase {
      *
      * @var string
      */
-    protected $base = 'admin-columns';
+    protected $base = 'admin-menus';
 
     /**
      * Setup test environment.
@@ -48,12 +48,12 @@ class AdminColumnTest extends WP_UnitTestCase {
     }
 
     /**
-     * admin column request api exist
+     * admin menu request api exist
      *
      * @since 1.0.0
      */
-    public function test_admin_columns_endpoint_exists() {
-        $endpoint = '/' . $this->namespace . '/' . $this->base . '/posts';
+    public function test_admin_menus_endpoint_exists() {
+        $endpoint = '/' . $this->namespace . '/' . $this->base;
 
         $request  = new WP_REST_Request( 'GET', $endpoint );
 

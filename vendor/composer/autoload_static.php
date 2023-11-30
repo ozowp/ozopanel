@@ -205,6 +205,7 @@ class ComposerStaticInit805833a44220dff940deae5ae8ae5a9f
         'OzoPanel\\Helper\\Preset' => __DIR__ . '/../..' . '/includes/Helper/Preset.php',
         'OzoPanel\\Model\\AdminColumn' => __DIR__ . '/../..' . '/includes/Model/AdminColumn.php',
         'OzoPanel\\Tests\\Api\\AdminColumnTest' => __DIR__ . '/../..' . '/tests/phpunit/Api/AdminColumnTest.php',
+        'OzoPanel\\Tests\\Api\\AdminMenuTest' => __DIR__ . '/../..' . '/tests/phpunit/Api/AdminMenuTest.php',
         'OzoPanel\\Traits\\Singleton' => __DIR__ . '/../..' . '/includes/Traits/Singleton.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\ActualValueIsNotAnObjectException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php',

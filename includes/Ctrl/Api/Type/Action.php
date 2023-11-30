@@ -3,6 +3,7 @@
 namespace OzoPanel\Ctrl\Api\Type;
 
 use OzoPanel\Abstracts\RestCtrl;
+use OzoPanel\Helper\Fns;
 
 /**
  * API Action class.
@@ -34,7 +35,9 @@ class Action extends RestCtrl
             [
                 'methods' => 'POST',
                 'callback' => [$this, 'create'],
-                'permission_callback' => [$this, 'create_per']
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'add');
+                },
             ]
         );
 
@@ -43,7 +46,9 @@ class Action extends RestCtrl
             [
                 'methods' => 'PUT',
                 'callback' => [$this, 'update'],
-                'permission_callback' => [$this, 'update_per'],
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'edit');
+                },
                 'args' => [
                     'id' => [
                         'validate_callback' => function ($param) {
@@ -59,7 +64,9 @@ class Action extends RestCtrl
             [
                 'methods' => 'DELETE',
                 'callback' => [$this, 'delete'],
-                'permission_callback' => [$this, 'del_per'],
+                'permission_callback' => function() {
+                    return Fns::gate($this->base, 'del');
+                },
                 'args' => [
                     'id' => [
                         'sanitize_callback' => 'sanitize_text_field',
@@ -162,35 +169,5 @@ class Action extends RestCtrl
         do_action('ozopanelp/webhook', 'user_del', $ids);
 
         wp_send_json_success($ids);
-    }
-
-    /**
-     * Check permission for creating actions.
-     *
-     * @return bool Whether the current user can access the endpoint.
-     */
-    public function create_per()
-    {
-        return current_user_can('ozopanel_action');
-    }
-
-    /**
-     * Check permission for updating actions.
-     *
-     * @return bool Whether the current user can access the endpoint.
-     */
-    public function update_per()
-    {
-        return current_user_can('ozopanel_action');
-    }
-
-    /**
-     * Check permission for deleting actions.
-     *
-     * @return bool Whether the current user can access the endpoint.
-     */
-    public function del_per()
-    {
-        return current_user_can('ozopanel_action');
     }
 }

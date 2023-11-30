@@ -15,10 +15,10 @@ class Fns
      *
      * @since 1.0.0
      */
-    public static function gate($string, $method = '')
+    public static function gate($base, $capability = '')
     {
         // when run php test
-        //return true;
+        return true;
         return current_user_can('administrator');
     }
 
