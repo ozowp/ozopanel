@@ -2,12 +2,15 @@ export interface Submenu {
   label: string
   capability: string
   url: string
+  icon: string
 }
 
 export interface Menu {
   label: string
+  classes: string
   capability: string
   url: string
+  icon: string
   submenu: Submenu[]
 }
 

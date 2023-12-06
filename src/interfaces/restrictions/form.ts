@@ -11,6 +11,7 @@ export interface Submenu {
 
 export interface Menu {
   label: string
+  classes: string
   capability: string
   url: string
   submenu: Submenu[]

@@ -129,7 +129,8 @@ const Menus: FC<MenusProps> = ({ menus, onOrderChange, onSelect, onHide, menuExp
 					<div
 						className='flex justify-between items-center'
 					>
-						<div dangerouslySetInnerHTML={{ __html: menu.label }} />
+						{!menu.classes.includes('wp-menu-separator') && <div dangerouslySetInnerHTML={{ __html: menu.label }} />}
+						{menu.classes.includes('wp-menu-separator') && <hr className="w-80 h-1 bg-gray-100 dark:bg-gray-700" />}
 						<div className='flex'>
 							<DropdownRow>
 								<li>

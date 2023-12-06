@@ -55,8 +55,10 @@ const AdminMenu: FC = () => {
     return {
       // id: uniqueId,
       label: 'Menu Name',
+      classes: '',
       capability: 'default',
       url: '',
+      icon: '',
       submenu: []
     }
   }

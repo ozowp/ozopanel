@@ -16,17 +16,22 @@ class Dashboard
     public function add_settings_menu()
     {
         global $pagenow;
+        //edit_menu
+        // $this->edit_menu();
+
         //add_menu_page
         $this->add_menu_page();
 
         // load this condtion only ozopanel settings page
-        if ( $pagenow === 'admin.php' && isset($_GET['page']) && $_GET['page'] === 'ozopanel' ) {
+        if ($pagenow === 'admin.php' && isset($_GET['page']) && $_GET['page'] === 'ozopanel') {
             //Save admin menus
             $this->save_admin_menus();
 
             //Save admin columns
             $this->save_admin_columns();
         }
+
+
 
         //restrict_menu
         $this->restrict_menu();
@@ -47,15 +52,6 @@ class Dashboard
             [$this, 'render'],
             'dashicons-shield',
             75
-        );
-
-        add_submenu_page(
-            'ozopanel',
-            esc_html__('Dashboard', 'ozopanel'),
-            esc_html__('Dashboard', 'ozopanel'),
-            'manage_options',
-            'ozopanel#',
-            [$this, 'render']
         );
 
         add_submenu_page(
@@ -126,6 +122,9 @@ class Dashboard
         if (!current_user_can('administrator')) return;
 
         global $menu, $submenu;
+        /* echo "<pre>";
+        print_r($menu);
+        echo "</pre>"; */
 
         //menu serial by menu priority
         ksort($menu);
@@ -169,10 +168,11 @@ class Dashboard
 
             //Escpae wp-menu-separator
             if (
-                isset($menuItem[6]) &&
-                ($menuItem[6] != 'wp-menu-separator' &&
-                    $menuItem[2] != 'ozopanel-welcome' && //ozopanel welcome page
-                    $menuItem[2] != 'ozopanel' //main ozopanel page
+                // isset($menuItem[6]) &&
+                (
+                    // $menuItem[6] != 'wp-menu-separator' &&
+                    $menuItem[2] != 'ozopanel-welcome'//ozopanel welcome page
+                    // $menuItem[2] != 'ozopanel' //main ozopanel page
                 )
             ) {
                 $mergedMenu[] = $modifyMenuItem;
@@ -206,6 +206,50 @@ class Dashboard
         //Comment table
         $columns = (new WpListTableFactory())->get_user_table('users')->get_columns();
         update_option('ozopanel_admin_column_users_default', $columns, false);
+    }
+
+    /**
+     * Restrict menu for user or role
+     *
+     * @since 1.0.0
+     */
+    protected function edit_menu()
+    {
+
+        global $menu;
+        global $submenu;
+
+        // Your array
+        $custom_menu = get_option('ozopanel_admin_menu_editor', []);
+
+        // Remove all existing menus
+        $menu = $submenu = [];
+
+        // Add your custom menus
+        foreach ($custom_menu as $menu_item) {
+            add_menu_page(
+                $menu_item['label'],
+                $menu_item['label'],
+                $menu_item['capability'],
+                $menu_item['url'],
+                '',
+                $menu_item['icon'],
+                null
+            );
+
+            if (isset($menu_item['submenu']) && is_array($menu_item['submenu'])) {
+                foreach ($menu_item['submenu'] as $submenu_item) {
+                    add_submenu_page(
+                        $menu_item['url'],
+                        $submenu_item['label'],
+                        $submenu_item['label'],
+                        $submenu_item['capability'],
+                        $submenu_item['url'],
+                        ''
+                    );
+                }
+            }
+        }
     }
 
     /**

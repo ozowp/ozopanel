@@ -52,7 +52,8 @@ const Menus: FC<MenusProps> = ({ adminMenu, formData, onToggle, menuExpand, onMe
 								checked={formData.admin_menu[menu.url] !== undefined}
 								onChange={() => onToggle(menu.url)}
 							/>
-							{menu.label}
+							{!menu.classes.includes('wp-menu-separator') && <span dangerouslySetInnerHTML={{ __html: menu.label }} />}
+							{menu.classes.includes('wp-menu-separator') && <hr className="w-80 inline-block h-1 bg-gray-100 dark:bg-gray-700" />}
 						</label>
 						{menu.submenu.length > 0 && <span onClick={() => onMenuExpand(menu.url)} className={`ozop-arrow-icon ${menuExpand === menu.url ? 'ozop-expanded' : 'ozop-collapsed'}`}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 17.414 3.293 8.707l1.414-1.414L12 14.586l7.293-7.293 1.414 1.414L12 17.414z" /></svg>
