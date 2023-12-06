@@ -8,7 +8,9 @@ import { useParams, useNavigate } from 'react-router-dom'
 import Spinner from '@components/preloader/spinner'
 const General = lazy(() => import('./tab/General'))
 const Other = lazy(() => import('./tab/Other'))
+const Form = lazy(() => import('./tab/TestForm'))
 import './style.scss'
+
 
 const i18n = ozopanel.i18n
 
@@ -31,6 +33,12 @@ const tabs: TabItem[] = [
     label: i18n.other,
     icon: '',
     component: Other,
+  },
+  {
+    id: 'form',
+    label: 'Form',
+    icon: '',
+    component: Form,
   },
 ]
 
@@ -55,9 +63,8 @@ const Settings: FC = () => {
         {tabs.map((tab) => (
           <li
             key={tab.id}
-            className={`ozop-tab-item ${
-              tab.id === activeTab ? 'ozop-active' : ''
-            }`}
+            className={`ozop-tab-item ${tab.id === activeTab ? 'ozop-active' : ''
+              }`}
             onClick={(e) => addCurrentTab(e, tab.id)}
           >
             <a>{tab.label}</a>

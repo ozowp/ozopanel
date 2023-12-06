@@ -10,6 +10,7 @@ import { toast } from 'react-toastify'
 import App from './App'
 import { AlertProvider } from '@/components/alert/Provider'
 import '@scss/main.scss'
+import '@scss/globals.css'
 
 /**
  * react-query instead of showing error multiple place show it ones
