@@ -1,4 +1,4 @@
-export interface Submenu {
+export interface Subitem {
   label: string
   capability: string
   url: string
@@ -11,7 +11,7 @@ export interface Menu {
   capability: string
   url: string
   icon: string
-  submenu: Submenu[]
+  submenu: Subitem[]
 }
 
 export interface FormData {
@@ -24,8 +24,9 @@ export interface FormData {
 export interface State {
   loadingFetch: boolean
   menus: Menu[]
-  menuExpand: null | string
-  selectedMenu: null | number
-  selectedSubmenu: null | number
+  itemNew: null | Menu | Subitem
+  itemExpand: null | string
+  selectedItem: null | number
+  selectedSubitem: null | number
   loadingSubmit: boolean
 }

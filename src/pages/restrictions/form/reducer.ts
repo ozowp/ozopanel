@@ -5,7 +5,7 @@ type Action =
   | { type: 'set_id_list'; payload: IdListItem[] }
   | { type: 'set_admin_menu'; payload: Menu[] }
   | { type: 'set_form_data'; payload: FormData }
-  | { type: 'set_menu_expand'; payload: null | string }
+  | { type: 'set_item_expand'; payload: null | string }
   | { type: 'set_loading_submit'; payload: boolean }
 
 export const initState: State = {
@@ -30,7 +30,7 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, adminMenu: action.payload }
     case 'set_form_data':
       return { ...state, formData: action.payload }
-    case 'set_menu_expand':
+    case 'set_item_expand':
       return { ...state, menuExpand: action.payload }
     case 'set_loading_submit':
       return { ...state, loadingSubmit: action.payload }

@@ -21,7 +21,7 @@ const AdminColumn: FC = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const [state, dispatch] = useReducer(reducer, initState)
-  const { loading, screens, items, selectedItem } = state
+  const { loading, screens, items, itemNew, selectedItem } = state
 
   const { data } = useQuery({
     queryKey: ['admin-columns', { id }],
@@ -31,7 +31,7 @@ const AdminColumn: FC = () => {
   useEffect(() => {
     if (data) {
       dispatch({ type: 'set_screens', payload: data.screens })
-      dispatch({ type: 'set_columns', payload: data.columns })
+      dispatch({ type: 'set_items', payload: data.columns })
       dispatch({ type: 'set_loading', payload: false })
     }
   }, [data])
@@ -43,14 +43,14 @@ const AdminColumn: FC = () => {
   }
 
   const handleItemOrder = (newItems: Item[]) => {
-    dispatch({ type: 'set_columns', payload: newItems })
+    dispatch({ type: 'set_items', payload: newItems })
   }
 
   const handleItemSelect = (index: null | number) => {
-    dispatch({ type: 'set_column_select', payload: index })
+    dispatch({ type: 'set_item_select', payload: index })
   }
 
-  const createNewItem = (): Item => {
+  const createItemNew = (): Item => {
     const uniqueId = `ozop_custom_${uuidv4()}`
     return {
       id: uniqueId,
@@ -62,14 +62,20 @@ const AdminColumn: FC = () => {
   }
 
   const handleItemNew = () => {
-    dispatch({ type: 'set_column_new', payload: createNewItem() })
+    dispatch({ type: 'set_item_new', payload: createItemNew() })
+    handleItemSelect(null);
   }
+
+  const handleAddNewItem = (newItem: Item) => {
+    dispatch({ type: 'set_items', payload: [...items, newItem] });
+    dispatch({ type: 'set_item_new', payload: null })
+  };
 
   const handleItemChange = (updatedItem: Item) => {
     if (selectedItem !== null) {
       const updatedItems = [...state.items]
       updatedItems[selectedItem] = updatedItem
-      dispatch({ type: 'set_columns', payload: updatedItems })
+      dispatch({ type: 'set_items', payload: updatedItems })
     }
 
     // Reset the editedItemIndex
@@ -95,7 +101,7 @@ const AdminColumn: FC = () => {
   const handleItemDelete = (index: number) => {
     const updatedItems = [...state.items]
     updatedItems.splice(index, 1)
-    dispatch({ type: 'set_columns', payload: updatedItems })
+    dispatch({ type: 'set_items', payload: updatedItems })
   }
 
   const i18n = ozopanel.i18n
@@ -149,9 +155,19 @@ const AdminColumn: FC = () => {
               </button>
             </div>
           </div>
+
+          {itemNew && (
+            <Form
+              isNew
+              data={itemNew}
+              onSave={handleAddNewItem}
+              onClose={() => dispatch({ type: 'set_item_new', payload: null })}
+            />
+          )}
+
           {selectedItem !== null && items[selectedItem] && (
             <Form
-              item={items[selectedItem]}
+              data={items[selectedItem]}
               onSave={handleItemChange}
               onClose={() => handleItemSelect(null)}
             />

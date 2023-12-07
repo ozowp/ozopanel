@@ -4,18 +4,19 @@ import React, { FC, useState, useEffect } from 'react'
 import { Item } from '@interfaces/admin-column-editor'
 
 interface ItemProps {
-  item: Item
+  isNew?: boolean
+  data: Item
   onSave: (updatedItem: Item) => void
   onClose: () => void
 }
 
-const Item: FC<ItemProps> = ({ item, onSave, onClose }) => {
-  const [form, setForm] = useState<Item>(item)
+const Item: FC<ItemProps> = ({ data, isNew, onSave, onClose }) => {
+  const [form, setForm] = useState<Item>(data)
 
   // Update the form state when the item prop changes
   useEffect(() => {
-    setForm(item)
-  }, [item])
+    setForm(data)
+  }, [data])
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -34,12 +35,15 @@ const Item: FC<ItemProps> = ({ item, onSave, onClose }) => {
 
   const i18n = ozopanel.i18n
 
+  const formTitle = isNew ? i18n.addNewColumn : i18n.editColumn;
+  const submitButtonText = isNew ? i18n.save : i18n.apply;
+
   return (
     <div className="popup-overlay">
       <div className="popup-content">
         <div className="flex items-center justify-between rounded-t border-b p-3 dark:border-gray-600">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            {i18n.editColumn}
+            {formTitle}
           </h3>
           <button
             type="button"
@@ -132,7 +136,7 @@ const Item: FC<ItemProps> = ({ item, onSave, onClose }) => {
             type="submit"
             className="rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
           >
-            {i18n.apply}
+            {submitButtonText}
           </button>
         </form>
       </div>

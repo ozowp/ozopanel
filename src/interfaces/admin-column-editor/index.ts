@@ -20,5 +20,6 @@ export interface State {
   loading: boolean
   screens: Screen[]
   items: Item[]
+  itemNew: null | Item
   selectedItem: null | number
 }

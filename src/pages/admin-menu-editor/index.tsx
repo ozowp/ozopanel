@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import Spinner from '@components/preloader/spinner'
 import { get, edit } from '@utils/api'
 import { reducer, initState } from './reducer'
-import { Menu, Submenu } from '@interfaces/admin-menu-editor'
+import { Menu, Subitem } from '@interfaces/admin-menu-editor'
 import Menus from './Menus'
 import Form from './Form'
 
@@ -12,7 +12,7 @@ const AdminMenu: FC = () => {
   const i18n = ozopanel.i18n
   const queryClient = useQueryClient()
   const [state, dispatch] = useReducer(reducer, initState)
-  const { loadingFetch, menus, menuExpand, selectedMenu, selectedSubmenu, loadingSubmit } = state
+  const { loadingFetch, menus, itemNew, itemExpand, selectedItem, selectedSubitem, loadingSubmit } = state
   const { data } = useQuery({
     queryKey: ['admin-menus'],
     queryFn: () => get('admin-menus'),
@@ -21,71 +21,93 @@ const AdminMenu: FC = () => {
   useEffect(() => {
     if (data) {
       const { menus } = data
-      dispatch({ type: 'set_menus', payload: menus })
+      dispatch({ type: 'set_items', payload: menus })
       dispatch({ type: 'set_loading_fetch', payload: false })
     }
   }, [data])
 
   const onMenuExpand = (url: string) => {
-    const expand_url = (menuExpand === url) ? null : url;
+    const expand_url = (itemExpand === url) ? null : url;
     dispatch({
-      type: 'set_menu_expand',
+      type: 'set_item_expand',
       payload: expand_url,
     });
   }
 
   const handleMenuOrder = (newMenus: Menu[]) => {
-    dispatch({ type: 'set_menus', payload: newMenus })
+    dispatch({ type: 'set_items', payload: newMenus })
   }
 
   const handleMenuSelect = (menuIndex: number | null, submenuIndex?: number | null) => {
     dispatch({
-      type: 'set_menu_select',
+      type: 'set_item_select',
       payload: menuIndex,
     });
 
     dispatch({
-      type: 'set_submenu_select',
+      type: 'set_subitem_select',
       payload: submenuIndex !== undefined ? submenuIndex : null,
     });
   };
 
-  const createNewMenu = (): Menu => {
-    // const uniqueId = `ozop_custom_${uuidv4()}`
-    return {
-      // id: uniqueId,
-      label: 'Menu Name',
-      classes: '',
-      capability: 'default',
-      url: '',
-      icon: '',
-      submenu: []
+  const createNewMenu = (): Menu | Subitem => {
+    if (selectedItem !== null) {
+      // Create a new submenu item if a menu is selected
+      return {
+        label: 'Subitem Name',
+        capability: 'default',
+        url: '',
+        icon: '',
+      } as Subitem;
+    } else {
+      // Create a new main menu item
+      return {
+        label: 'Menu Name',
+        classes: '',
+        capability: 'default',
+        url: '',
+        icon: '',
+        submenu: [],
+      } as Menu;
     }
   }
 
   const handleMenuNew = () => {
-    dispatch({ type: 'set_menu_new', payload: createNewMenu() })
+    dispatch({ type: 'set_item_new', payload: createNewMenu() })
+    handleMenuSelect(null);
   }
 
-  const handleMenuChange = (updatedMenu: Menu | Submenu) => {
-    const updatedMenus = [...state.menus];
-    if (selectedMenu !== null && selectedSubmenu !== null) {
-      updatedMenus[selectedMenu].submenu[selectedSubmenu] = updatedMenu as Submenu;
-    } else if (selectedMenu !== null) {
-      updatedMenus[selectedMenu] = updatedMenu as Menu;
+  const handleAddNewMenu = (newMenu: Menu | Subitem) => {
+    if (selectedItem !== null && 'submenu' in newMenu) {
+      // Add a new submenu item
+      const updatedMenus = [...menus];
+      updatedMenus[selectedItem].submenu.push(newMenu as Subitem);
+      dispatch({ type: 'set_items', payload: updatedMenus });
+    } else {
+      // Add a new main menu item
+      dispatch({ type: 'set_items', payload: [...menus, newMenu as Menu] });
     }
-    dispatch({ type: 'set_menus', payload: updatedMenus });
+    dispatch({ type: 'set_item_new', payload: null })
+  };
+
+  const handleMenuChange = (updatedMenu: Menu | Subitem) => {
+    const updatedMenus = [...state.menus];
+    if (selectedItem !== null && selectedSubitem !== null) {
+      updatedMenus[selectedItem].submenu[selectedSubitem] = updatedMenu as Subitem;
+    } else if (selectedItem !== null) {
+      updatedMenus[selectedItem] = updatedMenu as Menu;
+    }
+    dispatch({ type: 'set_items', payload: updatedMenus });
 
     // Reset the editedItemIndex
     handleMenuSelect(null);
   };
 
-
   const handleMenuHide = (menu: number, submenu?: number) => {
     console.log(submenu)
     const updatedMenus = [...state.menus]
     updatedMenus.splice(menu, 1)
-    dispatch({ type: 'set_menus', payload: updatedMenus })
+    dispatch({ type: 'set_items', payload: updatedMenus })
   }
 
   const submitMutation = useMutation({
@@ -122,7 +144,7 @@ const AdminMenu: FC = () => {
                 onSelect={handleMenuSelect}
                 onHide={handleMenuHide}
                 onMenuExpand={onMenuExpand}
-                menuExpand={menuExpand}
+                itemExpand={itemExpand}
               />
               <button
                 onClick={handleMenuNew}
@@ -143,9 +165,18 @@ const AdminMenu: FC = () => {
             </div>
           </div>
 
-          {selectedMenu !== null && menus[selectedMenu] && (
+          {itemNew && (
             <Form
-              data={(selectedMenu !== null && selectedSubmenu !== null) ? menus[selectedMenu].submenu[selectedSubmenu] : menus[selectedMenu]}
+              isNew
+              data={itemNew}
+              onSave={handleAddNewMenu}
+              onClose={() => dispatch({ type: 'set_item_new', payload: null })}
+            />
+          )}
+
+          {selectedItem !== null && menus[selectedItem] && (
+            <Form
+              data={(selectedItem !== null && selectedSubitem !== null) ? menus[selectedItem].submenu[selectedSubitem] : menus[selectedItem]}
               onSave={handleMenuChange}
               onClose={() => handleMenuSelect(null)}
             />

@@ -1,16 +1,17 @@
 // Inside Menu.tsx
 
 import React, { FC, useState, useEffect } from 'react'
-import { Menu, Submenu } from '@interfaces/admin-menu-editor'
+import { Menu, Subitem } from '@interfaces/admin-menu-editor'
 
 interface MenuProps {
-  data: Menu | Submenu
-  onSave: (updatedMenu: Menu | Submenu) => void
+  isNew?: boolean
+  data: Menu | Subitem
+  onSave: (updatedMenu: Menu | Subitem) => void
   onClose: () => void
 }
 
-const Menu: FC<MenuProps> = ({ data, onSave, onClose }) => {
-  const [form, setForm] = useState<Menu | Submenu>(data)
+const Menu: FC<MenuProps> = ({ isNew, data, onSave, onClose }) => {
+  const [form, setForm] = useState<Menu | Subitem>(data)
 
   // Update the form state when the menu prop changes
   useEffect(() => {
@@ -34,12 +35,15 @@ const Menu: FC<MenuProps> = ({ data, onSave, onClose }) => {
 
   const i18n = ozopanel.i18n
 
+  const formTitle = isNew ? i18n.addNewMenu : i18n.editMenu;
+  const submitButtonText = isNew ? i18n.save : i18n.apply;
+
   return (
     <div className="popup-overlay">
       <div className="popup-content">
         <div className="flex items-center justify-between rounded-t border-b p-3 dark:border-gray-600">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            {i18n.editColumn}
+            {formTitle}
           </h3>
           <button
             type="button"
@@ -137,7 +141,7 @@ const Menu: FC<MenuProps> = ({ data, onSave, onClose }) => {
             type="submit"
             className="rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
           >
-            {i18n.apply}
+            {submitButtonText}
           </button>
         </form>
       </div>

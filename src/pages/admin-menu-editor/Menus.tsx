@@ -1,68 +1,68 @@
 import { FC, useState } from 'react'
 import { UseAlert } from '@/components/alert/Provider'
 import { DropdownRow } from '@/components/dropdown'
-import { Menu, Submenu } from '@interfaces/admin-menu-editor'
+import { Menu, Subitem } from '@interfaces/admin-menu-editor'
 
 interface MenusProps {
 	menus: Menu[]
 	onOrderChange: (menus: Menu[]) => void
 	onSelect: (menu: number, submenu?: number) => void
 	onHide: (menu: number, submenu?: number) => void
-	menuExpand: null | string;
+	itemExpand: null | string;
 	onMenuExpand: (menuUrl: string) => void;
 }
 
-interface SubmenusProps {
+interface SubitemsProps {
 	menuIndex: number;
 	menus: Menu[]
 	onOrderChange: (menus: Menu[]) => void
 	menu: Menu;
-	menuExpand: null | string;
-	submenu: Submenu[];
+	itemExpand: null | string;
+	submenu: Subitem[];
 	onSelect: (menu: number, submenu?: number) => void
 	onHide: (menu: number, submenu?: number) => void
 }
 
 const i18n = ozopanel.i18n
 
-const Submenus: FC<SubmenusProps> = ({ menuIndex, menus, menu, submenu, onOrderChange, menuExpand, onSelect, onHide }) => {
+const Subitems: FC<SubitemsProps> = ({ menuIndex, menus, menu, submenu, onOrderChange, itemExpand, onSelect, onHide }) => {
 
-	const [dragSubmenuIndex, setDragSubmenuIndex] = useState<{ submenuIndex: number | null }>({ submenuIndex: null });
+	const [dragSubitemIndex, setDragSubitemIndex] = useState<{ submenuIndex: number | null }>({ submenuIndex: null });
 
-	const handleDragSubmenuStart = (submenuIndex: number) => {
-		setDragSubmenuIndex({ submenuIndex });
+	const handleDragSubitemStart = (submenuIndex: number) => {
+		setDragSubitemIndex({ submenuIndex });
 	}
 
-	const handleDragSubmenuOver = (targetSubmenuIndex: number) => {
-		const draggedSubmenuIndex = dragSubmenuIndex.submenuIndex;
+	const handleDragSubitemOver = (targetSubitemIndex: number) => {
+		const draggedSubitemIndex = dragSubitemIndex.submenuIndex;
 
 		// Check if the drag operation is valid
-		if (draggedSubmenuIndex === null || draggedSubmenuIndex === targetSubmenuIndex) {
+		if (draggedSubitemIndex === null || draggedSubitemIndex === targetSubitemIndex) {
 			return;
 		}
 
 		// Copy the submenu array for immutability
-		const newSubmenus = Array.from(submenu);
-		const [draggedItem] = newSubmenus.splice(draggedSubmenuIndex, 1);
-		newSubmenus.splice(targetSubmenuIndex, 0, draggedItem);
+		const newSubitems = Array.from(submenu);
+		const [draggedItem] = newSubitems.splice(draggedSubitemIndex, 1);
+		newSubitems.splice(targetSubitemIndex, 0, draggedItem);
 
 		// Update the parent menus array
 		const updatedMenus = Array.from(menus);
-		updatedMenus[menuIndex].submenu = newSubmenus;
+		updatedMenus[menuIndex].submenu = newSubitems;
 
 		onOrderChange(updatedMenus);
-		setDragSubmenuIndex({ submenuIndex: targetSubmenuIndex });
+		setDragSubitemIndex({ submenuIndex: targetSubitemIndex });
 	}
 
 	return (
-		<div className={`ozop-restrictions-submenu mt-2 ${menuExpand === menu.url ? 'visible' : 'hidden'}`}>
+		<div className={`ozop-restrictions-submenu mt-2 ${itemExpand === menu.url ? 'visible' : 'hidden'}`}>
 			{submenu.map((item, i) => (
 				<div
 					key={item.url}
 					className='ozop-shortable-item flex justify-between items-center'
 					draggable
-					onDragStart={() => handleDragSubmenuStart(i)}
-					onDragOver={() => handleDragSubmenuOver(i)}
+					onDragStart={() => handleDragSubitemStart(i)}
+					onDragOver={() => handleDragSubitemOver(i)}
 				>
 					<label htmlFor={`${item.url}`}>
 						{item.label}
@@ -90,7 +90,7 @@ const Submenus: FC<SubmenusProps> = ({ menuIndex, menus, menu, submenu, onOrderC
 	);
 };
 
-const Menus: FC<MenusProps> = ({ menus, onOrderChange, onSelect, onHide, menuExpand, onMenuExpand }) => {
+const Menus: FC<MenusProps> = ({ menus, onOrderChange, onSelect, onHide, itemExpand, onMenuExpand }) => {
 	const [dragMenuIndex, setDragMenuIndex] = useState<number | null>(null)
 
 	const { delConfirm } = UseAlert()
@@ -149,18 +149,18 @@ const Menus: FC<MenusProps> = ({ menus, onOrderChange, onSelect, onHide, menuExp
 								</li>
 							</DropdownRow>
 
-							{menu.submenu.length > 0 && <span onClick={() => onMenuExpand(menu.url)} className={`ozop-arrow-icon ${menuExpand === menu.url ? 'ozop-expanded' : 'ozop-collapsed'}`}>
+							{menu.submenu.length > 0 && <span onClick={() => onMenuExpand(menu.url)} className={`ozop-arrow-icon ${itemExpand === menu.url ? 'ozop-expanded' : 'ozop-collapsed'}`}>
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 17.414 3.293 8.707l1.414-1.414L12 14.586l7.293-7.293 1.414 1.414L12 17.414z" /></svg>
 							</span>}
 						</div>
 					</div>
 
-					<Submenus
+					<Subitems
 						menuIndex={i}
 						menus={menus}
 						menu={menu}
 						submenu={menu.submenu}
-						menuExpand={menuExpand}
+						itemExpand={itemExpand}
 						onSelect={onSelect}
 						onHide={handleHide}
 						onOrderChange={onOrderChange}
