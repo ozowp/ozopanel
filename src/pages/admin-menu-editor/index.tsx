@@ -4,15 +4,20 @@ import { toast } from 'react-toastify'
 import Spinner from '@components/preloader/spinner'
 import { get, edit } from '@utils/api'
 import { reducer, initState } from './reducer'
-import { Menu, Subitem } from '@interfaces/admin-menu-editor'
-import Menus from './Menus'
+import { Item, Subitem } from '@interfaces/admin-menu-editor'
+import Items from './Items'
 import Form from './Form'
 
-const AdminMenu: FC = () => {
+/**
+ * AdminMenuEditor
+ *
+ * @since 1.0.0
+ */
+const AdminMenuEditor: FC = () => {
   const i18n = ozopanel.i18n
   const queryClient = useQueryClient()
   const [state, dispatch] = useReducer(reducer, initState)
-  const { loadingFetch, menus, itemNew, itemExpand, selectedItem, selectedSubitem, loadingSubmit } = state
+  const { loadingFetch, items, itemNew, itemExpand, selectedItem, selectedSubitem, loadingSubmit } = state
   const { data } = useQuery({
     queryKey: ['admin-menus'],
     queryFn: () => get('admin-menus'),
@@ -26,7 +31,7 @@ const AdminMenu: FC = () => {
     }
   }, [data])
 
-  const onMenuExpand = (url: string) => {
+  const onItemExpand = (url: string) => {
     const expand_url = (itemExpand === url) ? null : url;
     dispatch({
       type: 'set_item_expand',
@@ -34,23 +39,20 @@ const AdminMenu: FC = () => {
     });
   }
 
-  const handleMenuOrder = (newMenus: Menu[]) => {
-    dispatch({ type: 'set_items', payload: newMenus })
+  const handleItemOrder = (newItems: Item[]) => {
+    dispatch({ type: 'set_items', payload: newItems })
   }
 
-  const handleMenuSelect = (menuIndex: number | null, submenuIndex?: number | null) => {
-    dispatch({
-      type: 'set_item_select',
-      payload: menuIndex,
-    });
+  const handleItemSelect = (itemIndex: number | null, subitemIndex?: number | null) => {
+    dispatch({ type: 'set_item_select', payload: itemIndex !== undefined ? itemIndex : null });
 
     dispatch({
       type: 'set_subitem_select',
-      payload: submenuIndex !== undefined ? submenuIndex : null,
+      payload: subitemIndex !== undefined ? subitemIndex : null,
     });
   };
 
-  const createNewMenu = (): Menu | Subitem => {
+  const createNewItem = (): Item | Subitem => {
     if (selectedItem !== null) {
       // Create a new submenu item if a menu is selected
       return {
@@ -62,56 +64,57 @@ const AdminMenu: FC = () => {
     } else {
       // Create a new main menu item
       return {
-        label: 'Menu Name',
+        label: 'Item Name',
         classes: '',
         capability: 'default',
         url: '',
         icon: '',
         submenu: [],
-      } as Menu;
+      } as Item;
     }
   }
 
-  const handleMenuNew = () => {
-    dispatch({ type: 'set_item_new', payload: createNewMenu() })
-    handleMenuSelect(null);
+  const handleItemNew = (itemIndex: null | number) => {
+    dispatch({ type: 'set_item_new', payload: createNewItem() })
+    dispatch({ type: 'set_item_select', payload: itemIndex });
   }
 
-  const handleAddNewMenu = (newMenu: Menu | Subitem) => {
-    if (selectedItem !== null && 'submenu' in newMenu) {
+  const handleAddNewItem = (newItem: Item | Subitem) => {
+    if (selectedItem !== null && 'submenu' in newItem) {
       // Add a new submenu item
-      const updatedMenus = [...menus];
-      updatedMenus[selectedItem].submenu.push(newMenu as Subitem);
-      dispatch({ type: 'set_items', payload: updatedMenus });
+      const updatedItems = [...items];
+      updatedItems[selectedItem].submenu.push(newItem as Subitem);
+      dispatch({ type: 'set_items', payload: updatedItems });
     } else {
       // Add a new main menu item
-      dispatch({ type: 'set_items', payload: [...menus, newMenu as Menu] });
+      dispatch({ type: 'set_items', payload: [...items, newItem as Item] });
     }
     dispatch({ type: 'set_item_new', payload: null })
+    dispatch({ type: 'set_item_select', payload: null });
   };
 
-  const handleMenuChange = (updatedMenu: Menu | Subitem) => {
-    const updatedMenus = [...state.menus];
+  const handleItemChange = (updatedItem: Item | Subitem) => {
+    const updatedItems = [...state.items];
     if (selectedItem !== null && selectedSubitem !== null) {
-      updatedMenus[selectedItem].submenu[selectedSubitem] = updatedMenu as Subitem;
+      updatedItems[selectedItem].submenu[selectedSubitem] = updatedItem as Subitem;
     } else if (selectedItem !== null) {
-      updatedMenus[selectedItem] = updatedMenu as Menu;
+      updatedItems[selectedItem] = updatedItem as Item;
     }
-    dispatch({ type: 'set_items', payload: updatedMenus });
+    dispatch({ type: 'set_items', payload: updatedItems });
 
     // Reset the editedItemIndex
-    handleMenuSelect(null);
+    handleItemSelect(null);
   };
 
-  const handleMenuHide = (menu: number, submenu?: number) => {
+  const handleItemHide = (menu: number, submenu?: number) => {
     console.log(submenu)
-    const updatedMenus = [...state.menus]
-    updatedMenus.splice(menu, 1)
-    dispatch({ type: 'set_items', payload: updatedMenus })
+    const updatedItems = [...state.items]
+    updatedItems.splice(menu, 1)
+    dispatch({ type: 'set_items', payload: updatedItems })
   }
 
   const submitMutation = useMutation({
-    mutationFn: () => edit('admin-menus', '', { admin_menu: menus }),
+    mutationFn: () => edit('admin-menus', '', { admin_menu: items }),
     onSuccess: () => {
       toast.success(i18n.sucEdit)
       queryClient.invalidateQueries({ queryKey: ['admin-menus'] })
@@ -138,20 +141,15 @@ const AdminMenu: FC = () => {
         <>
           <div className="grid grid-cols-2 gap-6">
             <div className="col">
-              <Menus
-                menus={menus}
-                onOrderChange={handleMenuOrder}
-                onSelect={handleMenuSelect}
-                onHide={handleMenuHide}
-                onMenuExpand={onMenuExpand}
+              <Items
+                items={items}
+                onOrderChange={handleItemOrder}
+                onSelect={handleItemSelect}
+                onHide={handleItemHide}
+                onItemExpand={onItemExpand}
                 itemExpand={itemExpand}
+                itemNew={handleItemNew}
               />
-              <button
-                onClick={handleMenuNew}
-                className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
-              >
-                {i18n.addNewMenu}
-              </button>
             </div>
             <div className="col">
 
@@ -169,16 +167,19 @@ const AdminMenu: FC = () => {
             <Form
               isNew
               data={itemNew}
-              onSave={handleAddNewMenu}
-              onClose={() => dispatch({ type: 'set_item_new', payload: null })}
+              onSave={handleAddNewItem}
+              onClose={() => {
+                dispatch({ type: 'set_item_new', payload: null });
+                dispatch({ type: 'set_item_select', payload: null });
+              }}
             />
           )}
 
-          {selectedItem !== null && menus[selectedItem] && (
+          {!itemNew && selectedItem !== null && items[selectedItem] && (
             <Form
-              data={(selectedItem !== null && selectedSubitem !== null) ? menus[selectedItem].submenu[selectedSubitem] : menus[selectedItem]}
-              onSave={handleMenuChange}
-              onClose={() => handleMenuSelect(null)}
+              data={(selectedItem !== null && selectedSubitem !== null) ? items[selectedItem].submenu[selectedSubitem] : items[selectedItem]}
+              onSave={handleItemChange}
+              onClose={() => handleItemSelect(null)}
             />
           )}
         </>
@@ -187,4 +188,4 @@ const AdminMenu: FC = () => {
   )
 }
 
-export default AdminMenu
+export default AdminMenuEditor

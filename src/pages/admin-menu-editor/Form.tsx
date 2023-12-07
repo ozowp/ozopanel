@@ -1,17 +1,17 @@
-// Inside Menu.tsx
+// Inside Item.tsx
 
 import React, { FC, useState, useEffect } from 'react'
-import { Menu, Subitem } from '@interfaces/admin-menu-editor'
+import { Item, Subitem } from '@interfaces/admin-menu-editor'
 
-interface MenuProps {
+interface ItemProps {
   isNew?: boolean
-  data: Menu | Subitem
-  onSave: (updatedMenu: Menu | Subitem) => void
+  data: Item | Subitem
+  onSave: (updatedItem: Item | Subitem) => void
   onClose: () => void
 }
 
-const Menu: FC<MenuProps> = ({ isNew, data, onSave, onClose }) => {
-  const [form, setForm] = useState<Menu | Subitem>(data)
+const Item: FC<ItemProps> = ({ isNew, data, onSave, onClose }) => {
+  const [form, setForm] = useState<Item | Subitem>(data)
 
   // Update the form state when the menu prop changes
   useEffect(() => {
@@ -149,4 +149,4 @@ const Menu: FC<MenuProps> = ({ isNew, data, onSave, onClose }) => {
   )
 }
 
-export default Menu
+export default Item

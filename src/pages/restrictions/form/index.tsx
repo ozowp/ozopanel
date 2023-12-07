@@ -89,7 +89,7 @@ const Form: FC = () => {
   }
 
   const onMenuExpand = (url: string) => {
-    let expand_url = (menuExpand === url) ? null : url;
+    const expand_url = (menuExpand === url) ? null : url;
     dispatch({
       type: 'set_item_expand',
       payload: expand_url,

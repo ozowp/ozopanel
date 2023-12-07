@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 
 interface DropdownRowProps {
-  style?: {}
+  style?: React.CSSProperties
   children: React.ReactNode
 }
 

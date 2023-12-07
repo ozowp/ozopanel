@@ -1,17 +1,17 @@
-import { Menu, Subitem, State } from '@/interfaces/admin-menu-editor'
+import { Item, Subitem, State } from '@/interfaces/admin-menu-editor'
 
 type Action =
   | { type: 'set_loading_fetch'; payload: boolean }
-  | { type: 'set_items'; payload: Menu[] }
+  | { type: 'set_items'; payload: Item[] }
   | { type: 'set_item_expand'; payload: null | string }
   | { type: 'set_item_select'; payload: null | number }
   | { type: 'set_subitem_select'; payload: null | number }
-  | { type: 'set_item_new'; payload: null | Menu | Subitem }
+  | { type: 'set_item_new'; payload: null | Item | Subitem }
   | { type: 'set_loading_submit'; payload: boolean }
 
 export const initState: State = {
   loadingFetch: true,
-  menus: [],
+  items: [],
   itemNew: null,
   itemExpand: null,
   selectedItem: null,
@@ -24,7 +24,7 @@ export const reducer = (state: State, action: Action): State => {
     case 'set_loading_fetch':
       return { ...state, loadingFetch: action.payload }
     case 'set_items':
-      return { ...state, menus: action.payload }
+      return { ...state, items: action.payload }
     case 'set_item_new':
       return { ...state, itemNew: action.payload }
     case 'set_item_expand':

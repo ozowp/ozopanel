@@ -12,11 +12,11 @@ import { reducer, initState } from './reducer'
 import { Item } from '@interfaces/admin-column-editor'
 
 /**
- * AdminColumn
+ * AdminColumnEditor
  *
  * @since 1.0.0
  */
-const AdminColumn: FC = () => {
+const AdminColumnEditor: FC = () => {
   const { id = 'post' } = useParams()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -178,4 +178,4 @@ const AdminColumn: FC = () => {
   )
 }
 
-export default AdminColumn
+export default AdminColumnEditor

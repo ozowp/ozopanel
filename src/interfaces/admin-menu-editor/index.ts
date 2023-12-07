@@ -5,7 +5,7 @@ export interface Subitem {
   icon: string
 }
 
-export interface Menu {
+export interface Item {
   label: string
   classes: string
   capability: string
@@ -23,8 +23,8 @@ export interface FormData {
 
 export interface State {
   loadingFetch: boolean
-  menus: Menu[]
-  itemNew: null | Menu | Subitem
+  items: Item[]
+  itemNew: null | Item | Subitem
   itemExpand: null | string
   selectedItem: null | number
   selectedSubitem: null | number
