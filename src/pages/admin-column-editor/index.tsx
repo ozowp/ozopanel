@@ -55,7 +55,7 @@ const AdminColumnEditor: FC = () => {
     return {
       id: uniqueId,
       type: 'default',
-      label: 'Item Name',
+      label: 'Column Name',
       width: '',
       width_unit: '%',
     }
