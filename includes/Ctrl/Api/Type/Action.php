@@ -16,17 +16,18 @@ class Action extends RestCtrl
 
     /**
      * Route base.
-     *
-     * @var string
+     * 
      * @since 1.0.0
+     * 
+     * @var string
+     * 
      */
     protected $base = 'actions';
 
     /**
      * Register all routes related with carts.
-     *
-     * @return void
      * @since 1.0.0
+     * @return void
      */
     public function routes()
     {
@@ -78,7 +79,7 @@ class Action extends RestCtrl
 
     /**
      * Create new action(s).
-     *
+     * @since 1.0.0
      * @param \WP_REST_Request $req Request object.
      */
     public function create($req)
@@ -103,7 +104,10 @@ class Action extends RestCtrl
             }
 
             if ($wp_err->get_error_messages()) {
-                wp_send_json_error($wp_err->get_error_messages());
+                return new \WP_REST_Response([
+                    'success'  => false,
+                    'data' => $wp_err->get_error_messages()
+                ], 200);
             } else {
                 // Your logic for creating action(s)
             }
@@ -112,7 +116,7 @@ class Action extends RestCtrl
 
     /**
      * Update existing action.
-     *
+     * @since 1.0.0
      * @param \WP_REST_Request $req Request object.
      */
     public function update($req)
@@ -123,39 +127,41 @@ class Action extends RestCtrl
         $url_params = $req->get_url_params();
         $post_id = $url_params['id'];
 
-        //user
-        $first_name = isset($param['first_name']) ? sanitize_text_field($param['first_name']) : '';
-        $org_name = isset($param['org_name']) ? sanitize_text_field($param['org_name']) : '';
+        $type = isset($param['type']) ? sanitize_text_field($param['type']) : '';
 
-        if (empty($first_name) && empty($org_name)) {
+        if (empty($type)) {
             $wp_err->add(
                 'field',
-                esc_html__('Contact info is missing', 'ozopanel')
+                esc_html__('Type is missing', 'ozopanel')
             );
         }
 
         if ($wp_err->get_error_messages()) {
-            wp_send_json_error($wp_err->get_error_messages());
+            return new \WP_REST_Response([
+                'success'  => false,
+                'data' => $wp_err->get_error_messages()
+            ], 200);
         } else {
             $data = [
                 'ID' => $post_id,
-                'post_title' => 'Lead',
-                'post_content' => $desc, // Note: $desc variable is not defined in the provided code
+                'post_title' => '',
+                'post_content' => '', // Note: $desc variable is not defined in the provided code
                 'post_author' => get_current_user_id(),
             ];
             $post_id = wp_update_post($data);
 
             if (!is_wp_error($post_id)) {
-                wp_send_json_success($post_id);
-            } else {
-                wp_send_json_error();
-            }
+                return new \WP_REST_Response([
+                    'success'  => true,
+                    'data' => $post_id
+                ], 200);
+            } 
         }
     }
 
     /**
      * Delete action(s) by ID(s).
-     *
+     * @since 1.0.0
      * @param \WP_REST_Request $req Request object.
      */
     public function delete($req)

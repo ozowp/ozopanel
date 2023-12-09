@@ -245,6 +245,17 @@ final class OzoPanel {
     }
 
     /**
+     * Check active addons
+     *
+     * @since 1.0.0
+     * @return boolean
+     */
+    public function is_active_addon($id) {
+        $addons = get_option('ozopanel_addons', []);
+        return (array_key_exists($id, $addons)) ? $addons[$id] : true;
+    }
+
+    /**
      * Get preset data
      *
      * @since 1.0.0

@@ -7,7 +7,8 @@ use OzoPanel\Ctrl\Api\Type\{
     AdminMenu,
     AdminColumn,
     Setting,
-    Action
+    Action,
+    Addons
 };
 
 /**
@@ -47,7 +48,8 @@ class ApiCtrl
                 AdminMenu::class,
                 AdminColumn::class,
                 Setting::class,
-                Action::class
+                Action::class,
+                Addons::class
             ]
         );
 

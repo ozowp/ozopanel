@@ -54,30 +54,45 @@ class Dashboard
             75
         );
 
-        add_submenu_page(
-            'ozopanel',
-            esc_html__('Admin Menu Editor', 'ozopanel'),
-            esc_html__('Admin Menu Editor', 'ozopanel'),
-            'manage_options',
-            'ozopanel#/admin-menu-editor',
-            [$this, 'render']
-        );
+        if ( ozopanel()->is_active_addon('admin_menu_editor') ) {
+            add_submenu_page(
+                'ozopanel',
+                esc_html__('Admin Menu Editor', 'ozopanel'),
+                esc_html__('Admin Menu Editor', 'ozopanel'),
+                'manage_options',
+                'ozopanel#/admin-menu-editor',
+                [$this, 'render']
+            );
+        }
+
+        if ( ozopanel()->is_active_addon('admin_column_editor') ) {
+            add_submenu_page(
+                'ozopanel',
+                esc_html__('Admin Column Editor', 'ozopanel'),
+                esc_html__('Admin Column Editor', 'ozopanel'),
+                'manage_options',
+                'ozopanel#/admin-column-editor',
+                [$this, 'render']
+            );
+        }
+
+        if ( ozopanel()->is_active_addon('restriction') ) {
+            add_submenu_page(
+                'ozopanel',
+                esc_html__('Manage Restrictions', 'ozopanel'),
+                esc_html__('Manage Restrictions', 'ozopanel'),
+                'manage_options',
+                'ozopanel#/restrictions/roles',
+                [$this, 'render']
+            );
+        }
 
         add_submenu_page(
             'ozopanel',
-            esc_html__('Admin Column Editor', 'ozopanel'),
-            esc_html__('Admin Column Editor', 'ozopanel'),
+            esc_html__('Settings', 'ozopanel'),
+            esc_html__('Settings', 'ozopanel'),
             'manage_options',
-            'ozopanel#/admin-column-editor',
-            [$this, 'render']
-        );
-
-        add_submenu_page(
-            'ozopanel',
-            esc_html__('Manage Restrictions', 'ozopanel'),
-            esc_html__('Manage Restrictions', 'ozopanel'),
-            'manage_options',
-            'ozopanel#/restrictions/roles',
+            'ozopanel#/settings',
             [$this, 'render']
         );
 
@@ -87,15 +102,6 @@ class Dashboard
             esc_html__('Addons', 'ozopanel'),
             'manage_options',
             'ozopanel#/addons',
-            [$this, 'render']
-        );
-
-        add_submenu_page(
-            'ozopanel',
-            esc_html__('Settings', 'ozopanel'),
-            esc_html__('Settings', 'ozopanel'),
-            'manage_options',
-            'ozopanel#/settings',
             [$this, 'render']
         );
 

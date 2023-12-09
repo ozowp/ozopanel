@@ -12,6 +12,7 @@ const AdminColumnEdior = lazy(() => import('@/pages/admin-column-editor'))
 const Restrictions = lazy(() => import('@/pages/restrictions'))
 const RestrictionsForm = lazy(() => import('@/pages/restrictions/form'))
 const Settings = lazy(() => import('@pages/settings'))
+const Addons = lazy(() => import('@pages/addons'))
 const NotFound = lazy(() => import('@pages/404'))
 
 const Router = createHashRouter([
@@ -44,12 +45,12 @@ const Router = createHashRouter([
     element: <RestrictionsForm />,
   },
   {
-    path: '/addons',
+    path: '/settings',
     element: <Settings />,
   },
   {
-    path: '/settings',
-    element: <Settings />,
+    path: '/addons',
+    element: <Addons />,
   },
   {
     path: '/settings/:tab',
