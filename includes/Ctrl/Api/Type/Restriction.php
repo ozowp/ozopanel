@@ -327,8 +327,12 @@ class Restriction extends RestCtrl
         $id = $url_params['id'];
 
         $resp = [];
+        // get menus from admin menu editor
         $admin_menu = get_option('ozopanel_admin_menu');
-        $resp['admin_menu'] = $admin_menu;
+        $admin_menu_editor = get_option('ozopanel_admin_menu_editor');
+        $menus = ( ozopanel()->is_active_addon('admin_menu_editor') && $admin_menu_editor ) ? $admin_menu_editor : $admin_menu;
+        
+        $resp['admin_menu'] = $menus;
         $resp['id_list'] = [];
 
         if ($type == 'users') {

@@ -39,8 +39,8 @@ const Item: FC<ItemProps> = ({ data, isNew, onSave, onClose }) => {
   const submitButtonText = isNew ? i18n.save : i18n.apply;
 
   return (
-    <div className="popup-overlay">
-      <div className="popup-content">
+    <div className="ozop-popup-overlay">
+      <div className="ozop-popup-content">
         <div className="flex items-center justify-between rounded-t border-b p-3 dark:border-gray-600">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
             {formTitle}
@@ -72,7 +72,7 @@ const Item: FC<ItemProps> = ({ data, isNew, onSave, onClose }) => {
           <div className="mb-3">
             <label
               htmlFor="label"
-              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              className="ozop-input-label"
             >
               Label:
             </label>
@@ -82,14 +82,14 @@ const Item: FC<ItemProps> = ({ data, isNew, onSave, onClose }) => {
               name="label"
               value={form.label}
               onChange={handleInputChange}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              className="block w-full ozop-input"
             />
           </div>
 
           <div className="mb-3">
             <label
               htmlFor="type"
-              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              className="ozop-input-label"
             >
               Type:
             </label>
@@ -99,7 +99,7 @@ const Item: FC<ItemProps> = ({ data, isNew, onSave, onClose }) => {
               name="type"
               value={form.type}
               onChange={handleInputChange}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              className="block w-full ozop-input"
             />
           </div>
 
@@ -107,7 +107,7 @@ const Item: FC<ItemProps> = ({ data, isNew, onSave, onClose }) => {
             <div className="col">
               <label
                 htmlFor="width"
-                className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                className="ozop-input-label"
               >
                 Width:
               </label>
@@ -118,7 +118,7 @@ const Item: FC<ItemProps> = ({ data, isNew, onSave, onClose }) => {
                 size={3}
                 value={form.width}
                 onChange={handleInputChange}
-                className="rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                className="ozop-input"
               />
               <select
                 id="width_unit"
@@ -134,7 +134,7 @@ const Item: FC<ItemProps> = ({ data, isNew, onSave, onClose }) => {
 
           <button
             type="submit"
-            className="rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+            className="ozop-submit"
           >
             {submitButtonText}
           </button>

@@ -109,7 +109,9 @@ const AdminColumnEditor: FC = () => {
   return (
     <div className="ozop-admin-columns">
       <h3 className="mb-3 mt-6 text-2xl">{i18n.adminColumnEditor}</h3>
+
       {loading && <Spinner />}
+
       {!loading && (
         <>
           <div className="mb-5 grid grid-cols-3 gap-6">
@@ -146,7 +148,7 @@ const AdminColumnEditor: FC = () => {
             <div className="col">
               <button
                 onClick={handleSubmit}
-                className="rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+                className="ozop-submit"
               >
                 {i18n.saveChanges}
               </button>

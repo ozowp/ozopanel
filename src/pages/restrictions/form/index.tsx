@@ -117,7 +117,7 @@ const Form: FC = () => {
     <div className="ozop-restrictions-form">
       <div className="mb-6 mt-6 grid grid-cols-2 gap-6">
         <div className="col">
-          <h3 className='text-2xl text-gray-900 dark:text-white'>{`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role
+          <h3 className='text-2xl text-gray-900'>{`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role
             }`}</h3>
         </div>
         <div className="col">
@@ -169,7 +169,7 @@ const Form: FC = () => {
 
               <button
                 onClick={handleSubmit}
-                className="rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+                className="ozop-submit"
                 disabled={loadingSubmit}
               >
                 {loadingSubmit

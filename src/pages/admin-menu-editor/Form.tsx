@@ -1,16 +1,17 @@
 // Inside Item.tsx
 
 import React, { FC, useState, useEffect } from 'react'
-import { Item, Subitem } from '@interfaces/admin-menu-editor'
+import { Item, DefaultItem, Subitem } from '@interfaces/admin-menu-editor'
 
 interface ItemProps {
   isNew?: boolean
   data: Item | Subitem
+  defaultItems: DefaultItem[]
   onSave: (updatedItem: Item | Subitem) => void
   onClose: () => void
 }
 
-const Item: FC<ItemProps> = ({ isNew, data, onSave, onClose }) => {
+const Item: FC<ItemProps> = ({ isNew, data, defaultItems, onSave, onClose }) => {
   const [form, setForm] = useState<Item | Subitem>(data)
 
   // Update the form state when the menu prop changes
@@ -18,7 +19,7 @@ const Item: FC<ItemProps> = ({ isNew, data, onSave, onClose }) => {
     setForm(data)
   }, [data])
 
-  const handleInputChange = (
+  const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target
@@ -39,15 +40,15 @@ const Item: FC<ItemProps> = ({ isNew, data, onSave, onClose }) => {
   const submitButtonText = isNew ? i18n.save : i18n.apply;
 
   return (
-    <div className="popup-overlay">
-      <div className="popup-content">
-        <div className="flex items-center justify-between rounded-t border-b p-3 dark:border-gray-600">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+    <div className="ozop-popup-overlay">
+      <div className="ozop-popup-content">
+        <div className="flex items-center justify-between rounded-t border-b p-3">
+          <h3 className="text-lg font-semibold text-gray-900">
             {formTitle}
           </h3>
           <button
             type="button"
-            className="end-2.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+            className="end-2.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
             data-modal-hide="authentication-modal"
             onClick={onClose}
           >
@@ -72,7 +73,7 @@ const Item: FC<ItemProps> = ({ isNew, data, onSave, onClose }) => {
           <div className="mb-3">
             <label
               htmlFor="label"
-              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              className="ozop-input-label"
             >
               Label:
             </label>
@@ -81,32 +82,37 @@ const Item: FC<ItemProps> = ({ isNew, data, onSave, onClose }) => {
               id="label"
               name="label"
               value={form.label}
-              onChange={handleInputChange}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              onChange={handleChange}
+              className="ozop-input"
             />
           </div>
 
           <div className="mb-3">
             <label
-              htmlFor="capability"
-              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              htmlFor="target_page"
+              className="ozop-input-label"
             >
-              Capability:
+              Target Page:
             </label>
-            <input
-              type="text"
-              id="capability"
-              name="capability"
-              value={form.capability}
-              onChange={handleInputChange}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-            />
+            <select
+              id="target_page"
+              name="target_page"
+              value={form.url}
+              onChange={handleChange}
+            >
+              <option value="">Select</option>
+              {defaultItems.map((option: DefaultItem, i) => (
+                <option key={i} value={option.url} className={`${!option.isSubmenu ? 'font-bold' : ''}`}>
+                  {option.isSubmenu && '- '}{option.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="mb-3">
             <label
               htmlFor="url"
-              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              className="ozop-input-label"
             >
               Url:
             </label>
@@ -115,31 +121,134 @@ const Item: FC<ItemProps> = ({ isNew, data, onSave, onClose }) => {
               id="url"
               name="url"
               value={form.url}
-              onChange={handleInputChange}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              onChange={handleChange}
+              className="ozop-input"
             />
           </div>
 
           <div className="mb-3">
             <label
-              htmlFor="url"
-              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              htmlFor="capability"
+              className="ozop-input-label"
             >
-              Icon Class / URL:
+              Permission:
+            </label>
+            <input
+              type="text"
+              id="capability"
+              name="capability"
+              value={form.capability}
+              onChange={handleChange}
+              className="ozop-input"
+            />
+          </div>
+
+          <div className="mb-3">
+            <label
+              htmlFor="icon"
+              className="ozop-input-label"
+            >
+              Icon Class / Img URL:
             </label>
             <input
               type="text"
               id="icon"
               name="icon"
               value={form.icon}
-              onChange={handleInputChange}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              onChange={handleChange}
+              className="ozop-input"
+            />
+          </div>
+
+          <div className="mb-3">
+            <label
+              htmlFor="open_in"
+              className="ozop-input-label"
+            >
+              Open In:
+            </label>
+            <select
+              id="open_in"
+              name="open_in"
+              value={form.open_in}
+              onChange={handleChange}
+            >
+              <option value="">Same window or tab</option>
+              <option value="blank">New window</option>
+            </select>
+          </div>
+
+          <div className="mb-3">
+            <label
+              htmlFor="classes"
+              className="ozop-input-label"
+            >
+              Classes:
+            </label>
+            <input
+              type="text"
+              id="classes"
+              name="classes"
+              value={form.classes}
+              onChange={handleChange}
+              className="ozop-input"
+            />
+          </div>
+
+          <div className="mb-3">
+            <label
+              htmlFor="id"
+              className="ozop-input-label"
+            >
+              ID:
+            </label>
+            <input
+              type="text"
+              id="id"
+              name="id"
+              value={form.id}
+              onChange={handleChange}
+              className="ozop-input"
+            />
+          </div>
+
+          <div className="mb-3">
+            <label
+              htmlFor="page_title"
+              className="ozop-input-label"
+            >
+              Page Title:
+            </label>
+            <input
+              type="text"
+              id="page_title"
+              name="page_title"
+              value={form.page_title}
+              onChange={handleChange}
+              className="ozop-input"
+            />
+          </div>
+
+          <div className="mb-3">
+            <label
+              htmlFor="window_title"
+              className="ozop-input-label"
+            >
+              Window Title:
+            </label>
+            <input
+              type="text"
+              id="window_title"
+              name="window_title"
+              value={form.window_title}
+              onChange={handleChange}
+              className="ozop-input"
             />
           </div>
 
           <button
             type="submit"
-            className="rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+            className="ozop-submit"
           >
             {submitButtonText}
           </button>

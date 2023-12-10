@@ -71,6 +71,28 @@ class AdminMenu extends RestCtrl
         $admin_menu_editor = get_option('ozopanel_admin_menu_editor');
         $menus = $admin_menu_editor ? $admin_menu_editor : $admin_menu;
         $resp['menus'] = $menus;
+        $default_menus = [];
+        if ($admin_menu) {
+            foreach ($admin_menu as $menu) {
+                
+                $menu_t = [];
+                $menu_t['label'] = $menu['label'];
+                $menu_t['url'] = $menu['url'];
+                $menu_t['isSubmenu'] = false;
+                $default_menus[] = $menu_t;
+
+                if ( isset( $menu['submenu'] ) && !empty( $menu['submenu'] ) ) {
+                    foreach ($menu['submenu'] as $submenu) {
+                        $submenu_t = [];
+                        $submenu_t['label'] = $submenu['label'];
+                        $submenu_t['url'] = $submenu['url'];
+                        $submenu_t['isSubmenu'] = true;
+                        $default_menus[] = $submenu_t;
+                    }
+                }
+            }
+        }
+        $resp['default_menus'] = $default_menus;
 
         return new \WP_REST_Response([
             'success'  => true,

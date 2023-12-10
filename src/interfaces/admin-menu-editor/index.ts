@@ -1,16 +1,25 @@
 export interface Subitem {
   label: string
-  capability: string
   url: string
+  capability: string
   icon: string
+  open_in: string
+  classes: string
+  id: string
+  page_title: string
+  window_title: string
 }
 
 export interface Item {
   label: string
-  classes: string
-  capability: string
   url: string
+  capability: string
   icon: string
+  open_in: string
+  classes: string
+  id: string
+  page_title: string
+  window_title: string
   submenu: Subitem[]
 }
 
@@ -21,9 +30,15 @@ export interface FormData {
   }
 }
 
+export interface DefaultItem {
+  label: string
+  url: string
+  isSubmenu: boolean
+}
 export interface State {
   loadingFetch: boolean
   items: Item[]
+  defaultItems: DefaultItem[]
   itemNew: null | Item | Subitem
   itemExpand: null | string
   selectedItem: null | number

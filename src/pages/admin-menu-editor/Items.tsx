@@ -140,7 +140,7 @@ const Items: FC<ItemsProps> = ({ items, onOrderChange, onSelect, onHide, itemExp
 						className='flex justify-between items-center'
 					>
 						{!item.classes.includes('wp-menu-separator') && <div dangerouslySetInnerHTML={{ __html: item.label }} />}
-						{item.classes.includes('wp-menu-separator') && <hr className="w-80 h-1 bg-gray-100 dark:bg-gray-700" />}
+						{item.classes.includes('wp-menu-separator') && <hr className='item-menu-separator' style={{ width: '88%', borderTop: '2px dashed #dfdfdf' }} />}
 						<div className='flex'>
 							<DropdownRow>
 								<li>
@@ -159,8 +159,14 @@ const Items: FC<ItemsProps> = ({ items, onOrderChange, onSelect, onHide, itemExp
 								</li>
 							</DropdownRow>
 
-							<span onClick={() => onItemExpand(item.url)} className={`ozop-arrow-icon ${itemExpand === item.url ? 'ozop-expanded' : 'ozop-collapsed'}`}>
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 17.414 3.293 8.707l1.414-1.414L12 14.586l7.293-7.293 1.414 1.414L12 17.414z" /></svg>
+							<span
+								onClick={() => onItemExpand(item.url)}
+								className={`ozop-arrow-icon ${itemExpand === item.url ? 'ozop-expanded' : 'ozop-collapsed'}`}
+								style={item.classes.includes('wp-menu-separator') ? { visibility: 'hidden' } : {}}
+							>
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+									<path d="M12 17.414 3.293 8.707l1.414-1.414L12 14.586l7.293-7.293 1.414 1.414L12 17.414z" />
+								</svg>
 							</span>
 						</div>
 					</div>

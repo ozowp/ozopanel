@@ -1,8 +1,9 @@
-import { Item, Subitem, State } from '@/interfaces/admin-menu-editor'
+import { Item, DefaultItem, Subitem, State } from '@/interfaces/admin-menu-editor'
 
 type Action =
   | { type: 'set_loading_fetch'; payload: boolean }
   | { type: 'set_items'; payload: Item[] }
+  | { type: 'set_default_items'; payload: DefaultItem[] }
   | { type: 'set_item_expand'; payload: null | string }
   | { type: 'set_item_select'; payload: null | number }
   | { type: 'set_subitem_select'; payload: null | number }
@@ -12,6 +13,7 @@ type Action =
 export const initState: State = {
   loadingFetch: true,
   items: [],
+  defaultItems: [],
   itemNew: null,
   itemExpand: null,
   selectedItem: null,
@@ -25,6 +27,8 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, loadingFetch: action.payload }
     case 'set_items':
       return { ...state, items: action.payload }
+    case 'set_default_items':
+      return { ...state, defaultItems: action.payload }
     case 'set_item_new':
       return { ...state, itemNew: action.payload }
     case 'set_item_expand':

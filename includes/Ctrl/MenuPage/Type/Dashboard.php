@@ -16,8 +16,6 @@ class Dashboard
     public function add_settings_menu()
     {
         global $pagenow;
-        //edit_menu
-        // $this->edit_menu();
 
         //add_menu_page
         $this->add_menu_page();
@@ -31,7 +29,10 @@ class Dashboard
             $this->save_admin_columns();
         }
 
-
+        //admin_menu_editor
+        if (ozopanel()->is_active_addon('admin_menu_editor')) {
+            $this->admin_menu_editor();
+        }
 
         //restrict_menu
         $this->restrict_menu();
@@ -54,7 +55,7 @@ class Dashboard
             75
         );
 
-        if ( ozopanel()->is_active_addon('admin_menu_editor') ) {
+        if (ozopanel()->is_active_addon('admin_menu_editor')) {
             add_submenu_page(
                 'ozopanel',
                 esc_html__('Admin Menu Editor', 'ozopanel'),
@@ -65,7 +66,7 @@ class Dashboard
             );
         }
 
-        if ( ozopanel()->is_active_addon('admin_column_editor') ) {
+        if (ozopanel()->is_active_addon('admin_column_editor')) {
             add_submenu_page(
                 'ozopanel',
                 esc_html__('Admin Column Editor', 'ozopanel'),
@@ -76,7 +77,7 @@ class Dashboard
             );
         }
 
-        if ( ozopanel()->is_active_addon('restriction') ) {
+        if (ozopanel()->is_active_addon('restriction')) {
             add_submenu_page(
                 'ozopanel',
                 esc_html__('Manage Restrictions', 'ozopanel'),
@@ -128,9 +129,6 @@ class Dashboard
         if (!current_user_can('administrator')) return;
 
         global $menu, $submenu;
-        /* echo "<pre>";
-        print_r($menu);
-        echo "</pre>"; */
 
         //menu serial by menu priority
         ksort($menu);
@@ -174,12 +172,7 @@ class Dashboard
 
             //Escpae wp-menu-separator
             if (
-                // isset($menuItem[6]) &&
-                (
-                    // $menuItem[6] != 'wp-menu-separator' &&
-                    $menuItem[2] != 'ozopanel-welcome'//ozopanel welcome page
-                    // $menuItem[2] != 'ozopanel' //main ozopanel page
-                )
+                $menuItem[2] != 'ozopanel-welcome' //ozopanel welcome page
             ) {
                 $mergedMenu[] = $modifyMenuItem;
             }
@@ -215,44 +208,50 @@ class Dashboard
     }
 
     /**
-     * Restrict menu for user or role
+     * Apply admin menu editor
      *
      * @since 1.0.0
      */
-    protected function edit_menu()
+    protected function admin_menu_editor()
     {
-
         global $menu;
         global $submenu;
 
-        // Your array
+        // admin menu editor
         $custom_menu = get_option('ozopanel_admin_menu_editor', []);
 
         // Remove all existing menus
         $menu = $submenu = [];
 
-        // Add your custom menus
+        // Add custom menus
         foreach ($custom_menu as $menu_item) {
-            add_menu_page(
-                $menu_item['label'],
-                $menu_item['label'],
-                $menu_item['capability'],
-                $menu_item['url'],
-                '',
-                $menu_item['icon'],
-                null
-            );
+            if ( isset($menu_item['classes']) && $menu_item['classes'] == 'wp-menu-separator') {
+                // Add separator
+                $menu[] = array('', 'read', $menu_item['url'], '', 'wp-menu-separator');
+            } else {
+                // Add menu page
+                add_menu_page(
+                    $menu_item['label'],
+                    $menu_item['label'],
+                    $menu_item['capability'],
+                    $menu_item['url'],
+                    '',
+                    $menu_item['icon'],
+                    null
+                );
 
-            if (isset($menu_item['submenu']) && is_array($menu_item['submenu'])) {
-                foreach ($menu_item['submenu'] as $submenu_item) {
-                    add_submenu_page(
-                        $menu_item['url'],
-                        $submenu_item['label'],
-                        $submenu_item['label'],
-                        $submenu_item['capability'],
-                        $submenu_item['url'],
-                        ''
-                    );
+                // Add submenu items if any
+                if (isset($menu_item['submenu']) && is_array($menu_item['submenu'])) {
+                    foreach ($menu_item['submenu'] as $submenu_item) {
+                        add_submenu_page(
+                            $menu_item['url'],
+                            $submenu_item['label'],
+                            $submenu_item['label'],
+                            $submenu_item['capability'],
+                            $submenu_item['url'],
+                            ''
+                        );
+                    }
                 }
             }
         }

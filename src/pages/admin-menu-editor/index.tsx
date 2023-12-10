@@ -17,7 +17,7 @@ const AdminMenuEditor: FC = () => {
   const i18n = ozopanel.i18n
   const queryClient = useQueryClient()
   const [state, dispatch] = useReducer(reducer, initState)
-  const { loadingFetch, items, itemNew, itemExpand, selectedItem, selectedSubitem, loadingSubmit } = state
+  const { loadingFetch, items, defaultItems, itemNew, itemExpand, selectedItem, selectedSubitem, loadingSubmit } = state
   const { data } = useQuery({
     queryKey: ['admin-menus'],
     queryFn: () => get('admin-menus'),
@@ -25,8 +25,9 @@ const AdminMenuEditor: FC = () => {
 
   useEffect(() => {
     if (data) {
-      const { menus } = data
+      const { menus, default_menus } = data
       dispatch({ type: 'set_items', payload: menus })
+      dispatch({ type: 'set_default_items', payload: default_menus })
       dispatch({ type: 'set_loading_fetch', payload: false })
     }
   }, [data])
@@ -56,19 +57,28 @@ const AdminMenuEditor: FC = () => {
     if (selectedItem !== null) {
       // Create a new submenu item if a menu is selected
       return {
-        label: 'Subitem Name',
-        capability: 'default',
+        label: i18n.submenuName,
         url: '',
+        capability: 'administrator',
         icon: '',
+        open_in: '',
+        classes: '',
+        id: '',
+        page_title: '',
+        window_title: '',
       } as Subitem;
     } else {
       // Create a new main menu item
       return {
-        label: 'Item Name',
-        classes: '',
-        capability: 'default',
+        label: i18n.menuName,
         url: '',
+        capability: 'administrator',
         icon: '',
+        open_in: '',
+        classes: '',
+        id: '',
+        page_title: '',
+        window_title: '',
         submenu: [],
       } as Item;
     }
@@ -129,7 +139,7 @@ const AdminMenuEditor: FC = () => {
     <div className="ozop-restrictions-form">
       <div className="mb-6 mt-6 grid grid-cols-2 gap-6">
         <div className="col">
-          <h3 className='text-2xl text-gray-900 dark:text-white'>{i18n.adminMenuEditor}</h3>
+          <h3 className='text-2xl text-gray-900'>{i18n.adminMenuEditor}</h3>
         </div>
         <div className="col">
         </div>
@@ -155,7 +165,7 @@ const AdminMenuEditor: FC = () => {
 
               <button
                 onClick={handleSubmit}
-                className="rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+                className="ozop-submit"
                 disabled={loadingSubmit}
               >
                 {i18n.saveChanges}
@@ -167,6 +177,7 @@ const AdminMenuEditor: FC = () => {
             <Form
               isNew
               data={itemNew}
+              defaultItems={defaultItems}
               onSave={handleAddNewItem}
               onClose={() => {
                 dispatch({ type: 'set_item_new', payload: null });
@@ -178,6 +189,7 @@ const AdminMenuEditor: FC = () => {
           {!itemNew && selectedItem !== null && items[selectedItem] && (
             <Form
               data={(selectedItem !== null && selectedSubitem !== null) ? items[selectedItem].submenu[selectedSubitem] : items[selectedItem]}
+              defaultItems={defaultItems}
               onSave={handleItemChange}
               onClose={() => handleItemSelect(null)}
             />
