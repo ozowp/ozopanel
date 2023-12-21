@@ -3,10 +3,8 @@
 namespace OzoPanel\Ctrl;
 
 use OzoPanel\Traits\Singleton;
-use OzoPanel\Ctrl\Migration\MigrationCtrl;
 use OzoPanel\Ctrl\Api\ApiCtrl;
 use OzoPanel\Ctrl\Asset\AssetCtrl;
-use OzoPanel\Ctrl\Template\TemplateCtrl;
 use OzoPanel\Ctrl\Hook\HookCtrl;
 use OzoPanel\Ctrl\Assist\AssistCtrl;
 use OzoPanel\Ctrl\MenuPage\MenuPageCtrl;
@@ -22,11 +20,9 @@ class MainCtrl
 
     public function __construct()
     {
-        // new MigrationCtrl();
         new MenuPageCtrl();
         new AssetCtrl();
         new AssistCtrl();
-        // new TemplateCtrl();
         new HookCtrl();
         new ApiCtrl();
     }

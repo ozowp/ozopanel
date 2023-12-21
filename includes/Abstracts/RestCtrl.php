@@ -19,6 +19,13 @@ abstract class RestCtrl extends WP_REST_Controller {
     protected $namespace = 'ozopanel/v1';
 
     /**
+     * Endpoint base.
+     *
+     * @var string
+     */
+    protected $base = '';
+
+    /**
      * Check default permission for rest routes.
      *
      * @since 0.3.0
@@ -52,8 +59,8 @@ abstract class RestCtrl extends WP_REST_Controller {
         }
 
         // Pagination values for headers
-        $per_page = (int) ( ! empty( $request['per_page'] ) ? $request['per_page'] : 20 );
-        $page     = (int) ( ! empty( $request['page'] ) ? $request['page'] : 1 );
+        $per_page = (int) ( ! empty( $request['per_page'] ) ? absint( $request['per_page'] ) : 20 );
+        $page     = (int) ( ! empty( $request['page'] ) ? absint( $request['page'] ) : 1 );
 
         $response->header( 'X-WP-Total', (int) $total_items );
 

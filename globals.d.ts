@@ -5,7 +5,6 @@ interface OzopanelI18n {
 interface OzopanelConfig {
     version: string;
     dashboard: string;
-    date_format: string;
     assetImgUri: string;
     assetUri: string;
     i18n: OzopanelI18n;

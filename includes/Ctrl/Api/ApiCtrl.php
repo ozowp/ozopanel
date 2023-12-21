@@ -3,12 +3,7 @@
 namespace OzoPanel\Ctrl\Api;
 
 use OzoPanel\Ctrl\Api\Type\{
-    Restriction,
-    AdminMenu,
-    AdminColumn,
-    Setting,
-    Action,
-    Addons
+    Restriction
 };
 
 /**
@@ -44,12 +39,7 @@ class ApiCtrl
         $this->class_map = apply_filters(
             'ozopanel_rest_api_class_map',
             [
-                Restriction::class,
-                AdminMenu::class,
-                AdminColumn::class,
-                Setting::class,
-                Action::class,
-                Addons::class
+                Restriction::class
             ]
         );
 

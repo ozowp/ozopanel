@@ -39,23 +39,6 @@ class I18n
             'roles' => esc_html__('Roles', 'ozopanel'),
             'name' => esc_html__('Name', 'ozopanel'),
             'email' => esc_html__('Email', 'ozopanel'),
-            // admin menu editor
-            'adminMenuEditor' => esc_html__('Admin Menu Editor', 'ozopanel'),
-            'addNewMenu' => esc_html__('Add New Menu', 'ozopanel'),
-            'addNewSubmenu' => esc_html__('Add New Submenu', 'ozopanel'),
-            'menuName' => esc_html__('Menu Name', 'ozopanel'),
-            'submenuName' => esc_html__('Submenu Name', 'ozopanel'),
-            'editMenu' => esc_html__('Edit Menu', 'ozopanel'),
-            'hide' => esc_html__('Hide', 'ozopanel'),
-            // admin column editor
-            'adminColumnEditor' => esc_html__('Admin Column Editor', 'ozopanel'),
-            'addNewColumn' => esc_html__('Add New Column', 'ozopanel'),
-            'editColumn' => esc_html__('Edit Column', 'ozopanel'),
-            //addons
-            'addons' => esc_html__('Addons', 'ozopanel'),
-            'activate' => esc_html__('Activate', 'ozopanel'),
-            'deactivate' => esc_html__('Deactivate', 'ozopanel'),
-
             // table
             'id' => esc_html__('ID', 'ozopanel'),
             'edit' => esc_html__('Edit', 'ozopanel'),

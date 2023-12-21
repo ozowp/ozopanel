@@ -4,8 +4,6 @@ namespace OzoPanel\Ctrl\MenuPage\Type;
 
 use OzoPanel\Helper\Fns;
 use OzoPanel\Helper\AdminColumn\WpListTableFactory;
-use OzoPanel\Model\AdminColumn as ModelAdminColumn;
-
 class Dashboard
 {
     public function __construct()
@@ -21,17 +19,10 @@ class Dashboard
         $this->add_menu_page();
 
         // load this condtion only ozopanel settings page
-        if ($pagenow === 'admin.php' && isset($_GET['page']) && $_GET['page'] === 'ozopanel') {
+        if ($pagenow === 'admin.php' && isset($_GET['page']) && sanitize_text_field( $_GET['page'] ) === 'ozopanel') {
             //Save admin menus
             $this->save_admin_menus();
 
-            //Save admin columns
-            $this->save_admin_columns();
-        }
-
-        //admin_menu_editor
-        if (ozopanel()->is_active_addon('admin_menu_editor')) {
-            $this->admin_menu_editor();
         }
 
         //restrict_menu
@@ -55,56 +46,25 @@ class Dashboard
             75
         );
 
-        if (ozopanel()->is_active_addon('admin_menu_editor')) {
-            add_submenu_page(
-                'ozopanel',
-                esc_html__('Admin Menu Editor', 'ozopanel'),
-                esc_html__('Admin Menu Editor', 'ozopanel'),
-                'manage_options',
-                'ozopanel#/admin-menu-editor',
-                [$this, 'render']
-            );
-        }
-
-        if (ozopanel()->is_active_addon('admin_column_editor')) {
-            add_submenu_page(
-                'ozopanel',
-                esc_html__('Admin Column Editor', 'ozopanel'),
-                esc_html__('Admin Column Editor', 'ozopanel'),
-                'manage_options',
-                'ozopanel#/admin-column-editor',
-                [$this, 'render']
-            );
-        }
-
         if (ozopanel()->is_active_addon('restriction')) {
             add_submenu_page(
                 'ozopanel',
-                esc_html__('Manage Restrictions', 'ozopanel'),
-                esc_html__('Manage Restrictions', 'ozopanel'),
+                esc_html__('Restrict Roles', 'ozopanel'),
+                esc_html__('Restrict Roles', 'ozopanel'),
                 'manage_options',
                 'ozopanel#/restrictions/roles',
                 [$this, 'render']
             );
+
+            add_submenu_page(
+                'ozopanel',
+                esc_html__('Restrict Users', 'ozopanel'),
+                esc_html__('Restrict Users', 'ozopanel'),
+                'manage_options',
+                'ozopanel#/restrictions/users',
+                [$this, 'render']
+            );
         }
-
-        add_submenu_page(
-            'ozopanel',
-            esc_html__('Settings', 'ozopanel'),
-            esc_html__('Settings', 'ozopanel'),
-            'manage_options',
-            'ozopanel#/settings',
-            [$this, 'render']
-        );
-
-        add_submenu_page(
-            'ozopanel',
-            esc_html__('Addons', 'ozopanel'),
-            esc_html__('Addons', 'ozopanel'),
-            'manage_options',
-            'ozopanel#/addons',
-            [$this, 'render']
-        );
 
         remove_submenu_page('ozopanel', 'ozopanel');
     }
@@ -179,82 +139,6 @@ class Dashboard
         }
 
         update_option('ozopanel_admin_menu', $mergedMenu);
-    }
-
-    /**
-     * Save admin columns to option table
-     *
-     * @since 1.0.0
-     */
-    function save_admin_columns()
-    {
-        //Post type table
-        $post_types = ModelAdminColumn::get_post_types();
-        foreach ($post_types as $post_type) {
-            $columns = (new WpListTableFactory())->get_post_table('edit-' . $post_type)->get_columns();
-            update_option('ozopanel_admin_column_' . $post_type . '_default', $columns, false);
-        }
-        //Media table
-        $columns = (new WpListTableFactory())->get_media_table('upload')->get_columns();
-        update_option('ozopanel_admin_column_upload_default', $columns, false);
-
-        //Comment table
-        $columns = (new WpListTableFactory())->get_comment_table('edit-comments')->get_columns();
-        update_option('ozopanel_admin_column_edit-comments_default', $columns, false);
-
-        //Comment table
-        $columns = (new WpListTableFactory())->get_user_table('users')->get_columns();
-        update_option('ozopanel_admin_column_users_default', $columns, false);
-    }
-
-    /**
-     * Apply admin menu editor
-     *
-     * @since 1.0.0
-     */
-    protected function admin_menu_editor()
-    {
-        global $menu;
-        global $submenu;
-
-        // admin menu editor
-        $custom_menu = get_option('ozopanel_admin_menu_editor', []);
-
-        // Remove all existing menus
-        $menu = $submenu = [];
-
-        // Add custom menus
-        foreach ($custom_menu as $menu_item) {
-            if ( isset($menu_item['classes']) && $menu_item['classes'] == 'wp-menu-separator') {
-                // Add separator
-                $menu[] = array('', 'read', $menu_item['url'], '', 'wp-menu-separator');
-            } else {
-                // Add menu page
-                add_menu_page(
-                    $menu_item['label'],
-                    $menu_item['label'],
-                    $menu_item['capability'],
-                    $menu_item['url'],
-                    '',
-                    $menu_item['icon'],
-                    null
-                );
-
-                // Add submenu items if any
-                if (isset($menu_item['submenu']) && is_array($menu_item['submenu'])) {
-                    foreach ($menu_item['submenu'] as $submenu_item) {
-                        add_submenu_page(
-                            $menu_item['url'],
-                            $submenu_item['label'],
-                            $submenu_item['label'],
-                            $submenu_item['capability'],
-                            $submenu_item['url'],
-                            ''
-                        );
-                    }
-                }
-            }
-        }
     }
 
     /**

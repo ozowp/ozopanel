@@ -12,35 +12,16 @@ use OzoPanel\Helper\I18n;
  */
 class AssetCtrl
 {
-    private $suffix;
     private $version;
 
     public function __construct()
     {
-        $this->suffix = ozopanel()->is_debug() ? '' : '.min';
         $this->version = defined('WP_DEBUG') && WP_DEBUG ? time() : ozopanel()->version;
 
         add_action('wp_enqueue_scripts', [$this, 'public_scripts'], 9999);
         add_action('admin_enqueue_scripts', [$this, 'admin_scripts'], 9999);
 
-        //remove thank you text from ozopanel dashboard
-        if (isset($_GET['page']) && $_GET['page'] == 'ozopanel') {
-            add_filter('admin_footer_text', '__return_empty_string', 11);
-            add_filter('update_footer', '__return_empty_string', 11);
-        }
-
         add_filter('script_loader_tag', [$this, 'add_type_attribute'] , 10, 3);
-
-        add_action('current_screen', function () {
-            if (!$this->is_plugins_screen()) {
-                return;
-            }
-
-            add_action('admin_enqueue_scripts', [
-                $this,
-                'enqueue_uninstall_dialog',
-            ]);
-        });
     }
 
     private function admin_public_script()
@@ -51,12 +32,7 @@ class AssetCtrl
     {
         //font family
         if (
-            (isset($_GET['page']) && $_GET['page'] == 'ozopanel-welcome') ||
-            (isset($_GET['page']) && $_GET['page'] == 'ozopanel') ||
-            is_page_template([
-                'test-template.php'
-            ]) ||
-            $this->is_plugins_screen()
+            (isset($_GET['page']) && sanitize_text_field( $_GET['page'] ) == 'ozopanel')
         ) {
             wp_enqueue_style(
                 'ozopanel-google-font',
@@ -64,73 +40,21 @@ class AssetCtrl
                 [],
                 $this->version
             );
-            /* wp_enqueue_style(
-                'ozopanel-main',
-                ozopanel()->get_asset_uri("css/main{$this->suffix}.css"),
-                [],
-                $this->version
-            ); */
-        }
-        if (isset($_GET['page']) && $_GET['page'] == 'ozopanel-welcome') {
-            wp_enqueue_style(
-                'ozopanel-welcome',
-                ozopanel()->get_asset_uri("css/welcome{$this->suffix}.css"),
-                [],
-                $this->version
-            );
-            wp_enqueue_script(
-                'ozopanel-welcome',
-                ozopanel()->get_asset_uri("/js/welcome{$this->suffix}.js"),
-                ['wp-element'],
-                $this->version,
-                true
-            );
-            wp_localize_script('ozopanel-welcome', 'ozopanel', [
-                'apiUrl' => esc_url(rest_url()),
-                'nonce' => wp_create_nonce('wp_rest'),
-                'dashboard' => menu_page_url('ozopanel', false),
-                'assetImgUri' => ozopanel()->get_asset_uri('img/'),
-                'i18n' => I18n::dashboard(),
-            ]);
         }
 
         if (
-            (isset($_GET['page']) && $_GET['page'] == 'ozopanel') ||
-            is_page_template([
-                'test-template.php'
-            ])
+            (isset($_GET['page']) && sanitize_text_field( $_GET['page'] ) == 'ozopanel')
         ) {
-            if ( ! ozopanel()->is_debug() ) {
-                wp_enqueue_style(
-                    'ozopanel-dashboard',
-                    ozopanel()->get_asset_uri("main.css"),
-                    [],
-                    $this->version
-                );
-            }
-
-            if ( ozopanel()->is_debug() ) {
-                wp_enqueue_script(
-                    'ozopanel-vite-client',
-                    ozopanel()->dev_path() . '/@vite/client',
-                    [],
-                    $this->version,
-                    false
-                );
-                ob_start();
-                ?>
-                    import { injectIntoGlobalHook } from '<?php echo ozopanel()->dev_path(); ?>/@react-refresh';
-                    injectIntoGlobalHook(window);
-                    window.$RefreshReg$ = () => {};
-                    window.$RefreshSig$ = () => (type) => type;
-                <?php
-                $script = ob_get_clean();
-                wp_add_inline_script('ozopanel-vite-client', $script);
-            }
+            wp_enqueue_style(
+                'ozopanel-dashboard',
+                ozopanel()->get_asset_uri("main.css"),
+                [],
+                $this->version
+            );
 
             wp_enqueue_script(
                 'ozopanel-dashboard',
-                ozopanel()->is_debug() ? ozopanel()->dev_path() . '/src/main.tsx' : ozopanel()->get_asset_uri('/main.js'),
+                ozopanel()->get_asset_uri('/main.js'),
                 ['wp-api-fetch'],
                 null,
                 true
@@ -139,9 +63,6 @@ class AssetCtrl
             wp_localize_script('ozopanel-dashboard', 'ozopanel', [
                 'version' => ozopanel()->version,
                 'dashboard' => admin_url('admin.php?page=ozopanel'),
-                'date_format' => Fns::phpToMomentFormat( get_option('date_format') ),
-                'assetImgUri' => ozopanel()->get_asset_uri('img/'),
-                'assetUri' => OZOPANEL_ASSEST,
                 'i18n' => I18n::app()
             ]);
         }
@@ -151,7 +72,7 @@ class AssetCtrl
          *
          * @since 1.0.0
          */
-        if ( is_admin() && isset($GLOBALS['pagenow']) && $GLOBALS['pagenow'] === 'nav-menus.php' ) {
+        if ( is_admin() && isset($GLOBALS['pagenow']) && sanitize_text_field( $GLOBALS['pagenow'] ) === 'nav-menus.php' ) {
             ob_start();
                 ?>
                 document.addEventListener("DOMContentLoaded", function() {
@@ -188,8 +109,6 @@ class AssetCtrl
     {
         $this->admin_public_script();
 
-        //wp_enqueue_style( 'ozopanel-main', ozopanel()->get_asset_uri( 'public/css/main{$this->suffix}.css' ), array(), $this->version );
-
         $this->admin_script();
     }
 
@@ -203,8 +122,7 @@ class AssetCtrl
 
         // Check if the script handle matches the one you want to modify
         if (
-            'ozopanel-dashboard' == $handle ||
-            'ozopanel-vite-client' == $handle
+            'ozopanel-dashboard' == $handle
         ) {
             // Add the type='module' attribute to the script tag
             $tag = str_replace( '<script', '<script type="module"', $tag );
@@ -213,49 +131,4 @@ class AssetCtrl
         return $tag;
     }
 
-    /**
-     * Enqueue uninstall dialog scripts.
-     *
-     * Registers the uninstall dialog scripts and enqueues them.
-     *
-     * @since 1.0.0
-     */
-    public function enqueue_uninstall_dialog()
-    {
-        add_action('admin_footer', function () {
-            ozopanel()->render('uninstall/form');
-        });
-
-        wp_enqueue_script(
-            'ozopanel-uninstall',
-            ozopanel()->get_asset_uri("/js/uninstall{$this->suffix}.js"),
-            [],
-            $this->version,
-            true
-        );
-
-        wp_localize_script('ozopanel-uninstall', 'ozopanel', [
-            'ajaxurl' => esc_url( admin_url('admin-ajax.php') ),
-        ]);
-    }
-
-
-    /**
-     * @since 1.0.0
-     */
-    private function is_plugins_screen()
-    {
-        if ( !function_exists('get_current_screen') ) {
-            require_once ABSPATH . '/wp-admin/includes/screen.php';
-        }
-
-        if ( is_admin() ) {
-            return in_array(get_current_screen()->id, [
-                'plugins',
-                'plugins-network',
-            ]);
-        } else {
-            return false;
-        }
-    }
 }

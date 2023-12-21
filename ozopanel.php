@@ -10,7 +10,7 @@
  * Author: WpOzo
  * Author URI: https://wpozo.com
  * Version: 1.0.0
- * Description: Manager WP Access
+ * Description: Admin menu access manager
  * Text Domain: ozopanel
  * Domain Path: /languages
  *
@@ -31,7 +31,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 
 use OzoPanel\Helper\Fns;
-use Dotenv\Dotenv;
 
 final class OzoPanel {
 
@@ -51,13 +50,6 @@ final class OzoPanel {
     private static $instance = null;
 
     /**
-     * Minimum PHP version required
-     * @since 1.0.0
-     * @var string
-     */
-    private $min_php = '7.2';
-
-    /**
      * Constructor for the OzoPanel class
      *
      * Sets up all the appropriate hooks and actions
@@ -67,13 +59,8 @@ final class OzoPanel {
 
         require_once __DIR__ . '/vendor/autoload.php';
 
-        // Load the .env file
-        $dotenv = Dotenv::createImmutable(__DIR__);
-        $dotenv->load();
-
         $this->define_constants();
 
-        // new OzoPanel\Ctrl\Install\InstallCtrl();
         add_action('plugins_loaded', [$this, 'on_plugins_loaded'], -1);
         add_action('init', [$this, 'initial'], 1);
     }
@@ -130,9 +117,9 @@ final class OzoPanel {
     public function initial() {
         do_action('ozopanel_before_init');
 
-        $this->localization();
-
         OzoPanel\Ctrl\MainCtrl::init();
+
+        $this->localization();
 
         do_action('ozopanel_init');
     }
@@ -172,24 +159,6 @@ final class OzoPanel {
             case 'cron':
                 return defined('DOING_CRON');
         }
-    }
-
-    /**
-     * Check Script Debug from .env
-     * @since 1.0.0
-     * @return string
-     */
-    public function is_debug() {
-        return ( isset( $_ENV['OZOPANEL_DEBUG'] ) && $_ENV['OZOPANEL_DEBUG'] === 'true' ) ? true : false;
-    }
-
-    /**
-     * Check Script Debug from .env
-     * @since 1.0.0
-     * @return string
-     */
-    public function dev_path() {
-        return isset( $_ENV['OZOPANEL_DEV_PATH'] ) ? esc_url( $_ENV['OZOPANEL_DEV_PATH'] ) : '';
     }
 
     /**
@@ -275,15 +244,6 @@ final class OzoPanel {
         return $permalink_structure === '' ? '/(?P<args>.*)' : '';
     }
 
-    /**
-     * Check pro version
-     * @since 1.0.0
-     * @return void
-     */
-    public function gate()
-    {
-        return function_exists('ozopanelp') && ozopanelp()->gate();
-    }
 }
 
 /**
