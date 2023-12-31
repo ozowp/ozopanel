@@ -6,11 +6,8 @@ namespace OzoPanel\Ctrl\Hook\Type\Action\Type;
  *
  * @since 1.0.0
  */
-class AdminColumn
-{
-    public function __construct()
-    {
+class AdminColumn {
 
+    public function __construct() {
     }
-
 }

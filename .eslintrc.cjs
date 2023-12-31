@@ -1,24 +1,30 @@
 module.exports = {
-  root: true,
-  env: { browser: true, es2020: true },
-  globals: {
-    // Define your global variables here
-    ozopanel: 'readonly',
-    wp: 'readonly',
-    gate: 'readonly'
-  },
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react-hooks/recommended',
+  "extends": [
+    "plugin:@wordpress/eslint-plugin/recommended"
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
-  parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh'],
-  rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto",
+        "parenSpacing": true,
+        "tabWidth": 4,
+        "useTabs": false,
+        "singleQuote": true,
+        "trailingComma": "es5",
+        "bracketSpacing": true,
+        "jsxBracketSameLine": false,
+        "semi": true,
+        "arrowParens": "always"
+      }
     ],
-  },
+    "@wordpress/i18n-text-domain": [
+      "error",
+      {
+        "allowedTextDomain": [
+          "ozopanel"
+        ]
+      }
+    ]
+  }
 }

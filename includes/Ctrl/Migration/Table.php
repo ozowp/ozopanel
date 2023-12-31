@@ -4,14 +4,12 @@ namespace OzoPanel\Ctrl\Migration;
 use OzoPanel\Ctrl\Migration\Helpers;
 
 class Table {
-    public function __construct($current_version)
-    {
+    public function __construct( $current_version ) {
         $helpers = new Helpers();
-        $this->run_migration($current_version, $helpers);
+        $this->run_migration( $current_version, $helpers );
     }
 
-    public function run_migration($current_version, $helpers)
-    {
+    public function run_migration( $current_version, $helpers ) {
     }
 
     public function version_migration(
@@ -21,9 +19,9 @@ class Table {
         $callback
     ) {
         $helpers = new Helpers();
-        if ($current_version == $version) {
-            $callback($helpers);
-            $helpers->insert_schema_migration($table_name, $version);
+        if ( $current_version === $version ) {
+            $callback( $helpers );
+            $helpers->insert_schema_migration( $table_name, $version );
         }
     }
 }

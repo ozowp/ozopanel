@@ -60,7 +60,7 @@ define( 'NONCE_SALT',       'put your unique phrase here' );
 
 $table_prefix = 'wp_';   // Only numbers, letters, and underscores please!
 
-define( 'WP_TESTS_DOMAIN', 'example.org' );
+define( 'WP_TESTS_DOMAIN', 'phpunitest.com' );
 define( 'WP_TESTS_EMAIL', 'admin@example.org' );
 define( 'WP_TESTS_TITLE', 'Test Blog' );
 

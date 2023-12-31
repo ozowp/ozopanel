@@ -10,8 +10,8 @@ use OzoPanel\Helper\Fns;
  *
  * @since 1.0.0
  */
-class AdminMenu extends RestCtrl
-{
+class AdminMenu extends RestCtrl {
+
 
     /**
      * Route base.
@@ -28,31 +28,29 @@ class AdminMenu extends RestCtrl
      * @since 1.0.0
      */
 
-    public function routes()
-    {
+    public function routes() {
 
         register_rest_route(
             $this->namespace, '/' . $this->base,
-            [
+            array(
                 'methods' => 'GET',
-                'callback' => [$this, 'get_single'],
-                'permission_callback' => function() {
-                    return Fns::gate($this->base, 'get');
+                'callback' => array( $this, 'get_single' ),
+                'permission_callback' => function () {
+                    return Fns::gate( $this->base, 'get' );
                 },
-            ]
+            )
         );
 
         register_rest_route(
             $this->namespace, '/' . $this->base,
-            [
+            array(
                 'methods' => 'PUT',
-                'callback' => [$this, 'update'],
-                'permission_callback' => function() {
-                    return Fns::gate($this->base, 'edit');
+                'callback' => array( $this, 'update' ),
+                'permission_callback' => function () {
+                    return Fns::gate( $this->base, 'edit' );
                 },
-            ]
+            )
         );
-
     }
 
     /**
@@ -64,26 +62,24 @@ class AdminMenu extends RestCtrl
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function get_single($req)
-    {
-        $resp = [];
-        $admin_menu = get_option('ozopanel_admin_menu');
-        $admin_menu_editor = get_option('ozopanel_admin_menu_editor');
+    public function get_single( $req ) {
+        $resp = array();
+        $admin_menu = get_option( 'ozopanel_admin_menu' );
+        $admin_menu_editor = get_option( 'ozopanel_admin_menu_editor' );
         $menus = $admin_menu_editor ? $admin_menu_editor : $admin_menu;
         $resp['menus'] = $menus;
-        $default_menus = [];
-        if ($admin_menu) {
-            foreach ($admin_menu as $menu) {
-                
-                $menu_t = [];
+        $default_menus = array();
+        if ( $admin_menu ) {
+            foreach ( $admin_menu as $menu ) {
+                $menu_t = array();
                 $menu_t['label'] = $menu['label'];
                 $menu_t['url'] = $menu['url'];
                 $menu_t['isSubmenu'] = false;
                 $default_menus[] = $menu_t;
 
-                if ( isset( $menu['submenu'] ) && !empty( $menu['submenu'] ) ) {
-                    foreach ($menu['submenu'] as $submenu) {
-                        $submenu_t = [];
+                if ( isset( $menu['submenu'] ) && ! empty( $menu['submenu'] ) ) {
+                    foreach ( $menu['submenu'] as $submenu ) {
+                        $submenu_t = array();
                         $submenu_t['label'] = $submenu['label'];
                         $submenu_t['url'] = $submenu['url'];
                         $submenu_t['isSubmenu'] = true;
@@ -94,10 +90,12 @@ class AdminMenu extends RestCtrl
         }
         $resp['default_menus'] = $default_menus;
 
-        return new \WP_REST_Response([
-            'success'  => true,
-            'data' => $resp,
-        ], 200);
+        return new \WP_REST_Response(
+            array(
+				'success'  => true,
+				'data' => $resp,
+            ), 200
+        );
     }
 
     /**
@@ -109,24 +107,27 @@ class AdminMenu extends RestCtrl
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function update($req)
-    {
+    public function update( $req ) {
         $param = $req->get_params();
         $wp_err = new \WP_Error();
 
-        $admin_menu = isset($param['admin_menu']) ? ($param['admin_menu']) : '';
+        $admin_menu = isset( $param['admin_menu'] ) ? ( $param['admin_menu'] ) : '';
 
-        if ($wp_err->get_error_messages()) {
-            return new \WP_REST_Response([
-                'success'  => false,
-                'data' => $wp_err->get_error_messages()
-            ], 200);
+        if ( $wp_err->get_error_messages() ) {
+            return new \WP_REST_Response(
+                array(
+					'success'  => false,
+					'data' => $wp_err->get_error_messages(),
+                ), 200
+            );
         } else {
-            update_option('ozopanel_admin_menu_editor', $admin_menu);
-            return new \WP_REST_Response([
-                'success'  => true,
-                'data' => null
-            ], 200);
+            update_option( 'ozopanel_admin_menu_editor', $admin_menu );
+            return new \WP_REST_Response(
+                array(
+					'success'  => true,
+					'data' => null,
+                ), 200
+            );
         }
     }
 }

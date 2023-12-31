@@ -1,14 +1,9 @@
 interface OzopanelI18n {
-    [key: string]: string;
+	[key: string]: string;
 }
 
 interface OzopanelConfig {
-    version: string;
-    dashboard: string;
-    date_format: string;
-    assetImgUri: string;
-    assetUri: string;
-    i18n: OzopanelI18n;
+	i18n: OzopanelI18n;
 }
 
 declare const ozopanel: Readonly<OzopanelConfig>;

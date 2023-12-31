@@ -16,12 +16,11 @@ use OzoPanel\Ctrl\MenuPage\MenuPageCtrl;
  * All the others controller load here
  * @since 1.0.0
  */
-class MainCtrl
-{
+class MainCtrl {
+
     use Singleton;
 
-    public function __construct()
-    {
+    public function __construct() {
         // new MigrationCtrl();
         new MenuPageCtrl();
         new AssetCtrl();

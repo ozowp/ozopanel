@@ -1,13 +1,18 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    './src/**/*.{js,jsx,ts,tsx}',
-  ],
-  // enabled: process.env.NODE_ENV === 'production',
-  prefix: '',
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-  darkMode: 'ozopanel-dark',
-}
+module.exports = {
+	content: ['./src/**/*.{js,jsx,ts,tsx}'],
+	media: false,
+	theme: {
+		extend: {
+			minWidth: {},
+			screens: {},
+			colors: {},
+		},
+		variants: {
+			extend: {
+				opacity: ['disabled'],
+			},
+		},
+	},
+	plugins: [],
+};

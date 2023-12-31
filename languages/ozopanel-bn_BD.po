@@ -1,0 +1,429 @@
+# Copyright (c) 2023 Rakibul Hasan. All Rights Reserved.
+msgid ""
+msgstr ""
+"Project-Id-Version: OzoPanel 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/therakib7/ozopanel/issues\n"
+"Last-Translator: \n"
+"Language-Team: বাংলা\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-12-31T10:38:53+00:00\n"
+"PO-Revision-Date: 2023-12-31 10:39+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: ozopanel\n"
+"Language: bn_BD\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Loco-Version: 2.6.6; wp-6.4.2"
+
+#. Plugin Name of the plugin
+#: includes/Ctrl/MenuPage/Type/Dashboard.php:48
+#: includes/Ctrl/MenuPage/Type/Dashboard.php:49
+#: includes/Ctrl/Template/TemplateCtrl.php:18
+msgid "OzoPanel"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/ozopanel"
+msgstr ""
+
+#. Description of the plugin
+msgid "Manager WP Access"
+msgstr ""
+
+#. Author of the plugin
+msgid "WpOzo"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://wpozo.com"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Action.php:99
+msgid "Required field is missing"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Action.php:133
+msgid "Type is missing"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Addons.php:84
+#: includes/Ctrl/MenuPage/Type/Dashboard.php:60
+#: includes/Ctrl/MenuPage/Type/Dashboard.php:61 includes/Helper/I18n.php:43
+msgid "Admin Menu Editor"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Addons.php:90
+#: includes/Ctrl/MenuPage/Type/Dashboard.php:71
+#: includes/Ctrl/MenuPage/Type/Dashboard.php:72 includes/Helper/I18n.php:51
+msgid "Admin Column Editor"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Addons.php:91
+msgid "You can customize table column using this"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Addons.php:96 includes/Helper/I18n.php:31
+msgid "Restriction"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Addons.php:97
+msgid "You can restrict admin menu and submenu using this"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Addons.php:102
+msgid "Nav Menu Restriction"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Addons.php:103
+msgid "You can restrict nav menu using this"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Addons.php:147
+msgid "Addon is missing"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/AdminColumn.php:107
+#: includes/Ctrl/Api/Type/AdminColumn.php:173
+msgid "Screen ID is required!"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Restriction.php:162
+#: includes/Ctrl/Api/Type/Restriction.php:408 includes/Helper/I18n.php:34
+msgid "Please Select User"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Restriction.php:167
+msgid "Please Select Role"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Restriction.php:177
+msgid "User already exist!"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Restriction.php:185
+msgid "Role already exist!"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Restriction.php:193
+#: includes/Ctrl/Api/Type/Restriction.php:421 includes/Helper/I18n.php:33
+msgid "Please select Menu"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Restriction.php:200
+#: includes/Ctrl/Api/Type/Restriction.php:207
+#: includes/Ctrl/Api/Type/Restriction.php:428
+#: includes/Ctrl/Api/Type/Restriction.php:435
+msgid "Administrator restriction not allowed!"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Restriction.php:413 includes/Helper/I18n.php:35
+msgid "Please Seleact Role"
+msgstr ""
+
+#: includes/Ctrl/Api/Type/Setting.php:69 includes/Ctrl/Api/Type/Setting.php:116
+msgid "Tab is missing"
+msgstr ""
+
+#: includes/Ctrl/Assist/Type/Link.php:18
+msgid "Documentation"
+msgstr ""
+
+#: includes/Ctrl/Assist/Type/Link.php:20
+msgid "Get Pro"
+msgstr ""
+
+#: includes/Ctrl/Hook/Type/Action/Type/NavMenu.php:30
+msgid "Who Can See This Menu?"
+msgstr ""
+
+#: includes/Ctrl/Hook/Type/Action/Type/NavMenu.php:32
+msgid "Everyone"
+msgstr ""
+
+#: includes/Ctrl/Hook/Type/Action/Type/NavMenu.php:33
+msgid "Logged In Users"
+msgstr ""
+
+#: includes/Ctrl/Hook/Type/Action/Type/NavMenu.php:34
+msgid "Logged Out Users"
+msgstr ""
+
+#: includes/Ctrl/Hook/Type/Action/Type/NavMenu.php:35
+msgid "Specific Roles Users"
+msgstr ""
+
+#: includes/Ctrl/Hook/Type/Action/Type/NavMenu.php:41
+msgid "Chose Which Roles Can See This Menu?"
+msgstr ""
+
+#: includes/Ctrl/MenuPage/Type/Dashboard.php:82
+#: includes/Ctrl/MenuPage/Type/Dashboard.php:83
+msgid "Manage Restrictions"
+msgstr ""
+
+#: includes/Ctrl/MenuPage/Type/Dashboard.php:92
+#: includes/Ctrl/MenuPage/Type/Dashboard.php:93 includes/Helper/I18n.php:65
+msgid "Settings"
+msgstr ""
+
+#: includes/Ctrl/MenuPage/Type/Dashboard.php:101
+#: includes/Ctrl/MenuPage/Type/Dashboard.php:102 includes/Helper/I18n.php:55
+msgid "Addons"
+msgstr ""
+
+#: includes/Ctrl/MenuPage/Type/Dashboard.php:325
+msgid "Sorry, you are not allowed to access this page."
+msgstr ""
+
+#: includes/Ctrl/MenuPage/Type/Welcome.php:21
+#: includes/Ctrl/MenuPage/Type/Welcome.php:22
+msgid "OzoPanel Welcome"
+msgstr ""
+
+#: includes/Helper/I18n.php:14
+msgid "Label"
+msgstr ""
+
+#: includes/Helper/I18n.php:15
+msgid "Select"
+msgstr ""
+
+#: includes/Helper/I18n.php:16
+msgid "View"
+msgstr ""
+
+#: includes/Helper/I18n.php:17
+msgid "Apply"
+msgstr ""
+
+#: includes/Helper/I18n.php:18
+msgid "Save"
+msgstr ""
+
+#: includes/Helper/I18n.php:19
+msgid "Save Changes"
+msgstr ""
+
+#: includes/Helper/I18n.php:20
+msgid "Reset Changes"
+msgstr ""
+
+#: includes/Helper/I18n.php:21
+msgid "Cancel"
+msgstr ""
+
+#: includes/Helper/I18n.php:22
+msgid "Back to"
+msgstr ""
+
+#: includes/Helper/I18n.php:23
+msgid "Delete"
+msgstr ""
+
+#: includes/Helper/I18n.php:24
+msgid "Submit"
+msgstr ""
+
+#: includes/Helper/I18n.php:25
+msgid "Submitting..."
+msgstr ""
+
+#: includes/Helper/I18n.php:26
+msgid "Update"
+msgstr ""
+
+#: includes/Helper/I18n.php:27
+msgid "Updatting..."
+msgstr ""
+
+#: includes/Helper/I18n.php:29
+msgid "Restrict"
+msgstr ""
+
+#: includes/Helper/I18n.php:30
+msgid "You have not restrict any"
+msgstr ""
+
+#: includes/Helper/I18n.php:32
+msgid "Select menu and submenu which you want to allow for this"
+msgstr ""
+
+#: includes/Helper/I18n.php:36
+msgid "User"
+msgstr ""
+
+#: includes/Helper/I18n.php:37 includes/Model/AdminColumn.php:52
+#: includes/Model/AdminColumn.php:55
+msgid "Users"
+msgstr ""
+
+#: includes/Helper/I18n.php:38
+msgid "Role"
+msgstr ""
+
+#: includes/Helper/I18n.php:39
+msgid "Roles"
+msgstr ""
+
+#: includes/Helper/I18n.php:40
+msgid "Name"
+msgstr ""
+
+#: includes/Helper/I18n.php:41
+msgid "Email"
+msgstr ""
+
+#: includes/Helper/I18n.php:44
+msgid "Add New Menu"
+msgstr ""
+
+#: includes/Helper/I18n.php:45
+msgid "Add New Submenu"
+msgstr ""
+
+#: includes/Helper/I18n.php:46
+msgid "Menu Name"
+msgstr ""
+
+#: includes/Helper/I18n.php:47
+msgid "Submenu Name"
+msgstr ""
+
+#: includes/Helper/I18n.php:48
+msgid "Edit Menu"
+msgstr ""
+
+#: includes/Helper/I18n.php:49
+msgid "Hide"
+msgstr ""
+
+#: includes/Helper/I18n.php:52
+msgid "Add New Column"
+msgstr ""
+
+#: includes/Helper/I18n.php:53
+msgid "Edit Column"
+msgstr ""
+
+#: includes/Helper/I18n.php:56
+msgid "Activate"
+msgstr ""
+
+#: includes/Helper/I18n.php:57
+msgid "Deactivate"
+msgstr ""
+
+#: includes/Helper/I18n.php:60
+msgid "ID"
+msgstr ""
+
+#: includes/Helper/I18n.php:61
+msgid "Edit"
+msgstr ""
+
+#: includes/Helper/I18n.php:62
+msgid "Actions"
+msgstr ""
+
+#: includes/Helper/I18n.php:67
+msgid "General"
+msgstr ""
+
+#: includes/Helper/I18n.php:68 view/uninstall/form.php:25
+msgid "Other"
+msgstr ""
+
+#: includes/Helper/I18n.php:70
+msgid "Successfully Added"
+msgstr ""
+
+#: includes/Helper/I18n.php:71
+msgid "Successfully Updated"
+msgstr ""
+
+#: includes/Helper/I18n.php:72
+msgid "Successfully Deleted"
+msgstr ""
+
+#: includes/Model/AdminColumn.php:21
+msgid "Post Type"
+msgstr ""
+
+#: includes/Model/AdminColumn.php:27 includes/Model/AdminColumn.php:30
+msgid "Media"
+msgstr ""
+
+#: includes/Model/AdminColumn.php:38 includes/Model/AdminColumn.php:41
+msgid "Comments"
+msgstr ""
+
+#: view/template/partial/403.php:24
+msgid "Sorry!! You don't have permission to view this page"
+msgstr ""
+
+#: view/template/partial/404.php:40
+msgid "We Can't find this page you're looking for"
+msgstr ""
+
+#: view/uninstall/form.php:4
+msgid "I no longer need the plugin"
+msgstr ""
+
+#: view/uninstall/form.php:8
+msgid "I found a better plugin"
+msgstr ""
+
+#: view/uninstall/form.php:9
+msgid "Please share which plugin"
+msgstr ""
+
+#: view/uninstall/form.php:12
+msgid "I couldn't get the plugin to work"
+msgstr ""
+
+#: view/uninstall/form.php:16
+msgid "It's a temporary deactivation"
+msgstr ""
+
+#: view/uninstall/form.php:20
+msgid "I have OzoPanel Pro"
+msgstr ""
+
+#: view/uninstall/form.php:22
+msgid ""
+"Wait! Don't deactivate OzoPanel. You have to activate both OzoPanel and "
+"OzoPanel Pro in order for the plugin to work."
+msgstr ""
+
+#: view/uninstall/form.php:26
+msgid "Please share the reason"
+msgstr ""
+
+#: view/uninstall/form.php:56
+msgid "Quick Feedback"
+msgstr ""
+
+#: view/uninstall/form.php:57
+msgid "If you have a moment, please share why you are deactivating OzoPanel"
+msgstr ""
+
+#: view/uninstall/form.php:105
+msgid "Share your Name and Email for communication purposes"
+msgstr ""
+
+#: view/uninstall/form.php:116
+msgid "Skip and Deactivate"
+msgstr ""
+
+#: view/uninstall/form.php:120
+msgid "Submit and Deactivate"
+msgstr ""
+
+#: build/index.js:4660
+msgid "Rakib Test"
+msgstr "RRRakib Test"
+
+#: build/src_pages_settings_index_tsx.js:63
+msgid "Rakib Settings"
+msgstr ""

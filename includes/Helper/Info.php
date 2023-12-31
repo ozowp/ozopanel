@@ -1,13 +1,14 @@
 <?php
 
 namespace OzoPanel\Helper;
+
 /**
  * WP self site information
  *
  * @since 1.0.0
  */
-class Info
-{
+class Info {
+
     /**
      * Get site name
      * @since 1.0.0
@@ -31,28 +32,28 @@ class Info
      * Check update feedback
      * @since 1.0.0
      */
-    public function wp( $get_update = null, $share_info = null) {
+    public function wp( $get_update = null, $share_info = null ) {
 
-        $data = [];
+        $data = array();
 
         if ( $get_update !== null ) {
             $data['get_update'] = $get_update;
             if ( $get_update ) {
-                $data = array_merge($data, $this->name_email());
+                $data = array_merge( $data, $this->name_email() );
             }
         }
 
         if ( $share_info !== null ) {
             $data['share_info'] = $share_info;
             if ( $share_info ) {
-                $wp_info = [
+                $wp_info = array(
                     'url'         => esc_url( home_url() ),
                     'site'        => $this->get_site_name(),
                     'wp'          => $this->get_wp_info(),
                     // 'ip'          => $this->get_user_ip_address(),
-                ];
+                );
 
-                $data = array_merge($data, $wp_info);
+                $data = array_merge( $data, $wp_info );
             }
         }
 
@@ -68,15 +69,17 @@ class Info
      */
     public function name_email() {
 
-        $users = get_users( array(
-            'role'    => 'administrator',
-            'orderby' => 'ID',
-            'order'   => 'ASC',
-            'number'  => 1,
-            'paged'   => 1,
-        ) );
+        $users = get_users(
+            array(
+				'role'    => 'administrator',
+				'orderby' => 'ID',
+				'order'   => 'ASC',
+				'number'  => 1,
+				'paged'   => 1,
+            )
+        );
 
-        $admin_user =  ( is_array( $users ) && ! empty( $users ) ) ? $users[0] : false;
+        $admin_user = ( is_array( $users ) && ! empty( $users ) ) ? $users[0] : false;
         $first_name = $last_name = '';
 
         if ( $admin_user ) {
@@ -84,11 +87,11 @@ class Info
             $last_name  = $admin_user->last_name;
         }
 
-        return [
+        return array(
             'admin_email' => get_option( 'admin_email' ),
             'first_name'  => $first_name,
             'last_name'   => $last_name,
-        ];
+        );
     }
 
     /**
@@ -100,7 +103,7 @@ class Info
         $wp_data = array();
 
         $wp_data['memory_limit'] = WP_MEMORY_LIMIT;
-        $wp_data['debug_mode']   = ( defined('WP_DEBUG') && WP_DEBUG );
+        $wp_data['debug_mode']   = ( defined( 'WP_DEBUG' ) && WP_DEBUG );
         $wp_data['locale']       = get_locale();
         $wp_data['version']      = get_bloginfo( 'version' );
         $wp_data['multisite']    = is_multisite();

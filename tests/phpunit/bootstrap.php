@@ -1,7 +1,9 @@
 <?php
-namespace OzoPanel\Tests;
+namespace Rakib\Tests;
 /**
  * PHPUnit bootstrap file
+ * 
+ * @since 1.0.0
  */
 
 // Composer autoloader must be loaded before WP_PHPUNIT__DIR will be available

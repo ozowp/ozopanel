@@ -13,7 +13,6 @@
  * Description: Manager WP Access
  * Text Domain: ozopanel
  * Domain Path: /languages
- *
  */
 
 /**
@@ -21,7 +20,9 @@
  *
  * @since 1.0.0
  */
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * OzoPanel Final Class
@@ -31,7 +32,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 
 use OzoPanel\Helper\Fns;
-use Dotenv\Dotenv;
 
 final class OzoPanel {
 
@@ -67,15 +67,11 @@ final class OzoPanel {
 
         require_once __DIR__ . '/vendor/autoload.php';
 
-        // Load the .env file
-        $dotenv = Dotenv::createImmutable(__DIR__);
-        $dotenv->load();
-
         $this->define_constants();
 
         // new OzoPanel\Ctrl\Install\InstallCtrl();
-        add_action('plugins_loaded', [$this, 'on_plugins_loaded'], -1);
-        add_action('init', [$this, 'initial'], 1);
+        add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ), -1 );
+        add_action( 'init', array( $this, 'initial' ), 1 );
     }
 
 	/**
@@ -98,12 +94,21 @@ final class OzoPanel {
      * @return void
      */
     public function define_constants() {
-        $this->define( 'OZOPANEL_VERSION', $this->version );
+        /* $this->define( 'OZOPANEL_VERSION', $this->version );
         $this->define( 'OZOPANEL_FILE', __FILE__ );
         $this->define( 'OZOPANEL_PATH', plugin_dir_path(__FILE__) );
         $this->define( 'OZOPANEL_URL', plugins_url( '', __FILE__) );
         $this->define( 'OZOPANEL_SLUG', basename( dirname(__FILE__)) );
-        $this->define( 'OZOPANEL_ASSEST', plugins_url( 'dist', __FILE__ ) );
+        $this->define( 'OZOPANEL_ASSEST', plugins_url( 'dist', __FILE__ ) ); */
+        define( 'OZOPANEL_VERSION', $this->version );
+        define( 'OZOPANEL_FILE', __FILE__ );
+        define( 'OZOPANEL_DIR', __DIR__ );
+        define( 'OZOPANEL_PATH', plugin_dir_path( __FILE__ ) );
+        define( 'OZOPANEL_URL', plugins_url( '', __FILE__ ) );
+        define( 'OZOPANEL_SLUG', basename( __DIR__ ) );
+        define( 'OZOPANEL_TEMPLATE_PATH', OZOPANEL_PATH . '/templates' );
+        define( 'OZOPANEL_BUILD', OZOPANEL_URL . '/build' );
+        define( 'OZOPANEL_ASSETS', OZOPANEL_URL . '/assets' );
     }
 
     /**
@@ -128,13 +133,13 @@ final class OzoPanel {
      * @return void
      */
     public function initial() {
-        do_action('ozopanel_before_init');
-
-        $this->localization();
+        do_action( 'ozopanel_before_init' );
 
         OzoPanel\Ctrl\MainCtrl::init();
 
-        do_action('ozopanel_init');
+        $this->localization();
+
+        do_action( 'ozopanel_init' );
     }
 
     /**
@@ -142,7 +147,7 @@ final class OzoPanel {
      * @since 1.0.0
      */
     public function on_plugins_loaded() {
-        do_action('ozopanel_loaded');
+        do_action( 'ozopanel_loaded' );
     }
 
     /**
@@ -152,6 +157,11 @@ final class OzoPanel {
      */
     public function localization() {
         load_plugin_textdomain( 'ozopanel', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+
+        if ( is_admin() ) {
+            // Load wp-script translation for ozopanel-dashboard
+            wp_set_script_translations( 'ozopanel-dashboard', 'ozopanel', plugin_dir_path( __FILE__ ) . 'languages'  );
+        }
     }
 
     /**
@@ -162,15 +172,15 @@ final class OzoPanel {
      * @return bool
      */
     public function is_request( $type ) {
-        switch( $type ) {
+        switch ( $type ) {
             case 'admin':
                 return is_admin();
             case 'public':
-                return ( !is_admin() || defined('DOING_AJAX') ) && !defined('DOING_CRON');
+                return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
             case 'ajax':
-                return defined('DOING_AJAX');
+                return defined( 'DOING_AJAX' );
             case 'cron':
-                return defined('DOING_CRON');
+                return defined( 'DOING_CRON' );
         }
     }
 
@@ -198,7 +208,7 @@ final class OzoPanel {
      * @return string
      */
     public function plugin_path() {
-        return untrailingslashit(plugin_dir_path(__FILE__));
+        return untrailingslashit( plugin_dir_path( __FILE__ ) );
     }
 
     /**
@@ -207,7 +217,7 @@ final class OzoPanel {
      * @return string
      */
     public function get_template_path() {
-        return apply_filters('ozopanel_template_path', 'ozopanel/templates/');
+        return apply_filters( 'ozopanel_template_path', 'ozopanel/templates/' );
     }
 
     /**
@@ -217,10 +227,10 @@ final class OzoPanel {
      * @since 1.0.0
      * @return string
      */
-    public function get_asset_uri($file) {
-        $file = ltrim($file, '/');
+    public function get_asset_uri( $file ) {
+        $file = ltrim( $file, '/' );
 
-        return trailingslashit(OZOPANEL_URL . '/dist') . $file;
+        return trailingslashit( OZOPANEL_URL . '/dist' ) . $file;
     }
 
     /**
@@ -230,8 +240,8 @@ final class OzoPanel {
      * @since 1.0.0
      * @return string
      */
-    public function render($path, $args = array(), $return = false) {
-        return Fns::render( $path, $args, $return);
+    public function render( $path, $args = array(), $is_return = false ) {
+        return Fns::render( $path, $args, $is_return );
     }
 
     /**
@@ -250,9 +260,9 @@ final class OzoPanel {
      * @since 1.0.0
      * @return boolean
      */
-    public function is_active_addon($id) {
-        $addons = get_option('ozopanel_addons', []);
-        return (array_key_exists($id, $addons)) ? $addons[$id] : true;
+    public function is_active_addon( $id ) {
+        $addons = get_option( 'ozopanel_addons', array() );
+        return ( array_key_exists( $id, $addons ) ) ? $addons[ $id ] : true;
     }
 
     /**
@@ -271,7 +281,7 @@ final class OzoPanel {
      * @return string
      */
     public function plain_route() {
-        $permalink_structure = get_option('permalink_structure');
+        $permalink_structure = get_option( 'permalink_structure' );
         return $permalink_structure === '' ? '/(?P<args>.*)' : '';
     }
 
@@ -280,9 +290,8 @@ final class OzoPanel {
      * @since 1.0.0
      * @return void
      */
-    public function gate()
-    {
-        return function_exists('ozopanelp') && ozopanelp()->gate();
+    public function gate() {
+        return function_exists( 'ozopanelp' ) && ozopanelp()->gate();
     }
 }
 

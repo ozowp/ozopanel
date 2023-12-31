@@ -15,16 +15,18 @@ class Fns {
 	 * @since 1.0.0
 	 */
 	public static function format_column( $data ) {
-        $admin_columns = [];
+        $admin_columns = array();
 		foreach ( $data as $key => $value ) {
-            if ( $key == 'cb' ) continue;
-            $column = [
+            if ( $key === 'cb' ) {
+				continue;
+            }
+            $column = array(
                 'id' => '',
                 'type' => '',
                 'label' => '',
                 'width' => '',
                 'width_unit' => '%',
-            ];
+            );
             $column['id'] = $key;
             $column['type'] = 'default';
             $column['label'] = $value;

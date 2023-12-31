@@ -11,8 +11,8 @@ use OzoPanel\Helper\Fns;
  * @since 1.0.0
  */
 
-class Addons extends RestCtrl
-{
+class Addons extends RestCtrl {
+
 
     /**
      * Route base.
@@ -24,49 +24,47 @@ class Addons extends RestCtrl
 
     /**
      * Register all routes related with carts.
-     * 
+     *
      * @since 1.0.0
-     * 
+     *
      * @return void
-     * 
      */
-    public function routes()
-    {
+    public function routes() {
 
         register_rest_route(
             $this->namespace, '/' . $this->base,
-            [
+            array(
                 'methods' => 'GET',
-                'callback' => [$this, 'get'],
-                'permission_callback' => function() {
-                    return Fns::gate($this->base, 'get');
+                'callback' => array( $this, 'get' ),
+                'permission_callback' => function () {
+                    return Fns::gate( $this->base, 'get' );
                 },
-                'args' => [
-                    'type' => [
-                        'validate_callback' => function ($param) {
-                            return is_string($param);
-                        }
-                    ]
-                ],
-            ]
+                'args' => array(
+                    'type' => array(
+                        'validate_callback' => function ( $param ) {
+                            return is_string( $param );
+                        },
+                    ),
+                ),
+            )
         );
 
         register_rest_route(
             $this->namespace, '/' . $this->base . '/(?P<id>[^/]+)',
-            [
+            array(
                 'methods' => 'PUT',
-                'callback' => [$this, 'update'],
-                'permission_callback' => function() {
-                    return Fns::gate($this->base, 'edit');
+                'callback' => array( $this, 'update' ),
+                'permission_callback' => function () {
+                    return Fns::gate( $this->base, 'edit' );
                 },
-                'args' => [
-                    'id' => [
-                        'validate_callback' => function ($param) {
-                            return is_numeric($param);
+                'args' => array(
+                    'id' => array(
+                        'validate_callback' => function ( $param ) {
+                            return is_numeric( $param );
                         },
-                    ],
-                ],
-            ]
+                    ),
+                ),
+            )
         );
     }
 
@@ -79,93 +77,95 @@ class Addons extends RestCtrl
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function get($req)
-    {
-        $list = [
-            [
+    public function get( $req ) {
+        $list = array(
+            array(
                 'id' => 'admin_menu_editor',
                 'title' => esc_html__( 'Admin Menu Editor', 'ozopanel' ),
                 'desc' => 'You can customize admin menu and submenu using this',
-                'isActive' => true
-            ],
-            [
+                'isActive' => true,
+            ),
+            array(
                 'id' => 'admin_column_editor',
                 'title' => esc_attr__( 'Admin Column Editor', 'ozopanel' ),
                 'desc' => esc_attr__( 'You can customize table column using this', 'ozopanel' ),
-                'isActive' => true
-            ],
-            [
+                'isActive' => true,
+            ),
+            array(
                 'id' => 'restriction',
                 'title' => esc_attr__( 'Restriction', 'ozopanel' ),
                 'desc' => esc_attr__( 'You can restrict admin menu and submenu using this', 'ozopanel' ),
-                'isActive' => true
-            ],
-            [
+                'isActive' => true,
+            ),
+            array(
                 'id' => 'nav_menu_restriction',
                 'title' => esc_attr__( 'Nav Menu Restriction', 'ozopanel' ),
                 'desc' => esc_attr__( 'You can restrict nav menu using this', 'ozopanel' ),
-                'isActive' => false
-            ],
-        ];
+                'isActive' => false,
+            ),
+        );
 
-        $addons = get_option('ozopanel_addons', []);
+        $addons = get_option( 'ozopanel_addons', array() );
 
-        foreach ($list as $key => $item) {
-            if (array_key_exists($item['id'], $addons)) {
-                $list[$key]['isActive'] = $addons[$item['id']];
+        foreach ( $list as $key => $item ) {
+            if ( array_key_exists( $item['id'], $addons ) ) {
+                $list[ $key ]['isActive'] = $addons[ $item['id'] ];
             } else {
-                $list[$key]['isActive'] = true;
+                $list[ $key ]['isActive'] = true;
             }
         }
 
         $resp['list'] = $list;
 
-        return new \WP_REST_Response([
-            'success'  => true,
-            'data' => $resp
-        ], 200);
+        return new \WP_REST_Response(
+            array(
+				'success'  => true,
+				'data' => $resp,
+            ), 200
+        );
     }
 
     /**
      * Update existing action.
-     * 
+     *
      * @since 1.0.0
-     * 
+     *
      * @param \WP_REST_Request $req Request object.
      */
-    public function update($req)
-    {
+    public function update( $req ) {
         $param = $req->get_params();
         $wp_err = new \WP_Error();
 
         $url_params = $req->get_url_params();
         $addon = $url_params['id'];
 
-        $isActive = isset($param['isActive']) ? rest_sanitize_boolean($param['isActive']) : false;
+        $is_active = isset( $param['isActive'] ) ? rest_sanitize_boolean( $param['isActive'] ) : false;
 
-        if (empty($addon)) {
+        if ( empty( $addon ) ) {
             $wp_err->add(
                 'field',
-                esc_html__('Addon is missing', 'ozopanel')
+                esc_html__( 'Addon is missing', 'ozopanel' )
             );
         }
 
-        if ($wp_err->get_error_messages()) {
-            return new \WP_REST_Response([
-                'success'  => false,
-                'data' => $wp_err->get_error_messages()
-            ], 200);
+        if ( $wp_err->get_error_messages() ) {
+            return new \WP_REST_Response(
+                array(
+					'success'  => false,
+					'data' => $wp_err->get_error_messages(),
+                ), 200
+            );
         } else {
-            
-            $addons = get_option('ozopanel_addons', []);
-            $addons[$addon] = $isActive;
-            update_option('ozopanel_addons', $addons);
+            $addons = get_option( 'ozopanel_addons', array() );
+            $addons[ $addon ] = $is_active;
+            update_option( 'ozopanel_addons', $addons );
 
-            return new \WP_REST_Response([
-                'success'  => true,
-                'data' => null
-            ], 200);
+            return new \WP_REST_Response(
+                array(
+					'success'  => true,
+					'data' => null,
+                ), 200
+            );
         }
     }
-
 }

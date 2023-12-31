@@ -9,39 +9,39 @@ use OzoPanel\Ctrl\Hook\Type\Filter\Type\NavMenu;
  *
  * @since 1.0.0
  */
-class FilterCtrl
-{
-    public function __construct()
-    {
+class FilterCtrl {
+
+    public function __construct() {
         new NavMenu();
         new AdminColumn();
-        add_filter("body_class", [$this, "body_class"]);
-        add_filter("admin_body_class", [$this, "admin_body_class"]);
+        add_filter( 'body_class', array( $this, 'body_class' ) );
+        add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
     }
 
-    function body_class($classes)
-    {
+    function body_class( $classes ) {
         if (
-            is_page_template([
-                "test-template.php"
-            ])
+            is_page_template(
+                array(
+					'test-template.php',
+                )
+            )
         ) {
-            $classes[] = "ozopanel";
-            $classes[] = get_option("template") . "-theme";
+            $classes[] = 'ozopanel';
+            $classes[] = get_option( 'template' ) . '-theme';
         }
         return $classes;
     }
 
-    function admin_body_class($classes)
-    {
+    function admin_body_class( $classes ) {
         if (
-            (isset($_GET["page"]) && $_GET["page"] == "ozopanel") ||
-            (isset($_GET["page"]) && $_GET["page"] == "ozopanel-welcome")
+            // It getting from admin menu page URL, no need to check NonceVerification
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            ( isset( $_GET['page'] ) && sanitize_text_field( $_GET['page'] ) === 'ozopanel' ) ||
+            ( isset( $_GET['page'] ) && sanitize_text_field( $_GET['page'] ) === 'ozopanel-welcome' )
         ) {
-            $classes .= " ozopanel " . get_option("template") . "-theme";
+            $classes .= ' ozopanel ' . get_option( 'template' ) . '-theme';
         }
 
         return $classes;
     }
-
 }

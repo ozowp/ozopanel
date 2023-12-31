@@ -10,10 +10,9 @@ use OzoPanel\Ctrl\Hook\Type\Filter\FilterCtrl;
  *
  * @since 1.0.0
  */
-class HookCtrl
-{
-    public function __construct()
-    {
+class HookCtrl {
+
+    public function __construct() {
         new ActionCtrl();
         new FilterCtrl();
     }

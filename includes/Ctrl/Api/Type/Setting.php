@@ -11,8 +11,8 @@ use OzoPanel\Helper\Fns;
  * @since 1.0.0
  */
 
-class Setting extends RestCtrl
-{
+class Setting extends RestCtrl {
+
     /**
      * Route base.
      *
@@ -28,28 +28,27 @@ class Setting extends RestCtrl
      * @since 1.0.0
      */
 
-    public function routes()
-    {
+    public function routes() {
         register_rest_route(
             $this->namespace, '/' . $this->base,
-            [
+            array(
                 'methods' => 'GET',
-                'callback' => [$this, 'get'],
-                'permission_callback' => function() {
-                    return Fns::gate($this->base, 'get');
+                'callback' => array( $this, 'get' ),
+                'permission_callback' => function () {
+                    return Fns::gate( $this->base, 'get' );
                 },
-            ]
+            )
         );
 
         register_rest_route(
             $this->namespace, '/' . $this->base . ozopanel()->plain_route(),
-            [
+            array(
                 'methods' => 'POST',
-                'callback' => [$this, 'create'],
-                'permission_callback' => function() {
-                    return Fns::gate($this->base, 'add');
-                }
-            ]
+                'callback' => array( $this, 'create' ),
+                'permission_callback' => function () {
+                    return Fns::gate( $this->base, 'add' );
+                },
+            )
         );
     }
 
@@ -58,42 +57,45 @@ class Setting extends RestCtrl
      *
      * @param \WP_REST_Request $req Request object.
      */
-    public function get($req)
-    {
+    public function get( $req ) {
         $param = $req->get_params();
         $wp_err = new \WP_Error();
 
-        $tab = isset($param['tab']) ? sanitize_text_field($param['tab']) : null;
+        $tab = isset( $param['tab'] ) ? sanitize_text_field( $param['tab'] ) : null;
 
-        if (empty($tab)) {
+        if ( empty( $tab ) ) {
             $wp_err->add(
                 'field',
-                esc_html__('Tab is missing', 'ozopanel')
+                esc_html__( 'Tab is missing', 'ozopanel' )
             );
         }
 
-        if ($wp_err->get_error_messages()) {
-            return new \WP_REST_Response([
-                'success'  => false,
-                'data' => $wp_err->get_error_messages()
-            ], 200);
+        if ( $wp_err->get_error_messages() ) {
+            return new \WP_REST_Response(
+                array(
+					'success'  => false,
+					'data' => $wp_err->get_error_messages(),
+                ), 200
+            );
         } else {
-            $data = [];
+            $data = array();
 
-            if ($tab == 'test_tab') {
-                $option = get_option('ozopanel_' . $tab);
+            if ( $tab === 'test_tab' ) {
+                $option = get_option( 'ozopanel_' . $tab );
 
-                if ($option) {
+                if ( $option ) {
                     $data = $option;
                 } else {
                     $data['status'] = false;
                 }
             }
 
-            return new \WP_REST_Response([
-                'success'  => true,
-                'data' => $data
-            ], 200);
+            return new \WP_REST_Response(
+                array(
+					'success'  => true,
+					'data' => $data,
+                ), 200
+            );
         }
     }
 
@@ -102,49 +104,52 @@ class Setting extends RestCtrl
      *
      * @param \WP_REST_Request $req Request object.
      */
-    public function create($req)
-    {
+    public function create( $req ) {
         $param = $req->get_params();
         $wp_err = new \WP_Error();
 
-        $tab = isset($param['tab']) ? sanitize_text_field($param['tab']) : '';
+        $tab = isset( $param['tab'] ) ? sanitize_text_field( $param['tab'] ) : '';
 
-        if (empty($tab)) {
+        if ( empty( $tab ) ) {
             $wp_err->add(
                 'field',
-                esc_html__('Tab is missing', 'ozopanel')
+                esc_html__( 'Tab is missing', 'ozopanel' )
             );
         }
 
-        if ($wp_err->get_error_messages()) {
-            return new \WP_REST_Response([
-                'success'  => false,
-                'data' => $wp_err->get_error_messages()
-            ], 200);
+        if ( $wp_err->get_error_messages() ) {
+            return new \WP_REST_Response(
+                array(
+					'success'  => false,
+					'data' => $wp_err->get_error_messages(),
+                ), 200
+            );
         } else {
-            $data = [];
+            $data = array();
 
-            if ($tab == 'estimate_reminder') {
-                $data['status'] = isset($param['status'])
-                    ? rest_sanitize_boolean($param['status'])
+            if ( $tab === 'estimate_reminder' ) {
+                $data['status'] = isset( $param['status'] )
+                    ? rest_sanitize_boolean( $param['status'] )
                     : null;
-                $data['due_date'] = isset($param['due_date'])
+                $data['due_date'] = isset( $param['due_date'] )
                     ? $param['due_date']
                     : null;
-                $data['before'] = isset($param['before'])
+                $data['before'] = isset( $param['before'] )
                     ? $param['before']
                     : null;
-                $data['after'] = isset($param['after'])
+                $data['after'] = isset( $param['after'] )
                     ? $param['after']
                     : null;
 
-                $option = update_option('ozopanel_' . $tab, $data);
+                $option = update_option( 'ozopanel_' . $tab, $data );
             }
 
-            return new \WP_REST_Response([
-                'success'  => true,
-                'data' => null
-            ], 200);
+            return new \WP_REST_Response(
+                array(
+					'success'  => true,
+					'data' => null,
+                ), 200
+            );
         }
     }
 }

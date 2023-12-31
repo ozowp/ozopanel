@@ -11,16 +11,15 @@ use OzoPanel\Helper\Fns;
  * @since 1.0.0
  */
 
-class Action extends RestCtrl
-{
+class Action extends RestCtrl {
+
 
     /**
      * Route base.
-     * 
+     *
      * @since 1.0.0
-     * 
+     *
      * @var string
-     * 
      */
     protected $base = 'actions';
 
@@ -29,51 +28,50 @@ class Action extends RestCtrl
      * @since 1.0.0
      * @return void
      */
-    public function routes()
-    {
+    public function routes() {
         register_rest_route(
             $this->namespace, '/' . $this->base,
-            [
+            array(
                 'methods' => 'POST',
-                'callback' => [$this, 'create'],
-                'permission_callback' => function() {
-                    return Fns::gate($this->base, 'add');
+                'callback' => array( $this, 'create' ),
+                'permission_callback' => function () {
+                    return Fns::gate( $this->base, 'add' );
                 },
-            ]
+            )
         );
 
         register_rest_route(
             $this->namespace, '/' . $this->base . '/(?P<id>[^/]+)',
-            [
+            array(
                 'methods' => 'PUT',
-                'callback' => [$this, 'update'],
-                'permission_callback' => function() {
-                    return Fns::gate($this->base, 'edit');
+                'callback' => array( $this, 'update' ),
+                'permission_callback' => function () {
+                    return Fns::gate( $this->base, 'edit' );
                 },
-                'args' => [
-                    'id' => [
-                        'validate_callback' => function ($param) {
-                            return is_numeric($param);
+                'args' => array(
+                    'id' => array(
+                        'validate_callback' => function ( $param ) {
+                            return is_numeric( $param );
                         },
-                    ],
-                ],
-            ]
+                    ),
+                ),
+            )
         );
 
         register_rest_route(
             $this->namespace, '/' . $this->base . '/(?P<id>[0-9,]+)',
-            [
+            array(
                 'methods' => 'DELETE',
-                'callback' => [$this, 'delete'],
-                'permission_callback' => function() {
-                    return Fns::gate($this->base, 'del');
+                'callback' => array( $this, 'delete' ),
+                'permission_callback' => function () {
+                    return Fns::gate( $this->base, 'del' );
                 },
-                'args' => [
-                    'id' => [
+                'args' => array(
+                    'id' => array(
                         'sanitize_callback' => 'sanitize_text_field',
-                    ],
-                ],
-            ]
+                    ),
+                ),
+            )
         );
     }
 
@@ -82,32 +80,33 @@ class Action extends RestCtrl
      * @since 1.0.0
      * @param \WP_REST_Request $req Request object.
      */
-    public function create($req)
-    {
+    public function create( $req ) {
         $param = $req->get_params();
         $wp_err = new \WP_Error();
 
         // modified for multiple id support
-        $str_id = isset($param['id']) ? $param['id'] : null;
-        $type = isset($param['type']) ? sanitize_text_field($param['type']) : '';
+        $str_id = isset( $param['id'] ) ? $param['id'] : null;
+        $type = isset( $param['type'] ) ? sanitize_text_field( $param['type'] ) : '';
 
-        $ids = explode(',', $str_id);
+        $ids = explode( ',', $str_id );
 
-        foreach ($ids as $id) {
-            $id = (int)$id;
+        foreach ( $ids as $id ) {
+            $id = (int) $id;
 
-            if (empty($id) || empty($type)) {
+            if ( empty( $id ) || empty( $type ) ) {
                 $wp_err->add(
                     'field',
-                    esc_html__('Required field is missing', 'ozopanel')
+                    esc_html__( 'Required field is missing', 'ozopanel' )
                 );
             }
 
-            if ($wp_err->get_error_messages()) {
-                return new \WP_REST_Response([
-                    'success'  => false,
-                    'data' => $wp_err->get_error_messages()
-                ], 200);
+            if ( $wp_err->get_error_messages() ) {
+                return new \WP_REST_Response(
+                    array(
+						'success'  => false,
+						'data' => $wp_err->get_error_messages(),
+                    ), 200
+                );
             } else {
                 // Your logic for creating action(s)
             }
@@ -119,43 +118,46 @@ class Action extends RestCtrl
      * @since 1.0.0
      * @param \WP_REST_Request $req Request object.
      */
-    public function update($req)
-    {
+    public function update( $req ) {
         $param = $req->get_params();
         $wp_err = new \WP_Error();
 
         $url_params = $req->get_url_params();
         $post_id = $url_params['id'];
 
-        $type = isset($param['type']) ? sanitize_text_field($param['type']) : '';
+        $type = isset( $param['type'] ) ? sanitize_text_field( $param['type'] ) : '';
 
-        if (empty($type)) {
+        if ( empty( $type ) ) {
             $wp_err->add(
                 'field',
-                esc_html__('Type is missing', 'ozopanel')
+                esc_html__( 'Type is missing', 'ozopanel' )
             );
         }
 
-        if ($wp_err->get_error_messages()) {
-            return new \WP_REST_Response([
-                'success'  => false,
-                'data' => $wp_err->get_error_messages()
-            ], 200);
+        if ( $wp_err->get_error_messages() ) {
+            return new \WP_REST_Response(
+                array(
+					'success'  => false,
+					'data' => $wp_err->get_error_messages(),
+                ), 200
+            );
         } else {
-            $data = [
+            $data = array(
                 'ID' => $post_id,
                 'post_title' => '',
                 'post_content' => '', // Note: $desc variable is not defined in the provided code
                 'post_author' => get_current_user_id(),
-            ];
-            $post_id = wp_update_post($data);
+            );
+            $post_id = wp_update_post( $data );
 
-            if (!is_wp_error($post_id)) {
-                return new \WP_REST_Response([
-                    'success'  => true,
-                    'data' => $post_id
-                ], 200);
-            } 
+            if ( ! is_wp_error( $post_id ) ) {
+                return new \WP_REST_Response(
+                    array(
+						'success'  => true,
+						'data' => $post_id,
+                    ), 200
+                );
+            }
         }
     }
 
@@ -164,16 +166,15 @@ class Action extends RestCtrl
      * @since 1.0.0
      * @param \WP_REST_Request $req Request object.
      */
-    public function delete($req)
-    {
+    public function delete( $req ) {
         $url_params = $req->get_url_params();
-        $ids = explode(',', $url_params['id']);
-        foreach ($ids as $id) {
-            wp_delete_post($id);
+        $ids = explode( ',', $url_params['id'] );
+        foreach ( $ids as $id ) {
+            wp_delete_post( $id );
         }
 
-        do_action('ozopanelp/webhook', 'user_del', $ids);
+        do_action( 'ozopanelp_webhook', 'user_del', $ids );
 
-        wp_send_json_success($ids);
+        wp_send_json_success( $ids );
     }
 }

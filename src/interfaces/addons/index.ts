@@ -1,11 +1,11 @@
 export interface Item {
-  id: string
-  title: string
-  desc: string
-  isActive: boolean
+	id: string;
+	title: string;
+	desc: string;
+	isActive: boolean;
 }
 
 export interface State {
-  items: Item[]
-  loading: boolean
+	items: Item[];
+	loading: boolean;
 }

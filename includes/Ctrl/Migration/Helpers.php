@@ -3,8 +3,7 @@ namespace OzoPanel\Ctrl\Migration;
 
 class Helpers {
 
-    public function create_table($table_name, $fields)
-    {
+    public function create_table( $table_name, $fields ) {
         global $wpdb;
 
         $table_name = $wpdb->prefix . $table_name;
@@ -13,20 +12,20 @@ class Helpers {
 
         $sql = "CREATE TABLE $table_name ($fields) $charset_collate;";
 
-        require_once ABSPATH . "wp-admin/includes/upgrade.php";
-        maybe_create_table($table_name, $sql);
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        maybe_create_table( $table_name, $sql );
     }
 
-    public function insert_schema_migration($migration_table, $version) {
+    public function insert_schema_migration( $migration_table, $version ) {
         global $wpdb;
-        $table_name = $wpdb->prefix . "ozopanel_schema_migrations";
+        $table_name = $wpdb->prefix . 'ozopanel_schema_migrations';
 
-        $data = [
-            "version" => sprintf("%.1f", $version),
-            "table_name" => $migration_table,
-            "created_at" => date("Y-m-d H:i:s"),
-        ];
+        $data = array(
+            'version' => sprintf( '%.1f', $version ),
+            'table_name' => $migration_table,
+            'created_at' => gmdate( 'Y-m-d H:i:s' ),
+        );
 
-        $wpdb->insert($table_name, $data);
+        $wpdb->insert( $table_name, $data );
     }
 }
