@@ -22,6 +22,8 @@ class NavMenu
      */
     public function add_fields($item_id, $item)
     {
+        wp_nonce_field( 'ozopanel_save_nav_menu', '_ozopanel_nav_menu_nonce' );
+
         $ozopanel_who_can_see = get_post_meta($item_id, '_ozopanel_who_can_see', true) ?? '';
         $ozopanel_who_can_see_roles = (array) get_post_meta($item_id, '_ozopanel_who_can_see_roles', true) ?? [];
     ?>
@@ -37,7 +39,7 @@ class NavMenu
                     </select>
                 </label>
             </p>
-            <div class="field-ozopanel-roles description description-wide">
+            <div class="field-ozopanel-roles description description-wide" style="display: none;">
                 <label for="edit-menu-item-ozopanel-roles-<?php echo esc_attr($item_id); ?>">
                     <?php esc_html_e('Chose Which Roles Can See This Menu?', 'ozopanel'); ?>
                 </label>
@@ -66,6 +68,11 @@ class NavMenu
      */
     public function save_fields($menu_id, $menu_item_db_id)
     {
+        // Verify this came from our screen and with proper authorization.
+        if ( ! isset( $_POST['_ozopanel_nav_menu_nonce'] ) || ! wp_verify_nonce( $_POST['_ozopanel_nav_menu_nonce'], 'ozopanel_save_nav_menu' ) ) {
+            return $menu_id;
+        }
+
         if ( isset($_POST['menu_item_ozopanel_who_can_see'][$menu_item_db_id]) ) {
             $sanitized_data = sanitize_text_field($_POST['menu_item_ozopanel_who_can_see'][$menu_item_db_id]);
             update_post_meta($menu_item_db_id, '_ozopanel_who_can_see', $sanitized_data);

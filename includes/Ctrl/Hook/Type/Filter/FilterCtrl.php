@@ -18,7 +18,10 @@ class FilterCtrl
 
     function admin_body_class($classes)
     {
+		
         if (
+            // It getting from admin menu page URL, no need to check NonceVerification
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
             (isset($_GET["page"]) && sanitize_text_field( $_GET["page"] ) == "ozopanel") 
         ) {
             $classes .= " ozopanel ";

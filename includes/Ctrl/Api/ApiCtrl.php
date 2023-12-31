@@ -80,7 +80,7 @@ class ApiCtrl
         if ($permalink_structure === '') {
             $params = $req->get_params();
             if (isset($params['rest_route'])) {
-                $query_string = parse_url($params['rest_route'], PHP_URL_QUERY);
+                $query_string = wp_parse_url($params['rest_route']);
                 // Parse the query string into an array of parameters
                 parse_str($query_string, $param_form_args);
                 foreach ($param_form_args as $key => $val) {

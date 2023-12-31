@@ -32,6 +32,8 @@ class AssetCtrl
     {
         //font family
         if (
+            // It getting from admin menu page URL, no need to check NonceVerification
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
             (isset($_GET['page']) && sanitize_text_field( $_GET['page'] ) == 'ozopanel')
         ) {
             wp_enqueue_style(
@@ -43,6 +45,8 @@ class AssetCtrl
         }
 
         if (
+            // It getting from admin menu page URL, no need to check NonceVerification
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
             (isset($_GET['page']) && sanitize_text_field( $_GET['page'] ) == 'ozopanel')
         ) {
             wp_enqueue_style(
@@ -76,28 +80,30 @@ class AssetCtrl
             ob_start();
                 ?>
                 document.addEventListener("DOMContentLoaded", function() {
-                    var whoCanSeeSelects = document.querySelectorAll(".edit-menu-item-ozopanel-who-can-see");
-                    var rolesFields = document.querySelectorAll(".field-ozopanel-roles");
+                    var navMenuContainer = document.getElementById('menu-to-edit');
 
-                    // Hide roles fields by default
-                    rolesFields.forEach(function(field) {
-                        field.style.display = "none";
-                    });
-
-                    // Show/hide roles field based on the selected option for each menu item
-                    whoCanSeeSelects.forEach(function(select, index) {
-                        if (select.value === "roles") {
-                            rolesFields[index].style.display = "block";
+                    // Function to toggle the display of roles fields
+                    function toggleRolesFields(select) {
+                        var rolesField = select.closest('li').querySelector('.field-ozopanel-roles');
+                        if (select.value === 'roles') {
+                            rolesField.style.display = 'block';
+                        } else {
+                            rolesField.style.display = 'none';
                         }
-                        select.addEventListener("change", function() {
-                            if (select.value === "roles") {
-                                rolesFields[index].style.display = "block";
-                            } else {
-                                rolesFields[index].style.display = "none";
-                            }
-                        });
+                    }
+
+                    // Set initial state for existing menu items
+                    navMenuContainer.querySelectorAll('.edit-menu-item-ozopanel-who-can-see').forEach(function(select) {
+                        toggleRolesFields(select);
                     });
-                });
+
+                    // Event delegation for dynamically added menu items
+                    navMenuContainer.addEventListener('change', function(event) {
+                        if (event.target && event.target.classList.contains('edit-menu-item-ozopanel-who-can-see')) {
+                            toggleRolesFields(event.target);
+                        }
+                    });
+                });                
             <?php
             $script = ob_get_clean();
 

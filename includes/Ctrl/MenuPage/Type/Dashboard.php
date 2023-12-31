@@ -19,6 +19,8 @@ class Dashboard
         $this->add_menu_page();
 
         // load this condtion only ozopanel settings page
+        // It getting from admin menu page URL, no need to check NonceVerification
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if ($pagenow === 'admin.php' && isset($_GET['page']) && sanitize_text_field( $_GET['page'] ) === 'ozopanel') {
             //Save admin menus
             $this->save_admin_menus();
@@ -100,7 +102,7 @@ class Dashboard
             //Organize and add menu
             $modifyMenuItem = [];
 
-            $cleanLabel = preg_replace('/\d+/', '', strip_tags($menuItem[0]));
+            $cleanLabel = preg_replace('/\d+/', '', wp_strip_all_tags($menuItem[0]));
             $modifyMenuItem['label'] = $cleanLabel;
             $modifyMenuItem['capability'] = $menuItem[1];
             $modifyMenuItem['url'] = $menuItem[2];
@@ -122,7 +124,7 @@ class Dashboard
             if (array_key_exists($menuItem[2], $submenu)) {
                 foreach ($submenu[$menuItem[2]] as $subItem) {
                     $modifySubItem = [];
-                    $cleanLabel = preg_replace('/\d+/', '', strip_tags($subItem[0]));
+                    $cleanLabel = preg_replace('/\d+/', '', wp_strip_all_tags($subItem[0]));
                     $modifySubItem['label'] = $cleanLabel;
                     $modifySubItem['capability'] = $subItem[1];
                     $modifySubItem['url'] = $subItem[2];
