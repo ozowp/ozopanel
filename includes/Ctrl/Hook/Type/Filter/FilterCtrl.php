@@ -36,8 +36,7 @@ class FilterCtrl {
         if (
             // It getting from admin menu page URL, no need to check NonceVerification
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-            ( isset( $_GET['page'] ) && sanitize_text_field( $_GET['page'] ) === 'ozopanel' ) ||
-            ( isset( $_GET['page'] ) && sanitize_text_field( $_GET['page'] ) === 'ozopanel-welcome' )
+            ( isset( $_GET['page'] ) && sanitize_text_field( $_GET['page'] ) === 'ozopanel' ) || ( isset( $_GET['page'] ) && sanitize_text_field( $_GET['page'] ) === 'ozopanel-welcome' )
         ) {
             $classes .= ' ozopanel ' . get_option( 'template' ) . '-theme';
         }

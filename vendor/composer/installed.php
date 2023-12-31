@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '2b9e57a4fdd346a4ebdbf33a99fe402016c10fce',
+        'reference' => '5c05db7e862984162b83c2be46f958a9cb8b7516',
         'name' => 'therakib7/ozopanel',
         'dev' => true,
     ),
@@ -335,7 +335,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '2b9e57a4fdd346a4ebdbf33a99fe402016c10fce',
+            'reference' => '5c05db7e862984162b83c2be46f958a9cb8b7516',
             'dev_requirement' => false,
         ),
         'theseer/tokenizer' => array(

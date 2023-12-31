@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-12-31T10:38:53+00:00\n"
+"POT-Creation-Date: 2023-12-31T15:01:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: ozopanel\n"
@@ -428,10 +428,10 @@ msgstr ""
 msgid "Submit and Deactivate"
 msgstr ""
 
-#: build/index.js:4660
-msgid "Rakib Test"
+#: build/728.js:1
+msgid "Rakib New Test"
 msgstr ""
 
-#: build/src_pages_settings_index_tsx.js:63
-msgid "Rakib Settings"
+#: build/index.js:1
+msgid "Rakib Test"
 msgstr ""

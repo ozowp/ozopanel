@@ -104,13 +104,51 @@ class AssetCtrl {
      * @return void
      */
     public function enqueue_admin_assets() {
-        // Check if we are on the admin page and page=ozopanel.
+
+        /**
+         * Show/Hide nav menu roles selections option
+         *
+         * @since 1.0.0
+         */
+        if ( is_admin() && isset($GLOBALS['pagenow']) && sanitize_text_field( $GLOBALS['pagenow'] ) === 'nav-menus.php' ) {
+            ob_start();
+                ?>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var navMenuContainer = document.getElementById('menu-to-edit');
+
+                    // Function to toggle the display of roles fields
+                    function toggleRolesFields(select) {
+                        var rolesField = select.closest('li').querySelector('.field-ozopanel-roles');
+                        if (select.value === 'roles') {
+                            rolesField.style.display = 'block';
+                        } else {
+                            rolesField.style.display = 'none';
+                        }
+                    }
+
+                    // Set initial state for existing menu items
+                    navMenuContainer.querySelectorAll('.edit-menu-item-ozopanel-who-can-see').forEach(function(select) {
+                        toggleRolesFields(select);
+                    });
+
+                    // Event delegation for dynamically added menu items
+                    navMenuContainer.addEventListener('change', function(event) {
+                        if (event.target && event.target.classList.contains('edit-menu-item-ozopanel-who-can-see')) {
+                            toggleRolesFields(event.target);
+                        }
+                    });
+                });                
+            <?php
+            $script = ob_get_clean();
+
+            wp_add_inline_script('nav-menu', $script);
+        }
 
         // It getting from admin menu page URL, no need to check NonceVerification
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        /* if ( ! is_admin() || ! isset( $_GET['page'] ) || sanitize_text_field( wp_unslash( $_GET['page'] ) ) !== 'ozopanel' ) {
-            return;
-        } */
+        if ( ! is_admin() || ! isset( $_GET['page'] ) || sanitize_text_field( wp_unslash( $_GET['page'] ) ) !== 'ozopanel' ) {
+            // return;
+        }
 
         wp_enqueue_style( 'ozopanel-dashboard' );
         wp_enqueue_script( 'ozopanel-dashboard' );

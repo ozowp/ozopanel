@@ -1,5 +1,6 @@
 const defaults = require('@wordpress/scripts/config/webpack.config');
 const { getWebpackEntryPoints } = require('@wordpress/scripts/utils/config');
+
 const path = require('path');
 const config = { ...defaults };
 
@@ -41,6 +42,6 @@ module.exports = {
 			'@blocks': path.resolve(__dirname, './src/blocks'),
 			'@pages': path.resolve(__dirname, './src/pages'),
 		},
-		extensions: ['.tsx', '.ts', 'jsx', '.js', '.json'],
+		extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
 	},
 };
