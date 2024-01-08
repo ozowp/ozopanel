@@ -1,7 +1,0 @@
-{
-	"name": "tests/hooked-before",
-	"blockHooks": {
-		"core/navigation": "before"
-	},
-	"render": "file:render.php"
-}
