@@ -69,7 +69,7 @@ class NavMenu
     public function save_fields($menu_id, $menu_item_db_id)
     {
         // Verify this came from our screen and with proper authorization.
-        if ( ! isset( $_POST['_ozopanel_nav_menu_nonce'] ) || ! wp_verify_nonce( $_POST['_ozopanel_nav_menu_nonce'], 'ozopanel_save_nav_menu' ) ) {
+        if ( ! isset( $_POST['_ozopanel_nav_menu_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash ( $_POST['_ozopanel_nav_menu_nonce'] ) ), 'ozopanel_save_nav_menu' ) ) {
             return $menu_id;
         }
 

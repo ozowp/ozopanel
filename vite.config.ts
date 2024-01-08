@@ -22,8 +22,9 @@ const config = defineConfig({
     rollupOptions: {
       output: {
         dir: "dist",
-        entryFileNames: "main.js",
-        assetFileNames: "main.[ext]",
+        entryFileNames: "main.min.js",
+        assetFileNames: "main.min.[ext]",
+        chunkFileNames: "chunk/[name]-[hash].min.js",
       },
     },
   },

@@ -51,14 +51,14 @@ class AssetCtrl
         ) {
             wp_enqueue_style(
                 'ozopanel-dashboard',
-                ozopanel()->get_asset_uri("main.css"),
+                ozopanel()->get_asset_uri("main.min.css"),
                 [],
                 $this->version
             );
 
             wp_enqueue_script(
                 'ozopanel-dashboard',
-                ozopanel()->get_asset_uri('/main.js'),
+                ozopanel()->get_asset_uri('/main.min.js'),
                 ['wp-api-fetch'],
                 null,
                 true
