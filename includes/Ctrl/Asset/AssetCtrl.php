@@ -110,9 +110,9 @@ class AssetCtrl {
          *
          * @since 1.0.0
          */
-        if ( is_admin() && isset($GLOBALS['pagenow']) && sanitize_text_field( $GLOBALS['pagenow'] ) === 'nav-menus.php' ) {
+        if ( is_admin() && isset( $GLOBALS['pagenow'] ) && sanitize_text_field( $GLOBALS['pagenow'] ) === 'nav-menus.php' ) {
             ob_start();
-                ?>
+			?>
                 document.addEventListener("DOMContentLoaded", function() {
                     var navMenuContainer = document.getElementById('menu-to-edit');
 
@@ -141,7 +141,7 @@ class AssetCtrl {
             <?php
             $script = ob_get_clean();
 
-            wp_add_inline_script('nav-menu', $script);
+            wp_add_inline_script( 'nav-menu', $script );
         }
 
         // It getting from admin menu page URL, no need to check NonceVerification

@@ -40,9 +40,9 @@ class MigrationCtrl {
         }
     }
 
-    public function migration_to_table( $version, $className ) {
+    public function migration_to_table( $version, $class_name ) {
         if ( $version > $this->last_migration_version ) {
-            new $className( $version );
+            new $class_name( $version );
             $this->last_migration_version = $version;
         }
     }

@@ -18,7 +18,7 @@ class NavMenu {
      *
      * @since 1.0.0
      */
-    function exclude_menu_items( $items ) {
+    public function exclude_menu_items( $items ) {
 
         foreach ( $items as $key => $item ) {
             // Get the custom field value for the menu item

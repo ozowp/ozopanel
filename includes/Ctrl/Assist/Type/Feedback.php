@@ -5,20 +5,28 @@ use OzoPanel\Helper\Info;
 
 class Feedback {
 
-    private $api = 'https://ozopanel.com/wp-json/ozopanela/v1/';
+    private $api = 'https://ozopanel.com/wp-json/feedback/v1/';
 
 	public function __construct() {
 		add_action( 'wp_ajax_ozopanel_deactivate_feedback', array( $this, 'deactivate' ) );
 	}
 
 	/**
+     * When deactivate plugin get feedback from user
      *
      * @since 1.0.0
      * @access public
      */
     public function deactivate() {
-        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], '_ozopanel_deactivate_nonce' ) ) {
-            wp_send_json_error();
+
+        // Verify this came from our screen and with proper authorization.
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), '_ozopanel_deactivate_nonce' ) ) {
+            return new \WP_REST_Response(
+                array(
+                    'success' => false,
+                    'message' => esc_html__( 'Nonce verification failed', 'ozopanel' )
+                ), 403
+            );
         }
 
         $reason_key = isset( $_POST['reason_key'] ) ? sanitize_text_field( $_POST['reason_key'] ) : '';
@@ -44,6 +52,10 @@ class Feedback {
             )
         );
 
-        wp_send_json_success();
+        return new \WP_REST_Response(
+            array(
+				'success'  => true,
+            ), 200
+        );
     }
 }

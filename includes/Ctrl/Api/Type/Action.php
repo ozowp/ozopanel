@@ -107,8 +107,6 @@ class Action extends RestCtrl {
 						'data' => $wp_err->get_error_messages(),
                     ), 200
                 );
-            } else {
-                // Your logic for creating action(s)
             }
         }
     }

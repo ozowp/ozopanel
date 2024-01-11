@@ -18,7 +18,7 @@ class FilterCtrl {
         add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
     }
 
-    function body_class( $classes ) {
+    public function body_class( $classes ) {
         if (
             is_page_template(
                 array(
@@ -32,11 +32,11 @@ class FilterCtrl {
         return $classes;
     }
 
-    function admin_body_class( $classes ) {
+    public function admin_body_class( $classes ) {
         if (
             // It getting from admin menu page URL, no need to check NonceVerification
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-            ( isset( $_GET['page'] ) && sanitize_text_field( $_GET['page'] ) === 'ozopanel' ) || ( isset( $_GET['page'] ) && sanitize_text_field( $_GET['page'] ) === 'ozopanel-welcome' )
+            ( isset( $_GET['page'] ) && sanitize_text_field( wp_unslash( $_GET['page'] ) ) === 'ozopanel' ) || ( isset( $_GET['page'] ) && sanitize_text_field( wp_unslash( $_GET['page'] ) ) === 'ozopanel-welcome' )
         ) {
             $classes .= ' ozopanel ' . get_option( 'template' ) . '-theme';
         }

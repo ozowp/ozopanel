@@ -43,7 +43,7 @@ class Dashboard {
      *
      * @since 1.0.0
      */
-    function add_menu_page() {
+    public function add_menu_page() {
         add_menu_page(
             esc_html__( 'OzoPanel', 'ozopanel' ),
             esc_html__( 'OzoPanel', 'ozopanel' ),
@@ -113,7 +113,7 @@ class Dashboard {
      *
      * @since 1.0.0
      */
-    function render() {
+    public function render() {
         echo '<div class="wrap"><div id="ozopanel-dashboard"></div></div>';
     }
 
@@ -171,7 +171,7 @@ class Dashboard {
 
             //Escpae wp-menu-separator
             if (
-                $menu_item[2] != 'ozopanel-welcome' //ozopanel welcome page
+                $menu_item[2] !== 'ozopanel-welcome' //ozopanel welcome page
             ) {
                 $merged_menu[] = $modify_menu_item;
             }
@@ -185,7 +185,7 @@ class Dashboard {
      *
      * @since 1.0.0
      */
-    function save_admin_columns() {
+    public function save_admin_columns() {
         //Post type table
         $post_types = ModelAdminColumn::get_post_types();
         foreach ( $post_types as $post_type ) {
@@ -222,7 +222,7 @@ class Dashboard {
 
         // Add custom menus
         foreach ( $custom_menu as $menu_item ) {
-            if ( isset( $menu_item['classes'] ) && $menu_item['classes'] == 'wp-menu-separator' ) {
+            if ( isset( $menu_item['classes'] ) && $menu_item['classes'] === 'wp-menu-separator' ) {
                 // Add separator
                 $menu[] = array( '', 'read', $menu_item['url'], '', 'wp-menu-separator' );
             } else {
@@ -320,7 +320,7 @@ class Dashboard {
         }
         $url_to_hide = ( $submenu ) ? $submenu : $menu;
 
-        if ( $url_to_hide == $pagenow || $url_to_hide == $parent_file ) {
+        if ( $url_to_hide === $pagenow || $url_to_hide === $parent_file ) {
             do_action( 'admin_page_access_denied' );
             wp_die( esc_html__( 'Sorry, you are not allowed to access this page.', 'ozopanel' ), 403 );
         }

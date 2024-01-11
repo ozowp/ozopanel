@@ -251,7 +251,7 @@ class Fns {
      * @param string $name Template name (default: '').
      * @since 1.0.0
      */
-    public static function get_template_part( $slug, $args = null, $include = true ) {
+    public static function get_template_part( $slug, $args = null, $is_include = true ) {
         // load template from theme if exist
         $template = locate_template(
             array(
@@ -281,7 +281,7 @@ class Fns {
             }
 
             // load_template($template, false, $args);
-            if ( $include ) {
+            if ( $is_include ) {
                 include $template;
             } else {
                 return $template;

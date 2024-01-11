@@ -13,6 +13,8 @@
  * Description: Manager WP Access
  * Text Domain: ozopanel
  * Domain Path: /languages
+ * License: GPL2
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
 /**
@@ -94,21 +96,15 @@ final class OzoPanel {
      * @return void
      */
     public function define_constants() {
-        /* $this->define( 'OZOPANEL_VERSION', $this->version );
+        $this->define( 'OZOPANEL_VERSION', $this->version );
         $this->define( 'OZOPANEL_FILE', __FILE__ );
-        $this->define( 'OZOPANEL_PATH', plugin_dir_path(__FILE__) );
-        $this->define( 'OZOPANEL_URL', plugins_url( '', __FILE__) );
-        $this->define( 'OZOPANEL_SLUG', basename( dirname(__FILE__)) );
-        $this->define( 'OZOPANEL_ASSEST', plugins_url( 'dist', __FILE__ ) ); */
-        define( 'OZOPANEL_VERSION', $this->version );
-        define( 'OZOPANEL_FILE', __FILE__ );
-        define( 'OZOPANEL_DIR', __DIR__ );
-        define( 'OZOPANEL_PATH', plugin_dir_path( __FILE__ ) );
-        define( 'OZOPANEL_URL', plugins_url( '', __FILE__ ) );
-        define( 'OZOPANEL_SLUG', basename( __DIR__ ) );
-        define( 'OZOPANEL_TEMPLATE_PATH', OZOPANEL_PATH . '/templates' );
-        define( 'OZOPANEL_BUILD', OZOPANEL_URL . '/build' );
-        define( 'OZOPANEL_ASSETS', OZOPANEL_URL . '/assets' );
+        $this->define( 'OZOPANEL_DIR', __DIR__ );
+        $this->define( 'OZOPANEL_PATH', plugin_dir_path( __FILE__ ) );
+        $this->define( 'OZOPANEL_URL', plugins_url( '', __FILE__ ) );
+        $this->define( 'OZOPANEL_SLUG', basename( __DIR__ ) );
+        $this->define( 'OZOPANEL_BUILD', OZOPANEL_URL . '/build' );
+        $this->define( 'OZOPANEL_ASSETS', OZOPANEL_URL . '/assets' );
+        $this->define( 'OZOPANEL_TEMPLATE_PATH', OZOPANEL_PATH . '/templates' );
     }
 
     /**
@@ -160,7 +156,7 @@ final class OzoPanel {
 
         if ( is_admin() ) {
             // Load wp-script translation for ozopanel-dashboard
-            wp_set_script_translations( 'ozopanel-dashboard', 'ozopanel', plugin_dir_path( __FILE__ ) . 'languages'  );
+            wp_set_script_translations( 'ozopanel-dashboard', 'ozopanel', plugin_dir_path( __FILE__ ) . 'languages' );
         }
     }
 
@@ -182,24 +178,6 @@ final class OzoPanel {
             case 'cron':
                 return defined( 'DOING_CRON' );
         }
-    }
-
-    /**
-     * Check Script Debug from .env
-     * @since 1.0.0
-     * @return string
-     */
-    public function is_debug() {
-        return ( isset( $_ENV['OZOPANEL_DEBUG'] ) && $_ENV['OZOPANEL_DEBUG'] === 'true' ) ? true : false;
-    }
-
-    /**
-     * Check Script Debug from .env
-     * @since 1.0.0
-     * @return string
-     */
-    public function dev_path() {
-        return isset( $_ENV['OZOPANEL_DEV_PATH'] ) ? esc_url( $_ENV['OZOPANEL_DEV_PATH'] ) : '';
     }
 
     /**

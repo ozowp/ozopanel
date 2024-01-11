@@ -3,7 +3,8 @@
  * @since 1.0.0
  */
 
-import { FC, MouseEvent, lazy, Suspense, useState } from 'react';
+import { FC, MouseEvent } from 'react';
+import { lazy, Suspense, useState } from '@wordpress/element';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import Spinner from '@components/preloader/spinner';
@@ -56,8 +57,9 @@ const Settings: FC = () => {
 				{tabs.map((tab) => (
 					<li
 						key={tab.id}
-						className={`ozop-tab-item ${tab.id === activeTab ? 'ozop-active' : ''
-							}`}
+						className={`ozop-tab-item ${
+							tab.id === activeTab ? 'ozop-active' : ''
+						}`}
 						onClick={(e) => addCurrentTab(e, tab.id)}
 					>
 						<a>{tab.label}</a>

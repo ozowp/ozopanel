@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '5c05db7e862984162b83c2be46f958a9cb8b7516',
+        'reference' => '23c60ae9aea127064f0de904dedda84249f856c3',
         'name' => 'therakib7/ozopanel',
         'dev' => true,
     ),
@@ -38,12 +38,12 @@
             'dev_requirement' => true,
         ),
         'nikic/php-parser' => array(
-            'pretty_version' => 'v4.18.0',
-            'version' => '4.18.0.0',
+            'pretty_version' => 'v5.0.0',
+            'version' => '5.0.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../nikic/php-parser',
             'aliases' => array(),
-            'reference' => '1bcbb2179f97633e98bbbc87044ee2611c7d7999',
+            'reference' => '4a21235f7e56e713259a6f76bf4b5ea08502b9dc',
             'dev_requirement' => true,
         ),
         'phar-io/manifest' => array(
@@ -335,7 +335,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '5c05db7e862984162b83c2be46f958a9cb8b7516',
+            'reference' => '23c60ae9aea127064f0de904dedda84249f856c3',
             'dev_requirement' => false,
         ),
         'theseer/tokenizer' => array(

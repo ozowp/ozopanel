@@ -15,15 +15,15 @@
 
 <body <?php body_class(); ?>>
     <?php
-		if ( is_user_logged_in() && apply_filters( 'ozopanel_template', current_user_can( 'administrator' ) ) ) {
-			if ( ozopanel()->gate() ) {
-				echo '<div id="ozopanel-dashboard"></div>';
-			} else {
-				ozopanel()->render( 'template/partial/403' );
-			}
+	if ( is_user_logged_in() && apply_filters( 'ozopanel_template', current_user_can( 'administrator' ) ) ) {
+		if ( ozopanel()->gate() ) {
+			echo '<div id="ozopanel-dashboard"></div>';
 		} else {
 			ozopanel()->render( 'template/partial/403' );
 		}
+	} else {
+		ozopanel()->render( 'template/partial/403' );
+	}
     ?>
     <?php wp_footer(); ?>
 </body>

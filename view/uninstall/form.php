@@ -126,4 +126,3 @@ $deactivate_reasons = array(
         </div>
     </div>
 </div>
-<?php
