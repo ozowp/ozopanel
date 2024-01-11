@@ -147,7 +147,7 @@ class AssetCtrl {
         // It getting from admin menu page URL, no need to check NonceVerification
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if ( ! is_admin() || ! isset( $_GET['page'] ) || sanitize_text_field( wp_unslash( $_GET['page'] ) ) !== 'ozopanel' ) {
-            // return;
+            return;
         }
 
         wp_enqueue_style( 'ozopanel-dashboard' );

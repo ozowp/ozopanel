@@ -6,12 +6,15 @@ import { AlertProvider } from '@components/alert/Provider';
 import '@scss/main.scss';
 import '@utils/admin-menu';
 
-createRoot(document.getElementById('ozopanel-dashboard')!).render(
-	<StrictMode>
-		<QueryClientProvider client={queryClient}>
-			<AlertProvider>
-				<App />
-			</AlertProvider>
-		</QueryClientProvider>
-	</StrictMode>
-);
+const rootElement = document.getElementById('ozopanel-dashboard');
+if (rootElement) {
+	createRoot(rootElement).render(
+		<StrictMode>
+			<QueryClientProvider client={queryClient}>
+				<AlertProvider>
+					<App />
+				</AlertProvider>
+			</QueryClientProvider>
+		</StrictMode>
+	);
+}
