@@ -12,7 +12,7 @@ import Table from './Table';
 /**
  * Restrictions
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 const Restrictions: FC = () => {
 	const { type = '' } = useParams();
@@ -44,9 +44,10 @@ const Restrictions: FC = () => {
 
 	/**
 	 * Go to single form by id
+	 * 
+	 * @since 0.1.0
 	 *
 	 * @param {string} id
-	 * @since 1.0.0
 	 */
 	const goForm = (id?: string) => {
 		if (id) {
@@ -102,28 +103,25 @@ const Restrictions: FC = () => {
 
 	return (
 		<div className="ozop-restrictions">
-			<h3 className="text-2xl mt-6 text-gray-900 dark:text-white">{`${
-				i18n.restriction
-			} ${type === 'users' ? i18n.users : i18n.roles}`}</h3>
+			<h3 className="text-2xl mt-6 text-gray-900 dark:text-white">{`${i18n.restriction
+				} ${type === 'users' ? i18n.users : i18n.roles}`}</h3>
 
 			<div className="mb-6 mt-6 flex justify-between">
 				<div className="">
 					<button
-						className={`rounded ${
-							type === 'roles'
-								? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
-								: 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
-						}`}
+						className={`rounded ${type === 'roles'
+							? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
+							: 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
+							}`}
 						onClick={() => selectType('roles')}
 					>
 						{i18n.roles}
 					</button>
 					<button
-						className={`rounded ${
-							type === 'users'
-								? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
-								: 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
-						}`}
+						className={`rounded ${type === 'users'
+							? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
+							: 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
+							}`}
 						onClick={() => selectType('users')}
 					>
 						{i18n.users}
@@ -134,9 +132,8 @@ const Restrictions: FC = () => {
 						className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
 						onClick={() => goForm()}
 					>
-						{`${i18n.restrict} ${
-							type === 'users' ? i18n.user : i18n.role
-						}`}
+						{`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role
+							}`}
 					</button>
 
 					{selectedItems.length > 0 && (
@@ -168,9 +165,8 @@ const Restrictions: FC = () => {
 					)}
 
 					{!items.length && (
-						<p className="text-gray-500 dark:text-gray-400 mb-3">{`${
-							i18n.no_restriction_data
-						} ${type === 'users' ? i18n.user : i18n.role}`}</p>
+						<p className="text-gray-500 dark:text-gray-400 mb-3">{`${i18n.no_restriction_data
+							} ${type === 'users' ? i18n.user : i18n.role}`}</p>
 					)}
 				</>
 			)}

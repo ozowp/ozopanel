@@ -6,54 +6,53 @@ use OzoPanel\Abstracts\RestCtrl;
 use OzoPanel\Helper\Fns;
 
 /**
- * API Setting class.
+ * API Setting class
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
-
 class Setting extends RestCtrl {
 
     /**
      * Route base.
      *
      * @var string
-     * @since 1.0.0
+     * 
+     * @since 0.1.0
      */
     protected $base = 'settings';
 
     /**
-     * Register all routes related with carts.
+     * Register all routes related with this api
      *
+     * @since 0.1.0
+     * 
      * @return void
-     * @since 1.0.0
      */
 
     public function routes() {
         register_rest_route(
             $this->namespace, '/' . $this->base,
-            array(
+            [
                 'methods' => 'GET',
-                'callback' => array( $this, 'get' ),
-                'permission_callback' => function () {
-                    return Fns::gate( $this->base, 'get' );
-                },
-            )
+                'callback' => [ $this, 'get' ],
+                'permission_callback' => [ $this, 'gate' ],
+            ]
         );
 
         register_rest_route(
-            $this->namespace, '/' . $this->base . ozopanel()->plain_route(),
-            array(
+            $this->namespace, '/' . $this->base,
+            [
                 'methods' => 'POST',
-                'callback' => array( $this, 'create' ),
-                'permission_callback' => function () {
-                    return Fns::gate( $this->base, 'add' );
-                },
-            )
+                'callback' => [ $this, 'create' ],
+                'permission_callback' => [ $this, 'gate' ],
+            ]
         );
     }
 
     /**
      * Get settings data based on the provided tab.
+     * 
+     * @since 0.1.0
      *
      * @param \WP_REST_Request $req Request object.
      */
@@ -72,13 +71,13 @@ class Setting extends RestCtrl {
 
         if ( $wp_err->get_error_messages() ) {
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => false,
 					'data' => $wp_err->get_error_messages(),
-                ), 200
+                ], 200
             );
         } else {
-            $data = array();
+            $data = [];
 
             if ( $tab === 'test_tab' ) {
                 $option = get_option( 'ozopanel_' . $tab );
@@ -91,16 +90,18 @@ class Setting extends RestCtrl {
             }
 
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => true,
 					'data' => $data,
-                ), 200
+                ], 200
             );
         }
     }
 
     /**
      * Update settings data based on the provided tab.
+     * 
+     * @since 0.1.0
      *
      * @param \WP_REST_Request $req Request object.
      */
@@ -119,13 +120,13 @@ class Setting extends RestCtrl {
 
         if ( $wp_err->get_error_messages() ) {
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => false,
 					'data' => $wp_err->get_error_messages(),
-                ), 200
+                ], 200
             );
         } else {
-            $data = array();
+            $data = [];
 
             if ( $tab === 'estimate_reminder' ) {
                 $data['status'] = isset( $param['status'] )
@@ -145,10 +146,10 @@ class Setting extends RestCtrl {
             }
 
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => true,
 					'data' => null,
-                ), 200
+                ], 200
             );
         }
     }

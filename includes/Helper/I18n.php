@@ -4,12 +4,12 @@ namespace OzoPanel\Helper;
 /**
  * All Javascript files translate text
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 class I18n {
 
     public static function app() {
-        return array(
+        return [
             // general
             'label' => esc_html__( 'Label', 'ozopanel' ),
             'select' => esc_html__( 'Select', 'ozopanel' ),
@@ -70,6 +70,6 @@ class I18n {
             'sucAdd' => esc_html__( 'Successfully Added', 'ozopanel' ),
             'sucEdit' => esc_html__( 'Successfully Updated', 'ozopanel' ),
             'sucDel' => esc_html__( 'Successfully Deleted', 'ozopanel' ),
-        );
+        ];
     }
 }

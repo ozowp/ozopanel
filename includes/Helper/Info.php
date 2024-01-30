@@ -5,13 +5,14 @@ namespace OzoPanel\Helper;
 /**
  * WP self site information
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 class Info {
 
     /**
      * Get site name
-     * @since 1.0.0
+     *
+     * @since 0.1.0
      */
     public function get_site_name() {
         $site_name = get_bloginfo( 'name' );
@@ -30,11 +31,12 @@ class Info {
 
     /**
      * Check update feedback
-     * @since 1.0.0
+     *
+     * @since 0.1.0
      */
     public function wp( $get_update = null, $share_info = null ) {
 
-        $data = array();
+        $data = [];
 
         if ( $get_update !== null ) {
             $data['get_update'] = $get_update;
@@ -46,12 +48,12 @@ class Info {
         if ( $share_info !== null ) {
             $data['share_info'] = $share_info;
             if ( $share_info ) {
-                $wp_info = array(
+                $wp_info = [
                     'url'         => esc_url( home_url() ),
                     'site'        => $this->get_site_name(),
                     'wp'          => $this->get_wp_info(),
                     // 'ip'          => $this->get_user_ip_address(),
-                );
+                ];
 
                 $data = array_merge( $data, $wp_info );
             }
@@ -65,18 +67,19 @@ class Info {
 
     /**
      * Get admin name and email
-     * @since 1.0.0
+     *
+     * @since 0.1.0
      */
     public function name_email() {
 
         $users = get_users(
-            array(
+            [
 				'role'    => 'administrator',
 				'orderby' => 'ID',
 				'order'   => 'ASC',
 				'number'  => 1,
 				'paged'   => 1,
-            )
+            ]
         );
 
         $admin_user = ( is_array( $users ) && ! empty( $users ) ) ? $users[0] : false;
@@ -87,20 +90,22 @@ class Info {
             $last_name  = $admin_user->last_name;
         }
 
-        return array(
+        return [
             'admin_email' => get_option( 'admin_email' ),
             'first_name'  => $first_name,
             'last_name'   => $last_name,
-        );
+        ];
     }
 
     /**
      * Get WordPress related data.
-     * @since 1.0.0
+     *
+     * @since 0.1.0
+     *
      * @return array
      */
     public function get_wp_info() {
-        $wp_data = array();
+        $wp_data = [];
 
         $wp_data['memory_limit'] = WP_MEMORY_LIMIT;
         $wp_data['debug_mode']   = ( defined( 'WP_DEBUG' ) && WP_DEBUG );
@@ -121,7 +126,8 @@ class Info {
 
     /**
      * Get user IP Address
-     * @since 1.0.0
+     *
+     * @since 0.1.0
      */
     public function get_user_ip_address() {
         $response = wp_remote_get( 'https://icanhazip.com/' );

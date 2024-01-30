@@ -1,63 +1,71 @@
 <?php
 /**
- * @package   WpOzo - OzoPanel
- * @author    WpOzo <contact@wpozo.com>
- * @link      https://wpozo.com
- * @copyright 2023 WpOzo
+ * OzoPanel - A customization plugin for WordPress
  *
- * Plugin Name: OzoPanel
- * Plugin URI: https://wordpress.org/plugins/ozopanel
- * Author: WpOzo
- * Author URI: https://wpozo.com
- * Version: 1.0.0
- * Description: Manager WP Access
- * Text Domain: ozopanel
- * Domain Path: /languages
- * License: GPL2
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * @package   WpOzo - OzoPanel
+ * @author     WpOzo <contact@wpozo.com>
+ * @link       https://wpozo.com
+ * @copyright  2023 WpOzo
+ *
+ * @wordpress-plugin
+ * Plugin Name:       WP Plugin Kit
+ * Plugin URI:        https://wordpress.org/plugins/ozopanel
+ * Description:       A customization plugin for WordPress
+ * Version:           0.1.0
+ * Author:            WpOzo
+ * Author URI:        https://wpozo.com
+ * Requires at least: 5.8
+ * Requires PHP:      7.4
+ * Tested up to:      6.4
+ * Text Domain:       ozopanel
+ * Domain Path:       /languages
+ * License: GPL3
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  */
 
 /**
  * Don't allow call the file directly
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * OzoPanel Final Class
  *
- * @since 1.0.0
+ * @since 0.1.0
+ *
  * @class OzoPanel The class that holds the entire OzoPanel plugin
  */
-
-use OzoPanel\Helper\Fns;
 
 final class OzoPanel {
 
     /**
      * Plugin version
      *
-     * @since 1.0.0
+     * @since 0.1.0
+	 *
      * @var string
      */
-    public $version = '1.0.0';
+    private const VERSION = '0.1.0';
 
 	/**
      * Instance of self
-     * @since 1.0.0
+	 *
+     * @since 0.1.0
+	 *
      * @var OzoPanel
      */
     private static $instance = null;
 
     /**
      * Minimum PHP version required
-     * @since 1.0.0
+	 *
+     * @since 0.1.0
+	 *
      * @var string
      */
-    private $min_php = '7.2';
+    private const MIN_PHP = '7.4';
 
     /**
      * Constructor for the OzoPanel class
@@ -71,9 +79,12 @@ final class OzoPanel {
 
         $this->define_constants();
 
-        // new OzoPanel\Ctrl\Install\InstallCtrl();
-        add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ), -1 );
-        add_action( 'init', array( $this, 'initial' ), 1 );
+		register_activation_hook( __FILE__, [ $this, 'activate' ] );
+        register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
+
+		add_action( 'wp_loaded', [ $this, 'flush_rewrite_rules' ] );
+
+		$this->init_plugin();
     }
 
 	/**
@@ -92,66 +103,76 @@ final class OzoPanel {
 
     /**
      * Define all constants
-     * @since 1.0.0
+	 *
+     * @since 0.1.0
+	 *
      * @return void
      */
     public function define_constants() {
-        $this->define( 'OZOPANEL_VERSION', $this->version );
-        $this->define( 'OZOPANEL_FILE', __FILE__ );
-        $this->define( 'OZOPANEL_DIR', __DIR__ );
-        $this->define( 'OZOPANEL_PATH', plugin_dir_path( __FILE__ ) );
-        $this->define( 'OZOPANEL_URL', plugins_url( '', __FILE__ ) );
-        $this->define( 'OZOPANEL_SLUG', basename( __DIR__ ) );
-        $this->define( 'OZOPANEL_BUILD', OZOPANEL_URL . '/build' );
-        $this->define( 'OZOPANEL_ASSETS', OZOPANEL_URL . '/assets' );
-        $this->define( 'OZOPANEL_TEMPLATE_PATH', OZOPANEL_PATH . '/templates' );
+        define( 'OZOPANEL_VERSION', self::VERSION );
+        define( 'OZOPANEL_FILE', __FILE__ );
+        define( 'OZOPANEL_DIR', __DIR__ );
+        define( 'OZOPANEL_PATH', plugin_dir_path( OZOPANEL_FILE ) );
+        define( 'OZOPANEL_URL', plugins_url( '', OZOPANEL_FILE ) );
+        define( 'OZOPANEL_SLUG', basename( OZOPANEL_DIR ) );
+        define( 'OZOPANEL_TEMPLATE_PATH', OZOPANEL_PATH . '/templates' );
+        define( 'OZOPANEL_BUILD', OZOPANEL_URL . '/build' );
+        define( 'OZOPANEL_ASSETS', OZOPANEL_URL . '/assets' );
     }
 
-    /**
-     * Define constant if not already defined
+	/**
+     * Load the plugin after all plugins are loaded.
      *
-     * @since 1.0.0
-     *
-     * @param string      $name
-     * @param string|bool $value
+     * @since 0.1.0
      *
      * @return void
      */
-    private function define( $name, $value ) {
-        if ( ! defined( $name ) ) {
-            define( $name, $value );
-        }
-    }
+    public function init_plugin() {
 
-    /**
-     * Load in initial
-     * @since 1.0.0
-     * @return void
-     */
-    public function initial() {
-        do_action( 'ozopanel_before_init' );
+		do_action( 'ozopanel_before_init' );
 
-        OzoPanel\Ctrl\MainCtrl::init();
+        $this->includes();
+        $this->init_hooks();
 
-        $this->localization();
-
+		// Fires after the plugin is loaded.
         do_action( 'ozopanel_init' );
     }
 
-    /**
-     * Action hook when load OzoPanel
-     * @since 1.0.0
+	/**
+     * Include the required files.
+     *
+     * @since 0.1.0
+     *
+     * @return void
      */
-    public function on_plugins_loaded() {
-        do_action( 'ozopanel_loaded' );
+    public function includes() {
+        // Common classes
+        OzoPanel\Ctrl\MainCtrl::init();
     }
 
-    /**
-     * Initialize plugin for localization
-     * @since 1.0.0
-     * @uses load_plugin_textdomain()
+	/**
+     * Initialize the hooks.
+     *
+     * @since 0.1.0
+     *
+     * @return void
      */
-    public function localization() {
+    public function init_hooks() {
+
+        // Localize our plugin
+        add_action( 'init', [ $this, 'localization_setup' ] );
+    }
+
+	/**
+     * Initialize plugin for localization
+     *
+     * @since 0.1.0
+     *
+     * @uses load_plugin_textdomain()
+	 *
+	 * @return void
+     */
+    public function localization_setup() {
         load_plugin_textdomain( 'ozopanel', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
         if ( is_admin() ) {
@@ -160,72 +181,74 @@ final class OzoPanel {
         }
     }
 
+	/**
+     * Activating the plugin.
+     *
+     * @since 0.1.0
+     *
+     * @return void
+     */
+    public function activate() {
+        // Run the installer to create necessary migrations and seeders.
+    }
+
+    /**
+     * Placeholder for deactivation function.
+     *
+     * @since 0.1.0
+     *
+     * @return void
+     */
+    public function deactivate() {
+        // Remove unnecessary data when deactivate
+    }
+
+	/**
+     * Flush rewrite rules after plugin is activated.
+     *
+     * Nothing being added here yet.
+     *
+     * @since 0.1.0
+	 *
+	 * @return void
+     */
+    public function flush_rewrite_rules() {
+        // fix rewrite rules
+    }
+
     /**
      * What type of request is this?
      *
+     * @since 0.1.0
+     *
      * @param string $type admin, ajax, cron or public.
-     * @since 1.0.0
+     *
      * @return bool
      */
-    public function is_request( $type ) {
+    private function is_request( $type ) {
         switch ( $type ) {
             case 'admin':
                 return is_admin();
-            case 'public':
-                return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
+
             case 'ajax':
                 return defined( 'DOING_AJAX' );
+
+            case 'rest':
+                return defined( 'REST_REQUEST' );
+
             case 'cron':
                 return defined( 'DOING_CRON' );
+
+            case 'frontend':
+                return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
         }
-    }
-
-    /**
-     * Get the plugin path.
-     * @since 1.0.0
-     * @return string
-     */
-    public function plugin_path() {
-        return untrailingslashit( plugin_dir_path( __FILE__ ) );
-    }
-
-    /**
-     * Get the template path.
-     * @since 1.0.0
-     * @return string
-     */
-    public function get_template_path() {
-        return apply_filters( 'ozopanel_template_path', 'ozopanel/templates/' );
-    }
-
-    /**
-     * Get asset location
-     *
-     * @param $file
-     * @since 1.0.0
-     * @return string
-     */
-    public function get_asset_uri( $file ) {
-        $file = ltrim( $file, '/' );
-
-        return trailingslashit( OZOPANEL_URL . '/dist' ) . $file;
-    }
-
-    /**
-     * Load template from plugin view folder by path
-     *
-     * @param $file
-     * @since 1.0.0
-     * @return string
-     */
-    public function render( $path, $args = array(), $is_return = false ) {
-        return Fns::render( $path, $args, $is_return );
     }
 
     /**
      * Get options data
      *
      * @since 1.0.0
+     *
      * @return void
      */
     public function get_option() {
@@ -236,45 +259,19 @@ final class OzoPanel {
      * Check active addons
      *
      * @since 1.0.0
+     *
      * @return boolean
      */
     public function is_active_addon( $id ) {
-        $addons = get_option( 'ozopanel_addons', array() );
+        $addons = get_option( 'ozopanel_addons', [] );
         return ( array_key_exists( $id, $addons ) ) ? $addons[ $id ] : true;
-    }
-
-    /**
-     * Get preset data
-     *
-     * @since 1.0.0
-     * @return void
-     */
-    public function get_preset() {
-        return Fns::preset_value( func_get_args() );
-    }
-
-    /**
-     * If plain permalink pass args in different way otherwise API not working
-     * @since 1.0.0
-     * @return string
-     */
-    public function plain_route() {
-        $permalink_structure = get_option( 'permalink_structure' );
-        return $permalink_structure === '' ? '/(?P<args>.*)' : '';
-    }
-
-    /**
-     * Check pro version
-     * @since 1.0.0
-     * @return void
-     */
-    public function gate() {
-        return function_exists( 'ozopanelp' ) && ozopanelp()->gate();
     }
 }
 
 /**
- * Load Dokan Plugin when all plugins loaded
+ * Initialize the main plugin.
+ *
+ * @since 0.1.0
  *
  * @return OzoPanel
  */

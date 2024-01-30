@@ -2,14 +2,16 @@
 
 namespace OzoPanel\Abstracts;
 
+use WP_Error;
 use WP_REST_Controller;
 
 /**
-* Rest Controller base class.
-*
-* @since 0.3.0
-*/
+ * Rest Controller base class
+ *
+ * @since 0.1.0
+ */
 abstract class RestCtrl extends WP_REST_Controller {
+
 
     /**
      * Endpoint namespace.
@@ -19,25 +21,42 @@ abstract class RestCtrl extends WP_REST_Controller {
     protected $namespace = 'ozopanel/v1';
 
     /**
+     * Endpoint base
+     *
+     * @var string
+     */
+    protected $base = '';
+
+    /**
      * Check default permission for rest routes.
      *
-     * @since 0.3.0
-     *
-     * @TODO: manage permissions from capabilities.
+     * @since 0.1.0
      *
      * @return bool
      */
-    public function check_permission(): bool {
-        return true;
-        // phpcs:disable Squiz.PHP.CommentedOutCode.Found
-        // return current_user_can( 'manage_jobs' );
-        //phpcs:enable
+
+    public function gate( $req ) {
+        // You can access parameters from the $req object
+        // $param = $req->get_param('param');
+
+        // Implement your permission check logic here
+        if ( current_user_can( 'administrator' ) ) {
+            return true;
+        }
+
+        return new WP_Error(
+            'rest_forbidden',
+            esc_html__( 'Sorry, you are not allowed to do that.', 'ozopanel' ),
+            [
+                'status' => is_user_logged_in() ? 403 : 401,
+            ]
+        );
     }
 
     /**
      * Format item's collection for response.
      *
-     * @since  0.0.3
+     * @since  0.1.0
      *
      * @param object $response
      * @param object $request

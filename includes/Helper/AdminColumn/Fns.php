@@ -5,28 +5,30 @@ namespace OzoPanel\Helper\AdminColumn;
 /**
  * WP Default table by sceen
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 class Fns {
 
 	/**
+	 * Format Column
+     * 
+	 * @since 0.1.0
+     * 
 	 * @param array $data
-	 *
-	 * @since 1.0.0
 	 */
 	public static function format_column( $data ) {
-        $admin_columns = array();
+        $admin_columns = [];
 		foreach ( $data as $key => $value ) {
             if ( $key === 'cb' ) {
 				continue;
             }
-            $column = array(
+            $column = [
                 'id' => '',
                 'type' => '',
                 'label' => '',
                 'width' => '',
                 'width_unit' => '%',
-            );
+            ];
             $column['id'] = $key;
             $column['type'] = 'default';
             $column['label'] = $value;

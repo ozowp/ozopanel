@@ -1,7 +1,7 @@
 /**
  * WP admin menu add active class
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 
 const checkRoute = () => {

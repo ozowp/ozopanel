@@ -7,7 +7,7 @@ use OzoPanel\Model\AdminColumn as ModelAdminColumn;
 /**
  * Filte Hook Type: AdminColumn
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 class AdminColumn {
 
@@ -19,7 +19,7 @@ class AdminColumn {
 	 * Modify default wp column
 	 *
 	 * @return void
-	 * @since 1.0.0
+	 * @since 0.1.0
 	 */
 	public function manage_columns() {
 		foreach ( ModelAdminColumn::screens() as $group ) {
@@ -45,20 +45,23 @@ class AdminColumn {
 	}
 
     /**
+	 * Add heading
+	 * 
+	 * @since 0.1.0
+	 * 
 	 * @param $columns = default column
 	 * @param $screen = screen id
 	 *
 	 * @return array
-	 * @since 1.0.0
 	 */
 	public function add_headings( $columns, $screen ) {
 		if ( empty( $columns ) ) {
 			return $columns;
 		}
 
-		$get_columns = get_option( 'ozopanel_admin_column_' . $screen, array() );
+		$get_columns = get_option( 'ozopanel_admin_column_' . $screen, [] );
 		if ( $get_columns ) {
-			$custom_column = array();
+			$custom_column = [];
 			if ( isset( $columns['cb'] ) ) {
 				$custom_column['cb'] = $columns['cb'];
 			}

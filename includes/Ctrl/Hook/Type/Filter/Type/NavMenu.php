@@ -5,25 +5,25 @@ namespace OzoPanel\Ctrl\Hook\Type\Filter\Type;
 /**
  * Filte Hook Type: NavMenu
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 class NavMenu {
 
     public function __construct() {
-        add_filter( 'wp_nav_menu_objects', array( $this, 'exclude_menu_items' ), 10, 2 );
+        add_filter( 'wp_nav_menu_objects', [ $this, 'exclude_menu_items' ], 10, 2 );
     }
 
     /**
      * Hide menu depend on condition
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     public function exclude_menu_items( $items ) {
 
         foreach ( $items as $key => $item ) {
             // Get the custom field value for the menu item
             $who_can_see = get_post_meta( $item->ID, '_ozopanel_who_can_see', true ) ?? '';
-            $ozopanel_who_can_see_roles = (array) get_post_meta( $item->ID, '_ozopanel_who_can_see_roles', true ) ?? array();
+            $ozopanel_who_can_see_roles = (array) get_post_meta( $item->ID, '_ozopanel_who_can_see_roles', true ) ?? [];
 
             $has_roles = false;
             if ( $who_can_see === 'roles' ) {

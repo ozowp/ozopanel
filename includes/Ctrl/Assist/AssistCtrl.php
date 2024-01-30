@@ -9,7 +9,7 @@ use OzoPanel\Ctrl\Assist\Type\{
 /**
  * Plugin user helper link and data
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 class AssistCtrl {
 

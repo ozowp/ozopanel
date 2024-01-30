@@ -1,9 +1,9 @@
 <?php
-namespace Rakib\Tests;
+namespace OzoPanel\Tests;
 /**
  * PHPUnit bootstrap file
  * 
- * @since 1.0.0
+ * @since 0.1.0
  */
 
 // Composer autoloader must be loaded before WP_PHPUNIT__DIR will be available
@@ -25,7 +25,7 @@ require_once "{$_tests_dir}/includes/functions.php";
 /**
  * Manually load the plugin being tested.
  *
- * @since 1.0.0
+ * @since 0.1.0
  *
  * @return void
  */

@@ -5,24 +5,24 @@ namespace OzoPanel\Ctrl\Hook\Type\Action\Type;
 /**
  * Action Hook Type: NavMenu
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 class NavMenu {
     public function __construct() {
-        add_action( 'wp_nav_menu_item_custom_fields', array( $this, 'add_fields' ), 10, 2 );
-        add_action( 'wp_update_nav_menu_item', array( $this, 'save_fields' ), 10, 2 );
+        add_action( 'wp_nav_menu_item_custom_fields', [ $this, 'add_fields' ], 10, 2 );
+        add_action( 'wp_update_nav_menu_item', [ $this, 'save_fields' ], 10, 2 );
     }
 
     /**
      * Add custom field in nav menu
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     public function add_fields( $item_id, $item ) {
         wp_nonce_field( 'ozopanel_save_nav_menu', '_ozopanel_nav_menu_nonce' );
 
         $ozopanel_who_can_see = get_post_meta( $item_id, '_ozopanel_who_can_see', true ) ?? '';
-        $ozopanel_who_can_see_roles = (array) get_post_meta( $item_id, '_ozopanel_who_can_see_roles', true ) ?? array();
+        $ozopanel_who_can_see_roles = (array) get_post_meta( $item_id, '_ozopanel_who_can_see_roles', true ) ?? [];
 		?>
         <div style="clear: both;">
             <p class="field-ozopanel-who-can-see description description-wide">
@@ -61,7 +61,7 @@ class NavMenu {
     /**
      * Save custom field
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     public function save_fields( $menu_id, $menu_item_db_id ) {
         // Verify this came from our screen and with proper authorization.

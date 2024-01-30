@@ -7,23 +7,23 @@ use OzoPanel\Ctrl\Hook\Type\Filter\Type\NavMenu;
 /**
  * WP Filter hook
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 class FilterCtrl {
 
     public function __construct() {
         new NavMenu();
         new AdminColumn();
-        add_filter( 'body_class', array( $this, 'body_class' ) );
-        add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
+        add_filter( 'body_class', [ $this, 'body_class' ] );
+        add_filter( 'admin_body_class', [ $this, 'admin_body_class' ] );
     }
 
     public function body_class( $classes ) {
         if (
             is_page_template(
-                array(
+                [
 					'test-template.php',
-                )
+                ]
             )
         ) {
             $classes[] = 'ozopanel';

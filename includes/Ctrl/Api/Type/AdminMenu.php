@@ -6,72 +6,69 @@ use OzoPanel\Abstracts\RestCtrl;
 use OzoPanel\Helper\Fns;
 
 /**
- * API Restriction class.
+ * API Restriction class
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 class AdminMenu extends RestCtrl {
-
 
     /**
      * Route base.
      *
      * @var string
-     * @since 1.0.0
+     * 
+     * @since 0.1.0
      */
     protected $base = 'admin-menus';
 
     /**
-     * Register all routes related with carts.
+     * Register all routes related with this api
      *
+     * @since 0.1.0
+     * 
      * @return void
-     * @since 1.0.0
      */
 
     public function routes() {
 
         register_rest_route(
             $this->namespace, '/' . $this->base,
-            array(
+            [
                 'methods' => 'GET',
-                'callback' => array( $this, 'get_single' ),
-                'permission_callback' => function () {
-                    return Fns::gate( $this->base, 'get' );
-                },
-            )
+                'callback' => [ $this, 'get_single' ],
+                'permission_callback' => [ $this, 'gate' ],
+            ]
         );
 
         register_rest_route(
             $this->namespace, '/' . $this->base,
-            array(
+            [
                 'methods' => 'PUT',
-                'callback' => array( $this, 'update' ),
-                'permission_callback' => function () {
-                    return Fns::gate( $this->base, 'edit' );
-                },
-            )
+                'callback' => [ $this, 'update' ],
+                'permission_callback' => [ $this, 'gate' ],
+            ]
         );
     }
 
     /**
      * Get single reqeust
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @param WP_REST_Request $req request object
      *
      * @return WP_Error|WP_REST_Response
      */
     public function get_single( $req ) {
-        $resp = array();
+        $resp = [];
         $admin_menu = get_option( 'ozopanel_admin_menu' );
         $admin_menu_editor = get_option( 'ozopanel_admin_menu_editor' );
         $menus = $admin_menu_editor ? $admin_menu_editor : $admin_menu;
         $resp['menus'] = $menus;
-        $default_menus = array();
+        $default_menus = [];
         if ( $admin_menu ) {
             foreach ( $admin_menu as $menu ) {
-                $menu_t = array();
+                $menu_t = [];
                 $menu_t['label'] = $menu['label'];
                 $menu_t['url'] = $menu['url'];
                 $menu_t['isSubmenu'] = false;
@@ -79,7 +76,7 @@ class AdminMenu extends RestCtrl {
 
                 if ( isset( $menu['submenu'] ) && ! empty( $menu['submenu'] ) ) {
                     foreach ( $menu['submenu'] as $submenu ) {
-                        $submenu_t = array();
+                        $submenu_t = [];
                         $submenu_t['label'] = $submenu['label'];
                         $submenu_t['url'] = $submenu['url'];
                         $submenu_t['isSubmenu'] = true;
@@ -91,17 +88,17 @@ class AdminMenu extends RestCtrl {
         $resp['default_menus'] = $default_menus;
 
         return new \WP_REST_Response(
-            array(
+            [
 				'success'  => true,
 				'data' => $resp,
-            ), 200
+            ], 200
         );
     }
 
     /**
      * Update reqeust
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @param WP_REST_Request $req request object
      *
@@ -115,18 +112,18 @@ class AdminMenu extends RestCtrl {
 
         if ( $wp_err->get_error_messages() ) {
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => false,
 					'data' => $wp_err->get_error_messages(),
-                ), 200
+                ], 200
             );
         } else {
             update_option( 'ozopanel_admin_menu_editor', $admin_menu );
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => true,
 					'data' => null,
-                ), 200
+                ], 200
             );
         }
     }

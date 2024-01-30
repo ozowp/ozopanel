@@ -1,7 +1,7 @@
 /**
  * react-query instead of showing error multiple place show it ones
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 
 import { QueryClient, QueryCache, MutationCache } from '@tanstack/react-query';

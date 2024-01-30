@@ -6,78 +6,76 @@ use OzoPanel\Abstracts\RestCtrl;
 use OzoPanel\Helper\Fns;
 
 /**
- * API Action class.
+ * API Action class
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
-
 class Action extends RestCtrl {
-
 
     /**
      * Route base.
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @var string
      */
     protected $base = 'actions';
 
     /**
-     * Register all routes related with carts.
-     * @since 1.0.0
+     * Register all routes related with this api
+     * 
+     * @since 0.1.0
+     * 
      * @return void
      */
     public function routes() {
         register_rest_route(
             $this->namespace, '/' . $this->base,
-            array(
+            [
                 'methods' => 'POST',
-                'callback' => array( $this, 'create' ),
-                'permission_callback' => function () {
-                    return Fns::gate( $this->base, 'add' );
-                },
-            )
+                'callback' => [ $this, 'create' ],
+                'permission_callback' => [ $this, 'gate' ],
+            ]
         );
 
         register_rest_route(
             $this->namespace, '/' . $this->base . '/(?P<id>[^/]+)',
-            array(
+            [
                 'methods' => 'PUT',
-                'callback' => array( $this, 'update' ),
-                'permission_callback' => function () {
-                    return Fns::gate( $this->base, 'edit' );
-                },
-                'args' => array(
-                    'id' => array(
+                'callback' => [ $this, 'update' ],
+                'permission_callback' => [ $this, 'gate' ],
+                'args' => [
+                    'id' => [
                         'validate_callback' => function ( $param ) {
                             return is_numeric( $param );
                         },
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         register_rest_route(
             $this->namespace, '/' . $this->base . '/(?P<id>[0-9,]+)',
-            array(
+            [
                 'methods' => 'DELETE',
-                'callback' => array( $this, 'delete' ),
+                'callback' => [ $this, 'delete' ],
                 'permission_callback' => function () {
                     return Fns::gate( $this->base, 'del' );
                 },
-                'args' => array(
-                    'id' => array(
+                'args' => [
+                    'id' => [
                         'sanitize_callback' => 'sanitize_text_field',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
     }
 
     /**
      * Create new action(s).
-     * @since 1.0.0
+     * 
+     * @since 0.1.0
+     * 
      * @param \WP_REST_Request $req Request object.
      */
     public function create( $req ) {
@@ -102,18 +100,20 @@ class Action extends RestCtrl {
 
             if ( $wp_err->get_error_messages() ) {
                 return new \WP_REST_Response(
-                    array(
+                    [
 						'success'  => false,
 						'data' => $wp_err->get_error_messages(),
-                    ), 200
+                    ], 200
                 );
             }
         }
     }
 
     /**
-     * Update existing action.
-     * @since 1.0.0
+     * Update existing action
+     * 
+     * @since 0.1.0
+     * 
      * @param \WP_REST_Request $req Request object.
      */
     public function update( $req ) {
@@ -134,34 +134,36 @@ class Action extends RestCtrl {
 
         if ( $wp_err->get_error_messages() ) {
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => false,
 					'data' => $wp_err->get_error_messages(),
-                ), 200
+                ], 200
             );
         } else {
-            $data = array(
+            $data = [
                 'ID' => $post_id,
                 'post_title' => '',
                 'post_content' => '', // Note: $desc variable is not defined in the provided code
                 'post_author' => get_current_user_id(),
-            );
+            ];
             $post_id = wp_update_post( $data );
 
             if ( ! is_wp_error( $post_id ) ) {
                 return new \WP_REST_Response(
-                    array(
+                    [
 						'success'  => true,
 						'data' => $post_id,
-                    ), 200
+                    ], 200
                 );
             }
         }
     }
 
     /**
-     * Delete action(s) by ID(s).
-     * @since 1.0.0
+     * Delete action(s) by ID(s)
+     * 
+     * @since 0.1.0
+     * 
      * @param \WP_REST_Request $req Request object.
      */
     public function delete( $req ) {

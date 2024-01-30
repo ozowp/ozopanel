@@ -1,6 +1,6 @@
 {
 	"name": "ozopanel",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"description": "OzoPanel WordPress Plugin",
 	"main": "src/index.tsx",
 	"scripts": {
@@ -54,9 +54,7 @@
 		"postcss": "^8.4.31",
 		"prettier": "^3.1.0",
 		"replace-in-file": "^6.3.5",
-		"sass": "^1.69.4",
 		"tailwindcss": "^3.4.0",
-		"ts-jest": "^29.1.1",
-		"typescript": "^5.0.2"
+		"ts-jest": "^29.1.1"
 	}
 }

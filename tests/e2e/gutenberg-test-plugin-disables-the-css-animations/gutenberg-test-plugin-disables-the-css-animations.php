@@ -4,7 +4,7 @@
  * Plugin Name: gutenberg-test-plugin-disables-the-css-animations
  * Plugin URI: https://gutenberg.com/
  * Description: Test gutenberg plugin.
- * Version: 1.0.0
+ * Version: 0.1.0
  * Requires at least: 5.9
  * Requires PHP: 7.4
  * Author: Gutenberg

@@ -1,6 +1,6 @@
 /**
  * Main settings panel
- * @since 1.0.0
+ * @since 0.1.0
  */
 
 import { FC, MouseEvent } from 'react';
@@ -57,9 +57,8 @@ const Settings: FC = () => {
 				{tabs.map((tab) => (
 					<li
 						key={tab.id}
-						className={`ozop-tab-item ${
-							tab.id === activeTab ? 'ozop-active' : ''
-						}`}
+						className={`ozop-tab-item ${tab.id === activeTab ? 'ozop-active' : ''
+							}`}
 						onClick={(e) => addCurrentTab(e, tab.id)}
 					>
 						<a>{tab.label}</a>

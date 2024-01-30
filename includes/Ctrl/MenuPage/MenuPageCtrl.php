@@ -2,7 +2,7 @@
 namespace OzoPanel\Ctrl\MenuPage;
 
 use OzoPanel\Ctrl\MenuPage\Type\{
-	Dashboard,
+	AdminMenu,
 	Welcome
 };
 
@@ -10,7 +10,7 @@ class MenuPageCtrl {
 
 	public function __construct() {
 		if ( is_admin() ) {
-			new Dashboard();
+			new AdminMenu();
 			new Welcome();
 		}
 	}

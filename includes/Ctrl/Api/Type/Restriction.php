@@ -6,139 +6,132 @@ use OzoPanel\Abstracts\RestCtrl;
 use OzoPanel\Helper\Fns;
 
 /**
- * API Restriction class.
+ * API Restriction class
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 class Restriction extends RestCtrl {
-
 
     /**
      * Route base.
      *
      * @var string
-     * @since 1.0.0
+     * 
+     * @since 0.1.0
      */
     protected $base = 'restrictions';
 
     /**
-     * Register all routes related with carts.
+     * Register all routes related with this api
      *
+     * @since 0.1.0
+     * 
      * @return void
-     * @since 1.0.0
      */
 
     public function routes() {
         register_rest_route(
             $this->namespace, '/' . $this->base . '/(?P<type>[a-z]+)',
-            array(
+            [
                 'methods' => 'POST',
-                'callback' => array( $this, 'create' ),
-                'permission_callback' => function () {
-                    return Fns::gate( $this->base, 'add' );
-                },
-                'args' => array(
-                    'type' => array(
+                'callback' => [ $this, 'create' ],
+                'permission_callback' => [ $this, 'gate' ],
+                'args' => [
+                    'type' => [
                         'validate_callback' => function ( $param ) {
                             return is_string( $param );
                         },
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         register_rest_route(
-            $this->namespace, '/' . $this->base . '/(?P<type>[a-z]+)' . ozopanel()->plain_route(),
-            array(
+            $this->namespace, '/' . $this->base . '/(?P<type>[a-z]+)',
+            [
                 'methods' => 'GET',
-                'callback' => array( $this, 'get' ),
-                'permission_callback' => function () {
-                    return Fns::gate( $this->base, 'get' );
-                },
-                'args' => array(
-                    'type' => array(
+                'callback' => [ $this, 'get' ],
+                'permission_callback' => [ $this, 'gate' ],
+                'args' => [
+                    'type' => [
                         'validate_callback' => function ( $param ) {
                             return is_string( $param );
                         },
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         register_rest_route(
             $this->namespace, '/' . $this->base . '/(?P<type>[a-z]+)/(?P<id>[a-z0-9]+)',
-            array(
+            [
                 'methods' => 'GET',
-                'callback' => array( $this, 'get_single' ),
-                'permission_callback' => function () {
-                    return Fns::gate( $this->base, 'get' );
-                },
-                'args' => array(
-                    'type' => array(
+                'callback' => [ $this, 'get_single' ],
+                'permission_callback' => [ $this, 'gate' ],
+                'args' => [
+                    'type' => [
                         'validate_callback' => function ( $param ) {
                             return is_string( $param );
                         },
-                    ),
-                    'id' => array(
+                    ],
+                    'id' => [
                         'validate_callback' => function ( $param ) {
                             return is_string( $param );
                         },
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         register_rest_route(
             $this->namespace, '/' . $this->base . '/(?P<type>[a-z]+)/(?P<id>[a-z0-9]+)',
-            array(
+            [
                 'methods' => 'PUT',
-                'callback' => array( $this, 'update' ),
-                'permission_callback' => function () {
-                    return Fns::gate( $this->base, 'edit' );
-                },
-                'args' => array(
-                    'type' => array(
+                'callback' => [ $this, 'update' ],
+                'permission_callback' => [ $this, 'gate' ],
+                'args' => [
+                    'type' => [
                         'validate_callback' => function ( $param ) {
                             return is_string( $param );
                         },
-                    ),
-                    'id' => array(
+                    ],
+                    'id' => [
                         'validate_callback' => function ( $param ) {
                             return is_string( $param );
                         },
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         register_rest_route(
             $this->namespace, '/' . $this->base . '/(?P<type>[a-z]+)/(?P<id>[a-z0-9,]+)',
-            array(
+            [
                 'methods' => 'DELETE',
-                'callback' => array( $this, 'delete' ),
+                'callback' => [ $this, 'delete' ],
                 'permission_callback' => function () {
                     return Fns::gate( $this->base, 'del' );
                 },
-                'args' => array(
-                    'type' => array(
+                'args' => [
+                    'type' => [
                         'validate_callback' => function ( $param ) {
                             return is_string( $param );
                         },
-                    ),
-                    'id' => array(
+                    ],
+                    'id' => [
                         'validate_callback' => function ( $param ) {
                             return is_string( $param );
                         },
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
     }
 
     /**
      * Create reqeust
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @param WP_REST_Request $req request object
      *
@@ -210,10 +203,10 @@ class Restriction extends RestCtrl {
 
         if ( $wp_err->get_error_messages() ) {
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => false,
 					'data' => $wp_err->get_error_messages(),
-                ), 200
+                ], 200
             );
         } else {
             if ( $type === 'users' ) {
@@ -222,10 +215,10 @@ class Restriction extends RestCtrl {
                 update_option( 'ozopanel_admin_menu_role_' . $id, $admin_menu );
             }
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => true,
 					'data' => null,
-                ), 200
+                ], 200
             );
         }
     }
@@ -233,7 +226,7 @@ class Restriction extends RestCtrl {
     /**
      * Get reqeust
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @param WP_REST_Request $req request object
      *
@@ -258,27 +251,27 @@ class Restriction extends RestCtrl {
         $url_params = $req->get_url_params();
         $type = $url_params['type'];
 
-        $resp = $list = array();
+        $resp = $list = [];
         $total_list = 0;
 
         if ( $type === 'users' ) {
-            $args = array(
+            $args = [
                 'number' => $per_page,
                 'offset' => $offset,
-            );
+            ];
 
-            $args['meta_query'] = array(
-                array(
+            $args['meta_query'] = [
+                [
                     'key' => '_ozopanel_admin_menu',
                     'compare' => 'EXISTS',
-                ),
-            );
+                ],
+            ];
 
             $query = new \WP_User_Query( $args );
             $total_list = $query->get_total(); //use this for pagination
 
             foreach ( $query->get_results() as $user ) {
-                $item = array();
+                $item = [];
                 $item['id'] = $user->ID;
                 $item['name'] = $user->display_name;
                 $item['email'] = $user->user_email;
@@ -295,7 +288,7 @@ class Restriction extends RestCtrl {
                 }
 
                 if ( get_option( 'ozopanel_admin_menu_role_' . $key ) ) {
-                    $item = array();
+                    $item = [];
                     $item['id'] = $key;
                     $item['label'] = $value;
 
@@ -309,17 +302,17 @@ class Restriction extends RestCtrl {
         $resp['total'] = $total_list;
 
         return new \WP_REST_Response(
-            array(
+            [
 				'success'  => true,
 				'data' => $resp,
-            ), 200
+            ], 200
         );
     }
 
     /**
      * Get single reqeust
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @param WP_REST_Request $req request object
      *
@@ -330,23 +323,23 @@ class Restriction extends RestCtrl {
         $type = $url_params['type'];
         $id = $url_params['id'];
 
-        $resp = array();
+        $resp = [];
         // get menus from admin menu editor
         $admin_menu = get_option( 'ozopanel_admin_menu' );
         $admin_menu_editor = get_option( 'ozopanel_admin_menu_editor' );
         $menus = ( ozopanel()->is_active_addon( 'admin_menu_editor' ) && $admin_menu_editor ) ? $admin_menu_editor : $admin_menu;
 
         $resp['admin_menu'] = $menus;
-        $resp['id_list'] = array();
+        $resp['id_list'] = [];
 
         if ( $type === 'users' ) {
             //hide administrator
-            $args = array(
-                'role__not_in' => array( 'administrator' ),
-            );
+            $args = [
+                'role__not_in' => [ 'administrator' ],
+            ];
             $users = get_users( $args );
             foreach ( $users as $user ) {
-                $modify_users = array();
+                $modify_users = [];
                 $modify_users['id'] = $user->ID;
                 $modify_users['label'] = "$user->display_name - $user->user_email";
                 $resp['id_list'][] = $modify_users;
@@ -358,7 +351,7 @@ class Restriction extends RestCtrl {
                 if ( $key === 'administrator' ) {
 					continue;
                 }
-                $modify_roles = array();
+                $modify_roles = [];
                 $modify_roles['id'] = $key;
                 $modify_roles['label'] = $value;
                 $resp['id_list'][] = $modify_roles;
@@ -370,22 +363,22 @@ class Restriction extends RestCtrl {
             if ( $type === 'users' ) {
                 $resp['form_data']['admin_menu'] = get_user_meta( $id, '_ozopanel_admin_menu', true );
             } elseif ( $type === 'roles' ) {
-                $resp['form_data']['admin_menu'] = get_option( 'ozopanel_admin_menu_role_' . $id ) ?? array();
+                $resp['form_data']['admin_menu'] = get_option( 'ozopanel_admin_menu_role_' . $id ) ?? [];
             }
         }
 
         return new \WP_REST_Response(
-            array(
+            [
 				'success'  => true,
 				'data' => $resp,
-            ), 200
+            ], 200
         );
     }
 
     /**
      * Update reqeust
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @param WP_REST_Request $req request object
      *
@@ -438,10 +431,10 @@ class Restriction extends RestCtrl {
 
         if ( $wp_err->get_error_messages() ) {
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => false,
 					'data' => $wp_err->get_error_messages(),
-                ), 200
+                ], 200
             );
         } else {
             if ( $type === 'users' ) {
@@ -450,10 +443,10 @@ class Restriction extends RestCtrl {
                 update_option( 'ozopanel_admin_menu_role_' . $id, $admin_menu );
             }
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => true,
 					'data' => null,
-                ), 200
+                ], 200
             );
         }
     }
@@ -461,7 +454,7 @@ class Restriction extends RestCtrl {
     /**
      * Delete reqeust
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @param WP_REST_Request $req request object
      *
@@ -472,10 +465,10 @@ class Restriction extends RestCtrl {
 
         if ( $wp_err->get_error_messages() ) {
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => false,
 					'data' => $wp_err->get_error_messages(),
-                ), 200
+                ], 200
             );
         }
 
@@ -491,10 +484,10 @@ class Restriction extends RestCtrl {
         }
 
         return new \WP_REST_Response(
-            array(
+            [
 				'success'  => true,
 				'data' => $ids,
-            ), 200
+            ], 200
         );
     }
 }

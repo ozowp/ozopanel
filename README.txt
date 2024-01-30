@@ -1,30 +1,25 @@
 === OzoPanel ===
-Contributors: wpozo
-Donate link:
+Contributors: ozopanel
 Tags: restrict, access, access manager
-Requires at least: 5.0
-Tested up to: 6.3
-Stable tag: 1.0.0
-Requires PHP: 7.2
-License: GPL2
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Requires at least: 5.8
+Tested up to: 6.4
+Requires PHP: 7.4
+Stable tag: 0.1.0
+License: GPL3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Author: WpOzo
+Author URI: https://wpozo.com
+Donate link: [Your donation link if any]
 
-OzoPanel is a Access Manager plugin, By this plugin you can restrict admin menu and submenu for specific Users and Roles
+A customization plugin for WordPress
 
 == Description ==
-
-OzoPanel is a Access Manager plugin, By this plugin you can restrict admin menu and submenu for specific Users and Roles
-
+OzoPanel is a simple, yet powerful customization plugin for WordPress. It is designed for developers who want to jumpstart their plugin development process. With a clean and understandable codebase, it's easy to customize and extend according to your needs.
 
 == Installation ==
-
-1. Unzip the downloaded `ozopanel` zip file
-2. Upload the 'ozopanel' folder and its contents into the `wp-content/plugins/` directory of your WordPress installation
-3. Activate `OzoPanel CRM` from Plugins page
-
-= Requirements =
-* **WordPress version:** >= 5.0
-* **PHP version:** >= 7.2
+1. Upload `ozopanel` to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. Start using the plugin or develop it further as per your requirements.
 
 == Frequently Asked Questions ==
 
@@ -32,22 +27,29 @@ OzoPanel is a Access Manager plugin, By this plugin you can restrict admin menu 
 
 * Go to Dashboard > OzoPanel > Users to restrict User.
 * Go to Dashboard > OzoPanel > Roles to restrict Role.
-*
+
+= Where can I find documentation? =
+For detailed documentation, visit [https://wpozo.com](https://wpozo.com).
 
 = Need Any Help? =
 
 * Please mail us at `contact@wpozo.com`
 
-== Screenshots ==
+== Changelog ==
+= 0.1.0 =
+* Initial release.
 
+== Upgrade Notice ==
+= 0.1.0 =
+This is the first version of OzoPanel.
+
+== Screenshots ==
 1. Restrict List
 2. Restrict Form
 
+== Additional Information ==
+For more information and updates, visit the official website [https://wpozo.com](https://wpozo.com).
+
+
 == License ==
-
-This plugin is licensed under the GPL2 License.
-
-== Changelog ==
-
-= 1.0.0 =
-* Initial load of the plugin.
+This plugin is licensed under the GPL3 License.

@@ -11,7 +11,7 @@ import Form from './Form';
 /**
  * AdminMenuEditor
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 const AdminMenuEditor: FC = () => {
 	const i18n = ozopanel.i18n;
@@ -217,10 +217,10 @@ const AdminMenuEditor: FC = () => {
 							<Form
 								data={
 									selectedItem !== null &&
-									selectedSubitem !== null
+										selectedSubitem !== null
 										? items[selectedItem].submenu[
-												selectedSubitem
-											]
+										selectedSubitem
+										]
 										: items[selectedItem]
 								}
 								defaultItems={defaultItems}

@@ -2,13 +2,15 @@
 
 namespace OzoPanel\Ctrl\Hook;
 
-use OzoPanel\Ctrl\Hook\Type\Action\ActionCtrl;
-use OzoPanel\Ctrl\Hook\Type\Filter\FilterCtrl;
+use OzoPanel\Ctrl\Hook\Type\{
+    Action\ActionCtrl,
+    Filter\FilterCtrl
+};
 
 /**
  * Action & Filter hook
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 class HookCtrl {
 

@@ -4,45 +4,14 @@ namespace OzoPanel\Helper;
 /**
  * Helper functions
  *
- * @since 1.0.0
- * @class Fns
+ * @since 0.1.0
  */
 class Fns {
-
-
-    /**
-     *  API request permission Check
-     *
-     * @since 1.0.0
-     */
-    public static function gate( $base, $capability = '' ) {
-        // when run php test
-        return true;
-        return current_user_can( 'administrator' );
-    }
-
-    /**
-     *  String to slug convert
-     *
-     * @since 1.0.0
-     */
-    public static function slugify( $string ) {
-        return strtolower( trim( preg_replace( '/[^A-Za-z0-9-]+/', '-', $string ), '-' ) );
-    }
-
-    /**
-     * Get gravatar image by email
-     * @since 1.0.0
-     */
-    public static function get_gravatar( $email, $size = 40 ) {
-        $hash = md5( strtolower( trim( $email ) ) );
-        return sprintf( 'https://www.gravatar.com/avatar/%s?d=blank&s=%s', $hash, $size );
-    }
 
     /**
      * Get option value
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     public static function option_value( $func_get_args ) {
         $option_field = $func_get_args[0];
@@ -50,26 +19,17 @@ class Fns {
         $func_args = $func_get_args;
         array_shift( $func_args );
 
-        return self::nested_array( $data, $func_args );
-    }
-
-    /**
-     * Get preset value
-     *
-     * @since 1.0.0
-     */
-    public static function preset_value( $func_get_args ) {
-        $preset = new \OzoPanel\Helper\Preset();
-        $data = $preset->data();
-        return self::nested_array( $data, $func_get_args );
+        return self::access_nested_array( $data, $func_args );
     }
 
     /**
      * Access Nested Array
+     *
      * By this function can access nested array like: get_preset('key', 'associate_key');
-     * @since 1.0.0
+     *
+     * @since 0.1.0
      */
-    public static function nested_array( $data, $func_args ) {
+    public static function access_nested_array( $data, $func_args ) {
         foreach ( $func_args as $arg ) {
             if ( is_array( $arg ) ) {
                 if ( ! empty( $data[ $arg[0] ] ) ) {
@@ -89,7 +49,7 @@ class Fns {
     /**
      * Sanitize input data
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     public function sanitizeInput( $value, $type = 'text', $array_map = 'text' ) {
         $new_value = null;
@@ -102,15 +62,15 @@ class Fns {
                 $new_value = esc_url_raw( $value );
             } elseif ( $type === 'textarea' ) {
                 // Allowing some basic HTML tags in the textarea
-                $allowed_tags = array(
-                    'a' => array(
-                        'href' => array(),
-                        'title' => array(),
-                    ),
-                    'br' => array(),
-                    'em' => array(),
-                    'strong' => array(),
-                );
+                $allowed_tags = [
+                    'a' => [
+                        'href' => [],
+                        'title' => [],
+                    ],
+                    'br' => [],
+                    'em' => [],
+                    'strong' => [],
+                ];
                 $new_value = wp_kses( $value, $allowed_tags );
             } elseif ( $type === 'array_map' ) {
                 $sanitize = '';
@@ -132,7 +92,7 @@ class Fns {
     /**
      * Sanitize output data
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     public function sanitizeOutput( $value, $type = 'text' ) {
         $new_value = null;
@@ -148,144 +108,5 @@ class Fns {
             }
         }
         return $new_value;
-    }
-
-    /**
-     * Get any custom template name by slug
-     * @since 1.0.0
-     */
-    public static function template_page_url_by_slug( $slug ) {
-        $page = get_pages(
-            array(
-				'meta_key' => '_wp_page_template',
-				'meta_value' => $slug . '-template.php',
-            )
-        );
-        if ( ! empty( $page ) ) {
-            return get_permalink( $page[0]->ID );
-        } else {
-            return '';
-        }
-    }
-
-    /**
-     * Load template from plugin view folder by path
-     *
-     * @param $file
-     * @since 1.0.0
-     * @return string
-     */
-    public static function render( $file_name, $args = array(), $return = false ) {
-        $path = str_replace( '.', '/', $file_name );
-        $view_path = OZOPANEL_PATH . '/view/' . $path . '.php';
-        if ( ! file_exists( $view_path ) ) {
-            return;
-        }
-
-        if ( $args ) {
-            extract( $args );
-        }
-
-        if ( $return ) {
-            ob_start();
-            include $view_path;
-
-            return ob_get_clean();
-        }
-        include $view_path;
-    }
-
-    /**
-     * Convert PHP to JS moment format
-     * @since 1.0.0
-     */
-    public static function phpToMomentFormat( $format ) {
-        $replacements = array(
-            'd' => 'DD',
-            'D' => 'ddd',
-            'j' => 'D',
-            'l' => 'dddd',
-            'N' => 'E',
-            'S' => 'o',
-            'w' => 'e',
-            'z' => 'DDD',
-            'W' => 'W',
-            'F' => 'MMMM',
-            'm' => 'MM',
-            'M' => 'MMM',
-            'n' => 'M',
-            't' => '', // no equivalent
-            'L' => '', // no equivalent
-            'o' => 'YYYY',
-            'Y' => 'YYYY',
-            'y' => 'YY',
-            'a' => 'a',
-            'A' => 'A',
-            'B' => '', // no equivalent
-            'g' => 'h',
-            'G' => 'H',
-            'h' => 'hh',
-            'H' => 'HH',
-            'i' => 'mm',
-            's' => 'ss',
-            'u' => 'SSS',
-            'e' => 'zz', // deprecated since version 1.6.0 of moment.js
-            'I' => '', // no equivalent
-            'O' => '', // no equivalent
-            'P' => '', // no equivalent
-            'T' => '', // no equivalent
-            'Z' => '', // no equivalent
-            'c' => '', // no equivalent
-            'r' => '', // no equivalent
-            'U' => 'X',
-        );
-
-        $moment_format = strtr( $format, $replacements );
-        return $moment_format;
-    }
-
-    /**
-     * Get template part (for templates like the shop-loop).
-     *
-     * @param mixed  $slug Template slug.
-     * @param string $name Template name (default: '').
-     * @since 1.0.0
-     */
-    public static function get_template_part( $slug, $args = null, $is_include = true ) {
-        // load template from theme if exist
-        $template = locate_template(
-            array(
-                "{$slug}.php",
-                ozopanel()->get_template_path() . "{$slug}.php",
-            )
-        );
-
-        // load template from pro plugin if exist
-        if ( ! $template && function_exists( 'ozopanelp' ) ) {
-            $fallback = ozopanel()->plugin_path() . '-pro' . "/templates/{$slug}.php";
-            $template = file_exists( $fallback ) ? $fallback : '';
-        }
-
-        // load template from current plugin if exist
-        if ( ! $template ) {
-            $fallback = ozopanel()->plugin_path() . "/templates/{$slug}.php";
-            $template = file_exists( $fallback ) ? $fallback : '';
-        }
-
-        // Allow 3rd party plugins to filter template file from their plugin.
-        $template = apply_filters( 'ozopanel_get_template_part', $template, $slug );
-
-        if ( $template ) {
-            if ( ! empty( $args ) && is_array( $args ) ) {
-                extract($args); // @codingStandardsIgnoreLine
-            }
-
-            // load_template($template, false, $args);
-            if ( $is_include ) {
-                include $template;
-            } else {
-                return $template;
-            }
-        }
     }
 }

@@ -1,31 +1,31 @@
 <?php
-$deactivate_reasons = array(
-    'no_longer_needed' => array(
+$deactivate_reasons = [
+    'no_longer_needed' => [
         'title' => esc_html__( 'I no longer need the plugin', 'ozopanel' ),
         'input' => '',
-    ),
-    'found_a_better' => array(
+    ],
+    'found_a_better' => [
         'title' => esc_html__( 'I found a better plugin', 'ozopanel' ),
         'input' => esc_html__( 'Please share which plugin', 'ozopanel' ),
-    ),
-    'couldnt_get_to_work' => array(
+    ],
+    'couldnt_get_to_work' => [
         'title' => esc_html__( 'I couldn\'t get the plugin to work', 'ozopanel' ),
         'input' => '',
-    ),
-    'temporary_deactivation' => array(
+    ],
+    'temporary_deactivation' => [
         'title' => esc_html__( 'It\'s a temporary deactivation', 'ozopanel' ),
         'input' => '',
-    ),
-    'has_pro' => array(
+    ],
+    'has_pro' => [
         'title' => esc_html__( 'I have OzoPanel Pro', 'ozopanel' ),
         'input' => '',
         'alert' => esc_html__( 'Wait! Don\'t deactivate OzoPanel. You have to activate both OzoPanel and OzoPanel Pro in order for the plugin to work.', 'ozopanel' ),
-    ),
-    'other' => array(
+    ],
+    'other' => [
         'title' => esc_html__( 'Other', 'ozopanel' ),
         'input' => esc_html__( 'Please share the reason', 'ozopanel' ),
-    ),
-);
+    ],
+];
 
 ?>
 <div class="ozopanel">

@@ -4,12 +4,14 @@ namespace OzoPanel\Ctrl\Assist\Type;
 class Link {
 
     public function __construct() {
-        add_filter( 'plugin_action_links_' . plugin_basename( OZOPANEL_FILE ), array( $this, 'links' ) );
+        add_filter( 'plugin_action_links_' . plugin_basename( OZOPANEL_FILE ), [ $this, 'links' ] );
     }
 
     /**
 	 * Assist links.
-	 *
+	 * 
+	 * @since 0.1.0
+	 * 
 	 * @param array $links
 	 *
 	 * @return array

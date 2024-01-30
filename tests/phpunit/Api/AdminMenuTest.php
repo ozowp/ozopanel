@@ -9,7 +9,7 @@ use WP_UnitTestCase;
 /**
  * API AdminMenu Test.
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 class AdminMenuTest extends WP_UnitTestCase {
 
@@ -50,7 +50,7 @@ class AdminMenuTest extends WP_UnitTestCase {
     /**
      * admin menu request api exist
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     public function test_admin_menus_endpoint_exists() {
         $endpoint = '/' . $this->namespace . '/' . $this->base;

@@ -8,88 +8,83 @@ use OzoPanel\Helper\Fns;
 use OzoPanel\Model\AdminColumn as ModelAdminColumn;
 
 /**
- * API AdminColumn class.
+ * API AdminColumn class
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 class AdminColumn extends RestCtrl {
-
 
     /**
      * Route base.
      *
      * @var string
-     * @since 1.0.0
+     * @since 0.1.0
      */
     protected $base = 'admin-columns';
 
     /**
-     * Register all routes related with carts.
+     * Register all routes related with this api
      *
      * @return void
-     * @since 1.0.0
+     * @since 0.1.0
      */
     public function routes() {
 
         register_rest_route(
             $this->namespace, '/' . $this->base . '/(?P<id>[a-z0-9_]+)',
-            array(
+            [
                 'methods' => 'GET',
-                'callback' => array( $this, 'get_single' ),
-                'permission_callback' => function () {
-                    return Fns::gate( $this->base, 'get' );
-                },
-                'args' => array(
-                    'id' => array(
+                'callback' => [ $this, 'get_single' ],
+                'permission_callback' => [ $this, 'gate' ],
+                'args' => [
+                    'id' => [
                         'validate_callback' => function ( $param ) {
                             return is_string( $param );
                         },
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         register_rest_route(
             $this->namespace, '/' . $this->base . '/(?P<id>[a-z0-9_]+)',
-            array(
+            [
                 'methods' => 'PUT',
-                'callback' => array( $this, 'update' ),
-                'permission_callback' => function () {
-                    return Fns::gate( $this->base, 'edit' );
-                },
-                'args' => array(
-                    'id' => array(
+                'callback' => [ $this, 'update' ],
+                'permission_callback' => [ $this, 'gate' ],
+                'args' => [
+                    'id' => [
                         'validate_callback' => function ( $param ) {
                             return is_string( $param );
                         },
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         register_rest_route(
             $this->namespace, '/' . $this->base . '/(?P<id>[a-z0-9,]+)',
-            array(
+            [
                 'methods' => 'DELETE',
-                'callback' => array( $this, 'delete' ),
+                'callback' => [ $this, 'delete' ],
                 'permission_callback' => function () {
                     return Fns::gate( $this->base, 'del' );
                 },
-                'args' => array(
-                    'id' => array(
+                'args' => [
+                    'id' => [
                         'validate_callback' => function ( $param ) {
                             return is_string( $param );
                         },
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
     }
 
     /**
      * Get single reqeust
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @param WP_REST_Request $req request object
      *
@@ -110,40 +105,40 @@ class AdminColumn extends RestCtrl {
 
         if ( $wp_err->get_error_messages() ) {
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => false,
 					'data' => $wp_err->get_error_messages(),
-                ), 200
+                ], 200
             );
         } else {
-            $resp = array();
+            $resp = [];
             $resp['screens'] = ModelAdminColumn::screens();
-            $columns_default = array();
+            $columns_default = [];
             if ( $id ) {
                 if ( post_type_exists( $id ) ) {
-                    $columns = get_option( 'ozopanel_admin_column_' . $id . '_default', array() );
+                    $columns = get_option( 'ozopanel_admin_column_' . $id . '_default', [] );
                     $columns_default = ColumnFns::format_column( $columns );
                 } elseif ( $id === 'wp_media' ) {
-                    $columns = get_option( 'ozopanel_admin_column_upload_default', array() );
+                    $columns = get_option( 'ozopanel_admin_column_upload_default', [] );
                     $columns_default = ColumnFns::format_column( $columns );
                 } elseif ( $id === 'wp_comments' ) {
-                    $columns = get_option( 'ozopanel_admin_column_edit-comments_default', array() );
+                    $columns = get_option( 'ozopanel_admin_column_edit-comments_default', [] );
                     $columns_default = ColumnFns::format_column( $columns );
                 } elseif ( $id === 'wp_users' ) {
-                    $columns = get_option( 'ozopanel_admin_column_users_default', array() );
+                    $columns = get_option( 'ozopanel_admin_column_users_default', [] );
                     $columns_default = ColumnFns::format_column( $columns );
                 }
             }
 
             $resp['columns_default'] = $columns_default;
-            $custom_columns = get_option( 'ozopanel_admin_column_' . $id, array() );
+            $custom_columns = get_option( 'ozopanel_admin_column_' . $id, [] );
             $resp['columns'] = $custom_columns ? $custom_columns : $columns_default; //custom column otherwise default column
 
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => true,
 					'data' => $resp,
-                ), 200
+                ], 200
             );
         }
     }
@@ -151,7 +146,7 @@ class AdminColumn extends RestCtrl {
     /**
      * Update reqeust
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @param WP_REST_Request $req request object
      *
@@ -176,18 +171,18 @@ class AdminColumn extends RestCtrl {
 
         if ( $wp_err->get_error_messages() ) {
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => false,
 					'data' => $wp_err->get_error_messages(),
-                ), 200
+                ], 200
             );
         } else {
             update_option( 'ozopanel_admin_column_' . $id, $admin_column );
             return new \WP_REST_Response(
-                array(
+                [
 					'success'  => true,
 					'data' => null,
-                ), 200
+                ], 200
             );
         }
     }
@@ -195,7 +190,7 @@ class AdminColumn extends RestCtrl {
     /**
      * Delete reqeust
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @param WP_REST_Request $req request object
      *
@@ -214,10 +209,10 @@ class AdminColumn extends RestCtrl {
         }
 
         return new \WP_REST_Response(
-            array(
+            [
 				'success'  => true,
 				'data' => $ids,
-            ), 200
+            ], 200
         );
     }
 }

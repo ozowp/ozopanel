@@ -2,14 +2,13 @@
 
 namespace OzoPanel\Ctrl\MenuPage\Type;
 
-use OzoPanel\Helper\Fns;
 use OzoPanel\Helper\AdminColumn\WpListTableFactory;
 use OzoPanel\Model\AdminColumn as ModelAdminColumn;
 
-class Dashboard {
+class AdminMenu {
 
     public function __construct() {
-        add_action( 'admin_menu', array( $this, 'add_settings_menu' ), 9999 );
+        add_action( 'admin_menu', [ $this, 'add_settings_menu' ], 9999 );
     }
 
     public function add_settings_menu() {
@@ -21,7 +20,7 @@ class Dashboard {
         // load this condtion only ozopanel settings page
         // It getting from admin menu page URL, no need to check NonceVerification
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        if ( $pagenow === 'admin.php' && isset( $_GET['page'] ) && sanitize_text_field( $_GET['page'] ) === 'ozopanel' ) {
+        if ( $pagenow === 'admin.php' && isset( $_GET['page'] ) && sanitize_text_field( wp_unslash( $_GET['page'] ) ) === 'ozopanel' ) {
             //Save admin menus
             $this->save_admin_menus();
 
@@ -41,15 +40,16 @@ class Dashboard {
     /**
      * React js render tag
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     public function add_menu_page() {
+
         add_menu_page(
             esc_html__( 'OzoPanel', 'ozopanel' ),
             esc_html__( 'OzoPanel', 'ozopanel' ),
             'manage_options',
             'ozopanel',
-            array( $this, 'render' ),
+            [ $this, 'render' ],
             'dashicons-shield',
             75
         );
@@ -61,7 +61,7 @@ class Dashboard {
                 esc_html__( 'Admin Menu Editor', 'ozopanel' ),
                 'manage_options',
                 'ozopanel#/admin-menu-editor',
-                array( $this, 'render' )
+                [ $this, 'render' ]
             );
         }
 
@@ -72,7 +72,7 @@ class Dashboard {
                 esc_html__( 'Admin Column Editor', 'ozopanel' ),
                 'manage_options',
                 'ozopanel#/admin-column-editor',
-                array( $this, 'render' )
+                [ $this, 'render' ]
             );
         }
 
@@ -83,7 +83,7 @@ class Dashboard {
                 esc_html__( 'Manage Restrictions', 'ozopanel' ),
                 'manage_options',
                 'ozopanel#/restrictions/roles',
-                array( $this, 'render' )
+                [ $this, 'render' ]
             );
         }
 
@@ -93,7 +93,7 @@ class Dashboard {
             esc_html__( 'Settings', 'ozopanel' ),
             'manage_options',
             'ozopanel#/settings',
-            array( $this, 'render' )
+            [ $this, 'render' ]
         );
 
         add_submenu_page(
@@ -102,7 +102,7 @@ class Dashboard {
             esc_html__( 'Addons', 'ozopanel' ),
             'manage_options',
             'ozopanel#/addons',
-            array( $this, 'render' )
+            [ $this, 'render' ]
         );
 
         remove_submenu_page( 'ozopanel', 'ozopanel' );
@@ -111,7 +111,7 @@ class Dashboard {
     /**
      * React js render tag
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     public function render() {
         echo '<div class="wrap"><div id="ozopanel-dashboard"></div></div>';
@@ -119,8 +119,10 @@ class Dashboard {
 
     /**
      * Save admin menus to option
+     *
      * In rest API request global $menu, $submenu not accessable, that's why saving in option
-     * @since 1.0.0
+     *
+     * @since 0.1.0
      */
     protected function save_admin_menus() {
         if ( ! current_user_can( 'administrator' ) ) {
@@ -133,11 +135,11 @@ class Dashboard {
         ksort( $menu );
 
         // Organize submenu items under their parent menu items
-        $merged_menu = array();
+        $merged_menu = [];
         foreach ( $menu as $menu_item ) {
 
             //Organize and add menu
-            $modify_menu_item = array();
+            $modify_menu_item = [];
 
             $clean_label = preg_replace( '/\d+/', '', wp_strip_all_tags( $menu_item[0] ) );
             $modify_menu_item['label'] = $clean_label;
@@ -157,10 +159,10 @@ class Dashboard {
             }
 
             //Organize and add submenu
-            $modify_menu_item['submenu'] = array();
+            $modify_menu_item['submenu'] = [];
             if ( array_key_exists( $menu_item[2], $submenu ) ) {
                 foreach ( $submenu[ $menu_item[2] ] as $sub_item ) {
-                    $modify_sub_item = array();
+                    $modify_sub_item = [];
                     $clean_label = preg_replace( '/\d+/', '', wp_strip_all_tags( $sub_item[0] ) );
                     $modify_sub_item['label'] = $clean_label;
                     $modify_sub_item['capability'] = $sub_item[1];
@@ -183,7 +185,7 @@ class Dashboard {
     /**
      * Save admin columns to option table
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     public function save_admin_columns() {
         //Post type table
@@ -208,23 +210,23 @@ class Dashboard {
     /**
      * Apply admin menu editor
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     protected function admin_menu_editor() {
         global $menu;
         global $submenu;
 
         // admin menu editor
-        $custom_menu = get_option( 'ozopanel_admin_menu_editor', array() );
+        $custom_menu = get_option( 'ozopanel_admin_menu_editor', [] );
 
         // Remove all existing menus
-        $menu = $submenu = array();
+        $menu = $submenu = [];
 
         // Add custom menus
         foreach ( $custom_menu as $menu_item ) {
             if ( isset( $menu_item['classes'] ) && $menu_item['classes'] === 'wp-menu-separator' ) {
                 // Add separator
-                $menu[] = array( '', 'read', $menu_item['url'], '', 'wp-menu-separator' );
+                $menu[] = [ '', 'read', $menu_item['url'], '', 'wp-menu-separator' ];
             } else {
                 // Add menu page
                 add_menu_page(
@@ -257,7 +259,7 @@ class Dashboard {
     /**
      * Restrict menu for user or role
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     protected function restrict_menu() {
 
@@ -280,7 +282,7 @@ class Dashboard {
     /**
      * Check menu accesss
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     protected function check_restrict_menu( $restrict_menu ) {
         $admin_menu = get_option( 'ozopanel_admin_menu' );
@@ -307,7 +309,7 @@ class Dashboard {
     /**
      * Remove menu and url accesss
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     protected function remove_admin_url_access( $menu, $submenu = '' ) {
         global $pagenow;

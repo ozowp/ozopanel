@@ -5,26 +5,28 @@ namespace OzoPanel\Ctrl\Asset;
 use OzoPanel\Helper\I18n;
 
 /**
- * AssetCtrl class.
+ * AssetCtrl class
  *
  * Responsible for managing all of the assets (CSS, JS, Images, Locales).
+ *
+ * @since 0.1.0
  */
 class AssetCtrl {
 
     /**
      * Constructor.
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     public function __construct() {
-        add_action( 'init', array( $this, 'register_all_scripts' ) );
-        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
+        add_action( 'init', [ $this, 'register_all_scripts' ] );
+        add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
     }
 
     /**
      * Register all scripts and styles.
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @return void
      */
@@ -36,44 +38,44 @@ class AssetCtrl {
     /**
      * Get all styles.
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @return array
      */
     public function get_styles(): array {
-        return array(
-            'ozopanel-dashboard' => array(
+        return [
+            'ozopanel-dashboard' => [
                 'src'     => OZOPANEL_BUILD . '/index.css',
                 'version' => OZOPANEL_VERSION,
-                'deps'    => array(),
-            ),
-        );
+                'deps'    => [],
+            ],
+        ];
     }
 
     /**
      * Get all scripts.
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @return array
      */
     public function get_scripts(): array {
         $dependency = require_once OZOPANEL_DIR . '/build/index.asset.php';
 
-        return array(
-            'ozopanel-dashboard' => array(
+        return [
+            'ozopanel-dashboard' => [
                 'src'       => OZOPANEL_BUILD . '/index.js',
                 'version'   => $dependency['version'],
                 'deps'      => $dependency['dependencies'],
                 'in_footer' => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
      * Register styles.
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @return void
      */
@@ -86,7 +88,7 @@ class AssetCtrl {
     /**
      * Register scripts.
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @return void
      */
@@ -99,7 +101,7 @@ class AssetCtrl {
     /**
      * Enqueue admin styles and scripts.
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @return void
      */
@@ -108,9 +110,12 @@ class AssetCtrl {
         /**
          * Show/Hide nav menu roles selections option
          *
-         * @since 1.0.0
+         * @since 0.1.0
          */
-        if ( is_admin() && isset( $GLOBALS['pagenow'] ) && sanitize_text_field( $GLOBALS['pagenow'] ) === 'nav-menus.php' ) {
+
+        // It getting from admin menu page URL, no need to check NonceVerification
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        if ( is_admin() && isset( $GLOBALS['pagenow'] ) && sanitize_text_field( wp_unslash( $GLOBALS['pagenow'] ) ) === 'nav-menus.php' ) {
             ob_start();
 			?>
                 document.addEventListener("DOMContentLoaded", function() {
@@ -154,9 +159,9 @@ class AssetCtrl {
         wp_enqueue_script( 'ozopanel-dashboard' );
 
         wp_localize_script(
-            'ozopanel-dashboard', 'ozopanel', array(
+            'ozopanel-dashboard', 'ozopanel', [
 				'i18n' => I18n::app(),
-            )
+            ]
         );
     }
 }
