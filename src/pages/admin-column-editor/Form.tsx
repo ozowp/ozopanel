@@ -97,25 +97,33 @@ const Form: FC<FormProps> = ({ data, isNew, onSave, onClose }) => {
 						/>
 					</div>
 
-					<div className="mb-3 grid grid-cols-1">
-						<div className="col">
-							<label htmlFor="width" className="ozop-input-label">
-								Width:
-							</label>
+					<div className="mb-3">
+						<label htmlFor="width" className="ozop-input-label">
+							Width:
+						</label>
+						<div className="flex">
 							<input
-								type="text"
+								type="number"
 								id="width"
 								name="width"
 								size={3}
 								value={form.width}
 								onChange={handleInputChange}
 								className="ozop-input"
+								style={{
+									width: 80,
+									marginRight: 5
+								}}
 							/>
 							<select
 								id="width_unit"
 								name="width_unit"
 								value={form.width_unit}
 								onChange={handleInputChange}
+								className="ozop-input"
+								style={{
+									width: 50
+								}}
 							>
 								<option value="%">%</option>
 								<option value="px">px</option>

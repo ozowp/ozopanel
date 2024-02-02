@@ -3,7 +3,6 @@
 namespace OzoPanel\Ctrl\Api\Type;
 
 use OzoPanel\Abstracts\RestCtrl;
-use OzoPanel\Helper\Fns;
 
 /**
  * API Addon class
@@ -77,26 +76,26 @@ class Addon extends RestCtrl {
             [
                 'id' => 'admin_menu_editor',
                 'title' => esc_html__( 'Admin Menu Editor', 'ozopanel' ),
-                'desc' => 'You can customize admin menu and submenu using this',
-                'isActive' => true,
+                'description' => 'You can customize admin menu and submenu using this',
+                'is_active' => true,
             ],
             [
                 'id' => 'admin_column_editor',
                 'title' => esc_attr__( 'Admin Column Editor', 'ozopanel' ),
-                'desc' => esc_attr__( 'You can customize table column using this', 'ozopanel' ),
-                'isActive' => true,
+                'description' => esc_attr__( 'You can customize table column using this', 'ozopanel' ),
+                'is_active' => true,
             ],
             [
                 'id' => 'restriction',
                 'title' => esc_attr__( 'Restriction', 'ozopanel' ),
-                'desc' => esc_attr__( 'You can restrict admin menu and submenu using this', 'ozopanel' ),
-                'isActive' => true,
+                'description' => esc_attr__( 'You can restrict admin menu and submenu using this', 'ozopanel' ),
+                'is_active' => true,
             ],
             [
                 'id' => 'nav_menu_restriction',
                 'title' => esc_attr__( 'Nav Menu Restriction', 'ozopanel' ),
-                'desc' => esc_attr__( 'You can restrict nav menu using this', 'ozopanel' ),
-                'isActive' => false,
+                'description' => esc_attr__( 'You can restrict nav menu using this', 'ozopanel' ),
+                'is_active' => false,
             ],
         ];
 
@@ -104,9 +103,9 @@ class Addon extends RestCtrl {
 
         foreach ( $list as $key => $item ) {
             if ( array_key_exists( $item['id'], $addons ) ) {
-                $list[ $key ]['isActive'] = $addons[ $item['id'] ];
+                $list[ $key ]['is_active'] = $addons[ $item['id'] ];
             } else {
-                $list[ $key ]['isActive'] = true;
+                $list[ $key ]['is_active'] = true;
             }
         }
 
@@ -134,7 +133,7 @@ class Addon extends RestCtrl {
         $url_params = $req->get_url_params();
         $addon = $url_params['id'];
 
-        $is_active = isset( $param['isActive'] ) ? rest_sanitize_boolean( $param['isActive'] ) : false;
+        $is_active = isset( $param['is_active'] ) ? rest_sanitize_boolean( $param['is_active'] ) : false;
 
         if ( empty( $addon ) ) {
             $wp_err->add(

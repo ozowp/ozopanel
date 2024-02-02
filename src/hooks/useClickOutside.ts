@@ -1,12 +1,17 @@
-import { useEffect } from 'react';
+/**
+ * External dependencies
+ */
+import { useEffect } from '@wordpress/element';
 
-// Improved version of https://usehooks.com/useOnClickOutside/
-const useClickOutside = (ref, handler) => {
+const useClickOutside = (
+	ref: any,
+	handler: any
+) => {
 	useEffect(() => {
 		let startedInside = false;
 		let startedWhenMounted = false;
 
-		const listener = (event) => {
+		const listener = (event: any) => {
 			// Do nothing if `mousedown` or `touchstart` started inside ref element
 			if (startedInside || !startedWhenMounted) return;
 			// Do nothing if clicking ref's element or descendent elements
@@ -15,7 +20,7 @@ const useClickOutside = (ref, handler) => {
 			handler(event);
 		};
 
-		const validateEventStart = (event) => {
+		const validateEventStart = (event: any) => {
 			startedWhenMounted = ref.current;
 			startedInside = ref.current && ref.current.contains(event.target);
 		};

@@ -75,172 +75,183 @@ const Form: FC<FormProps> = ({
 						</svg>
 					</button>
 				</div>
+
 				<form onSubmit={handleSubmit} className="p-5">
-					<div className="mb-3">
-						<label htmlFor="label" className="ozop-input-label">
-							Label:
-						</label>
-						<input
-							type="text"
-							id="label"
-							name="label"
-							value={form.label}
-							onChange={handleChange}
-							className="ozop-input"
-						/>
+					<div className="grid grid-cols-2 gap-4 mb-3">
+						<div>
+							<label htmlFor="label" className="ozop-input-label">
+								Label:
+							</label>
+							<input
+								type="text"
+								id="label"
+								name="label"
+								value={form.label}
+								onChange={handleChange}
+								className="ozop-input"
+							/>
+						</div>
+
+						<div>
+							<label
+								htmlFor="target_page"
+								className="ozop-input-label"
+							>
+								Target Page:
+							</label>
+							<select
+								id="target_page"
+								name="target_page"
+								value={form.url}
+								onChange={handleChange}
+								className="ozop-input"
+							>
+								<option value="">Select</option>
+								{defaultItems.map((option: DefaultItem, i) => (
+									<option
+										key={i}
+										value={option.url}
+										className={`${!option.isSubmenu ? 'font-bold' : ''
+											}`}
+									>
+										{option.isSubmenu && '- '}
+										{option.label}
+									</option>
+								))}
+							</select>
+						</div>
 					</div>
 
-					<div className="mb-3">
-						<label
-							htmlFor="target_page"
-							className="ozop-input-label"
-						>
-							Target Page:
-						</label>
-						<select
-							id="target_page"
-							name="target_page"
-							value={form.url}
-							onChange={handleChange}
-						>
-							<option value="">Select</option>
-							{defaultItems.map((option: DefaultItem, i) => (
-								<option
-									key={i}
-									value={option.url}
-									className={`${
-										!option.isSubmenu ? 'font-bold' : ''
-									}`}
-								>
-									{option.isSubmenu && '- '}
-									{option.label}
-								</option>
-							))}
-						</select>
+					<div className="grid grid-cols-2 gap-4 mb-3">
+						<div>
+							<label htmlFor="url" className="ozop-input-label">
+								Url:
+							</label>
+							<input
+								type="text"
+								id="url"
+								name="url"
+								value={form.url}
+								onChange={handleChange}
+								className="ozop-input"
+							/>
+						</div>
+
+						<div>
+							<label
+								htmlFor="capability"
+								className="ozop-input-label"
+							>
+								Permission:
+							</label>
+							<input
+								type="text"
+								id="capability"
+								name="capability"
+								value={form.capability}
+								onChange={handleChange}
+								className="ozop-input"
+							/>
+						</div>
 					</div>
 
-					<div className="mb-3">
-						<label htmlFor="url" className="ozop-input-label">
-							Url:
-						</label>
-						<input
-							type="text"
-							id="url"
-							name="url"
-							value={form.url}
-							onChange={handleChange}
-							className="ozop-input"
-						/>
+					<div className="grid grid-cols-2 gap-4 mb-3">
+						<div>
+							<label htmlFor="icon" className="ozop-input-label">
+								Icon Class / Img URL:
+							</label>
+							<input
+								type="text"
+								id="icon"
+								name="icon"
+								value={form.icon}
+								onChange={handleChange}
+								className="ozop-input"
+							/>
+						</div>
+
+						<div>
+							<label htmlFor="open_in" className="ozop-input-label">
+								Open In:
+							</label>
+							<select
+								id="open_in"
+								name="open_in"
+								value={form.open_in}
+								onChange={handleChange}
+								className="ozop-input"
+							>
+								<option value="">Same window or tab</option>
+								<option value="blank">New window</option>
+							</select>
+						</div>
 					</div>
 
-					<div className="mb-3">
-						<label
-							htmlFor="capability"
-							className="ozop-input-label"
-						>
-							Permission:
-						</label>
-						<input
-							type="text"
-							id="capability"
-							name="capability"
-							value={form.capability}
-							onChange={handleChange}
-							className="ozop-input"
-						/>
+					<div className="grid grid-cols-2 gap-4 mb-3">
+						<div>
+							<label htmlFor="classes" className="ozop-input-label">
+								Classes:
+							</label>
+							<input
+								type="text"
+								id="classes"
+								name="classes"
+								value={form.classes}
+								onChange={handleChange}
+								className="ozop-input"
+							/>
+						</div>
+
+						<div>
+							<label htmlFor="id" className="ozop-input-label">
+								ID:
+							</label>
+							<input
+								type="text"
+								id="id"
+								name="id"
+								value={form.id}
+								onChange={handleChange}
+								className="ozop-input"
+							/>
+						</div>
 					</div>
 
-					<div className="mb-3">
-						<label htmlFor="icon" className="ozop-input-label">
-							Icon Class / Img URL:
-						</label>
-						<input
-							type="text"
-							id="icon"
-							name="icon"
-							value={form.icon}
-							onChange={handleChange}
-							className="ozop-input"
-						/>
-					</div>
+					<div className="grid grid-cols-2 gap-4 mb-3">
+						<div>
+							<label
+								htmlFor="page_title"
+								className="ozop-input-label"
+							>
+								Page Title:
+							</label>
+							<input
+								type="text"
+								id="page_title"
+								name="page_title"
+								value={form.page_title}
+								onChange={handleChange}
+								className="ozop-input"
+							/>
+						</div>
 
-					<div className="mb-3">
-						<label htmlFor="open_in" className="ozop-input-label">
-							Open In:
-						</label>
-						<select
-							id="open_in"
-							name="open_in"
-							value={form.open_in}
-							onChange={handleChange}
-						>
-							<option value="">Same window or tab</option>
-							<option value="blank">New window</option>
-						</select>
+						<div>
+							<label
+								htmlFor="window_title"
+								className="ozop-input-label"
+							>
+								Window Title:
+							</label>
+							<input
+								type="text"
+								id="window_title"
+								name="window_title"
+								value={form.window_title}
+								onChange={handleChange}
+								className="ozop-input"
+							/>
+						</div>
 					</div>
-
-					<div className="mb-3">
-						<label htmlFor="classes" className="ozop-input-label">
-							Classes:
-						</label>
-						<input
-							type="text"
-							id="classes"
-							name="classes"
-							value={form.classes}
-							onChange={handleChange}
-							className="ozop-input"
-						/>
-					</div>
-
-					<div className="mb-3">
-						<label htmlFor="id" className="ozop-input-label">
-							ID:
-						</label>
-						<input
-							type="text"
-							id="id"
-							name="id"
-							value={form.id}
-							onChange={handleChange}
-							className="ozop-input"
-						/>
-					</div>
-
-					<div className="mb-3">
-						<label
-							htmlFor="page_title"
-							className="ozop-input-label"
-						>
-							Page Title:
-						</label>
-						<input
-							type="text"
-							id="page_title"
-							name="page_title"
-							value={form.page_title}
-							onChange={handleChange}
-							className="ozop-input"
-						/>
-					</div>
-
-					<div className="mb-3">
-						<label
-							htmlFor="window_title"
-							className="ozop-input-label"
-						>
-							Window Title:
-						</label>
-						<input
-							type="text"
-							id="window_title"
-							name="window_title"
-							value={form.window_title}
-							onChange={handleChange}
-							className="ozop-input"
-						/>
-					</div>
-
 					<button type="submit" className="ozop-submit">
 						{submitButtonText}
 					</button>

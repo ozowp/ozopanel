@@ -10,7 +10,7 @@ import { queryClient } from '@utils/react-query';
  */
 import App from './App';
 import { AlertProvider } from '@components/alert/Provider';
-import '@scss/main.scss';
+import '@style/main.scss';
 import '@utils/admin-menu';
 
 const rootElement = document.getElementById('ozopanel-dashboard');

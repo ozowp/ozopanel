@@ -7,12 +7,12 @@ import { Item } from '@interfaces/addons';
 
 type ItemProps = {
 	item: Item;
-	onToggleActive: (id: string, isActive: boolean) => void;
+	onToggleActive: (id: string, is_active: boolean) => void;
 };
 
 interface EditMutationParams {
 	id: string;
-	isActive: boolean;
+	is_active: boolean;
 }
 
 const i18n = ozopanel.i18n;
@@ -22,18 +22,17 @@ const ItemCard: FC<ItemProps> = ({ item, onToggleActive }) => {
 		<div className="rounded shadow-lg bg-white p-4">
 			<div className="px-6 py-4">
 				<div className="font-bold text-xl mb-2">{item.title}</div>
-				<p className="text-gray-700 text-base">{item.desc}</p>
+				<p className="text-gray-700 text-base">{item.description}</p>
 			</div>
 			<div className="px-6 pt-2 pb-2">
 				<button
-					onClick={() => onToggleActive(item.id, item.isActive)}
-					className={`${
-						item.isActive
-							? 'border border-gray-400 bg-white text-gray-800 shadow hover:bg-gray-100'
-							: 'text-white bg-gray-500 hover:bg-gray-700'
-					} font-semibold py-2 px-4 rounded`}
+					onClick={() => onToggleActive(item.id, item.is_active)}
+					className={`${item.is_active
+						? 'border border-gray-400 bg-white text-gray-800 shadow hover:bg-gray-100'
+						: 'text-white bg-gray-500 hover:bg-gray-700'
+						} font-semibold py-2 px-4 rounded`}
 				>
-					{item.isActive ? i18n.deactivate : i18n.activate}
+					{item.is_active ? i18n.deactivate : i18n.activate}
 				</button>
 			</div>
 		</div>
@@ -57,15 +56,15 @@ const App: FC = () => {
 	}, [data]);
 
 	const editMutation = useMutation<void, unknown, EditMutationParams>({
-		mutationFn: ({ id, isActive }) =>
-			edit('addons', id, { isActive: isActive }),
+		mutationFn: ({ id, is_active }) =>
+			edit('addons', id, { is_active: is_active }),
 		onSuccess: (_, param) => {
 			const { id } = param;
 			dispatch({
 				type: 'set_items',
 				payload: items.map((item) =>
 					item.id === id
-						? { ...item, isActive: !item.isActive }
+						? { ...item, is_active: !item.is_active }
 						: item
 				),
 			});
@@ -73,8 +72,8 @@ const App: FC = () => {
 		},
 	});
 
-	const handleToggleActive = (id: string, isActive: boolean) => {
-		editMutation.mutate({ id, isActive: !isActive });
+	const handleToggleActive = (id: string, is_active: boolean) => {
+		editMutation.mutate({ id, is_active: !is_active });
 	};
 
 	return (

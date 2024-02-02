@@ -16,6 +16,8 @@ interface SelectGroupProps {
 	onChange: (value: string) => void;
 }
 
+const i18n = ozopanel.i18n;
+
 const SelectGroup: React.FC<SelectGroupProps> = ({
 	groups,
 	value,
@@ -26,10 +28,17 @@ const SelectGroup: React.FC<SelectGroupProps> = ({
 		onChange(value); // Pass the selected value to the parent component
 	};
 
-	const i18n = ozopanel.i18n;
 	return (
-		<select value={value} onChange={handleSelectChange}>
+		<select
+			value={value}
+			onChange={handleSelectChange}
+			className="ozop-input"
+			style={{
+				width: 120
+			}}
+		>
 			{!value && <option value="">{i18n.select}</option>}
+
 			{groups.map((group: OptionGroup) => (
 				<optgroup key={group.label} label={group.label}>
 					{group.options.map((option: Option) => (
