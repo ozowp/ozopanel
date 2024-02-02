@@ -1,6 +1,13 @@
+/**
+ * External dependencies
+ */
 import { StrictMode, createRoot } from '@wordpress/element';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@utils/react-query';
+
+/**
+ * Internal dependencies
+ */
 import App from './App';
 import { AlertProvider } from '@components/alert/Provider';
 import '@scss/main.scss';

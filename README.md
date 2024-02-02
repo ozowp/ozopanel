@@ -20,7 +20,6 @@ OzoPanel WordPress Plugin
 * WordPress Playwright e2e Test
 * PHP Composer
 * PHP OOP plugin architecture [Traits + Interfaces + Abstract Classes]
-* Gutenberg blocks, Dynamic blocks
 
 ### Quick Start
 
