@@ -1,4 +1,4 @@
 function Snipper() {
-	return <div className="ozop-preloader">Loading...</div>;
+	return <div className="ozop-preloader"></div>;
 }
 export default Snipper;

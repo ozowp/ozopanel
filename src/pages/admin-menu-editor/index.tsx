@@ -1,7 +1,16 @@
+/**
+ * External dependencies
+ */
 import { FC, useReducer, useEffect } from 'react';
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+
+/**
+ * Internal dependencies
+ */
 import Spinner from '@components/preloader/spinner';
+import Topbar from '@components/topbar';
+import PageContent from '@components/page-content';
 import { get, edit } from '@utils/api';
 import { reducer, initState } from './reducer';
 import { Item, Subitem } from '@interfaces/admin-menu-editor';
@@ -155,22 +164,24 @@ const AdminMenuEditor: FC = () => {
 	};
 
 	return (
-		<div className="ozop-restrictions-form">
-			<div className="mb-6 mt-6 grid grid-cols-2 gap-6">
-				<div className="col">
-					<h3 className="text-2xl text-gray-900">
-						{i18n.adminMenuEditor}
-					</h3>
-				</div>
-				<div className="col"></div>
-			</div>
+		<>
+			<Topbar label={i18n.adminMenuEditor}>
+				{!loadingFetch && <button
+					onClick={handleSubmit}
+					className="ozop-submit"
+					disabled={loadingSubmit}
+				>
+					{i18n.saveChanges}
+				</button>}
+			</Topbar>
 
-			{loadingFetch && <Spinner />}
+			<PageContent>
 
-			{!loadingFetch && (
-				<>
-					<div className="grid grid-cols-2 gap-6">
-						<div className="col">
+				{loadingFetch && <Spinner />}
+
+				{!loadingFetch && (
+					<>
+						<div className="ozop-admin-menu-editor">
 							<Items
 								items={items}
 								onOrderChange={handleItemOrder}
@@ -181,56 +192,47 @@ const AdminMenuEditor: FC = () => {
 								itemNew={handleItemNew}
 							/>
 						</div>
-						<div className="col">
-							<button
-								onClick={handleSubmit}
-								className="ozop-submit"
-								disabled={loadingSubmit}
-							>
-								{i18n.saveChanges}
-							</button>
-						</div>
-					</div>
 
-					{itemNew && (
-						<Form
-							isNew
-							data={itemNew}
-							defaultItems={defaultItems}
-							onSave={handleAddNewItem}
-							onClose={() => {
-								dispatch({
-									type: 'set_item_new',
-									payload: null,
-								});
-								dispatch({
-									type: 'set_item_select',
-									payload: null,
-								});
-							}}
-						/>
-					)}
-
-					{!itemNew &&
-						selectedItem !== null &&
-						items[selectedItem] && (
+						{itemNew && (
 							<Form
-								data={
-									selectedItem !== null &&
-									selectedSubitem !== null
-										? items[selectedItem].submenu[
-												selectedSubitem
-											]
-										: items[selectedItem]
-								}
+								isNew
+								data={itemNew}
 								defaultItems={defaultItems}
-								onSave={handleItemChange}
-								onClose={() => handleItemSelect(null)}
+								onSave={handleAddNewItem}
+								onClose={() => {
+									dispatch({
+										type: 'set_item_new',
+										payload: null,
+									});
+									dispatch({
+										type: 'set_item_select',
+										payload: null,
+									});
+								}}
 							/>
 						)}
-				</>
-			)}
-		</div>
+
+						{!itemNew &&
+							selectedItem !== null &&
+							items[selectedItem] && (
+								<Form
+									data={
+										selectedItem !== null &&
+											selectedSubitem !== null
+											? items[selectedItem].submenu[
+											selectedSubitem
+											]
+											: items[selectedItem]
+									}
+									defaultItems={defaultItems}
+									onSave={handleItemChange}
+									onClose={() => handleItemSelect(null)}
+								/>
+							)}
+					</>
+				)}
+			</PageContent>
+		</>
 	);
 };
 

@@ -1,9 +1,18 @@
+/**
+ * External dependencies
+ */
 import { FC, useReducer, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
-import { UseAlert } from '@components/alert/Provider';
 import { toast } from 'react-toastify';
+
+/**
+ * Internal dependencies
+ */
 import Spinner from '@components/preloader/spinner';
+import Topbar from '@components/topbar';
+import PageContent from '@components/page-content';
+import { UseAlert } from '@components/alert/Provider';
 import { get, del } from '@utils/api';
 import { reducer, initState } from './reducer';
 import { Item } from '@interfaces/restrictions';
@@ -102,80 +111,78 @@ const Restrictions: FC = () => {
 	const i18n = ozopanel.i18n;
 
 	return (
-		<div className="ozop-restrictions">
-			<h3 className="text-2xl mt-6 text-gray-900 dark:text-white">{`${
-				i18n.restriction
-			} ${type === 'users' ? i18n.users : i18n.roles}`}</h3>
+		<>
+			<Topbar label={`${i18n.restriction} ${type === 'users' ? i18n.users : i18n.roles}`}>
+				{!loading && <button
+					className="ozop-submit"
+					onClick={() => goForm()}
+				>
+					{`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role
+						}`}
+				</button>}
+			</Topbar>
 
-			<div className="mb-6 mt-6 flex justify-between">
-				<div className="">
-					<button
-						className={`rounded ${
-							type === 'roles'
-								? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
-								: 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
-						}`}
-						onClick={() => selectType('roles')}
-					>
-						{i18n.roles}
-					</button>
-					<button
-						className={`rounded ${
-							type === 'users'
-								? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
-								: 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
-						}`}
-						onClick={() => selectType('users')}
-					>
-						{i18n.users}
-					</button>
-				</div>
-				<div className="">
-					<button
-						className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
-						onClick={() => goForm()}
-					>
-						{`${i18n.restrict} ${
-							type === 'users' ? i18n.user : i18n.role
-						}`}
-					</button>
+			<PageContent>
+				<div className="ozop-restrictions">
+					<div className="mb-6 mt-6 flex justify-between">
+						<div className="">
+							<button
+								className={`rounded ${type === 'roles'
+									? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
+									: 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
+									}`}
+								onClick={() => selectType('roles')}
+							>
+								{i18n.roles}
+							</button>
+							<button
+								className={`rounded ${type === 'users'
+									? 'bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
+									: 'border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100'
+									}`}
+								onClick={() => selectType('users')}
+							>
+								{i18n.users}
+							</button>
+						</div>
+						<div className="">
+							{selectedItems.length > 0 && (
+								<button
+									className="mb-2 ml-2 rounded bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
+									onClick={() => handleDelete()}
+								>
+									{i18n.delete}
+								</button>
+							)}
+						</div>
+					</div>
 
-					{selectedItems.length > 0 && (
-						<button
-							className="mb-2 ml-2 rounded bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
-							onClick={() => handleDelete()}
-						>
-							{i18n.delete}
-						</button>
+					{loading && <Spinner />}
+
+					{!loading && (
+						<>
+							{items.length > 0 && (
+								<Table
+									type={type}
+									selectAll={selectAll}
+									handleSelectAll={handleSelectAll}
+									items={items}
+									selectedItems={selectedItems}
+									handleToggleItem={handleToggleItem}
+									goForm={goForm}
+									handleDelete={handleDelete}
+								/>
+							)}
+
+							{!items.length && (
+								<p className="text-gray-500 dark:text-gray-400 mb-3">{`${i18n.noRestrictionData
+									} ${type === 'users' ? i18n.user : i18n.role}`}</p>
+							)}
+						</>
 					)}
 				</div>
-			</div>
-
-			{loading && <Spinner />}
-
-			{!loading && (
-				<>
-					{items.length > 0 && (
-						<Table
-							type={type}
-							selectAll={selectAll}
-							handleSelectAll={handleSelectAll}
-							items={items}
-							selectedItems={selectedItems}
-							handleToggleItem={handleToggleItem}
-							goForm={goForm}
-							handleDelete={handleDelete}
-						/>
-					)}
-
-					{!items.length && (
-						<p className="text-gray-500 dark:text-gray-400 mb-3">{`${
-							i18n.noRestrictionData
-						} ${type === 'users' ? i18n.user : i18n.role}`}</p>
-					)}
-				</>
-			)}
-		</div>
+			</PageContent>
+		</>
 	);
 };
 

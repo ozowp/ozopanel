@@ -15,7 +15,7 @@ const NotFound = lazy(() => import('@pages/404'));
 
 const App = () => {
 	return (
-		<div className="ozop-content mt-5">
+		<>
 			<ToastContainer hideProgressBar />
 			<Suspense fallback={<Spinner />}>
 				<RouterProvider
@@ -23,7 +23,7 @@ const App = () => {
 					fallbackElement={<NotFound />}
 				/>
 			</Suspense>
-		</div>
+		</>
 	);
 };
 

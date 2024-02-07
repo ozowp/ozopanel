@@ -1,8 +1,17 @@
+/**
+ * External dependencies
+ */
 import { FC, useReducer, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+
+/**
+ * Internal dependencies
+ */
 import Spinner from '@components/preloader/spinner';
+import Topbar from '@components/topbar';
+import PageContent from '@components/page-content';
 import { get, add, edit } from '@utils/api';
 import { reducer, initState } from './reducer';
 import Menus from './Menus';
@@ -123,86 +132,81 @@ const Form: FC = () => {
 	};
 
 	return (
-		<div className="ozop-restrictions-form">
-			<div className="mb-6 mt-6 grid grid-cols-2 gap-6">
-				<div className="col">
-					<h3 className="text-2xl text-gray-900">{`${i18n.restrict} ${
-						type === 'users' ? i18n.user : i18n.role
-					}`}</h3>
-				</div>
-				<div className="col">
-					<button
-						className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
-						onClick={() => navigate(`/restrictions/${type}`)}
-					>
-						{`${i18n.backTo} ${
-							type === 'users' ? i18n.users : i18n.roles
-						}`}
-					</button>
-				</div>
-			</div>
-
-			{loadingFetch && <Spinner />}
-
-			{!loadingFetch && (
-				<>
-					<label className="mb-3 block">
-						{`${i18n.select} ${
-							type === 'users' ? i18n.user : i18n.role
-						}`}
-						:
-						<select
-							onChange={(e) => handleIdChange(e.target.value)}
-							value={formData.id}
-							disabled={id ? true : false}
-							className="ml-2"
+		<>
+			<Topbar label={`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role}`}>
+				{!loadingFetch &&
+					<>
+						<button
+							onClick={handleSubmit}
+							className="ozop-submit"
+							disabled={loadingSubmit}
 						>
-							<option value="">{i18n.select}</option>
-							{idList.map((role, i) => (
-								<option key={i} value={role.id}>
-									{role.label}
-								</option>
-							))}
-						</select>
-					</label>
+							{loadingSubmit
+								? id
+									? i18n.updating
+									: i18n.submitting
+								: id
+									? i18n.update
+									: i18n.submit}
+						</button>
+						<button
+							className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
+							onClick={() => navigate(`/restrictions/${type}`)}
+						>
+							{`${i18n.backTo} ${type === 'users' ? i18n.users : i18n.roles
+								}`}
+						</button>
+					</>
+				}
+			</Topbar>
 
-					<p className="text-gray-500 dark:text-gray-400 mb-3">{`${
-						i18n.menuSelectGuide
-					} ${type === 'users' ? i18n.user : i18n.role}`}</p>
+			<PageContent>
+				{loadingFetch && <Spinner />}
 
-					<div className="grid grid-cols-2 gap-6">
-						<div className="col">
-							<Menus
-								adminMenu={adminMenu}
-								formData={formData}
-								onToggle={handleAdminMenuToggle}
-								onMenuExpand={onMenuExpand}
-								menuExpand={menuExpand}
-								onSubmenuToggle={(
-									menuUrl: string,
-									submenuUrl: string
-								) => handleSubMenuToggle(menuUrl, submenuUrl)}
-							/>
-						</div>
-						<div className="col">
-							<button
-								onClick={handleSubmit}
-								className="ozop-submit"
-								disabled={loadingSubmit}
-							>
-								{loadingSubmit
-									? id
-										? i18n.updating
-										: i18n.submitting
-									: id
-										? i18n.update
-										: i18n.submit}
-							</button>
-						</div>
-					</div>
-				</>
-			)}
-		</div>
+				<div className="ozop-restrictions-form">
+
+					{!loadingFetch && (
+						<>
+							<label className="mb-3 block">
+								{`${i18n.select} ${type === 'users' ? i18n.user : i18n.role
+									}`}
+								:
+								<select
+									onChange={(e) => handleIdChange(e.target.value)}
+									value={formData.id}
+									disabled={id ? true : false}
+									className="ml-2"
+								>
+									<option value="">{i18n.select}</option>
+									{idList.map((role, i) => (
+										<option key={i} value={role.id}>
+											{role.label}
+										</option>
+									))}
+								</select>
+							</label>
+
+							<p className="text-gray-500 dark:text-gray-400 mb-3">{`${i18n.menuSelectGuide
+								} ${type === 'users' ? i18n.user : i18n.role}`}</p>
+
+							<div className="">
+								<Menus
+									adminMenu={adminMenu}
+									formData={formData}
+									onToggle={handleAdminMenuToggle}
+									onMenuExpand={onMenuExpand}
+									menuExpand={menuExpand}
+									onSubmenuToggle={(
+										menuUrl: string,
+										submenuUrl: string
+									) => handleSubMenuToggle(menuUrl, submenuUrl)}
+								/>
+							</div>
+						</>
+					)}
+				</div>
+			</PageContent>
+		</>
 	);
 };
 

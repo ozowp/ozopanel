@@ -5,15 +5,13 @@ class Welcome {
 
 	public function __construct() {
 		add_action( 'admin_menu', [ $this, 'add_menu' ], 30 );
-		add_action(
-            'admin_head', function () {
-				echo '<style>
+		add_action( 'admin_head', function () {
+			echo '<style>
 				li.toplevel_page_ozopanel-welcome {
 					display: none;
 				}
 			</style>';
-			}
-        );
+		} );
 	}
 
 	public function add_menu() {
@@ -27,6 +25,6 @@ class Welcome {
 	}
 
 	public function render() {
-		echo '<div class="wrap" id="ozopanel-welcome"></div>';
+		echo '<div id="ozopanel-welcome"></div>';
 	}
 }

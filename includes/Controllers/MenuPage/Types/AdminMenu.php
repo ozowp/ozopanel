@@ -114,7 +114,7 @@ class AdminMenu {
      * @since 0.1.0
      */
     public function render() {
-        echo '<div class="wrap"><div id="ozopanel-dashboard"></div></div>';
+        echo '<div id="ozopanel-dashboard"></div>';
     }
 
     /**

@@ -1,9 +1,18 @@
+/**
+ * External dependencies
+ */
 import { FC, useReducer, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
+
+/**
+ * Internal dependencies
+ */
 import Spinner from '@components/preloader/spinner';
+import Topbar from '@components/topbar';
+import PageContent from '@components/page-content';
 import SelectGroup from '@components/select-group';
 import Items from './Items';
 import Form from './Form';
@@ -43,14 +52,14 @@ const AdminColumnEditor: FC = () => {
 	};
 
 	const getScreenLabelById = (id: string): string | undefined => {
-        for (const screen of screens) {
-            const option = screen.options.find(option => option.value === id);
-            if (option) {
-                return option.label;
-            }
-        }
-        return undefined;
-    };
+		for (const screen of screens) {
+			const option = screen.options.find(option => option.value === id);
+			if (option) {
+				return option.label;
+			}
+		}
+		return undefined;
+	};
 
 	const handleItemOrder = (newItems: Item[]) => {
 		dispatch({ type: 'set_items', payload: newItems });
@@ -118,81 +127,83 @@ const AdminColumnEditor: FC = () => {
 	const i18n = ozopanel.i18n;
 
 	return (
-		<div className="ozop-admin-columns">
-			<h3 className="mb-3 mt-6 text-2xl">{i18n.adminColumnEditor}</h3>
+		<>
+			<Topbar label={i18n.adminColumnEditor}>
+				{!loading && <>
+					<button
+						onClick={handleSubmit}
+						className="ozop-submit"
+					>
+						{i18n.saveChanges}
+					</button>
+					<button className="px-4 py-2 font-semibold text-gray-800">
+						{i18n.resetChanges}
+					</button>
+				</>}
+			</Topbar>
 
-			{loading && <Spinner />}
+			<PageContent>
+				{loading && <Spinner />}
+				<div className="ozop-admin-columns">
 
-			{!loading && (
-				<>
-					<div className="mb-5 grid grid-cols-3 gap-6">
-						<div className="col">
-							<SelectGroup
-								groups={screens}
-								value={id}
-								onChange={handleScreenChange}
-							/>
-						</div>
-						<div className="col">
-							<button className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100">
-								{`${i18n.view} ${getScreenLabelById(id)}`}
-							</button>
-						</div>
-						<div className="col"></div>
-					</div>
+					{!loading && (
+						<>
+							<div className="mb-5 flex justify-between">
+								<div>
+									<SelectGroup
+										groups={screens}
+										value={id}
+										onChange={handleScreenChange}
+									/>
+								</div>
+								<div>
+									<button className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100">
+										{`${i18n.view} ${getScreenLabelById(id)}`}
+									</button>
+								</div>
+							</div>
 
-					<div className="grid grid-cols-2 gap-6">
-						<div className="col">
-							<Items
-								items={items}
-								onChange={handleItemOrder}
-								onSelect={handleItemSelect}
-								onDelete={handleItemDelete}
-							/>
-							<button
-								onClick={handleItemNew}
-								className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
-							>
-								{i18n.addNewColumn}
-							</button>
-						</div>
-						<div className="col">
-							<button
-								onClick={handleSubmit}
-								className="ozop-submit"
-							>
-								{i18n.saveChanges}
-							</button>
-							<button className="px-4 py-2 font-semibold text-gray-800">
-								{i18n.resetChanges}
-							</button>
-						</div>
-					</div>
+							<div className="">
+								<Items
+									items={items}
+									onChange={handleItemOrder}
+									onSelect={handleItemSelect}
+									onDelete={handleItemDelete}
+								/>
+								<button
+									onClick={handleItemNew}
+									className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
+								>
+									{i18n.addNewColumn}
+								</button>
+							</div>
 
-					{itemNew && (
-						<Form
-							isNew
-							data={itemNew}
-							onSave={handleAddNewItem}
-							onClose={() =>
-								dispatch({
-									type: 'set_item_new',
-									payload: null,
-								})
-							}
-						/>
+							{itemNew && (
+								<Form
+									isNew
+									data={itemNew}
+									onSave={handleAddNewItem}
+									onClose={() =>
+										dispatch({
+											type: 'set_item_new',
+											payload: null,
+										})
+									}
+								/>
+							)}
+
+							{selectedItem !== null && items[selectedItem] && (
+								<Form
+									data={items[selectedItem]}
+									onSave={handleItemChange}
+									onClose={() => handleItemSelect(null)}
+								/>
+							)}
+						</>
 					)}
-
-					{selectedItem !== null && items[selectedItem] && (
-						<Form
-							data={items[selectedItem]}
-							onSave={handleItemChange}
-							onClose={() => handleItemSelect(null)}
-						/>
-					)}
-				</>
-			)}
-		</div>
+				</div>
+			</PageContent>
+		</>
 	);
 };
 

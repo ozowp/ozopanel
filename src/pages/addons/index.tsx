@@ -1,6 +1,15 @@
+/**
+ * External dependencies
+ */
 import { FC, useReducer, useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
+
+/**
+ * Internal dependencies
+ */
 import Spinner from '@components/preloader/spinner';
+import Topbar from '@components/topbar';
+import PageContent from '@components/page-content';
 import { get, edit } from '@utils/api';
 import { reducer, initState } from './reducer';
 import { Item } from '@interfaces/addons';
@@ -27,11 +36,10 @@ const ItemCard: FC<ItemProps> = ({ item, onToggleActive }) => {
 			<div className="px-6 pt-2 pb-2">
 				<button
 					onClick={() => onToggleActive(item.id, item.is_active)}
-					className={`${
-						item.is_active
-							? 'border border-gray-400 bg-white text-gray-800 shadow hover:bg-gray-100'
-							: 'text-white bg-gray-500 hover:bg-gray-700'
-					} font-semibold py-2 px-4 rounded`}
+					className={`${item.is_active
+						? 'border border-gray-400 bg-white text-gray-800 shadow hover:bg-gray-100'
+						: 'text-white bg-gray-500 hover:bg-gray-700'
+						} font-semibold py-2 px-4 rounded`}
 				>
 					{item.is_active ? i18n.deactivate : i18n.activate}
 				</button>
@@ -78,23 +86,36 @@ const App: FC = () => {
 	};
 
 	return (
-		<div className="ozop-admin-columns">
-			<h3 className="mb-3 mt-6 text-2xl">{i18n.addons}</h3>
+		<>
+			<Topbar label={i18n.addons}>
+				{!loading && <>
+					<button
+						// onClick={handleSubmit}
+						className="ozop-submit"
+					>
+						{i18n.saveChanges}
+					</button>
+				</>}
+			</Topbar>
 
-			{loading && <Spinner />}
+			<PageContent>
+				<div className="ozop-addons">
+					{loading && <Spinner />}
 
-			{!loading && (
-				<div className="grid gap-5 grid-cols-3">
-					{items.map((item) => (
-						<ItemCard
-							key={item.id}
-							item={item}
-							onToggleActive={handleToggleActive}
-						/>
-					))}
+					{!loading && (
+						<div className="grid gap-7 grid-cols-3">
+							{items.map((item) => (
+								<ItemCard
+									key={item.id}
+									item={item}
+									onToggleActive={handleToggleActive}
+								/>
+							))}
+						</div>
+					)}
 				</div>
-			)}
-		</div>
+			</PageContent>
+		</>
 	);
 };
 
