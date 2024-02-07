@@ -3,16 +3,22 @@
  * @since 0.1.0
  */
 
+/**
+ * External dependencies
+ */
 import apiFetch from '@wordpress/api-fetch';
 
-const namepsace = 'ozopanel/v1';
-const namepsacePro = 'ozopanelp/v1';
+/**
+ * Internal dependencies
+ */
+const namespace = 'ozopanel/v1';
+const namespacePro = 'ozopanelp/v1';
 
 const url = (api: string, from: string) => {
 	if (from == 'free') {
-		return `/${namepsace}/${api}`;
+		return `/${namespace}/${api}`;
 	} else if (from == 'pro') {
-		return `/${namepsacePro}/${api}`;
+		return `/${namespacePro}/${api}`;
 	}
 };
 
@@ -28,7 +34,7 @@ export const get = async (api: string, args = '', from = 'free') => {
 	}
 };
 
-export const getS = async (api: string, id: number, from = 'free') => {
+export const getSingle = async (api: string, id: number, from = 'free') => {
 	const res = await apiFetch({
 		path: `${url(api, from)}/${id}`,
 	});

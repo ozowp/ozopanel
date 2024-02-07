@@ -3,10 +3,7 @@
  */
 import { useEffect } from '@wordpress/element';
 
-const useClickOutside = (
-	ref: any,
-	handler: any
-) => {
+const useClickOutside = (ref: any, handler: any) => {
 	useEffect(() => {
 		let startedInside = false;
 		let startedWhenMounted = false;

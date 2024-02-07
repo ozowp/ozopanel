@@ -22,19 +22,10 @@
 		"skipLibCheck": true /* Skip type checking all .d.ts files. */,
 		"baseUrl": "./",
 		"paths": {
-			"@*": [
-				"src/*"
-			]
-		}
+			"@*": ["src/*"],
+		},
 	},
-	"include": [
-		"src"
-	],
-	"files": [
-		"globals.d.ts"
-	],
-	"exclude": [
-		"node_modules",
-		"build"
-	]
+	"include": ["src"],
+	"files": ["globals.d.ts"],
+	"exclude": ["node_modules", "build"],
 }

@@ -57,8 +57,9 @@ const Settings: FC = () => {
 				{tabs.map((tab) => (
 					<li
 						key={tab.id}
-						className={`ozop-tab-item ${tab.id === activeTab ? 'ozop-active' : ''
-							}`}
+						className={`ozop-tab-item ${
+							tab.id === activeTab ? 'ozop-active' : ''
+						}`}
 						onClick={(e) => addCurrentTab(e, tab.id)}
 					>
 						<a>{tab.label}</a>

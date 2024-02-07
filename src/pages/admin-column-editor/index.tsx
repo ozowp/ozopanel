@@ -42,6 +42,16 @@ const AdminColumnEditor: FC = () => {
 		}
 	};
 
+	const getScreenLabelById = (id: string): string | undefined => {
+        for (const screen of screens) {
+            const option = screen.options.find(option => option.value === id);
+            if (option) {
+                return option.label;
+            }
+        }
+        return undefined;
+    };
+
 	const handleItemOrder = (newItems: Item[]) => {
 		dispatch({ type: 'set_items', payload: newItems });
 	};
@@ -99,9 +109,9 @@ const AdminColumnEditor: FC = () => {
 		submitMutation.mutate();
 	};
 
-	const handleItemDelete = (index: number) => {
+	const handleItemDelete = (i: number) => {
 		const updatedItems = [...state.items];
-		updatedItems.splice(index, 1);
+		updatedItems.splice(i, 1);
 		dispatch({ type: 'set_items', payload: updatedItems });
 	};
 
@@ -125,7 +135,7 @@ const AdminColumnEditor: FC = () => {
 						</div>
 						<div className="col">
 							<button className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100">
-								{`${i18n.view} ${id}`}
+								{`${i18n.view} ${getScreenLabelById(id)}`}
 							</button>
 						</div>
 						<div className="col"></div>

@@ -1,11 +1,14 @@
 /**
+ * External dependencies
+ */
+import { QueryClient, QueryCache, MutationCache } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
+
+/**
  * react-query instead of showing error multiple place show it ones
  *
  * @since 0.1.0
  */
-
-import { QueryClient, QueryCache, MutationCache } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 
 const onError = (error: Error | Error[]) => {
 	if (Array.isArray(error)) {

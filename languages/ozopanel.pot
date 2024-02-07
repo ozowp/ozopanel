@@ -121,7 +121,7 @@ msgstr ""
 
 #: includes/Ctrl/Api/Type/Restriction.php:413
 #: includes/Helper/I18n.php:35
-msgid "Please Seleact Role"
+msgid "Please Select Role"
 msgstr ""
 
 #: includes/Ctrl/Api/Type/Setting.php:69
@@ -240,7 +240,7 @@ msgid "Update"
 msgstr ""
 
 #: includes/Helper/I18n.php:27
-msgid "Updatting..."
+msgid "Updating..."
 msgstr ""
 
 #: includes/Helper/I18n.php:29

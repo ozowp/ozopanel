@@ -18,7 +18,7 @@ const get = (api: string, args = '', from = 'free') => {
 	});
 };
 
-const getS = (api: string, id: number, from = 'free') => {
+const getSingle = (api: string, id: number, from = 'free') => {
 	return apiFetch({
 		path: `${url(api, from)}/${id}`,
 	});
@@ -40,7 +40,7 @@ const edit = (api: string, id: string, data: object, from = 'free') => {
 	});
 };
 
-const del = (api: string, id: string, from = 'free') => {
+const delete = (api: string, id: string, from = 'free') => {
 	return apiFetch({
 		path: `${url(api, from)}/${id}`,
 		method: 'DELETE',
@@ -50,7 +50,7 @@ const del = (api: string, id: string, from = 'free') => {
 export default {
 	add,
 	get,
-	getS,
+	getSingle,
 	edit,
-	del,
+	delete,
 };

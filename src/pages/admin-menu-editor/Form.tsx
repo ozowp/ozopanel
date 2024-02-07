@@ -111,8 +111,9 @@ const Form: FC<FormProps> = ({
 									<option
 										key={i}
 										value={option.url}
-										className={`${!option.isSubmenu ? 'font-bold' : ''
-											}`}
+										className={`${
+											!option.isSubmenu ? 'font-bold' : ''
+										}`}
 									>
 										{option.isSubmenu && '- '}
 										{option.label}
@@ -171,7 +172,10 @@ const Form: FC<FormProps> = ({
 						</div>
 
 						<div>
-							<label htmlFor="open_in" className="ozop-input-label">
+							<label
+								htmlFor="open_in"
+								className="ozop-input-label"
+							>
 								Open In:
 							</label>
 							<select
@@ -189,7 +193,10 @@ const Form: FC<FormProps> = ({
 
 					<div className="grid grid-cols-2 gap-4 mb-3">
 						<div>
-							<label htmlFor="classes" className="ozop-input-label">
+							<label
+								htmlFor="classes"
+								className="ozop-input-label"
+							>
 								Classes:
 							</label>
 							<input

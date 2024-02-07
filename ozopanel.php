@@ -3,12 +3,12 @@
  * OzoPanel - A customization plugin for WordPress
  *
  * @package   WpOzo - OzoPanel
- * @author     WpOzo <contact@wpozo.com>
- * @link       https://wpozo.com
- * @copyright  2023 WpOzo
+ * @author    WpOzo <contact@wpozo.com>
+ * @link      https://wpozo.com
+ * @copyright 2023 WpOzo
  *
  * @wordpress-plugin
- * Plugin Name:       WP Plugin Kit
+ * Plugin Name:       OzoPanel
  * Plugin URI:        https://wordpress.org/plugins/ozopanel
  * Description:       A customization plugin for WordPress
  * Version:           0.1.0
@@ -19,9 +19,10 @@
  * Tested up to:      6.4
  * Text Domain:       ozopanel
  * Domain Path:       /languages
- * License: GPL3
- * License URI: https://www.gnu.org/licenses/gpl-3.0.html
+ * License:           GPL3
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  */
+
 
 /**
  * Don't allow call the file directly
@@ -40,29 +41,30 @@ defined( 'ABSPATH' ) || exit;
 
 final class OzoPanel {
 
+
     /**
      * Plugin version
      *
      * @since 0.1.0
-	 *
+     *
      * @var string
      */
     private const VERSION = '0.1.0';
 
-	/**
+    /**
      * Instance of self
-	 *
+     *
      * @since 0.1.0
-	 *
+     *
      * @var OzoPanel
      */
     private static $instance = null;
 
     /**
      * Minimum PHP version required
-	 *
+     *
      * @since 0.1.0
-	 *
+     *
      * @var string
      */
     private const MIN_PHP = '7.4';
@@ -79,15 +81,15 @@ final class OzoPanel {
 
         $this->define_constants();
 
-		register_activation_hook( __FILE__, [ $this, 'activate' ] );
+        register_activation_hook( __FILE__, [ $this, 'activate' ] );
         register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
 
-		add_action( 'wp_loaded', [ $this, 'flush_rewrite_rules' ] );
+        add_action( 'wp_loaded', [ $this, 'flush_rewrite_rules' ] );
 
-		$this->init_plugin();
+        $this->init_plugin();
     }
 
-	/**
+    /**
      * Initializes the OzoPanel() class
      *
      * Checks for an existing OzoPanel() instance
@@ -103,9 +105,9 @@ final class OzoPanel {
 
     /**
      * Define all constants
-	 *
+     *
      * @since 0.1.0
-	 *
+     *
      * @return void
      */
     public function define_constants() {
@@ -120,7 +122,7 @@ final class OzoPanel {
         define( 'OZOPANEL_ASSETS', OZOPANEL_URL . '/assets' );
     }
 
-	/**
+    /**
      * Load the plugin after all plugins are loaded.
      *
      * @since 0.1.0
@@ -129,16 +131,16 @@ final class OzoPanel {
      */
     public function init_plugin() {
 
-		do_action( 'ozopanel_before_init' );
+        do_action( 'ozopanel_before_init' );
 
         $this->includes();
         $this->init_hooks();
 
-		// Fires after the plugin is loaded.
+        // Fires after the plugin is loaded.
         do_action( 'ozopanel_init' );
     }
 
-	/**
+    /**
      * Include the required files.
      *
      * @since 0.1.0
@@ -147,10 +149,10 @@ final class OzoPanel {
      */
     public function includes() {
         // Common classes
-        OzoPanel\Ctrl\MainCtrl::init();
+        OzoPanel\Controllers\MainCtrl::init();
     }
 
-	/**
+    /**
      * Initialize the hooks.
      *
      * @since 0.1.0
@@ -163,14 +165,14 @@ final class OzoPanel {
         add_action( 'init', [ $this, 'localization_setup' ] );
     }
 
-	/**
+    /**
      * Initialize plugin for localization
      *
      * @since 0.1.0
      *
      * @uses load_plugin_textdomain()
-	 *
-	 * @return void
+     *
+     * @return void
      */
     public function localization_setup() {
         load_plugin_textdomain( 'ozopanel', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -181,7 +183,7 @@ final class OzoPanel {
         }
     }
 
-	/**
+    /**
      * Activating the plugin.
      *
      * @since 0.1.0
@@ -203,14 +205,14 @@ final class OzoPanel {
         // Remove unnecessary data when deactivate
     }
 
-	/**
+    /**
      * Flush rewrite rules after plugin is activated.
      *
      * Nothing being added here yet.
      *
      * @since 0.1.0
-	 *
-	 * @return void
+     *
+     * @return void
      */
     public function flush_rewrite_rules() {
         // fix rewrite rules

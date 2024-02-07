@@ -27,10 +27,11 @@ const ItemCard: FC<ItemProps> = ({ item, onToggleActive }) => {
 			<div className="px-6 pt-2 pb-2">
 				<button
 					onClick={() => onToggleActive(item.id, item.is_active)}
-					className={`${item.is_active
-						? 'border border-gray-400 bg-white text-gray-800 shadow hover:bg-gray-100'
-						: 'text-white bg-gray-500 hover:bg-gray-700'
-						} font-semibold py-2 px-4 rounded`}
+					className={`${
+						item.is_active
+							? 'border border-gray-400 bg-white text-gray-800 shadow hover:bg-gray-100'
+							: 'text-white bg-gray-500 hover:bg-gray-700'
+					} font-semibold py-2 px-4 rounded`}
 				>
 					{item.is_active ? i18n.deactivate : i18n.activate}
 				</button>

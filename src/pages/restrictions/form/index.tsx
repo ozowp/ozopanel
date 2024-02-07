@@ -193,7 +193,7 @@ const Form: FC = () => {
 								{loadingSubmit
 									? id
 										? i18n.updating
-										: i18n.submiting
+										: i18n.submitting
 									: id
 										? i18n.update
 										: i18n.submit}

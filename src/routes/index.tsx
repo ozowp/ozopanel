@@ -3,12 +3,19 @@
  *
  * @since 0.1.0
  */
+
+/**
+ * External dependencies
+ */
 import { lazy } from '@wordpress/element';
 import { createHashRouter } from 'react-router-dom';
 
+/**
+ * Internal dependencies
+ */
 const Dashboard = lazy(() => import('@pages/dashboard'));
-const AdminMenuEdior = lazy(() => import('@pages/admin-menu-editor'));
-const AdminColumnEdior = lazy(() => import('@pages/admin-column-editor'));
+const AdminMenuEditor = lazy(() => import('@pages/admin-menu-editor'));
+const AdminColumnEditor = lazy(() => import('@pages/admin-column-editor'));
 const Restrictions = lazy(() => import('@pages/restrictions'));
 const RestrictionsForm = lazy(() => import('@pages/restrictions/form'));
 const Settings = lazy(() => import('@pages/settings'));
@@ -22,15 +29,15 @@ const Router = createHashRouter([
 	},
 	{
 		path: '/admin-menu-editor',
-		element: <AdminMenuEdior />,
+		element: <AdminMenuEditor />,
 	},
 	{
 		path: '/admin-column-editor',
-		element: <AdminColumnEdior />,
+		element: <AdminColumnEditor />,
 	},
 	{
 		path: '/admin-column-editor/:id',
-		element: <AdminColumnEdior />,
+		element: <AdminColumnEditor />,
 	},
 	{
 		path: '/restrictions/:type',

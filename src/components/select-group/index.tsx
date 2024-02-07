@@ -34,7 +34,7 @@ const SelectGroup: React.FC<SelectGroupProps> = ({
 			onChange={handleSelectChange}
 			className="ozop-input"
 			style={{
-				width: 120
+				width: 120,
 			}}
 		>
 			{!value && <option value="">{i18n.select}</option>}

@@ -16,7 +16,7 @@ const ProModal: FC<ProModalProps> = ({ isOpen, onCancel }) => {
 		<div className="ozop-delete-confirmation-modal">
 			<div className="modal-content">
 				<h2 className="modal-title">This is Pro component</h2>
-				<p className="modal-message">To use thsi component buy pro</p>
+				<p className="modal-message">To use this component buy pro</p>
 				<button className="modal-button cancel-btn" onClick={onCancel}>
 					Cancel
 				</button>

@@ -217,10 +217,10 @@ const AdminMenuEditor: FC = () => {
 							<Form
 								data={
 									selectedItem !== null &&
-										selectedSubitem !== null
+									selectedSubitem !== null
 										? items[selectedItem].submenu[
-										selectedSubitem
-										]
+												selectedSubitem
+											]
 										: items[selectedItem]
 								}
 								defaultItems={defaultItems}

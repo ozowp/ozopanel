@@ -112,7 +112,7 @@ const Form: FC<FormProps> = ({ data, isNew, onSave, onClose }) => {
 								className="ozop-input"
 								style={{
 									width: 80,
-									marginRight: 5
+									marginRight: 5,
 								}}
 							/>
 							<select
@@ -122,7 +122,7 @@ const Form: FC<FormProps> = ({ data, isNew, onSave, onClose }) => {
 								onChange={handleInputChange}
 								className="ozop-input"
 								style={{
-									width: 50
+									width: 50,
 								}}
 							>
 								<option value="%">%</option>
