@@ -53,8 +53,6 @@ class I18n {
             'editColumn' => esc_html__( 'Edit Column', 'ozopanel' ),
             //addons
             'addons' => esc_html__( 'Addons', 'ozopanel' ),
-            'activate' => esc_html__( 'Activate', 'ozopanel' ),
-            'deactivate' => esc_html__( 'Deactivate', 'ozopanel' ),
 
             // table
             'id' => esc_html__( 'ID', 'ozopanel' ),

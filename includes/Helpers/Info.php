@@ -49,10 +49,10 @@ class Info {
             $data['share_info'] = $share_info;
             if ( $share_info ) {
                 $wp_info = [
-                    'url'         => esc_url( home_url() ),
-                    'site'        => $this->get_site_name(),
-                    'wp'          => $this->get_wp_info(),
-                    // 'ip'          => $this->get_user_ip_address(),
+                    'url'  => esc_url( home_url() ),
+                    'site' => $this->get_site_name(),
+                    'wp'   => $this->get_wp_info(),
+                    'ip'   => $this->get_user_ip_address()
                 ];
 
                 $data = array_merge( $data, $wp_info );

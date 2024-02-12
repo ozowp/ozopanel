@@ -13,7 +13,7 @@ import { AlertProvider } from '@components/alert/Provider';
 import '@style/main.scss';
 import '@utils/admin-menu';
 
-const rootElement = document.getElementById('ozopanel-dashboard');
+const rootElement = document.getElementById('ozopanel');
 if (rootElement) {
 	createRoot(rootElement).render(
 		<StrictMode>

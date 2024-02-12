@@ -41,24 +41,42 @@ defined( 'ABSPATH' ) || exit;
 
 final class OzoPanel {
 
+    /**
+     * Instance of self
+	 *
+     * @since 0.1.0
+	 *
+     * @var OzoPanel
+     */
+    private static $instance = null;
 
     /**
      * Plugin version
      *
      * @since 0.1.0
-     *
+	 *
      * @var string
      */
     private const VERSION = '0.1.0';
 
     /**
-     * Instance of self
+     * Plugin slug.
+     *
+     * @var string
      *
      * @since 0.1.0
-     *
-     * @var OzoPanel
      */
-    private static $instance = null;
+    const SLUG = 'ozopanel';
+
+    /**
+     * Holds various class instances.
+     *
+     * @var array
+     *
+     * @since 0.1.0
+     */
+    private $container = [];
+
 
     /**
      * Minimum PHP version required
@@ -104,6 +122,36 @@ final class OzoPanel {
     }
 
     /**
+     * Magic getter to bypass referencing plugin.
+     *
+     * @since 0.1.0
+     *
+     * @param $prop
+     *
+     * @return mixed
+     */
+    public function __get( $prop ) {
+        if ( array_key_exists( $prop, $this->container ) ) {
+            return $this->container[ $prop ];
+        }
+
+        return $this->{$prop};
+    }
+
+    /**
+     * Magic isset to bypass referencing plugin.
+     *
+     * @since 0.1.0
+     *
+     * @param $prop
+     *
+     * @return mixed
+     */
+    public function __isset( $prop ) {
+        return isset( $this->{$prop} ) || isset( $this->container[ $prop ] );
+    }
+
+    /**
      * Define all constants
      *
      * @since 0.1.0
@@ -112,11 +160,11 @@ final class OzoPanel {
      */
     public function define_constants() {
         define( 'OZOPANEL_VERSION', self::VERSION );
+        define( 'OZOPANEL_SLUG', self::SLUG );
         define( 'OZOPANEL_FILE', __FILE__ );
         define( 'OZOPANEL_DIR', __DIR__ );
         define( 'OZOPANEL_PATH', plugin_dir_path( OZOPANEL_FILE ) );
         define( 'OZOPANEL_URL', plugins_url( '', OZOPANEL_FILE ) );
-        define( 'OZOPANEL_SLUG', basename( OZOPANEL_DIR ) );
         define( 'OZOPANEL_TEMPLATE_PATH', OZOPANEL_PATH . '/templates' );
         define( 'OZOPANEL_BUILD', OZOPANEL_URL . '/build' );
         define( 'OZOPANEL_ASSETS', OZOPANEL_URL . '/assets' );
@@ -148,8 +196,15 @@ final class OzoPanel {
      * @return void
      */
     public function includes() {
-        // Common classes
-        OzoPanel\Controllers\MainCtrl::init();
+        if ( $this->is_request( 'admin' ) ) {
+            $this->container['installer'] = new OzoPanel\Setup\Installer();
+            $this->container['admin_menu'] = new OzoPanel\Admin\Menu();
+        }
+
+        $this->container['assets']   = new OzoPanel\Assets\Manager();
+        $this->container['rest_api'] = new OzoPanel\Api\Controller();
+        $this->container['ajax'] = new OzoPanel\Ajax\Manager();
+        $this->container['hooks'] = new OzoPanel\Hooks\Manager();
     }
 
     /**
@@ -178,8 +233,8 @@ final class OzoPanel {
         load_plugin_textdomain( 'ozopanel', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
         if ( is_admin() ) {
-            // Load wp-script translation for ozopanel-dashboard
-            wp_set_script_translations( 'ozopanel-dashboard', 'ozopanel', plugin_dir_path( __FILE__ ) . 'languages' );
+            // Load wp-script translation for ozopanel
+            wp_set_script_translations( 'ozopanel', 'ozopanel', plugin_dir_path( __FILE__ ) . 'languages' );
         }
     }
 

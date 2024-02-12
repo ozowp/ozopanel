@@ -34,15 +34,15 @@ const ItemCard: FC<ItemProps> = ({ item, onToggleActive }) => {
 				<p className="text-gray-700 text-base">{item.description}</p>
 			</div>
 			<div className="px-6 pt-2 pb-2">
-				<button
-					onClick={() => onToggleActive(item.id, item.is_active)}
-					className={`${item.is_active
-						? 'border border-gray-400 bg-white text-gray-800 shadow hover:bg-gray-100'
-						: 'text-white bg-gray-500 hover:bg-gray-700'
-						} font-semibold py-2 px-4 rounded`}
-				>
-					{item.is_active ? i18n.deactivate : i18n.activate}
-				</button>
+				<label className="relative inline-flex items-center cursor-pointer">
+					<input
+						type="checkbox"
+						checked={item.is_active}
+						onChange={() => onToggleActive(item.id, item.is_active)}
+						className="sr-only peer"
+					/>
+					<div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+				</label>
 			</div>
 		</div>
 	);
@@ -88,7 +88,7 @@ const App: FC = () => {
 	return (
 		<>
 			<Topbar label={i18n.addons}>
-				{!loading && <>
+				{!loading && false && <>
 					<button
 						// onClick={handleSubmit}
 						className="ozop-submit"
