@@ -1,5 +1,12 @@
+/**
+ * External dependencies
+ */
 import { FC } from 'react';
-const i18n = ozopanel.i18n;
+import { __ } from "@wordpress/i18n";
+
+/**
+ * Internal dependencies
+ */
 import { Table as TableProps } from '@interfaces/restrictions';
 import { DropdownRow } from '@components/dropdown';
 
@@ -21,17 +28,17 @@ const Head: FC<TableProps> = ({ type, selectAll, handleSelectAll }) => {
 
 				{type === 'users' ? (
 					<>
-						<th className="px-6 py-3">{i18n.id}</th>
-						<th className="px-6 py-3">{i18n.name}</th>
-						<th className="px-6 py-3">{i18n.email}</th>
+						<th className="px-6 py-3">{__('ID', 'ozopanel')}</th>
+						<th className="px-6 py-3">{__('Name', 'ozopanel')}</th>
+						<th className="px-6 py-3">{__('Email', 'ozopanel')}</th>
 					</>
 				) : (
 					<>
-						<th className="px-6 py-3">{i18n.label}</th>
+						<th className="px-6 py-3">{__('Label', 'ozopanel')}</th>
 					</>
 				)}
 				<th style={{ width: 80 }} className="px-6 py-3">
-					{i18n.actions}
+					{__('Actions', 'ozopanel')}
 				</th>
 			</tr>
 		</thead>
@@ -86,13 +93,13 @@ const Body: FC<TableProps> = ({
 									className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
 									onClick={() => goForm(item.id)}
 								>
-									{i18n.edit}
+									{__('Edit', 'ozopanel')}
 								</button>
 								<button
 									className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
 									onClick={() => handleDelete(item.id)}
 								>
-									{i18n.delete}
+									{__('Delete', 'ozopanel')}
 								</button>
 							</li>
 						</DropdownRow>

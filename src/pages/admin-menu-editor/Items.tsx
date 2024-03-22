@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { __ } from "@wordpress/i18n";
 import { UseAlert } from '@components/alert/Provider';
 import { DropdownRow } from '@components/dropdown';
 import { Item, Subitem } from '@interfaces/admin-menu-editor';
@@ -24,8 +25,6 @@ interface SubitemsProps {
 	onHide: (item: number, subitem?: number) => void;
 	itemNew: (item: number) => void;
 }
-
-const i18n = ozopanel.i18n;
 
 const Subitems: FC<SubitemsProps> = ({
 	itemIndex,
@@ -91,13 +90,13 @@ const Subitems: FC<SubitemsProps> = ({
 								className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
 								onClick={() => onSelect(itemIndex, i)}
 							>
-								{i18n.edit}
+								{__('Edit', 'ozopanel')}
 							</button>
 							<button
 								className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
 								onClick={() => onHide(itemIndex, i)}
 							>
-								{i18n.hide}
+								{__('Hide', 'ozopanel')}
 							</button>
 						</li>
 					</DropdownRow>
@@ -109,7 +108,7 @@ const Subitems: FC<SubitemsProps> = ({
 					onClick={() => itemNew(itemIndex)}
 					className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
 				>
-					{i18n.addNewSubmenu}
+					{__('Add New Submenu', 'ozopanel')}
 				</button>
 			)}
 		</div>
@@ -182,13 +181,13 @@ const Items: FC<ItemsProps> = ({
 										className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
 										onClick={() => onSelect(i)}
 									>
-										{i18n.edit}
+										{__('Edit', 'ozopanel')}
 									</button>
 									<button
 										className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
 										onClick={() => handleHide(i)}
 									>
-										{i18n.hide}
+										{__('Hide', 'ozopanel')}
 									</button>
 								</li>
 							</DropdownRow>
@@ -235,7 +234,7 @@ const Items: FC<ItemsProps> = ({
 				onClick={() => itemNew(null)}
 				className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
 			>
-				{i18n.addNewMenu}
+				{__('Add New Menu', 'ozopanel')}
 			</button>
 		</div>
 	);

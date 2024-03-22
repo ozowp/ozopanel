@@ -9,6 +9,7 @@
 import { FC, MouseEvent } from 'react';
 import { lazy, Suspense, useState } from '@wordpress/element';
 import { useParams, useNavigate } from 'react-router-dom';
+import { __ } from "@wordpress/i18n";
 
 /**
  * Internal dependencies
@@ -20,8 +21,6 @@ const General = lazy(() => import('./tab/General'));
 const Other = lazy(() => import('./tab/Other'));
 import './_style.scss';
 
-const i18n = ozopanel.i18n;
-
 interface TabItem {
 	id: string;
 	label: string;
@@ -32,13 +31,13 @@ interface TabItem {
 const tabs: TabItem[] = [
 	{
 		id: 'general',
-		label: i18n.general,
+		label: __('General', 'ozopanel'),
 		icon: '',
 		component: General,
 	},
 	{
 		id: 'other',
-		label: i18n.other,
+		label: __('Other', 'ozopanel'),
 		icon: '',
 		component: Other,
 	},
@@ -62,13 +61,13 @@ const Settings: FC = () => {
 
 	return (
 		<>
-			<Topbar label={i18n.settings}>
+			<Topbar label={__('Settings', 'ozopanel')}>
 				{!loading && <>
 					<button
 						// onClick={handleSubmit}
 						className="ozop-submit"
 					>
-						{i18n.saveChanges}
+						{__('Save Changes', 'ozopanel')}
 					</button>
 				</>}
 			</Topbar>

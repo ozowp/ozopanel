@@ -6,6 +6,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
+import { __ } from "@wordpress/i18n";
 
 /**
  * Internal dependencies
@@ -108,7 +109,7 @@ const AdminColumnEditor: FC = () => {
 			}),
 		onSuccess: () => {
 			if (id) {
-				toast.success(i18n.sucEdit);
+				toast.success(__('Successfully Updated', 'ozopanel'));
 				queryClient.invalidateQueries({ queryKey: ['admin-columns'] });
 			}
 		},
@@ -124,20 +125,18 @@ const AdminColumnEditor: FC = () => {
 		dispatch({ type: 'set_items', payload: updatedItems });
 	};
 
-	const i18n = ozopanel.i18n;
-
 	return (
 		<>
-			<Topbar label={i18n.adminColumnEditor}>
+			<Topbar label={__('Admin Column Editor', 'ozopanel')}>
 				{!loading && <>
 					<button
 						onClick={handleSubmit}
 						className="ozop-submit"
 					>
-						{i18n.saveChanges}
+						{__('Save Changes', 'ozopanel')}
 					</button>
 					<button className="px-4 py-2 font-semibold text-gray-800">
-						{i18n.resetChanges}
+						{__('Reset Changes', 'ozopanel')}
 					</button>
 				</>}
 			</Topbar>
@@ -158,7 +157,7 @@ const AdminColumnEditor: FC = () => {
 								</div>
 								<div>
 									<button className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100">
-										{`${i18n.view} ${getScreenLabelById(id)}`}
+										{`${__('View', 'ozopanel')} ${getScreenLabelById(id)}`}
 									</button>
 								</div>
 							</div>
@@ -174,7 +173,7 @@ const AdminColumnEditor: FC = () => {
 									onClick={handleItemNew}
 									className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
 								>
-									{i18n.addNewColumn}
+									{__('Add New Column', 'ozopanel')}
 								</button>
 							</div>
 

@@ -1,6 +1,12 @@
-// Inside Item.tsx
-
+/**
+ * External dependencies
+ */
 import React, { FC, useState, useEffect } from 'react';
+import { __ } from "@wordpress/i18n";
+
+/**
+ * Internal dependencies
+ */
 import { Item, DefaultItem, Subitem } from '@interfaces/admin-menu-editor';
 
 interface FormProps {
@@ -40,10 +46,8 @@ const Form: FC<FormProps> = ({
 		onSave(form);
 	};
 
-	const i18n = ozopanel.i18n;
-
-	const formTitle = isNew ? i18n.addNewMenu : i18n.editMenu;
-	const submitButtonText = isNew ? i18n.save : i18n.apply;
+	const formTitle = isNew ? __('Add New Menu', 'ozopanel') : __('Edit Menu', 'ozopanel');
+	const submitButtonText = isNew ? __('Save', 'ozopanel') : __('Apply', 'ozopanel');
 
 	return (
 		<div className="ozop-popup-overlay">

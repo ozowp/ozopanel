@@ -1,4 +1,12 @@
+/**
+ * External dependencies
+ */
 import { FC } from 'react';
+import { __ } from "@wordpress/i18n";
+
+/**
+ * Internal dependencies
+ */
 import { Menu, Submenu, FormData } from '@interfaces/restrictions/form';
 
 interface MenusProps {

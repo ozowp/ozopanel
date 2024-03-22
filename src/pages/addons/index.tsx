@@ -2,6 +2,7 @@
  * External dependencies
  */
 import { FC, useReducer, useEffect } from 'react';
+import { __ } from "@wordpress/i18n";
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 /**
@@ -23,8 +24,6 @@ interface EditMutationParams {
 	id: string;
 	is_active: boolean;
 }
-
-const i18n = ozopanel.i18n;
 
 const ItemCard: FC<ItemProps> = ({ item, onToggleActive }) => {
 	return (
@@ -87,13 +86,13 @@ const App: FC = () => {
 
 	return (
 		<>
-			<Topbar label={i18n.addons}>
+			<Topbar label={__('Addons', 'ozopanel')}>
 				{!loading && false && <>
 					<button
 						// onClick={handleSubmit}
 						className="ozop-submit"
 					>
-						{i18n.saveChanges}
+						{__('Save Changes', 'ozopanel')}
 					</button>
 				</>}
 			</Topbar>

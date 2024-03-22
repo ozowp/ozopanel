@@ -1,4 +1,12 @@
+/**
+ * External dependencies
+ */
 import { FC, useState } from 'react';
+import { __ } from "@wordpress/i18n";
+
+/**
+ * Internal dependencies
+ */
 import { UseAlert } from '@components/alert/Provider';
 import { DropdownRow } from '@components/dropdown';
 import { Item } from '@interfaces/admin-column-editor';
@@ -37,7 +45,6 @@ const Items: FC<ItemsProps> = ({ items, onChange, onSelect, onDelete }) => {
 		});
 	};
 
-	const i18n = ozopanel.i18n;
 	return (
 		<div className="">
 			{items.map((item, i) => (
@@ -55,13 +62,13 @@ const Items: FC<ItemsProps> = ({ items, onChange, onSelect, onDelete }) => {
 								className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
 								onClick={() => onSelect(i)}
 							>
-								{i18n.edit}
+								{__('Edit', 'ozopanel')}
 							</button>
 							<button
 								className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
 								onClick={() => handleDelete(i)}
 							>
-								{i18n.delete}
+								{__('Delete', 'ozopanel')}
 							</button>
 						</li>
 					</DropdownRow>

@@ -5,6 +5,7 @@ import { FC, useReducer, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import { __ } from "@wordpress/i18n";
 
 /**
  * Internal dependencies
@@ -108,16 +109,14 @@ const Restrictions: FC = () => {
 		});
 	};
 
-	const i18n = ozopanel.i18n;
-
 	return (
 		<>
-			<Topbar label={`${i18n.restriction} ${type === 'users' ? i18n.users : i18n.roles}`}>
+			<Topbar label={`${__('Restriction', 'ozopanel')} ${type === 'users' ? __('Users', 'ozopanel') : __('Roles', 'ozopanel')}`}>
 				{!loading && <button
 					className="ozop-submit"
 					onClick={() => goForm()}
 				>
-					{`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role
+					{`${__('Restrict', 'ozopanel')} ${type === 'users' ? __('User', 'ozopanel') : __('Role', 'ozopanel')
 						}`}
 				</button>}
 			</Topbar>
@@ -133,7 +132,7 @@ const Restrictions: FC = () => {
 									}`}
 								onClick={() => selectType('roles')}
 							>
-								{i18n.roles}
+								{__('Roles', 'ozopanel')}
 							</button>
 							<button
 								className={`rounded ${type === 'users'
@@ -142,7 +141,7 @@ const Restrictions: FC = () => {
 									}`}
 								onClick={() => selectType('users')}
 							>
-								{i18n.users}
+								{__('Users', 'ozopanel')}
 							</button>
 						</div>
 						<div className="">
@@ -151,7 +150,7 @@ const Restrictions: FC = () => {
 									className="mb-2 ml-2 rounded bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
 									onClick={() => handleDelete()}
 								>
-									{i18n.delete}
+									{__('Delete', 'ozopanel')}
 								</button>
 							)}
 						</div>
@@ -175,8 +174,8 @@ const Restrictions: FC = () => {
 							)}
 
 							{!items.length && (
-								<p className="text-gray-500 dark:text-gray-400 mb-3">{`${i18n.noRestrictionData
-									} ${type === 'users' ? i18n.user : i18n.role}`}</p>
+								<p className="text-gray-500 dark:text-gray-400 mb-3">{`${__('You have not restrict any', 'ozopanel')
+									} ${type === 'users' ? __('User', 'ozopanel') : __('Role', 'ozopanel')}`}</p>
 							)}
 						</>
 					)}

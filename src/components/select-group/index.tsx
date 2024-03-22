@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react';
+import { __ } from "@wordpress/i18n";
 
 interface OptionGroup {
 	label: string;
@@ -15,8 +16,6 @@ interface SelectGroupProps {
 	value: string;
 	onChange: (value: string) => void;
 }
-
-const i18n = ozopanel.i18n;
 
 const SelectGroup: React.FC<SelectGroupProps> = ({
 	groups,
@@ -37,7 +36,7 @@ const SelectGroup: React.FC<SelectGroupProps> = ({
 				width: 120,
 			}}
 		>
-			{!value && <option value="">{i18n.select}</option>}
+			{!value && <option value="">{__('Select', 'ozopanel')}</option>}
 
 			{groups.map((group: OptionGroup) => (
 				<optgroup key={group.label} label={group.label}>

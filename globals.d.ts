@@ -1,9 +1,4 @@
-interface OzopanelI18n {
-	[key: string]: string;
-}
-
-interface OzopanelConfig {
-	i18n: OzopanelI18n;
+interface OzopanelConfig { 
 }
 
 declare const ozopanel: Readonly<OzopanelConfig>;

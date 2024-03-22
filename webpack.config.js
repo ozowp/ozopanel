@@ -1,5 +1,6 @@
 const defaults = require('@wordpress/scripts/config/webpack.config');
 const { getWebpackEntryPoints } = require('@wordpress/scripts/utils/config');
+const I18nLoaderWebpackPlugin = require('@automattic/i18n-loader-webpack-plugin');
 
 const path = require('path');
 const config = { ...defaults };
@@ -27,8 +28,16 @@ module.exports = {
 	...config,
 	entry: {
 		...getWebpackEntryPoints(), // For blocks.
+		'i18n-loader': './tools/i18n-loader.ts',
 		index: './src/index.tsx', // For admin scripts.
 	},
+	plugins: [
+		...defaults.plugins,
+		new I18nLoaderWebpackPlugin({
+			textdomain: 'ozopanel',
+			loaderModule: 'ozopanelI18nLoader',
+		}),
+	],
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),
@@ -43,5 +52,8 @@ module.exports = {
 			'@pages': path.resolve(__dirname, './src/pages'),
 		},
 		extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+	},
+	externals: {
+		ozopanelI18nLoader: ['window', 'ozopanelI18nLoader'],
 	},
 };

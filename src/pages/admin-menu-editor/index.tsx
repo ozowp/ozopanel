@@ -4,6 +4,7 @@
 import { FC, useReducer, useEffect } from 'react';
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import { __ } from "@wordpress/i18n";
 
 /**
  * Internal dependencies
@@ -23,7 +24,6 @@ import Form from './Form';
  * @since 0.1.0
  */
 const AdminMenuEditor: FC = () => {
-	const i18n = ozopanel.i18n;
 	const queryClient = useQueryClient();
 	const [state, dispatch] = useReducer(reducer, initState);
 	const {
@@ -81,7 +81,7 @@ const AdminMenuEditor: FC = () => {
 		if (selectedItem !== null) {
 			// Create a new submenu item if a menu is selected
 			return {
-				label: i18n.submenuName,
+				label: __('Submenu Name', 'ozopanel'),
 				url: '',
 				capability: 'administrator',
 				icon: '',
@@ -94,7 +94,7 @@ const AdminMenuEditor: FC = () => {
 		} else {
 			// Create a new main menu item
 			return {
-				label: i18n.menuName,
+				label: __('Menu Name', 'ozopanel'),
 				url: '',
 				capability: 'administrator',
 				icon: '',
@@ -154,7 +154,7 @@ const AdminMenuEditor: FC = () => {
 	const submitMutation = useMutation({
 		mutationFn: () => edit('admin-menus', '', { admin_menu: items }),
 		onSuccess: () => {
-			toast.success(i18n.sucEdit);
+			toast.success(__('Successfully Updated', 'ozopanel'));
 			queryClient.invalidateQueries({ queryKey: ['admin-menus'] });
 		},
 	});
@@ -165,13 +165,13 @@ const AdminMenuEditor: FC = () => {
 
 	return (
 		<>
-			<Topbar label={i18n.adminMenuEditor}>
+			<Topbar label={__('Admin Menu Editor', 'ozopanel')}>
 				{!loadingFetch && <button
 					onClick={handleSubmit}
 					className="ozop-submit"
 					disabled={loadingSubmit}
 				>
-					{i18n.saveChanges}
+					{__('Save Changes', 'ozopanel')}
 				</button>}
 			</Topbar>
 

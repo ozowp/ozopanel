@@ -23,7 +23,6 @@
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-
 /**
  * Don't allow call the file directly
  *
@@ -309,7 +308,7 @@ final class OzoPanel {
      * @return void
      */
     public function get_option() {
-        return Fns::option_value( func_get_args() );
+        return OzoPanel\Helpers\Fns::option_value( func_get_args() );
     }
 
     /**

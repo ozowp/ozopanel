@@ -1,6 +1,12 @@
-// Inside Item.tsx
-
+/**
+ * External dependencies
+ */
 import React, { FC, useState, useEffect } from 'react';
+import { __ } from "@wordpress/i18n";
+
+/**
+ * Internal dependencies
+ */
 import { Item } from '@interfaces/admin-column-editor';
 
 interface FormProps {
@@ -33,10 +39,8 @@ const Form: FC<FormProps> = ({ data, isNew, onSave, onClose }) => {
 		onSave(form);
 	};
 
-	const i18n = ozopanel.i18n;
-
-	const formTitle = isNew ? i18n.addNewColumn : i18n.editColumn;
-	const submitButtonText = isNew ? i18n.save : i18n.apply;
+	const formTitle = isNew ? __('Add New Column', 'ozopanel') : __('Edit Column', 'ozopanel');
+	const submitButtonText = isNew ? __('Save', 'ozopanel') : __('Apply', 'ozopanel');
 
 	return (
 		<div className="ozop-popup-overlay">

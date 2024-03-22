@@ -5,6 +5,7 @@ import { FC, useReducer, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import { __ } from "@wordpress/i18n";
 
 /**
  * Internal dependencies
@@ -18,7 +19,6 @@ import Menus from './Menus';
 
 const Form: FC = () => {
 	const { type, id = '' } = useParams();
-	const i18n = ozopanel.i18n;
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const [state, dispatch] = useReducer(reducer, initState);
@@ -58,9 +58,9 @@ const Form: FC = () => {
 		},
 		onSuccess: () => {
 			if (id) {
-				toast.success(i18n.sucEdit);
+				toast.success(__('Successfully Updated', 'ozopanel'));
 			} else {
-				toast.success(i18n.sucAdd);
+				toast.success(__('Successfully Added', 'ozopanel'));
 				if (!id) {
 					queryClient.invalidateQueries({
 						queryKey: ['restrictions'],
@@ -74,16 +74,16 @@ const Form: FC = () => {
 	const handleSubmit = async () => {
 		if (!formData.id) {
 			if (type === 'users') {
-				toast.error(i18n.plsSelectUser);
+				toast.error(__('Please Select User', 'ozopanel'));
 			} else {
-				toast.error(i18n.plsSelectRole);
+				toast.error(__('Please Select Role', 'ozopanel'));
 			}
 			return;
 		}
 
 		//if admin_menu object empty
 		if (Object.keys(formData.admin_menu).length === 0) {
-			toast.error(i18n.plsSelectMenu);
+			toast.error(__('Please Select Menu', 'ozopanel'));
 			return;
 		}
 
@@ -133,7 +133,7 @@ const Form: FC = () => {
 
 	return (
 		<>
-			<Topbar label={`${i18n.restrict} ${type === 'users' ? i18n.user : i18n.role}`}>
+			<Topbar label={`${__('Restrict', 'ozopanel')} ${type === 'users' ? __('User', 'ozopanel') : __('Role', 'ozopanel')}`}>
 				{!loadingFetch &&
 					<>
 						<button
@@ -143,17 +143,17 @@ const Form: FC = () => {
 						>
 							{loadingSubmit
 								? id
-									? i18n.updating
-									: i18n.submitting
+									? __('Updating...', 'ozopanel')
+									: __('Submitting...', 'ozopanel')
 								: id
-									? i18n.update
-									: i18n.submit}
+									? __('Update', 'ozopanel')
+									: __('Submit', 'ozopanel')}
 						</button>
 						<button
-							className="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
+							className="rounded border border-gray-400 bg-white ml-2 px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100"
 							onClick={() => navigate(`/restrictions/${type}`)}
 						>
-							{`${i18n.backTo} ${type === 'users' ? i18n.users : i18n.roles
+							{`${__('Back to', 'ozopanel')} ${type === 'users' ? __('Users', 'ozopanel') : __('Roles', 'ozopanel')
 								}`}
 						</button>
 					</>
@@ -168,7 +168,7 @@ const Form: FC = () => {
 					{!loadingFetch && (
 						<>
 							<label className="mb-3 block">
-								{`${i18n.select} ${type === 'users' ? i18n.user : i18n.role
+								{`${__('Select', 'ozopanel')} ${type === 'users' ? __('User', 'ozopanel') : __('Role', 'ozopanel')
 									}`}
 								:
 								<select
@@ -177,7 +177,7 @@ const Form: FC = () => {
 									disabled={id ? true : false}
 									className="ml-2"
 								>
-									<option value="">{i18n.select}</option>
+									<option value="">{__('Select', 'ozopanel')}</option>
 									{idList.map((role, i) => (
 										<option key={i} value={role.id}>
 											{role.label}
@@ -186,8 +186,8 @@ const Form: FC = () => {
 								</select>
 							</label>
 
-							<p className="text-gray-500 dark:text-gray-400 mb-3">{`${i18n.menuSelectGuide
-								} ${type === 'users' ? i18n.user : i18n.role}`}</p>
+							<p className="text-gray-500 dark:text-gray-400 mb-3">{`${__('Select menu and submenu which you want to allow for this', 'ozopanel')
+								} ${type === 'users' ? __('User', 'ozopanel') : __('Role', 'ozopanel')}`}</p>
 
 							<div className="">
 								<Menus

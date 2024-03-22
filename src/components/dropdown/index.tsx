@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-
+import { __ } from "@wordpress/i18n";
 interface DropdownRowProps {
 	style?: React.CSSProperties;
 	children: React.ReactNode;
